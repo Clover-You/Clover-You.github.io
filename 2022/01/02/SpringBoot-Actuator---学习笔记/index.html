@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>SpringBoot Actuator - 学习笔记 | Hexo</title>
+  <meta name="description" content="指标监控官网相关文档 SpringBoot Actuator未来每一个微服务在云上部署后，需要对其进行监控、追踪、审计、控制等。SpringBoot就抽取了Actuator场景，使得我门每个微服务快速引用即可获得生产级别的应用监控、审计等功能。    1234&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;grou">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot Actuator - 学习笔记">
+<meta property="og:url" content="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="指标监控官网相关文档 SpringBoot Actuator未来每一个微服务在云上部署后，需要对其进行监控、追踪、审计、控制等。SpringBoot就抽取了Actuator场景，使得我门每个微服务快速引用即可获得生产级别的应用监控、审计等功能。    1234&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;grou">
+<meta property="og:locale">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.04.50.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.10.09.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.11.13.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-20210714154234818.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.45.20.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-20210714162110608.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2016.22.11.png">
+<meta property="article:published_time" content="2022-01-02T10:08:41.000Z">
+<meta property="article:modified_time" content="2022-02-14T23:13:56.517Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="SpringBoot">
+<meta property="article:tag" content="Spring">
+<meta property="article:tag" content="SpringMvc">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.04.50.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/clover-you/clover_blog_hexo.git/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/clover-you/clover_blog_hexo.git/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">昵称</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/clover-you/clover_blog_hexo.git/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/clover-you/clover_blog_hexo.git/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/clover-you/clover_blog_hexo.git/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/clover-you/clover_blog_hexo.git/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/clover-you/clover_blog_hexo.git/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/clover-you/clover_blog_hexo.git/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/clover-you/clover_blog_hexo.git/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/clover-you/clover_blog_hexo.git/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/clover-you/clover_blog_hexo.git/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a><span class="category-list-count">42</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/MySQL/">MySQL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/React/">React</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%B0%8F%E7%8E%A9%E6%84%8F/">小玩意</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">25</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">77</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Junit/" rel="tag">Junit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Maven/" rel="tag">Maven</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/React/" rel="tag">React</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Session/" rel="tag">Session</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" rel="tag">SpringCloud</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" rel="tag">SpringMvc</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringSession/" rel="tag">SpringSession</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/js/" rel="tag">js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/ts/" rel="tag">ts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" rel="tag">原理解析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a><span class="tag-list-count">55</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/clover-you/clover_blog_hexo.git/tags/JAVA/" style="font-size: 14px;">JAVA</a> <a href="/clover-you/clover_blog_hexo.git/tags/JavaScript/" style="font-size: 13.4px;">JavaScript</a> <a href="/clover-you/clover_blog_hexo.git/tags/Junit/" style="font-size: 13px;">Junit</a> <a href="/clover-you/clover_blog_hexo.git/tags/Maven/" style="font-size: 13px;">Maven</a> <a href="/clover-you/clover_blog_hexo.git/tags/MySQL/" style="font-size: 13.4px;">MySQL</a> <a href="/clover-you/clover_blog_hexo.git/tags/React/" style="font-size: 13.2px;">React</a> <a href="/clover-you/clover_blog_hexo.git/tags/Redis/" style="font-size: 13.3px;">Redis</a> <a href="/clover-you/clover_blog_hexo.git/tags/SQL/" style="font-size: 13.4px;">SQL</a> <a href="/clover-you/clover_blog_hexo.git/tags/Session/" style="font-size: 13.1px;">Session</a> <a href="/clover-you/clover_blog_hexo.git/tags/Spring/" style="font-size: 13.7px;">Spring</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" style="font-size: 13.5px;">SpringBoot</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" style="font-size: 13.4px;">SpringCloud</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" style="font-size: 13.6px;">SpringMvc</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringSession/" style="font-size: 13.1px;">SpringSession</a> <a href="/clover-you/clover_blog_hexo.git/tags/TypeScript/" style="font-size: 13.4px;">TypeScript</a> <a href="/clover-you/clover_blog_hexo.git/tags/Vue/" style="font-size: 13.1px;">Vue</a> <a href="/clover-you/clover_blog_hexo.git/tags/js/" style="font-size: 13px;">js</a> <a href="/clover-you/clover_blog_hexo.git/tags/ts/" style="font-size: 13px;">ts</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.1px;">前端</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" style="font-size: 13px;">原理解析</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 13.9px;">学习笔记</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 13.3px;">微服务</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.8px;">随笔</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/clover-you/clover_blog_hexo.git/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/clover-you/clover_blog_hexo.git/archives/2022/01/">January 2022</a><span class="archive-list-count">88</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/02/15/SpringSession-%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" class="title">SpringSession 基本原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-02-14T22:12:21.000Z" itemprop="datePublished">2022-02-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/" class="title">分布式下Session共享</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-02-14T15:22:52.000Z" itemprop="datePublished">2022-02-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/31/Java-%E5%9B%9B%E5%A4%A7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/" class="title">Java 四大函数式接口</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-30T19:25:01.000Z" itemprop="datePublished">2022-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/23/Java-JUC---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="title">Java JUC - 学习笔记</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-23T15:55:00.000Z" itemprop="datePublished">2022-01-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/23/java%E4%BD%BF%E7%94%A8replace%E6%97%B6%E4%B8%AD%E6%96%87%E8%A2%ABURL%E7%BC%96%E7%A0%81%E5%AF%BC%E8%87%B4%E6%97%A0%E6%95%88%E8%A7%A3%E5%86%B3/" class="title">java使用replace时中文被URL编码导致无效解决</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-23T09:53:00.000Z" itemprop="datePublished">2022-01-23</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-SpringBoot-Actuator---学习笔记" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SpringBoot Actuator - 学习笔记
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/clover-you/clover_blog_hexo.git/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+	  <time datetime="2022-01-02T10:08:41.000Z" itemprop="datePublished">2022-01-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/Spring/" rel="tag">Spring</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" rel="tag">SpringBoot</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" rel="tag">SpringMvc</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="指标监控"><a href="#指标监控" class="headerlink" title="指标监控"></a>指标监控</h2><p><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints">官网相关文档</a></p>
+<h3 id="SpringBoot-Actuator"><a href="#SpringBoot-Actuator" class="headerlink" title="SpringBoot Actuator"></a>SpringBoot Actuator</h3><p>未来每一个微服务在云上部署后，需要对其进行监控、追踪、审计、控制等。SpringBoot就抽取了Actuator场景，使得我门每个微服务快速引用即可获得生产级别的应用监控、审计等功能。</p>
+   <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><ul>
+<li><p>引入actuator场景</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>访问<a target="_blank" rel="noopener" href="http://localhost:8080/actuator//*/">http://localhost:8080/actuator/\*\</a>*</p>
+</li>
+<li><p>Web下默认暴露的端点只有<code>health</code>和<code>info</code>，可以在配置中暴露所有端点信息</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># actuator 监控指标</span></span><br><span class="line"><span class="attr">management:</span></span><br><span class="line">  <span class="attr">endpoints:</span></span><br><span class="line">    <span class="attr">enabled-by-default:</span> <span class="literal">true</span> <span class="comment"># 默认开启所有监控端点</span></span><br><span class="line">    <span class="attr">web:</span></span><br><span class="line">      <span class="attr">exposure:</span></span><br><span class="line">        <span class="attr">include:</span> <span class="string">&#x27;*&#x27;</span> <span class="comment"># 以web方式暴露所有监控端点</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h4><p><a target="_blank" rel="noopener" href="https://github.com/codecentric/spring-boot-admin">https://github.com/codecentric/spring-boot-admin</a></p>
+<h3 id="Actuator-Endpoint"><a href="#Actuator-Endpoint" class="headerlink" title="Actuator Endpoint"></a>Actuator Endpoint</h3><p>常用的Endpoint有</p>
+<ul>
+<li>Health<br>监控状况</li>
+<li>Metrics<br>运行时指标</li>
+<li>Loggers<br>日志记录</li>
+</ul>
+<h4 id="Health-Endpoint"><a href="#Health-Endpoint" class="headerlink" title="Health Endpoint"></a>Health Endpoint</h4><p>健康检查端点，一般用在云平台，平台会定时检查应用的健康状况。需要Health Endpoint为平台返回当前应用的一系列组件健康状况集合。</p>
+<ul>
+<li>health endpoint 返回的结果，应该是一系列健康检查后的一个汇总报告</li>
+<li>很多的健康检查默认已经自动配好了，比如：数据库，redis等</li>
+<li>可以自定义添加健康检查机制</li>
+</ul>
+<p>开启指定端点详细信息</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># actuator 监控指标</span></span><br><span class="line"><span class="attr">management:</span></span><br><span class="line">  <span class="attr">endpoint:</span></span><br><span class="line">    <span class="attr">health:</span></span><br><span class="line">      <span class="attr">show-details:</span> <span class="string">always</span> <span class="comment"># 显示详细</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.04.50.png" alt="截屏2021-07-14 15.04.50"></p>
+<h4 id="Metrics-Endpoint"><a href="#Metrics-Endpoint" class="headerlink" title="Metrics Endpoint"></a>Metrics Endpoint</h4><p>提供详细的、层级的、空间指标信息，这些信息可以被pull（主动推送）或者push（被动获取）方式得到：</p>
+<ul>
+<li>通过Metrics对接多种监控系统</li>
+<li>简化核心Metrics开发</li>
+<li>添加自定义Metrics或者扩展已有Metrics</li>
+</ul>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.10.09.png" alt="截屏2021-07-14 15.10.09"></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.11.13.png" alt="截屏2021-07-14 15.11.13"></p>
+<h3 id="管理Endpoint"><a href="#管理Endpoint" class="headerlink" title="管理Endpoint"></a>管理Endpoint</h3><h4 id="开启与禁用Endpoint"><a href="#开启与禁用Endpoint" class="headerlink" title="开启与禁用Endpoint"></a>开启与禁用Endpoint</h4><p>默认情况下，endpoint是全部开启的，若需要指定开启，需要全部关闭后再开启指定端点</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># actuator 监控指标</span></span><br><span class="line"><span class="attr">management:</span></span><br><span class="line">  <span class="attr">endpoints:</span></span><br><span class="line">    <span class="attr">enabled-by-default:</span> <span class="literal">false</span> <span class="comment"># 关闭全部端点</span></span><br><span class="line">  <span class="attr">endpoint:</span></span><br><span class="line">    <span class="attr">health:</span></span><br><span class="line">      <span class="attr">show-details:</span> <span class="string">always</span> <span class="comment"># 显示详细信息</span></span><br><span class="line">      <span class="attr">enabled:</span> <span class="literal">true</span> <span class="comment"># 开启端点</span></span><br><span class="line">    <span class="attr">info:</span></span><br><span class="line">      <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">metrics:</span></span><br><span class="line">      <span class="attr">enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="定制Endpoint"><a href="#定制Endpoint" class="headerlink" title="定制Endpoint"></a>定制Endpoint</h3><h4 id="定制Health信息"><a href="#定制Health信息" class="headerlink" title="定制Health信息"></a>定制Health信息</h4><p>实现<code>HealthIndicator</code>接口或者<code>AbstractHealthIndicator</code>抽象类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ComponentHealthIndicator</span> <span class="keyword">extends</span> <span class="title class_">AbstractHealthIndicator</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">5066467685531996717L</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">ComponentHealthIndicator</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 防止存在一个或多个有参构造器时反射通过无参构造起实例化发生异常</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doHealthCheck</span><span class="params">(Health.Builder builder)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    Map&lt;String, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">      builder.status(Status.UP);</span><br><span class="line">      map.put(<span class="string">&quot;count&quot;</span>, <span class="number">1</span>);</span><br><span class="line">      map.put(<span class="string">&quot;ms&quot;</span>, <span class="number">100</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      builder.status(Status.OUT_OF_SERVICE);</span><br><span class="line">      map.put(<span class="string">&quot;err&quot;</span>, <span class="string">&quot;连接超时&quot;</span>);</span><br><span class="line">      map.put(<span class="string">&quot;ms&quot;</span>, <span class="number">3000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    builder.withDetail(<span class="string">&quot;code&quot;</span>, <span class="number">200</span>).withDetails(map);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-20210714154234818.png" alt="image-20210714154234818"></p>
+<h4 id="定制info信息"><a href="#定制info信息" class="headerlink" title="定制info信息"></a>定制info信息</h4><p>定制info有两种方法，一种是在application.yaml配置文件中定义 </p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">info:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="string">@project.version@</span> <span class="comment"># 获取pom文件中的版本信息</span></span><br><span class="line">  <span class="attr">autor:</span> <span class="string">Clover</span></span><br><span class="line">  <span class="attr">age:</span> <span class="number">19</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.45.20.png" alt="截屏2021-07-14 15.45.20"></p>
+<p>第二种方式，可以实现<code>InfoContributor</code>接口的方式实现，第二种优先级高于配置文件方式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AppInfoContributor</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span>, InfoContributor &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> -<span class="number">2489956740668578470L</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">AppInfoContributor</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 防止存在一个或多个有参构造器时反射通过无参构造起实例化发生异常</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">contribute</span><span class="params">(Info.Builder builder)</span> &#123;</span><br><span class="line">    Map&lt;String, Object&gt; info = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    info.put(<span class="string">&quot;author&quot;</span>, <span class="string">&quot;Clover.You&quot;</span>);</span><br><span class="line">    info.put(<span class="string">&quot;age&quot;</span>, <span class="number">19</span>);</span><br><span class="line">    info.put(<span class="string">&quot;version&quot;</span>, <span class="string">&quot;1.0.0.1&quot;</span>);</span><br><span class="line">    builder.withDetails(info);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="定制Metrics信息"><a href="#定制Metrics信息" class="headerlink" title="定制Metrics信息"></a>定制Metrics信息</h4><h5 id="增加定制Metrics"><a href="#增加定制Metrics" class="headerlink" title="增加定制Metrics"></a>增加定制Metrics</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoginController</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> -<span class="number">2783841528321793923L</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 计数指标</span></span><br><span class="line">  <span class="keyword">private</span> Counter counter;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">LoginController</span><span class="params">(MeterRegistry meter)</span> &#123;</span><br><span class="line">    <span class="comment">// 注册自定义计数指标，记录登录方法调用了几次</span></span><br><span class="line">    counter = meter.counter(<span class="string">&quot;com.ctong.learnspringboot.controller.LoginController.login&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@PostMapping(&quot;/login&quot;)</span></span><br><span class="line">  <span class="keyword">public</span> String <span class="title function_">login</span><span class="params">(HttpSession session, User user)</span> &#123;</span><br><span class="line">    <span class="comment">// 增加计数</span></span><br><span class="line">    counter.increment();</span><br><span class="line">    session.setAttribute(<span class="string">&quot;loginUser&quot;</span>, user);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;redirect:/index.html&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注册成功后，访问localhost:8080&#x2F;actuator&#x2F;metrics就可以看见我们自定义的新指标</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-20210714162110608.png" alt="image-20210714162110608"></p>
+<p>计数会随着<code>counter.increment();</code>方法的调用而增加</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2016.22.11.png" alt="截屏2021-07-14 16.22.11"></p>
+<h4 id="定义Endpoint"><a href="#定义Endpoint" class="headerlink" title="定义Endpoint"></a>定义Endpoint</h4><p>SpringBoot给我们定义了非常多的监控端点，一旦我们引入 了复杂场景，可能需要自定义监控端点。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Endpoint(id = &quot;diy&quot;)</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyEndpoint</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1370368576988354134L</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">MyEndpoint</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 防止存在一个或多个有参构造器时反射通过无参构造起实例化发生异常</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@ReadOperation</span></span><br><span class="line">  <span class="keyword">public</span> Map <span class="title function_">getDockerInfo</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Collections.singletonMap(<span class="string">&quot;docker&quot;</span>, <span class="string">&quot;docker started...&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@WriteOperation</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">stopDocker</span><span class="params">()</span> &#123;</span><br><span class="line">    log.info(<span class="string">&quot;docker stopped....&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="SpringBoot Actuator - 学习笔记" target="_blank" rel="external">https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/SpringBoot-Actuator---学习笔记/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/clover-you/clover_blog_hexo.git/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/clover-you/clover_blog_hexo.git/2022/01/02/MyBatis---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="MyBatis - 学习笔记"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/clover-you/clover_blog_hexo.git/2022/01/02/Spring-Boot%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="Spring Boot高级特性 - 学习笔记"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/clover-you/clover_blog_hexo.git/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/clover-you/clover_blog_hexo.git/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/clover-you/clover_blog_hexo.git/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/clover-you/clover_blog_hexo.git/js/plugin.min.js"></script>
+
+
+<script src="/clover-you/clover_blog_hexo.git/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/clover-you/clover_blog_hexo.git/',
+        CONTENT_URL: '/clover-you/clover_blog_hexo.git/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/clover-you/clover_blog_hexo.git/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

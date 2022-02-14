@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Spring Boot高级特性 - 学习笔记 | Hexo</title>
+  <meta name="description" content="Profile功能为了方便多环境适配，SpringBoot简化了profile功能 application-profile功能 默认配置文件 application.yaml，任何时候都会加载  指定环境配置文件application-env.yaml  激活指定环境  配置文件激活  命令行激活 1java -jar xxx.jar --spring.profiles.active&#x3D;profil">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot高级特性 - 学习笔记">
+<meta property="og:url" content="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/Spring-Boot%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="Profile功能为了方便多环境适配，SpringBoot简化了profile功能 application-profile功能 默认配置文件 application.yaml，任何时候都会加载  指定环境配置文件application-env.yaml  激活指定环境  配置文件激活  命令行激活 1java -jar xxx.jar --spring.profiles.active&#x3D;profil">
+<meta property="og:locale">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271049837.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271049845.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271049851.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271049860.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271049864.png">
+<meta property="article:published_time" content="2022-01-02T10:07:36.000Z">
+<meta property="article:modified_time" content="2022-02-14T23:13:53.807Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="SpringBoot">
+<meta property="article:tag" content="Spring">
+<meta property="article:tag" content="SpringMvc">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/202112271049837.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/Spring-Boot%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/clover-you/clover_blog_hexo.git/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/clover-you/clover_blog_hexo.git/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">昵称</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/clover-you/clover_blog_hexo.git/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/clover-you/clover_blog_hexo.git/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/clover-you/clover_blog_hexo.git/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/clover-you/clover_blog_hexo.git/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/clover-you/clover_blog_hexo.git/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/clover-you/clover_blog_hexo.git/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/clover-you/clover_blog_hexo.git/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/clover-you/clover_blog_hexo.git/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/clover-you/clover_blog_hexo.git/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a><span class="category-list-count">42</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/MySQL/">MySQL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/React/">React</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%B0%8F%E7%8E%A9%E6%84%8F/">小玩意</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">25</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">77</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Junit/" rel="tag">Junit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Maven/" rel="tag">Maven</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/React/" rel="tag">React</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Session/" rel="tag">Session</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" rel="tag">SpringCloud</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" rel="tag">SpringMvc</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringSession/" rel="tag">SpringSession</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/js/" rel="tag">js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/ts/" rel="tag">ts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" rel="tag">原理解析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a><span class="tag-list-count">55</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/clover-you/clover_blog_hexo.git/tags/JAVA/" style="font-size: 14px;">JAVA</a> <a href="/clover-you/clover_blog_hexo.git/tags/JavaScript/" style="font-size: 13.4px;">JavaScript</a> <a href="/clover-you/clover_blog_hexo.git/tags/Junit/" style="font-size: 13px;">Junit</a> <a href="/clover-you/clover_blog_hexo.git/tags/Maven/" style="font-size: 13px;">Maven</a> <a href="/clover-you/clover_blog_hexo.git/tags/MySQL/" style="font-size: 13.4px;">MySQL</a> <a href="/clover-you/clover_blog_hexo.git/tags/React/" style="font-size: 13.2px;">React</a> <a href="/clover-you/clover_blog_hexo.git/tags/Redis/" style="font-size: 13.3px;">Redis</a> <a href="/clover-you/clover_blog_hexo.git/tags/SQL/" style="font-size: 13.4px;">SQL</a> <a href="/clover-you/clover_blog_hexo.git/tags/Session/" style="font-size: 13.1px;">Session</a> <a href="/clover-you/clover_blog_hexo.git/tags/Spring/" style="font-size: 13.7px;">Spring</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" style="font-size: 13.5px;">SpringBoot</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" style="font-size: 13.4px;">SpringCloud</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" style="font-size: 13.6px;">SpringMvc</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringSession/" style="font-size: 13.1px;">SpringSession</a> <a href="/clover-you/clover_blog_hexo.git/tags/TypeScript/" style="font-size: 13.4px;">TypeScript</a> <a href="/clover-you/clover_blog_hexo.git/tags/Vue/" style="font-size: 13.1px;">Vue</a> <a href="/clover-you/clover_blog_hexo.git/tags/js/" style="font-size: 13px;">js</a> <a href="/clover-you/clover_blog_hexo.git/tags/ts/" style="font-size: 13px;">ts</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.1px;">前端</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" style="font-size: 13px;">原理解析</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 13.9px;">学习笔记</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 13.3px;">微服务</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.8px;">随笔</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/clover-you/clover_blog_hexo.git/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/clover-you/clover_blog_hexo.git/archives/2022/01/">January 2022</a><span class="archive-list-count">88</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/02/15/SpringSession-%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" class="title">SpringSession 基本原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-02-14T22:12:21.000Z" itemprop="datePublished">2022-02-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/" class="title">分布式下Session共享</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-02-14T15:22:52.000Z" itemprop="datePublished">2022-02-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/31/Java-%E5%9B%9B%E5%A4%A7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/" class="title">Java 四大函数式接口</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-30T19:25:01.000Z" itemprop="datePublished">2022-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/23/Java-JUC---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="title">Java JUC - 学习笔记</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-23T15:55:00.000Z" itemprop="datePublished">2022-01-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/23/java%E4%BD%BF%E7%94%A8replace%E6%97%B6%E4%B8%AD%E6%96%87%E8%A2%ABURL%E7%BC%96%E7%A0%81%E5%AF%BC%E8%87%B4%E6%97%A0%E6%95%88%E8%A7%A3%E5%86%B3/" class="title">java使用replace时中文被URL编码导致无效解决</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-23T09:53:00.000Z" itemprop="datePublished">2022-01-23</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Spring-Boot高级特性---学习笔记" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Spring Boot高级特性 - 学习笔记
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/clover-you/clover_blog_hexo.git/2022/01/02/Spring-Boot%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+	  <time datetime="2022-01-02T10:07:36.000Z" itemprop="datePublished">2022-01-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/Spring/" rel="tag">Spring</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" rel="tag">SpringBoot</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" rel="tag">SpringMvc</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/02/Spring-Boot%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="Profile功能"><a href="#Profile功能" class="headerlink" title="Profile功能"></a>Profile功能</h2><p>为了方便多环境适配，SpringBoot简化了profile功能</p>
+<h3 id="application-profile功能"><a href="#application-profile功能" class="headerlink" title="application-profile功能"></a>application-profile功能</h3><ul>
+<li><p>默认配置文件 application.yaml，任何时候都会加载</p>
+</li>
+<li><p>指定环境配置文件application-<strong>env</strong>.yaml</p>
+</li>
+<li><p>激活指定环境</p>
+<ul>
+<li><p>配置文件激活</p>
+</li>
+<li><p>命令行激活</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar xxx.jar --spring.profiles.active=profile</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>修改配置文件的任意值，命令行优先</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>默认配置与环境配置同时生效</p>
+</li>
+<li><p>同名配置项，profile配置优先</p>
+</li>
+</ul>
+<p>在配置文件中指定环境</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">profiles:</span></span><br><span class="line">    <span class="attr">active:</span> <span class="string">pro</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Profile条件装配"><a href="#Profile条件装配" class="headerlink" title="@Profile条件装配"></a>@Profile条件装配</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Profile(&quot;pro&quot;)</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@ConfigurationProperties(prefix = &quot;person&quot;)</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Boss</span> <span class="keyword">implements</span> <span class="title class_">Person</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> Integer age;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>@Profile(&quot;pro&quot;)</code>当环境为<code>pro</code>时，这个类才会被注册到容器中。</p>
+<h3 id="profile分组"><a href="#profile分组" class="headerlink" title="profile分组"></a>profile分组</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">profiles:</span></span><br><span class="line">    <span class="attr">active:</span> <span class="string">diy</span></span><br><span class="line">    <span class="attr">group:</span></span><br><span class="line">      <span class="attr">diy:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">dev</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">pro</span></span><br></pre></td></tr></table></figure>
+
+<p>分组之后可以使用<code>spring.profiles.active</code>将这个组中的配置环境全部加载。</p>
+<h2 id="外部化配置"><a href="#外部化配置" class="headerlink" title="外部化配置"></a>外部化配置</h2><h3 id="外部配置源"><a href="#外部配置源" class="headerlink" title="外部配置源"></a>外部配置源</h3><p>常用：Java属性文件、YAML文件、环境变量、命令行参数</p>
+<h3 id="配置文件查找位置"><a href="#配置文件查找位置" class="headerlink" title="配置文件查找位置"></a>配置文件查找位置</h3><p>外部化配置文件可以从以下几个路径进行查找，后面加载的配置会覆盖前面的配置  </p>
+<ol>
+<li>classpath根路径</li>
+<li>classpath根路径下config目录</li>
+<li>jar包当前目录</li>
+<li>jar包当前目录的lconfig目录</li>
+<li>config子目录的直接子目录</li>
+</ol>
+<h3 id="配置文件加载顺序"><a href="#配置文件加载顺序" class="headerlink" title="配置文件加载顺序"></a>配置文件加载顺序</h3><ol>
+<li>当前jar包内部的application.properties和application.yaml</li>
+<li>当前jar包内部的application-{profile}.properties和application-{profile}.yaml</li>
+<li>引用的外部jar包的application.properties和application.yaml</li>
+<li>引用的外部jar包的application-{profile}.properties和application-{profile}.yaml</li>
+</ol>
+<blockquote>
+<p>指定环境优先，外部优先，后面的可以覆盖前面的同名配置项</p>
+</blockquote>
+<h2 id="自定义starter"><a href="#自定义starter" class="headerlink" title="自定义starter"></a>自定义starter</h2><h3 id="starter启动原理"><a href="#starter启动原理" class="headerlink" title="starter启动原理"></a>starter启动原理</h3><ul>
+<li><p>starter-pom引入autoconfigurer包<br><img src="http://qiniu-note-image.ctong.top/note/images/202112271049837.png" alt="截屏2021-07-18 15.15.25"></p>
+</li>
+<li><p>autoConfigure包中配置使用<strong>META-INF&#x2F;spring.factories</strong>中<strong>EnableAutoConfiguration</strong>的值，使项目启动加载指定的自动配置类。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># auto configure</span></span><br><span class="line"><span class="string">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\</span></span><br><span class="line"><span class="string">top.ctong.springbootstartautoconfigure.auto.HelloServiceAutoConfiguration</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写自动配置类<strong>xxxAutoConfigration -&gt; xxxProperties</strong></p>
+<ul>
+<li><code>@Configuration</code></li>
+<li><code>@Conditional</code></li>
+<li><code>@EnableConfigurationProperties</code></li>
+<li><code>@Bean</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnMissingBean(HelloService.class)</span><span class="comment">// 如果之前通过奇奇怪怪的方法注册了一个service，那么就不使用这个配置类了</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties(HelloProperties.class)</span><span class="comment">// 当这个配置类生效后，自动将这个properties放在容器中，如果没有开启这个配置，那么在service中的自动注入可能会找不到指定Bean</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloServiceAutoConfiguration</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="keyword">public</span> HelloService <span class="title function_">helloService</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">HelloService</span> <span class="variable">service</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">HelloService</span>();</span><br><span class="line">    <span class="keyword">return</span> service;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="操作过程"><a href="#操作过程" class="headerlink" title="操作过程"></a>操作过程</h3><p><a target="_blank" rel="noopener" href="https://github.com/YouChuantong/learn-customer-spring-boot-starter">源码GitHub地址</a></p>
+<p>新建一个空工程在指定文件夹中</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271049845.png" alt="截屏2021-07-18 16.56.14"></p>
+<p>新建成功一个空的工程后，会自动打开一个添加模块的面板，先需要添加一个starter工程「其实就是一个普通的maven工程」。</p>
+<blockquote>
+<p>starter工程一般是空的，只有一些基本的结构，但这并不绝对。</p>
+</blockquote>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271049851.png" alt="截屏2021-07-18 16.58.02"></p>
+<p>完成之后可以根据需求删除不需要的文件夹，保留<code>pom.xml</code>文件即可。之后再新建一个模块，它是一个maven工程</p>
+<p>起个名字吧！就叫<code>spring-boot-hello-service-starter-autoconfigure</code></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271049860.png" alt="截屏2021-07-18 17.07.04"></p>
+<p>然后在customer-starter项目中引入刚刚创建的工程</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>top.ctong<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-hello-service-starter-autoconfigure<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>	</span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在spring-boot-hello-service-starter-autoconfigure工程中创建<code>top.ctong.springboothelloservicestarterautoconfigure.servlet.HelloServlet</code>、</p>
+<p><code>top.ctong.springboothelloservicestarterautoconfigure.bean.HelloProperties</code></p>
+<p><code>top.ctong.springboothelloservicestarterautoconfigure.HelloServiceAutoConfigration</code></p>
+<p>创建这3个文件后在service中编写逻辑，例如我有一个请求，这个请求接受一个参数并读取配置文件中配置<code>HelloProperties</code>的内容。</p>
+<p>需要<code>HelloProperties</code>绑定配置文件，但不用在这注入到容器中，此时会提示错误，忽略即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ConfigurationProperties(prefix = &quot;clover.hello&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloProperties</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> String prefix;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> String suffix;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> String <span class="title function_">getPrefix</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> prefix;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPrefix</span><span class="params">(String prefix)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.prefix = prefix;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> String <span class="title function_">getSuffix</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> suffix;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setSuffix</span><span class="params">(String suffix)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.suffix = suffix;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在编写service中的内容。<strong>此时HelloProperties已经和配置文件绑定，但还未注入到容器，所以执行时<code>@Autowired</code>会出错</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloServlet</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HelloProperties helloProperties;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">sayHello</span><span class="params">(String userName)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> helloProperties.getPrefix()+<span class="string">&quot; : &quot;</span> + userName + <span class="string">&quot; &gt;&gt; &quot;</span> + helloProperties.getSuffix();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>最后编写自动配置类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties(HelloProperties.class)</span></span><br><span class="line"><span class="meta">@ConditionalOnMissingBean(HelloService.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloServiceAutoConfiguration</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="keyword">public</span> HelloService <span class="title function_">helloService</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">HelloService</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>@EnableConfigurationProperties(HelloProperties.class)</code> </p>
+<p>当这个配置类生效后，将这个properties注入到容器中</p>
+</li>
+<li><p><code>@ConditionalOnMissingBean(HelloService.class)</code><br>如果已经有一个不知道通过什么奇奇怪怪的手段注入到容器中的Bean，那么这个自动配置类就不生效</p>
+</li>
+</ul>
+<p>最后需要添加一个<strong>spring.factories</strong>开启这个自动配置类</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># auto configure</span></span><br><span class="line"><span class="string">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\</span></span><br><span class="line"><span class="string">top.ctong.springboothelloservicestarterautoconfigure.auto.HelloServiceAutoConfiguration</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在resources&#x2F;MATE-INF下</p>
+</blockquote>
+<p>完成之后需要将我们编写的starter打包并安装到本地maven库，先操作<code>spring-boot-hello-service-starter-autoconfigure</code></p>
+<p>最后操作<code>customer-starter</code>这样自定义的starter就好了。</p>
+<p>现在新建一个SpringWeb项目测试，在这个项目中引入刚刚自定义的starter</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>top.ctong<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>customer-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>在测试项目的配置文件中添加需要的配置</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">clover.hello.prefix=CLOVER</span></span><br><span class="line"><span class="string">clover.hello.suffix=CLOVER</span> <span class="string">NP~~</span></span><br></pre></td></tr></table></figure>
+
+<p>编写一个Controller测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloController</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">final</span> HelloService helloService;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">HelloController</span><span class="params">(HelloService helloService)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.helloService = helloService;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@RequestMapping(&quot;/hello&quot;)</span></span><br><span class="line">  <span class="keyword">public</span> String <span class="title function_">sayHello</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> helloService.sayHello(<span class="string">&quot;Clover&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271049864.png" alt="截屏2021-07-18 18.36.25"></p>
+<h2 id="SpringBoot-原理"><a href="#SpringBoot-原理" class="headerlink" title="SpringBoot 原理"></a>SpringBoot 原理</h2><p>Spring原理、SpringMVC原理、自动配置原理、SpringBoot原理</p>
+<h3 id="SpringApplication创建初始化流程"><a href="#SpringApplication创建初始化流程" class="headerlink" title="SpringApplication创建初始化流程"></a>SpringApplication创建初始化流程</h3><ul>
+<li><p>创建SpringApplication</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> ConfigurableApplicationContext <span class="title function_">run</span><span class="params">(Class&lt;?&gt;[] primarySources, String[] args)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">SpringApplication</span>(primarySources).run(args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>org.springframework.boot.SpringApplication#run(java.lang.Class&lt;?&gt;[], java.lang.String[])</code></p>
+</blockquote>
+<ul>
+<li><p>保存当前应用程序信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">SpringApplication</span><span class="params">(ResourceLoader resourceLoader, Class&lt;?&gt;... primarySources)</span> &#123;</span><br><span class="line">  <span class="built_in">this</span>.webApplicationType = WebApplicationType.deduceFromClasspath();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>org.springframework.boot.SpringApplication#SpringApplication(org.springframework.core.io.ResourceLoader, java.lang.Class&lt;?&gt;...)</code></p>
+</blockquote>
+</li>
+<li><p>创建初始启动器：<code>Bootstrapper.class</code><br>去所有的spring.factories文件中找<code>org.springframework.boot.Bootstrapper</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">SpringApplication</span><span class="params">(ResourceLoader resourceLoader, Class&lt;?&gt;... primarySources)</span> &#123;</span><br><span class="line">  <span class="built_in">this</span>.bootstrapRegistryInitializers = getBootstrapRegistryInitializersFromSpringFactories();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在所有spring.factories中找所有的<code>ApplicationContextInitializer</code></p>
+</li>
+<li><p>在所有spring.factories中找所有的<code>ApplicationListener</code></p>
+</li>
+</ul>
+</li>
+<li><p>运行<code>SpringApplication</code></p>
+<blockquote>
+<p><code>org.springframework.boot.SpringApplication#run(java.lang.String...)</code></p>
+</blockquote>
+<ul>
+<li><p>监控整个应用启动&#x2F;停止：StopWatch </p>
+<ul>
+<li>记录应用启动时间</li>
+</ul>
+</li>
+<li><p>创建引导上下文</p>
+<blockquote>
+<p><code>org.springframework.boot.SpringApplication#createBootstrapContext</code></p>
+</blockquote>
+<ul>
+<li><p>创建默认上下文</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">DefaultBootstrapContext</span> <span class="variable">bootstrapContext</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DefaultBootstrapContext</span>();</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>获取之前保存的所有<code>org.springframework.boot.SpringApplication#bootstrapRegistryInitializers</code>，然后遍历它，调用每一项中的<code>initialize</code>方法，因为它是<code>bootstrapRegistryInitializers</code>,是一个<code>org.springframework.boot.BootstrapRegistryInitializer</code>接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">BootstrapRegistryInitializer</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">initialize</span><span class="params">(BootstrapRegistry registry)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>给<code>initialize</code>方法传入上一步创建的上下文<code>DefaultBootstrapContext</code>来完成对引导启动器上下文环境设置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">this</span>.bootstrapRegistryInitializers.forEach((initializer) -&gt; initializer.initialize(bootstrapContext));</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>让当前应用进入headlless模式</p>
+</li>
+<li><p>获取并保存运行时监听器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">SpringApplicationRunListeners</span> <span class="variable">listeners</span> <span class="operator">=</span> getRunListeners(args);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调用所有监听器的<code>starting</code>方法<br>通知所有监听器，当前项目正在启动</p>
+<blockquote>
+<p><code>org.springframework.boot.SpringApplicationRunListener#starting(org.springframework.boot.ConfigurableBootstrapContext)</code></p>
+</blockquote>
+</li>
+<li><p>保存命令行参数 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ApplicationArguments</span> <span class="variable">applicationArguments</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DefaultApplicationArguments</span>(args);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>准备环境</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ConfigurableEnvironment</span> <span class="variable">environment</span> <span class="operator">=</span> prepareEnvironment(listeners, bootstrapContext, applicationArguments);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>org.springframework.boot.SpringApplication#prepareEnvironment</code></p>
+</blockquote>
+<ul>
+<li><p>准备一个基础环境，如果不存在则创建</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ConfigurableEnvironment</span> <span class="variable">environment</span> <span class="operator">=</span> getOrCreateEnvironment();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置环境信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">configureEnvironment(environment, applicationArguments.getSourceArgs());</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>配置转换器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">this</span>.addConversionService) &#123;</span><br><span class="line"> environment.setConversionService(<span class="keyword">new</span> <span class="title class_">ApplicationConversionService</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>加载外部配置信息，读取所有配置源属性值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">configurePropertySources(environment, args);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>绑定环境信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ConfigurationPropertySources.attach(environment);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调用所有监听器<code>environmentPrepared</code>方法</p>
+<blockquote>
+<p>此时所有环境已经准备完成</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">listeners.environmentPrepared(bootstrapContext, environment);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>判断如果没有自定义环境信息就使用默认的环境</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="built_in">this</span>.isCustomEnvironment) &#123;</span><br><span class="line">  environment = <span class="keyword">new</span> <span class="title class_">EnvironmentConverter</span>(getClassLoader()).convertEnvironmentIfNecessary(environment,</span><br><span class="line">                                                                                         deduceEnvironmentClass());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最后再把环境信息合并</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ConfigurationPropertySources.attach(environment);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>创建IOC容器</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context = createApplicationContext();</span><br></pre></td></tr></table></figure>
+
+<p>根据项目类型进行创建</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ApplicationContextFactory</span> <span class="variable">DEFAULT</span> <span class="operator">=</span> (webApplicationType) -&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> (webApplicationType) &#123;</span><br><span class="line">      <span class="keyword">case</span> SERVLET:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigServletWebServerApplicationContext</span>();</span><br><span class="line">      <span class="keyword">case</span> REACTIVE:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigReactiveWebServerApplicationContext</span>();</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigApplicationContext</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">catch</span> (Exception ex) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalStateException</span>(<span class="string">&quot;Unable create a default ApplicationContext instance, &quot;</span></span><br><span class="line">                                    + <span class="string">&quot;you may need a custom ApplicationContextFactory&quot;</span>, ex);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ConfigurableApplicationContext <span class="title function_">create</span><span class="params">(WebApplicationType webApplicationType)</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>准备IOC容器上下文信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prepareContext(bootstrapContext, context, environment, listeners, applicationArguments, printedBanner);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>org.springframework.boot.SpringApplication#prepareContext</p>
+</blockquote>
+<ul>
+<li><p>保存前面准备好的基础环境到容器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.setEnvironment(environment);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在这一步之前，IOC默认配置都准备得差不多了，这一步的目的是使用<code>ApplicationContextInitializer</code>来对进行扩展。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">applyInitializers</span><span class="params">(ConfigurableApplicationContext context)</span> &#123;</span><br><span class="line">  <span class="keyword">for</span> (ApplicationContextInitializer initializer : getInitializers()) &#123;</span><br><span class="line">    Class&lt;?&gt; requiredType = GenericTypeResolver.resolveTypeArgument(initializer.getClass(),</span><br><span class="line">                                                                    ApplicationContextInitializer.class);</span><br><span class="line">    Assert.isInstanceOf(requiredType, context, <span class="string">&quot;Unable to call initializer.&quot;</span>);</span><br><span class="line">    initializer.initialize(context);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在容器准备完后再调用所有<code>SpringApplicationRunListener</code>中的<code>contextPrepared(context)</code>方法</p>
+</li>
+<li><p>获取Bean工厂，<strong>这个工厂是在容器new的过程中被初始化的，具体在<code>org.springframework.context.support.GenericApplicationContext#GenericApplicationContext()</code></strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ConfigurableListableBeanFactory</span> <span class="variable">beanFactory</span> <span class="operator">=</span> context.getBeanFactory();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将命令行参数组册到容器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">beanFactory.registerSingleton(<span class="string">&quot;springApplicationArguments&quot;</span>, applicationArguments);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>org.springframework.boot.SpringApplication#prepareContext</code>这个方法准备完成之后再调用所有的监听器中的<code>contextLoaded(context)</code>方法。</p>
+</li>
+</ul>
+</li>
+<li><p>刷新容器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">refreshContext(context);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建容器中的所有组件</li>
+</ul>
+</li>
+<li><p>记录容器启动完成花费的时间</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stopWatch.stop();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>容器启动完成之后调用所有监听器的<code>started(context)</code>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">listeners.started(context);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调用所有runners</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">callRunners(context, applicationArguments);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>获取容器中的<code>ApplicationRunner</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">runners.addAll(context.getBeansOfType(ApplicationRunner.class).values());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取容器中的<code>CommandLineRunner</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">runners.addAll(context.getBeansOfType(CommandLineRunner.class).values());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>合并所有runner并且安装<code>@Order</code>进行排序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AnnotationAwareOrderComparator.sort(runners);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>遍历所有的runner调用<code>run</code>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (Object runner : <span class="keyword">new</span> <span class="title class_">LinkedHashSet</span>&lt;&gt;(runners)) &#123;</span><br><span class="line">  <span class="keyword">if</span> (runner <span class="keyword">instanceof</span> ApplicationRunner) &#123;</span><br><span class="line">    callRunner((ApplicationRunner) runner, args);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (runner <span class="keyword">instanceof</span> CommandLineRunner) &#123;</span><br><span class="line">    callRunner((CommandLineRunner) runner, args);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">callRunner</span><span class="params">(ApplicationRunner runner, ApplicationArguments args)</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    (runner).run(args);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">catch</span> (Exception ex) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalStateException</span>(<span class="string">&quot;Failed to execute ApplicationRunner&quot;</span>, ex);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>如果以上有异常，会调用所有监听器的<code>listeners.failed(context, exception);</code>方法</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;...&#125; <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">  handleRunFailure(context, ex, listeners);</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalStateException</span>(ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>没有任何异常发生时，会调用所有监听器的running方法</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">listeners.running(context);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果<code>listeners.running(context);</code>中有异常，会继续调用</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">handleRunFailure(context, ex, <span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>到此，SpringBoot启动成功</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="自定义监听组件"><a href="#自定义监听组件" class="headerlink" title="自定义监听组件"></a>自定义监听组件</h2><h3 id="ApplicationContextInitializer"><a href="#ApplicationContextInitializer" class="headerlink" title="ApplicationContextInitializer"></a>ApplicationContextInitializer</h3><p>这需要到<code>spring.factories</code>中注册</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyApplicationContextInitializer</span></span><br><span class="line">        <span class="keyword">implements</span> <span class="title class_">Serializable</span>, ApplicationContextInitializer&lt;ConfigurableApplicationContext&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">initialize</span><span class="params">(ConfigurableApplicationContext applicationContext)</span> &#123;</span><br><span class="line">        log.info(<span class="string">&quot;容器初始化...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">org.springframework.context.ApplicationContextInitializer=\</span></span><br><span class="line">  <span class="string">com.example.springapplication.listener.MyApplicationContextInitializer</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="ApplicationListener"><a href="#ApplicationListener" class="headerlink" title="ApplicationListener"></a>ApplicationListener</h3><p>这需要到<code>spring.factories</code>中注册</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyApplicationListener</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span>, ApplicationListener&lt;ApplicationEvent&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">6443715384736562018L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onApplicationEvent</span><span class="params">(ApplicationEvent event)</span> &#123;</span><br><span class="line">        log.info(<span class="string">&quot;MyApplicationListener： 绑定事件&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">org.springframework.context.ApplicationListener=\</span></span><br><span class="line">  <span class="string">com.example.springapplication.listener.MyApplicationListener</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="SpringApplicationRunListener"><a href="#SpringApplicationRunListener" class="headerlink" title="SpringApplicationRunListener"></a>SpringApplicationRunListener</h3><p>这需要到<code>spring.factories</code>中注册</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MySpringApplicationRunListener</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span>, SpringApplicationRunListener &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> -<span class="number">8494070955501588597L</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">private</span> SpringApplication app;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">MySpringApplicationRunListener</span><span class="params">(SpringApplication app, String[] args)</span> &#123;</span><br><span class="line">		<span class="built_in">this</span>.app = app;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">starting</span><span class="params">(ConfigurableBootstrapContext bootstrapContext)</span> &#123;</span><br><span class="line">    log.info(<span class="string">&quot;MySpringApplicationRunListener starting方法执行&quot;</span>);</span><br><span class="line">    SpringApplicationRunListener.<span class="built_in">super</span>.starting(bootstrapContext);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">environmentPrepared</span><span class="params">(ConfigurableBootstrapContext bootstrapContext,</span></span><br><span class="line"><span class="params">                                  ConfigurableEnvironment environment)</span> &#123;</span><br><span class="line">    log.info(<span class="string">&quot;MySpringApplicationRunListener environmentPrepared方法执行&quot;</span>);</span><br><span class="line">    SpringApplicationRunListener.<span class="built_in">super</span>.environmentPrepared(bootstrapContext, environment);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.boot.SpringApplicationRunListener=\</span><br><span class="line">  com.example.springapplication.listener.MySpringApplicationRunListener</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="ApplicationRunner"><a href="#ApplicationRunner" class="headerlink" title="ApplicationRunner"></a>ApplicationRunner</h3><p>在底层<code>ApplicationRunner</code>是从容器中获取，所以需要注册到容器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyApplicationRunner</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> ApplicationRunner <span class="title function_">applicationRunner</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> args -&gt; log.info(<span class="string">&quot;applicationRunner runner...执行&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="CommandLineRunner"><a href="#CommandLineRunner" class="headerlink" title="CommandLineRunner"></a>CommandLineRunner</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyApplicationRunner</span> &#123;</span><br><span class="line"></span><br><span class="line">		<span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> CommandLineRunner <span class="title function_">commandLineRunner</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> args -&gt; log.info(<span class="string">&quot;commandLineRunner run...执行&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/Spring-Boot%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="Spring Boot高级特性 - 学习笔记" target="_blank" rel="external">https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/Spring-Boot高级特性---学习笔记/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/clover-you/clover_blog_hexo.git/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/clover-you/clover_blog_hexo.git/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="SpringBoot Actuator - 学习笔记"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/clover-you/clover_blog_hexo.git/2022/01/02/Spring-Boot%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="Spring Boot核心功能 - 学习笔记"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/clover-you/clover_blog_hexo.git/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/clover-you/clover_blog_hexo.git/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/clover-you/clover_blog_hexo.git/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/clover-you/clover_blog_hexo.git/js/plugin.min.js"></script>
+
+
+<script src="/clover-you/clover_blog_hexo.git/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/clover-you/clover_blog_hexo.git/',
+        CONTENT_URL: '/clover-you/clover_blog_hexo.git/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/clover-you/clover_blog_hexo.git/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

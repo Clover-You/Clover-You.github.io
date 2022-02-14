@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>手撸Spring整合MyBatis玩具 | Hexo</title>
+  <meta name="description" content="源码在我GitHub上，有兴趣可以去观望一下：传送门 这个只是个玩具、玩具、玩具，正经的还得看官方提供的整合包先说下这个玩具的问题所在吧！&#x3D;&#x3D;&#x3D;&#x3D;&gt;&gt;&gt; 无法提交事务和无法关闭SqlSession，嗯嗯嗯~~~ 开始吧～～  难点若想使用Spring容器提供的强大功能，例如：Autowired，那么就需要让Spring容器将其管理。 没整合">
+<meta property="og:type" content="article">
+<meta property="og:title" content="手撸Spring整合MyBatis玩具">
+<meta property="og:url" content="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="源码在我GitHub上，有兴趣可以去观望一下：传送门 这个只是个玩具、玩具、玩具，正经的还得看官方提供的整合包先说下这个玩具的问题所在吧！&#x3D;&#x3D;&#x3D;&#x3D;&gt;&gt;&gt; 无法提交事务和无法关闭SqlSession，嗯嗯嗯~~~ 开始吧～～  难点若想使用Spring容器提供的强大功能，例如：Autowired，那么就需要让Spring容器将其管理。 没整合">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-01-02T10:17:52.000Z">
+<meta property="article:modified_time" content="2022-02-14T23:13:43.751Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="随笔">
+<meta property="article:tag" content="SpringMvc">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/clover-you/clover_blog_hexo.git/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/clover-you/clover_blog_hexo.git/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">昵称</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/clover-you/clover_blog_hexo.git/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/clover-you/clover_blog_hexo.git/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/clover-you/clover_blog_hexo.git/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/clover-you/clover_blog_hexo.git/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/clover-you/clover_blog_hexo.git/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/clover-you/clover_blog_hexo.git/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/clover-you/clover_blog_hexo.git/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/clover-you/clover_blog_hexo.git/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/clover-you/clover_blog_hexo.git/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a><span class="category-list-count">42</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/MySQL/">MySQL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/React/">React</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%B0%8F%E7%8E%A9%E6%84%8F/">小玩意</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">25</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">77</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Junit/" rel="tag">Junit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Maven/" rel="tag">Maven</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/React/" rel="tag">React</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Session/" rel="tag">Session</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" rel="tag">SpringCloud</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" rel="tag">SpringMvc</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringSession/" rel="tag">SpringSession</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/js/" rel="tag">js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/ts/" rel="tag">ts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" rel="tag">原理解析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a><span class="tag-list-count">55</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/clover-you/clover_blog_hexo.git/tags/JAVA/" style="font-size: 14px;">JAVA</a> <a href="/clover-you/clover_blog_hexo.git/tags/JavaScript/" style="font-size: 13.4px;">JavaScript</a> <a href="/clover-you/clover_blog_hexo.git/tags/Junit/" style="font-size: 13px;">Junit</a> <a href="/clover-you/clover_blog_hexo.git/tags/Maven/" style="font-size: 13px;">Maven</a> <a href="/clover-you/clover_blog_hexo.git/tags/MySQL/" style="font-size: 13.4px;">MySQL</a> <a href="/clover-you/clover_blog_hexo.git/tags/React/" style="font-size: 13.2px;">React</a> <a href="/clover-you/clover_blog_hexo.git/tags/Redis/" style="font-size: 13.3px;">Redis</a> <a href="/clover-you/clover_blog_hexo.git/tags/SQL/" style="font-size: 13.4px;">SQL</a> <a href="/clover-you/clover_blog_hexo.git/tags/Session/" style="font-size: 13.1px;">Session</a> <a href="/clover-you/clover_blog_hexo.git/tags/Spring/" style="font-size: 13.7px;">Spring</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" style="font-size: 13.5px;">SpringBoot</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" style="font-size: 13.4px;">SpringCloud</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" style="font-size: 13.6px;">SpringMvc</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringSession/" style="font-size: 13.1px;">SpringSession</a> <a href="/clover-you/clover_blog_hexo.git/tags/TypeScript/" style="font-size: 13.4px;">TypeScript</a> <a href="/clover-you/clover_blog_hexo.git/tags/Vue/" style="font-size: 13.1px;">Vue</a> <a href="/clover-you/clover_blog_hexo.git/tags/js/" style="font-size: 13px;">js</a> <a href="/clover-you/clover_blog_hexo.git/tags/ts/" style="font-size: 13px;">ts</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.1px;">前端</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" style="font-size: 13px;">原理解析</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 13.9px;">学习笔记</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 13.3px;">微服务</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.8px;">随笔</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/clover-you/clover_blog_hexo.git/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/clover-you/clover_blog_hexo.git/archives/2022/01/">January 2022</a><span class="archive-list-count">88</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/02/15/SpringSession-%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" class="title">SpringSession 基本原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-02-14T22:12:21.000Z" itemprop="datePublished">2022-02-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/" class="title">分布式下Session共享</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-02-14T15:22:52.000Z" itemprop="datePublished">2022-02-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/31/Java-%E5%9B%9B%E5%A4%A7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/" class="title">Java 四大函数式接口</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-30T19:25:01.000Z" itemprop="datePublished">2022-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/23/Java-JUC---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="title">Java JUC - 学习笔记</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-23T15:55:00.000Z" itemprop="datePublished">2022-01-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/23/java%E4%BD%BF%E7%94%A8replace%E6%97%B6%E4%B8%AD%E6%96%87%E8%A2%ABURL%E7%BC%96%E7%A0%81%E5%AF%BC%E8%87%B4%E6%97%A0%E6%95%88%E8%A7%A3%E5%86%B3/" class="title">java使用replace时中文被URL编码导致无效解决</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-23T09:53:00.000Z" itemprop="datePublished">2022-01-23</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-手撸Spring整合MyBatis玩具" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      手撸Spring整合MyBatis玩具
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/clover-you/clover_blog_hexo.git/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/" class="article-date">
+	  <time datetime="2022-01-02T10:17:52.000Z" itemprop="datePublished">2022-01-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" rel="tag">SpringMvc</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>源码在我GitHub上，有兴趣可以去观望一下：<a target="_blank" rel="noopener" href="https://github.com/YouChuantong/mybatis_learn_demo">传送门</a></p>
+<p>这个只是个<strong>玩具、玩具、玩具</strong>，正经的还得看官方提供的整合包<br>先说下这个玩具的问题所在吧！&#x3D;&#x3D;&#x3D;&#x3D;&gt;&gt;&gt; 无法提交事务和无法关闭SqlSession，嗯嗯嗯~~~</p>
+<p>开始吧～～</p>
+<hr>
+<h2 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h2><p>若想使用Spring容器提供的强大功能，例如：<code>Autowired</code>，那么就需要让Spring容器将其管理。</p>
+<p>没整合之前，每次都需要通过<code>SqlSessionFactory</code>将其创建，一个两个还好，写多了整个人都麻了…</p>
+<p>所以我就想，能不能在service层直接注入呢？</p>
+<p>让Spring注入的话就得注册到容器，Dao层数量和命名都无法确定，怎么注册Bean呢？..嘶～～～</p>
+<p><del>嗯。。。使用工厂模式加上自动扫包好像能实现..</del></p>
+<p>说干就干…</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyBatisSqlSessionFactory</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">7157094465332447639L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * MyBatis配置文件路径</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">MYBATIS_CONFIG_PATH</span> <span class="operator">=</span> <span class="string">&quot;mybatis-config.xml&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 注册一个全局SqlSessionFactory组件</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> SqlSessionFactory <span class="title function_">getSqlSessionFactory</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;getSqlSessionFactory&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> (<span class="type">InputStream</span> <span class="variable">configStream</span> <span class="operator">=</span> getConfigStream()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">SqlSessionFactoryBuilder</span>().build(configStream);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 懒加载Bean工厂</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> daoClass Bean类型</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &lt;T&gt; Bean类型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; T <span class="title function_">getMapping</span><span class="params">(Class&lt;T&gt; daoClass)</span> &#123;</span><br><span class="line">        <span class="type">SpringUtils</span> <span class="variable">springUtils</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SpringUtils</span>();</span><br><span class="line">        <span class="type">SqlSessionFactory</span> <span class="variable">bean</span> <span class="operator">=</span> springUtils.getBean(SqlSessionFactory.class);</span><br><span class="line">        <span class="type">SqlSession</span> <span class="variable">sqlSession</span> <span class="operator">=</span> bean.openSession();</span><br><span class="line">        <span class="keyword">return</span> sqlSession.getMapper(daoClass);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取配置文件文件流</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 文件流</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> InputStream <span class="title function_">getConfigStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="keyword">return</span> Resources.getResourceAsStream(MYBATIS_CONFIG_PATH);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>嗯？我该怎么为<code>getMapping</code>注册为懒加载呢???还有<code>Class&lt;T&gt; daoClass</code>我该怎么拿到当前<code>getBean</code>时要找的类型呢？</p>
+<p>嘶～～～</p>
+<p>嘶～～～</p>
+<p>嘶～～～</p>
+<h2 id="更换方案"><a href="#更换方案" class="headerlink" title="更换方案"></a>更换方案</h2><p>翻了翻<code>ClassPathXmlApplication</code>源码，启动的时候它去执行了个后置处理器<code>org.springframework.beans.factory.config.BeanFactoryPostProcessor</code>。这个处理器需要实现一个<code>postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory)</code>，这个<code>ConfigurableListableBeanFactory</code>就是那个还未启动完成的容器。嗯嗯嗯…</p>
+<p>它里面有一个<code>registerSingleton</code>方法，可以注册单实例Bean，可我需要注册多实例…先不管了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">postProcessBeanFactory</span><span class="params">(ConfigurableListableBeanFactory configurableListableBeanFactory)</span></span><br><span class="line">  <span class="keyword">throws</span> BeansException &#123;</span><br><span class="line">  <span class="built_in">this</span>.configurableListableBeanFactory = configurableListableBeanFactory;</span><br><span class="line">  <span class="keyword">if</span> (factory == <span class="literal">null</span>) &#123;</span><br><span class="line">    factory = configurableListableBeanFactory.getBean(SqlSessionFactory.class);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="type">RegisterMyBatisFactory</span> <span class="variable">registerMyBatisFactory</span> <span class="operator">=</span> configurableListableBeanFactory.getBean(</span><br><span class="line">    RegisterMyBatisFactory.class);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (registerMyBatisFactory == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line">  <span class="type">String</span> <span class="variable">mapperPackage</span> <span class="operator">=</span> registerMyBatisFactory.getPackage();</span><br><span class="line">  <span class="comment">// 获取指定包下所有class</span></span><br><span class="line">  List&lt;Class&lt;?&gt;&gt; allClass = getClassByPackage(mapperPackage);</span><br><span class="line">  <span class="comment">// 通过@Mapper过滤无效class</span></span><br><span class="line">  List&lt;Class&lt;?&gt;&gt; interfaceByWithMyBatis = getInterfaceByMapper(allClass);</span><br><span class="line">  <span class="comment">// 将所有Mapper注册到IOC中</span></span><br><span class="line">  registerMyBatis(interfaceByWithMyBatis);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p><code> this.configurableListableBeanFactory = configurableListableBeanFactory;</code>  保存这个容器</p>
+</li>
+<li><p><code>RegisterMyBatisFactory registerMyBatisFactory = configurableListableBeanFactory.getBean(RegisterMyBatisFactory.class);</code> 这里定义了个接口，通过这个借口拿到Dao所在的包。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * mybatis，将其注册在容器中，整合器就可以获取到指定包名</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">RegisterMyBatisFactory</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 获取mapper所在的包</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  String <span class="title function_">getPackage</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>List&lt;Class&lt;?&gt;&gt; allClass = getClassByPackage(mapperPackage);</code> 通过包名找这个包下所有的类，这个方法就不说了，就一个普通的文件查找而已。有兴趣就拉源码吧！</p>
+</li>
+<li><p><code>List&lt;Class&lt;?&gt;&gt; interfaceByWithMyBatis = getInterfaceByMapper(allClass);</code>需要过滤没有用的类，也就是说可能不是Dao。通过MyBatis提供的<code>@Mapper</code>注解来识别了，懒得自己写注解，先把功能实现。就一个简简单单的反射</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 通过指定注解获取接口</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 过滤结果</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> List&lt;Class&lt;?&gt;&gt; getInterfaceByMapper(List&lt;Class&lt;?&gt;&gt; clazz) &#123;</span><br><span class="line">  <span class="keyword">return</span> clazz.stream().filter(aClass -&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (!aClass.isInterface()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="type">Mapper</span> <span class="variable">annotation</span> <span class="operator">=</span> aClass.getAnnotation(Mapper.class);</span><br><span class="line">    <span class="keyword">return</span> annotation != <span class="literal">null</span>;</span><br><span class="line">  &#125;).collect(Collectors.toList());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>registerMyBatis(interfaceByWithMyBatis);</code> 接下来就将过滤后的Mapper注册到容器中了。如果是注册的多实例Bean，那么就可以通过切面去搞定这个事务问题。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将MyBatis注册到IOC</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">registerMyBatis</span><span class="params">(List&lt;Class&lt;?&gt;&gt; mappers)</span> &#123;</span><br><span class="line">  mappers.forEach(clazz -&gt; &#123;</span><br><span class="line">    <span class="type">SqlSession</span> <span class="variable">sqlSession</span> <span class="operator">=</span> factory.openSession();</span><br><span class="line">    <span class="type">Object</span> <span class="variable">mapper</span> <span class="operator">=</span> sqlSession.getMapper(clazz);</span><br><span class="line">    configurableListableBeanFactory.registerSingleton(clazz.getName(), mapper);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="使用演示"><a href="#使用演示" class="headerlink" title="使用演示"></a>使用演示</h2><p>Dao层用<code>@Mapper</code>标注</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmployeeDao</span> <span class="keyword">extends</span> <span class="title class_">GenericDao</span>&lt;Employee&gt; &#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+<p>service层直接注入。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmployeeServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span>, EmployeeService &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1863674392751816610L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> EmployeeDao employeeDao;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在就可以了…..</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;id&quot;</span><span class="punctuation">:</span><span class="number">1</span><span class="punctuation">,</span><span class="attr">&quot;empName&quot;</span><span class="punctuation">:</span><span class="string">&quot;Clover&quot;</span><span class="punctuation">,</span><span class="attr">&quot;gender&quot;</span><span class="punctuation">:</span><span class="number">0</span><span class="punctuation">,</span><span class="attr">&quot;email&quot;</span><span class="punctuation">:</span><span class="string">&quot;cloveryou.ctong@qq.com&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/" title="手撸Spring整合MyBatis玩具" target="_blank" rel="external">https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/手撸Spring整合MyBatis玩具/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/clover-you/clover_blog_hexo.git/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/clover-you/clover_blog_hexo.git/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/" title="性能与压力测试"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/clover-you/clover_blog_hexo.git/2022/01/02/%E4%BD%BF%E7%94%A8nacos%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE/" title="使用nacos作为配置中心统一管理配置"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/clover-you/clover_blog_hexo.git/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/clover-you/clover_blog_hexo.git/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/clover-you/clover_blog_hexo.git/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/clover-you/clover_blog_hexo.git/js/plugin.min.js"></script>
+
+
+<script src="/clover-you/clover_blog_hexo.git/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/clover-you/clover_blog_hexo.git/',
+        CONTENT_URL: '/clover-you/clover_blog_hexo.git/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/clover-you/clover_blog_hexo.git/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

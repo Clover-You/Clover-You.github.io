@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>SpringMVC中文字符乱码 | Hexo</title>
+  <meta name="description" content="问题使用SpringMVC在返回一个字符串时发生了中文乱码问题。produces属性无效 123456789@RequestMapping(value &#x3D; &quot;&#x2F;nihao&quot;, produces &#x3D; &quot;text&#x2F;plain;charset&#x3D;UTF-8&quot;)@ResponseBodypublic String hello(HttpServletResponse r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC中文字符乱码">
+<meta property="og:url" content="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/SpringMVC%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6%E4%B9%B1%E7%A0%81/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="问题使用SpringMVC在返回一个字符串时发生了中文乱码问题。produces属性无效 123456789@RequestMapping(value &#x3D; &quot;&#x2F;nihao&quot;, produces &#x3D; &quot;text&#x2F;plain;charset&#x3D;UTF-8&quot;)@ResponseBodypublic String hello(HttpServletResponse r">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-01-02T10:29:11.000Z">
+<meta property="article:modified_time" content="2022-02-14T23:13:57.542Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="随笔">
+<meta property="article:tag" content="SpringMvc">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/SpringMVC%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6%E4%B9%B1%E7%A0%81/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/clover-you/clover_blog_hexo.git/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/clover-you/clover_blog_hexo.git/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">昵称</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/clover-you/clover_blog_hexo.git/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/clover-you/clover_blog_hexo.git/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/clover-you/clover_blog_hexo.git/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/clover-you/clover_blog_hexo.git/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/clover-you/clover_blog_hexo.git/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/clover-you/clover_blog_hexo.git/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/clover-you/clover_blog_hexo.git/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/clover-you/clover_blog_hexo.git/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/clover-you/clover_blog_hexo.git/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a><span class="category-list-count">42</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/MySQL/">MySQL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/React/">React</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%B0%8F%E7%8E%A9%E6%84%8F/">小玩意</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">25</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">77</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Junit/" rel="tag">Junit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Maven/" rel="tag">Maven</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/React/" rel="tag">React</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Session/" rel="tag">Session</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" rel="tag">SpringCloud</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" rel="tag">SpringMvc</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringSession/" rel="tag">SpringSession</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/js/" rel="tag">js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/ts/" rel="tag">ts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" rel="tag">原理解析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a><span class="tag-list-count">55</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/clover-you/clover_blog_hexo.git/tags/JAVA/" style="font-size: 14px;">JAVA</a> <a href="/clover-you/clover_blog_hexo.git/tags/JavaScript/" style="font-size: 13.4px;">JavaScript</a> <a href="/clover-you/clover_blog_hexo.git/tags/Junit/" style="font-size: 13px;">Junit</a> <a href="/clover-you/clover_blog_hexo.git/tags/Maven/" style="font-size: 13px;">Maven</a> <a href="/clover-you/clover_blog_hexo.git/tags/MySQL/" style="font-size: 13.4px;">MySQL</a> <a href="/clover-you/clover_blog_hexo.git/tags/React/" style="font-size: 13.2px;">React</a> <a href="/clover-you/clover_blog_hexo.git/tags/Redis/" style="font-size: 13.3px;">Redis</a> <a href="/clover-you/clover_blog_hexo.git/tags/SQL/" style="font-size: 13.4px;">SQL</a> <a href="/clover-you/clover_blog_hexo.git/tags/Session/" style="font-size: 13.1px;">Session</a> <a href="/clover-you/clover_blog_hexo.git/tags/Spring/" style="font-size: 13.7px;">Spring</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" style="font-size: 13.5px;">SpringBoot</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" style="font-size: 13.4px;">SpringCloud</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" style="font-size: 13.6px;">SpringMvc</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringSession/" style="font-size: 13.1px;">SpringSession</a> <a href="/clover-you/clover_blog_hexo.git/tags/TypeScript/" style="font-size: 13.4px;">TypeScript</a> <a href="/clover-you/clover_blog_hexo.git/tags/Vue/" style="font-size: 13.1px;">Vue</a> <a href="/clover-you/clover_blog_hexo.git/tags/js/" style="font-size: 13px;">js</a> <a href="/clover-you/clover_blog_hexo.git/tags/ts/" style="font-size: 13px;">ts</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.1px;">前端</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" style="font-size: 13px;">原理解析</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 13.9px;">学习笔记</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 13.3px;">微服务</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.8px;">随笔</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/clover-you/clover_blog_hexo.git/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/clover-you/clover_blog_hexo.git/archives/2022/01/">January 2022</a><span class="archive-list-count">88</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/02/15/SpringSession-%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" class="title">SpringSession 基本原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-02-14T22:12:21.000Z" itemprop="datePublished">2022-02-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/" class="title">分布式下Session共享</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-02-14T15:22:52.000Z" itemprop="datePublished">2022-02-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/31/Java-%E5%9B%9B%E5%A4%A7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/" class="title">Java 四大函数式接口</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-30T19:25:01.000Z" itemprop="datePublished">2022-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/23/Java-JUC---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="title">Java JUC - 学习笔记</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-23T15:55:00.000Z" itemprop="datePublished">2022-01-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/23/java%E4%BD%BF%E7%94%A8replace%E6%97%B6%E4%B8%AD%E6%96%87%E8%A2%ABURL%E7%BC%96%E7%A0%81%E5%AF%BC%E8%87%B4%E6%97%A0%E6%95%88%E8%A7%A3%E5%86%B3/" class="title">java使用replace时中文被URL编码导致无效解决</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-23T09:53:00.000Z" itemprop="datePublished">2022-01-23</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-SpringMVC中文字符乱码" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SpringMVC中文字符乱码
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/clover-you/clover_blog_hexo.git/2022/01/02/SpringMVC%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6%E4%B9%B1%E7%A0%81/" class="article-date">
+	  <time datetime="2022-01-02T10:29:11.000Z" itemprop="datePublished">2022-01-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" rel="tag">SpringMvc</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/02/SpringMVC%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6%E4%B9%B1%E7%A0%81/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>使用SpringMVC在返回一个字符串时发生了中文乱码问题。<code>produces</code>属性无效</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(value = &quot;/nihao&quot;, produces = &quot;text/plain;charset=UTF-8&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">hello</span><span class="params">(HttpServletResponse response)</span> <span class="keyword">throws</span> UnsupportedEncodingException &#123;</span><br><span class="line">    <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">    user.setSex(<span class="string">&quot;男&quot;</span>);</span><br><span class="line">    user.setName(<span class="string">&quot;Clover&quot;</span>);</span><br><span class="line">    user.setAge(<span class="number">19</span>);</span><br><span class="line">    <span class="keyword">return</span> user.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Server</span><span class="punctuation">: </span>Apache-Coyote/1.1</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>text/plain;charset=ISO-8859-1</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>36</span><br><span class="line"><span class="attribute">Date</span><span class="punctuation">: </span>Sun, 01 Aug 2021 12:20:21 GMT</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"></span><br><span class="line"><span class="language-json"><span class="punctuation">&#123;</span></span></span><br><span class="line"><span class="language-json">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Clover&quot;</span><span class="punctuation">,</span></span></span><br><span class="line"><span class="language-json">  <span class="attr">&quot;sex&quot;</span><span class="punctuation">:</span> <span class="string">&quot;?&quot;</span><span class="punctuation">,</span></span></span><br><span class="line"><span class="language-json">  <span class="attr">&quot;age&quot;</span><span class="punctuation">:</span> <span class="number">19</span></span></span><br><span class="line"><span class="language-json"><span class="punctuation">&#125;</span></span></span><br><span class="line"><span class="language-json"></span></span><br></pre></td></tr></table></figure>
+
+<p>添加常用的过滤器<code>org.springframework.web.filter.CharacterEncodingFilter</code>依然无法解决</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>characterEncodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.CharacterEncodingFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>encoding<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>utf-8<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>forceEncoding<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>characterEncodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="问题根源"><a href="#问题根源" class="headerlink" title="问题根源"></a>问题根源</h2><p>最后查看源码时发现问题出现在处理内容协商的时候，SpringMVC使用了一个叫做<code>org.springframework.http.converter.StringHttpMessageConverter</code>的转换器进行处理<code>java.lang.String</code>。在这个处理器中，有个一默认的编码格式，它甚至使用了<code>final</code>修饰…..</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Charset</span> <span class="variable">DEFAULT_CHARSET</span> <span class="operator">=</span> Charset.forName(<span class="string">&quot;ISO-8859-1&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>并且，通过Postman或者REST Client发送请求时，<code>Accept</code>默认是<code>*/*</code>。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h3><p>注册一个<code>StringHttpMessageConverter</code>，注册之后不再使用SpringMVC默认的。它可以将<code>produces</code>设置为<code>Content-Type</code>。也就是说<code>@RequestMapping</code>的<code>produces</code>属性生效了</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mvc:annotation-driven</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:message-converters</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.http.converter.StringHttpMessageConverter&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mvc:message-converters</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:annotation-driven</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Server</span><span class="punctuation">: </span>Apache-Coyote/1.1</span><br><span class="line"><span class="attribute">Accept-Charset</span><span class="punctuation">: </span>...</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>text/plain;charset=utf-8</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>37</span><br><span class="line"><span class="attribute">Date</span><span class="punctuation">: </span>Sun, 01 Aug 2021 13:09:35 GMT</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"></span><br><span class="line"><span class="language-json"><span class="punctuation">&#123;</span></span></span><br><span class="line"><span class="language-json">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Clover&quot;</span><span class="punctuation">,</span></span></span><br><span class="line"><span class="language-json">  <span class="attr">&quot;sex&quot;</span><span class="punctuation">:</span> <span class="string">&quot;男&quot;</span><span class="punctuation">,</span></span></span><br><span class="line"><span class="language-json">  <span class="attr">&quot;age&quot;</span><span class="punctuation">:</span> <span class="number">19</span></span></span><br><span class="line"><span class="language-json"><span class="punctuation">&#125;</span></span></span><br><span class="line"><span class="language-json"></span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h3><p>Accept问题，SpringMVC的默认<code>StringHttpMessageConverter</code>处理的是<code>*/*</code>，那手动设置一个Accept尽可能避开它…..</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">&#123;&#123;url&#125;&#125;/nihao</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Accept</span><span class="punctuation">: </span>text/plain;charset=utf-8</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Server</span><span class="punctuation">: </span>Apache-Coyote/1.1</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>text/plain;charset=utf-8</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>38</span><br><span class="line"><span class="attribute">Date</span><span class="punctuation">: </span>Sun, 01 Aug 2021 13:20:16 GMT</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"></span><br><span class="line"><span class="language-json"><span class="punctuation">&#123;</span></span></span><br><span class="line"><span class="language-json">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Clover&quot;</span><span class="punctuation">,</span></span></span><br><span class="line"><span class="language-json">  <span class="attr">&quot;sex&quot;</span><span class="punctuation">:</span> <span class="string">&quot;男&quot;</span><span class="punctuation">,</span></span></span><br><span class="line"><span class="language-json">  <span class="attr">&quot;age&quot;</span><span class="punctuation">:</span> <span class="number">19</span></span></span><br><span class="line"><span class="language-json"><span class="punctuation">&#125;</span></span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/SpringMVC%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6%E4%B9%B1%E7%A0%81/" title="SpringMVC中文字符乱码" target="_blank" rel="external">https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/SpringMVC中文字符乱码/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/clover-you/clover_blog_hexo.git/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/clover-you/clover_blog_hexo.git/2022/01/02/ssm%E6%95%B4%E5%90%88/" title="ssm整合"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/clover-you/clover_blog_hexo.git/2022/01/02/Spring%E4%B8%8ESpringMVC%E6%95%B4%E5%90%88/" title="Spring与SpringMVC整合"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/clover-you/clover_blog_hexo.git/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/clover-you/clover_blog_hexo.git/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/clover-you/clover_blog_hexo.git/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/clover-you/clover_blog_hexo.git/js/plugin.min.js"></script>
+
+
+<script src="/clover-you/clover_blog_hexo.git/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/clover-you/clover_blog_hexo.git/',
+        CONTENT_URL: '/clover-you/clover_blog_hexo.git/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/clover-you/clover_blog_hexo.git/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

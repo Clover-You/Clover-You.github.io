@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>JDBC学习笔记 | Hexo</title>
+  <meta name="description" content="JDBC是什么JDBC全称（Java DataBase Connectivity） JDBC是SUN公司制定的一套接口（interface）在 ** java.sql.* ** 包下，接口都有调用者和实现者。面向接口调用、面向接口写实现类，这都属于面向接口编程。面向接口编程是为了降低程序的耦合度，提高程序的拓展力。多态机制就是非常典型的：面向接口编程。（不要面向具体编程） 那么为什么SUN要去制定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JDBC学习笔记">
+<meta property="og:url" content="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="JDBC是什么JDBC全称（Java DataBase Connectivity） JDBC是SUN公司制定的一套接口（interface）在 ** java.sql.* ** 包下，接口都有调用者和实现者。面向接口调用、面向接口写实现类，这都属于面向接口编程。面向接口编程是为了降低程序的耦合度，提高程序的拓展力。多态机制就是非常典型的：面向接口编程。（不要面向具体编程） 那么为什么SUN要去制定">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-01-02T09:55:23.000Z">
+<meta property="article:modified_time" content="2022-02-14T23:13:48.643Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="SQL">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/clover-you/clover_blog_hexo.git/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/clover-you/clover_blog_hexo.git/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">昵称</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/clover-you/clover_blog_hexo.git/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/clover-you/clover_blog_hexo.git/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/clover-you/clover_blog_hexo.git/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/clover-you/clover_blog_hexo.git/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/clover-you/clover_blog_hexo.git/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/clover-you/clover_blog_hexo.git/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/clover-you/clover_blog_hexo.git/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/clover-you/clover_blog_hexo.git/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/clover-you/clover_blog_hexo.git/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a><span class="category-list-count">42</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/MySQL/">MySQL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/React/">React</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%B0%8F%E7%8E%A9%E6%84%8F/">小玩意</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">25</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">77</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Junit/" rel="tag">Junit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Maven/" rel="tag">Maven</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/React/" rel="tag">React</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Session/" rel="tag">Session</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" rel="tag">SpringCloud</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" rel="tag">SpringMvc</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringSession/" rel="tag">SpringSession</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/js/" rel="tag">js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/ts/" rel="tag">ts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" rel="tag">原理解析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a><span class="tag-list-count">55</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/clover-you/clover_blog_hexo.git/tags/JAVA/" style="font-size: 14px;">JAVA</a> <a href="/clover-you/clover_blog_hexo.git/tags/JavaScript/" style="font-size: 13.4px;">JavaScript</a> <a href="/clover-you/clover_blog_hexo.git/tags/Junit/" style="font-size: 13px;">Junit</a> <a href="/clover-you/clover_blog_hexo.git/tags/Maven/" style="font-size: 13px;">Maven</a> <a href="/clover-you/clover_blog_hexo.git/tags/MySQL/" style="font-size: 13.4px;">MySQL</a> <a href="/clover-you/clover_blog_hexo.git/tags/React/" style="font-size: 13.2px;">React</a> <a href="/clover-you/clover_blog_hexo.git/tags/Redis/" style="font-size: 13.3px;">Redis</a> <a href="/clover-you/clover_blog_hexo.git/tags/SQL/" style="font-size: 13.4px;">SQL</a> <a href="/clover-you/clover_blog_hexo.git/tags/Session/" style="font-size: 13.1px;">Session</a> <a href="/clover-you/clover_blog_hexo.git/tags/Spring/" style="font-size: 13.7px;">Spring</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" style="font-size: 13.5px;">SpringBoot</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" style="font-size: 13.4px;">SpringCloud</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" style="font-size: 13.6px;">SpringMvc</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringSession/" style="font-size: 13.1px;">SpringSession</a> <a href="/clover-you/clover_blog_hexo.git/tags/TypeScript/" style="font-size: 13.4px;">TypeScript</a> <a href="/clover-you/clover_blog_hexo.git/tags/Vue/" style="font-size: 13.1px;">Vue</a> <a href="/clover-you/clover_blog_hexo.git/tags/js/" style="font-size: 13px;">js</a> <a href="/clover-you/clover_blog_hexo.git/tags/ts/" style="font-size: 13px;">ts</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.1px;">前端</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" style="font-size: 13px;">原理解析</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 13.9px;">学习笔记</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 13.3px;">微服务</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.8px;">随笔</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/clover-you/clover_blog_hexo.git/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/clover-you/clover_blog_hexo.git/archives/2022/01/">January 2022</a><span class="archive-list-count">88</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/02/15/SpringSession-%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" class="title">SpringSession 基本原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-02-14T22:12:21.000Z" itemprop="datePublished">2022-02-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/" class="title">分布式下Session共享</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-02-14T15:22:52.000Z" itemprop="datePublished">2022-02-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/31/Java-%E5%9B%9B%E5%A4%A7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/" class="title">Java 四大函数式接口</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-30T19:25:01.000Z" itemprop="datePublished">2022-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/23/Java-JUC---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="title">Java JUC - 学习笔记</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-23T15:55:00.000Z" itemprop="datePublished">2022-01-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/23/java%E4%BD%BF%E7%94%A8replace%E6%97%B6%E4%B8%AD%E6%96%87%E8%A2%ABURL%E7%BC%96%E7%A0%81%E5%AF%BC%E8%87%B4%E6%97%A0%E6%95%88%E8%A7%A3%E5%86%B3/" class="title">java使用replace时中文被URL编码导致无效解决</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-23T09:53:00.000Z" itemprop="datePublished">2022-01-23</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-JDBC学习笔记" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JDBC学习笔记
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/clover-you/clover_blog_hexo.git/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+	  <time datetime="2022-01-02T09:55:23.000Z" itemprop="datePublished">2022-01-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/MySQL/">MySQL</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/MySQL/" rel="tag">MySQL</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/SQL/" rel="tag">SQL</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="JDBC是什么"><a href="#JDBC是什么" class="headerlink" title="JDBC是什么"></a>JDBC是什么</h1><p>JDBC全称（Java DataBase Connectivity）</p>
+<p>JDBC是SUN公司制定的一套接口（interface）在 ** java.sql.* ** 包下，接口都有调用者和实现者。面向接口调用、面向接口写实现类，这都属于面向接口编程。面向接口编程是为了降低程序的耦合度，提高程序的拓展力。多态机制就是非常典型的：面向接口编程。（不要面向具体编程）</p>
+<p>那么为什么SUN要去制定这么一套JDBC接口呢？因为每个数据库的底层实现都不一样，每一个数据库产品都有自己独特的海鲜原理。如果没有这套接口，那么我们连接数据库时意味着需要多些几套连接代码。</p>
+<h1 id="JDBC开发前的准备工作"><a href="#JDBC开发前的准备工作" class="headerlink" title="JDBC开发前的准备工作"></a>JDBC开发前的准备工作</h1><p>若想使用JDBC，需要先从官网下载对应的驱动jar包，然后将其配置到环境变量classpath当中</p>
+<p>我将它放在了<code>/Library/Java/Extensions/jdbc</code>文件夹中</p>
+<p>确定位置之后配置环境变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">╰&gt;&gt;&gt; open -e ~/.bash_profile</span><br></pre></td></tr></table></figure>
+
+<p>配置环境变量，前面必须以<code>.;</code>开始，不然以后包全部找不着了~~</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export CLASSPATH=.:/Library/Java/Extensions/jdbc/mysql-connector-java-8.0.21/mysql-connector-java-8.0.21.jar </span><br></pre></td></tr></table></figure>
+
+<p>保存之后刷新</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">╰&gt;&gt;&gt; source ~/.zshrc</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h1 id="JDBC-编程六步"><a href="#JDBC-编程六步" class="headerlink" title="JDBC 编程六步"></a>JDBC 编程六步</h1><h3 id="第一步-注册驱动"><a href="#第一步-注册驱动" class="headerlink" title="第一步 注册驱动"></a>第一步 注册驱动</h3><p>告诉java程序，即将连接什么数据库。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Driver</span> <span class="variable">mysqlDriver</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">com</span>.mysql.jdbc.Driver();</span><br><span class="line">DriverManager.registerDriver(mysqlDriver);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="第二步-获取连接"><a href="#第二步-获取连接" class="headerlink" title="第二步 获取连接"></a>第二步 获取连接</h3><p>JVM的进程和数据库进程之间的通道打开了，这属于进程之间的通信，重量级的，使用完之后一定要关闭。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;jdbc:mysql://127.0.0.1:3306/upyou_database&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">user</span> <span class="operator">=</span> <span class="string">&quot;root&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">pass</span> <span class="operator">=</span> <span class="string">&quot;123456&quot;</span>;</span><br><span class="line"><span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> DriverManager.getConnection(url, user, pass);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>url：统一资源定位符（网络中某个资源的绝对路径）<br>URL包括：协议、IP、PORT、资源名</li>
+</ul>
+<h3 id="第三步-获取数据库操作对象（专门执行sql语句的对象）"><a href="#第三步-获取数据库操作对象（专门执行sql语句的对象）" class="headerlink" title="第三步 获取数据库操作对象（专门执行sql语句的对象）"></a>第三步 获取数据库操作对象（专门执行sql语句的对象）</h3><p>专门执行sql语句的对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Statement</span> <span class="variable">stmt</span> <span class="operator">=</span> conn.createStatement();</span><br></pre></td></tr></table></figure>
+
+<p>以下代码专门执行DML语句，返回值是“影响数据库中的记录条数”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stmt.executeUpdate(sql);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="第四步-执行SQL语句"><a href="#第四步-执行SQL语句" class="headerlink" title="第四步 执行SQL语句"></a>第四步 执行SQL语句</h3><p>执行SQL语句主要执行DQL、DML等…</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Strign</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;INSERT INTO DEPT(DEPTNO, DNAME, LOC) VALUES(413, &#x27;UpYouDEPT&#x27;, &#x27;CHICAGO&#x27;);&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="第五步-处理查询结果集"><a href="#第五步-处理查询结果集" class="headerlink" title="第五步 处理查询结果集"></a>第五步 处理查询结果集</h3><p>只有当第四步执行的是select语句的时候，才有这第五步处理查询结果集。</p>
+<h3 id="第六步-释放资源"><a href="#第六步-释放资源" class="headerlink" title="第六步 释放资源"></a>第六步 释放资源</h3><p>使用完资源之后一定要关闭资源，java和数据库属于进程间的通信，开启之后一定要关闭。并且要遵循从小到大依次关闭，分别对其try…catch</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">stmt.close();</span><br><span class="line">conn.close();</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="JDBC-执行删除与更新"><a href="#JDBC-执行删除与更新" class="headerlink" title="JDBC 执行删除与更新"></a>JDBC 执行删除与更新</h1><h3 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.sql.Driver;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.Statement;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LearnJdbc</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="type">Statement</span> <span class="variable">stmt</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// 注册驱动</span></span><br><span class="line">      <span class="type">Driver</span> <span class="variable">driver</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">com</span>.mysql.cj.jdbc.Driver();</span><br><span class="line">      DriverManager.registerDriver(driver);</span><br><span class="line">      <span class="comment">// 连接数据库</span></span><br><span class="line">      <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;jdbc:mysql://localhost:3306/upyou_database&quot;</span>;</span><br><span class="line">      <span class="type">String</span> <span class="variable">user</span> <span class="operator">=</span> <span class="string">&quot;root&quot;</span>;</span><br><span class="line">      <span class="type">String</span> <span class="variable">pass</span> <span class="operator">=</span> <span class="string">&quot;123456&quot;</span>;</span><br><span class="line">      conn = DriverManager.getConnection(url, user, pass); </span><br><span class="line">      <span class="comment">// 获取数据库操作对象</span></span><br><span class="line">      stmt = conn.createStatement(); </span><br><span class="line">      <span class="comment">// 执行DQL语句</span></span><br><span class="line">      <span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;delete from dept where deptno = 413&quot;</span>;</span><br><span class="line">      <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> stmt.executeUpdate(sql);</span><br><span class="line">      <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;删除成功&quot;</span>);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;删除失败&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      <span class="comment">// 释放资源</span></span><br><span class="line">      <span class="keyword">if</span> (stmt != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          stmt.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (conn != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          conn.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="update"><a href="#update" class="headerlink" title="update"></a>update</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.Driver;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.sql.Statement;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LearnJdbc</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="type">Statement</span> <span class="variable">stmt</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// 注册驱动</span></span><br><span class="line">      <span class="type">Driver</span> <span class="variable">driver</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">com</span>.mysql.cj.jdbc.Driver();</span><br><span class="line">      DriverManager.registerDriver(driver);</span><br><span class="line">      <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;jdbc:mysql://localhost:3306/upyou_database&quot;</span>;</span><br><span class="line">      <span class="type">String</span> <span class="variable">user</span> <span class="operator">=</span> <span class="string">&quot;root&quot;</span>;</span><br><span class="line">      <span class="type">String</span> <span class="variable">pass</span> <span class="operator">=</span> <span class="string">&quot;123456&quot;</span>;</span><br><span class="line">      <span class="comment">// 获取数据库连接</span></span><br><span class="line">      conn = DriverManager.getConnection(url, user, pass);</span><br><span class="line">      <span class="comment">// 获取数据库操作对象</span></span><br><span class="line">      stmt = conn.createStatement();</span><br><span class="line">      <span class="comment">// 执行DQL语句</span></span><br><span class="line">      <span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;update dept set dname = &#x27;UpYou那并不存在的妹妹！&#x27;, deptno = 1 where deptno = 301&quot;</span>;</span><br><span class="line">      <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> stmt.executeUpdate(sql);</span><br><span class="line">      <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;修改成功！&quot;</span>);</span><br><span class="line">      &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;修改失败！&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (stmt != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          stmt.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (conn != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          conn.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="类加载的方式注册驱动"><a href="#类加载的方式注册驱动" class="headerlink" title="类加载的方式注册驱动"></a>类加载的方式注册驱动</h1><h3 id="第一种注册方式"><a href="#第一种注册方式" class="headerlink" title="第一种注册方式"></a>第一种注册方式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DriverManager.registerDriver(<span class="keyword">new</span> <span class="title class_">com</span>.mysql.cj.jdbc.Driver());</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="第二种注册方式"><a href="#第二种注册方式" class="headerlink" title="第二种注册方式"></a>第二种注册方式</h3><p>在mysql的jdbc驱动中已尽帮我们实现了驱动的注册</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Driver</span> <span class="keyword">extends</span> <span class="title class_">NonRegisteringDriver</span> <span class="keyword">implements</span> <span class="title class_">java</span>.sql.Driver &#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// Register ourselves with the DriverManager</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            java.sql.DriverManager.registerDriver(<span class="keyword">new</span> <span class="title class_">Driver</span>());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException E) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;Can&#x27;t register driver!&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们只需要让这个类实现类加载就好，这种方式是常用的，因为参数是一个字符串，字符串可以写到xxx.properties文件中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class.froName(<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="处理查询结果集"><a href="#处理查询结果集" class="headerlink" title="处理查询结果集"></a>处理查询结果集</h1><p>executeQuery(String sql); 返回一个ResultSet对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;select * from emp;&quot;</span>;</span><br><span class="line"><span class="type">ResultSet</span> <span class="variable">result</span> <span class="operator">=</span> stmt.executeQuery(sql);</span><br></pre></td></tr></table></figure>
+
+<p>ResultSet的用法类似于Map集合的迭代器，next();方法变动迭代器指针位置，有数据返回true，没有数据返回false</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">boolean</span> <span class="variable">rn</span> <span class="operator">=</span> result.next();<span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="getString"><a href="#getString" class="headerlink" title="getString"></a>getString</h3><p>getString方法的特点是：不管数据库中的数据类型是什么，都以String的形式取出。其中参数可以是列的下标，也可以是列名，在jdbc中，下标是从1开始</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (rn) &#123;</span><br><span class="line">  System.out.println(result.getString(<span class="string">&quot;ename&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>– <code>SMITH</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (rn) &#123;</span><br><span class="line">  System.out.println(result.getString(<span class="number">2</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>– <code>SMITH</code></p>
+<blockquote>
+<p>列名不是表中的列名，而是查询结果集的列名。</p>
+</blockquote>
+<h1 id="解决SQL注入问题"><a href="#解决SQL注入问题" class="headerlink" title="解决SQL注入问题"></a>解决SQL注入问题</h1><h3 id="导致SQL注入的根本原因是什么？"><a href="#导致SQL注入的根本原因是什么？" class="headerlink" title="导致SQL注入的根本原因是什么？"></a>导致SQL注入的根本原因是什么？</h3><p>用户输入的信息中含有SQL语句的关键字，并且这些关键字参与了SQL语句编译的过程。导致SQL语句的原意被扭曲，进而达到SQL注入</p>
+<h3 id="解决SQL注入"><a href="#解决SQL注入" class="headerlink" title="解决SQL注入"></a>解决SQL注入</h3><p>只要用户的输入信息不参与SQL语句的编译过程，问题就解决了。即使用户输入的信息含有SQL语句的关键字，但是没有参与编译所以不起作用。</p>
+<p>要想用户信息不参与SQL语句的编译，那么必须使用：<code>java.sql.PreparedStatement</code>，而不再是原来的：<code>java.sql.Statement</code>,PreparedStatement接口继承了<code>java.sql.Statement</code>接口。</p>
+<p>PreparedStatement是属于与编译的数据库操作对象。他的原理是：预先对SQL语句框架进行预编译，然后再给SQL语句传“值”。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>PreparedStatement的使用方式与Statement的使用方式不变，只是将SQL语句中的“值”替换成**”?”**这是一个占位符，这不是一个有效值。值需要通过set的方式进行设置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"><span class="type">PreparedStatement</span> <span class="variable">ps</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">ResultSet rs</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 注册驱动</span></span><br><span class="line">    <span class="type">Driver</span> <span class="variable">driver</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">com</span>.mysql.cj.jdbc.Driver();</span><br><span class="line">    DriverManager.registerDriver(driver);</span><br><span class="line">    <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;jdbc:mysql://localhost:3306/upyou_database&quot;</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">user</span> <span class="operator">=</span> <span class="string">&quot;root&quot;</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">pass</span> <span class="operator">=</span> <span class="string">&quot;123456&quot;</span>;</span><br><span class="line">    <span class="comment">// 获取数据库连接</span></span><br><span class="line">    conn = DriverManager.getConnection(url, user, pass);</span><br><span class="line">    <span class="comment">// 获取预编译的数据库操作对象</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;select empno, ename from emp where empno = ? and ename = ?&quot;</span>;</span><br><span class="line">    ps = conn.prepareStatement(sql);</span><br><span class="line">    <span class="comment">// 执行DQL语句</span></span><br><span class="line">    ps.setInt(<span class="number">1</span>, <span class="number">7369</span>);</span><br><span class="line">    ps.setString(<span class="number">2</span>, <span class="string">&quot;SMITH&quot;</span>);</span><br><span class="line">    rs = ps.executeQuery();</span><br><span class="line">    <span class="keyword">if</span>(rs.next()) &#123;</span><br><span class="line">      System.out.println(rs.getString(<span class="string">&quot;empno&quot;</span>));</span><br><span class="line">      System.out.println(rs.getString(<span class="string">&quot;ename&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;<span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (rs != <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        rs.close();</span><br><span class="line">      &#125; <span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ps != <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        ps.close();</span><br><span class="line">      &#125; <span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (conn != <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        conn.close();</span><br><span class="line">      &#125; <span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>– <code>7369</code><br>–  <code>SMITH</code></p>
+<h1 id="PreparedStatement对比Statement"><a href="#PreparedStatement对比Statement" class="headerlink" title="PreparedStatement对比Statement"></a>PreparedStatement对比Statement</h1><ul>
+<li>Statement 存在SQL注入问题PreparedStatement解决了SQL注入问题。</li>
+<li>Statement 编译一次执行一次，PreparedStatement编译一次执行N次。PreparedStatement效率较高一些。</li>
+<li>PreparedStatement会在编译阶段做类型的安全检查。</li>
+</ul>
+<p>综上所述，PreparedStatement使用较多，只要极少数情况下需要使用Statement：</p>
+<ul>
+<li>业务方面要求必须要支持SQL注入</li>
+<li>Statement支持SQL注入，凡是业务方面要求是需要进行SQL语句拼接的，必须使用Statement</li>
+</ul>
+<h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><ol>
+<li>JDBC中的事务是自动提交的。什么是自动提交？<br>自动提交是子要执行任意一条DML语句，则自动提交一次。这是JDBC默认的事务行为。但是在实际的业务当中，通常都是N条DML语句共同联合才能完成的，必须保证他们这些DML语句在同一个事务中同时成功或同时失败。</li>
+</ol>
+<h3 id="禁止自动提交"><a href="#禁止自动提交" class="headerlink" title="禁止自动提交"></a>禁止自动提交</h3><p>void setAutoCommit(boolean autoCommit); 设置JDBC的自动事物提交，当autoCommit参数为true时表示启用自动提交模式，为false表示禁用自动提交模式。这也叫做开启事务。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conn.setAutoCommit(<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="提交事务"><a href="#提交事务" class="headerlink" title="提交事务"></a>提交事务</h3><p>禁用事务的自动提交之后，我们需要手动将事务提交。当程序执行成功后调用commit方法将事务提交上去。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conn.commit();</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="回滚事务"><a href="#回滚事务" class="headerlink" title="回滚事务"></a>回滚事务</h3><p>如果程序执行出错，那么你需要将事务回滚而不是进行提交</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125; <span class="keyword">catch</span> (...) &#123;</span><br><span class="line">  <span class="keyword">if</span> (conn != <span class="literal">null</span>) &#123;</span><br><span class="line">    conn.rollback();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h1><p>如果在一个普通SQL语句后面加上一个<code>for update</code>，这个就是行级锁。表示在这条语句的执行过程中，<code>job = &#39;MANAGER&#39;</code>的这些记录被锁住了，别的事物没有办法对这些记录进行修改。这也被称为悲观锁。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> job <span class="operator">=</span> <span class="string">&#x27;MANAGER&#x27;</span> <span class="keyword">for</span> <span class="keyword">update</span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>事务必须排队执行，数据被锁住了，不允许并发。</p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="JDBC学习笔记" target="_blank" rel="external">https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/JDBC学习笔记/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/clover-you/clover_blog_hexo.git/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/clover-you/clover_blog_hexo.git/2022/01/02/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="React学习笔记"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/clover-you/clover_blog_hexo.git/2022/01/02/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="MySQL学习笔记"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/clover-you/clover_blog_hexo.git/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/clover-you/clover_blog_hexo.git/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/clover-you/clover_blog_hexo.git/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/clover-you/clover_blog_hexo.git/js/plugin.min.js"></script>
+
+
+<script src="/clover-you/clover_blog_hexo.git/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/clover-you/clover_blog_hexo.git/',
+        CONTENT_URL: '/clover-you/clover_blog_hexo.git/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/clover-you/clover_blog_hexo.git/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

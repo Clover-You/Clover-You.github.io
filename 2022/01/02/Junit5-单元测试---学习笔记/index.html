@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Junit5 单元测试 - 学习笔记 | Hexo</title>
+  <meta name="description" content="在SpringBoot2.2.0+开始引入Junit5 作为单元测试默认库  JUnit5 &#x3D; JUnit Platform + JUnit Jupiter + JUnit Vintage  JUnit Plaform 是在JVM上启动测试框架的基础，不仅支持Junit自制的测试引擎，其它测试引擎也都可以接入。 JUnit Jupiter 提供了JUnit5 的新的编程模型，时JUnit">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Junit5 单元测试 - 学习笔记">
+<meta property="og:url" content="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="在SpringBoot2.2.0+开始引入Junit5 作为单元测试默认库  JUnit5 &#x3D; JUnit Platform + JUnit Jupiter + JUnit Vintage  JUnit Plaform 是在JVM上启动测试框架的基础，不仅支持Junit自制的测试引擎，其它测试引擎也都可以接入。 JUnit Jupiter 提供了JUnit5 的新的编程模型，时JUnit">
+<meta property="og:locale">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271054568.png">
+<meta property="article:published_time" content="2022-01-02T10:13:28.000Z">
+<meta property="article:modified_time" content="2022-02-14T23:13:48.649Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="Junit">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/202112271054568.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/clover-you/clover_blog_hexo.git/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/clover-you/clover_blog_hexo.git/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">昵称</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/clover-you/clover_blog_hexo.git/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/clover-you/clover_blog_hexo.git/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/clover-you/clover_blog_hexo.git/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/clover-you/clover_blog_hexo.git/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/clover-you/clover_blog_hexo.git/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/clover-you/clover_blog_hexo.git/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/clover-you/clover_blog_hexo.git/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/clover-you/clover_blog_hexo.git/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/clover-you/clover_blog_hexo.git/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a><span class="category-list-count">42</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/MySQL/">MySQL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/React/">React</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%B0%8F%E7%8E%A9%E6%84%8F/">小玩意</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">25</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">77</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Junit/" rel="tag">Junit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Maven/" rel="tag">Maven</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/React/" rel="tag">React</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Session/" rel="tag">Session</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" rel="tag">SpringCloud</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" rel="tag">SpringMvc</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringSession/" rel="tag">SpringSession</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/js/" rel="tag">js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/ts/" rel="tag">ts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" rel="tag">原理解析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a><span class="tag-list-count">55</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/clover-you/clover_blog_hexo.git/tags/JAVA/" style="font-size: 14px;">JAVA</a> <a href="/clover-you/clover_blog_hexo.git/tags/JavaScript/" style="font-size: 13.4px;">JavaScript</a> <a href="/clover-you/clover_blog_hexo.git/tags/Junit/" style="font-size: 13px;">Junit</a> <a href="/clover-you/clover_blog_hexo.git/tags/Maven/" style="font-size: 13px;">Maven</a> <a href="/clover-you/clover_blog_hexo.git/tags/MySQL/" style="font-size: 13.4px;">MySQL</a> <a href="/clover-you/clover_blog_hexo.git/tags/React/" style="font-size: 13.2px;">React</a> <a href="/clover-you/clover_blog_hexo.git/tags/Redis/" style="font-size: 13.3px;">Redis</a> <a href="/clover-you/clover_blog_hexo.git/tags/SQL/" style="font-size: 13.4px;">SQL</a> <a href="/clover-you/clover_blog_hexo.git/tags/Session/" style="font-size: 13.1px;">Session</a> <a href="/clover-you/clover_blog_hexo.git/tags/Spring/" style="font-size: 13.7px;">Spring</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" style="font-size: 13.5px;">SpringBoot</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" style="font-size: 13.4px;">SpringCloud</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" style="font-size: 13.6px;">SpringMvc</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringSession/" style="font-size: 13.1px;">SpringSession</a> <a href="/clover-you/clover_blog_hexo.git/tags/TypeScript/" style="font-size: 13.4px;">TypeScript</a> <a href="/clover-you/clover_blog_hexo.git/tags/Vue/" style="font-size: 13.1px;">Vue</a> <a href="/clover-you/clover_blog_hexo.git/tags/js/" style="font-size: 13px;">js</a> <a href="/clover-you/clover_blog_hexo.git/tags/ts/" style="font-size: 13px;">ts</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.1px;">前端</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" style="font-size: 13px;">原理解析</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 13.9px;">学习笔记</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 13.3px;">微服务</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.8px;">随笔</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/clover-you/clover_blog_hexo.git/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/clover-you/clover_blog_hexo.git/archives/2022/01/">January 2022</a><span class="archive-list-count">88</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/02/15/SpringSession-%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" class="title">SpringSession 基本原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-02-14T22:12:21.000Z" itemprop="datePublished">2022-02-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/" class="title">分布式下Session共享</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-02-14T15:22:52.000Z" itemprop="datePublished">2022-02-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/31/Java-%E5%9B%9B%E5%A4%A7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/" class="title">Java 四大函数式接口</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-30T19:25:01.000Z" itemprop="datePublished">2022-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/23/Java-JUC---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="title">Java JUC - 学习笔记</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-23T15:55:00.000Z" itemprop="datePublished">2022-01-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/23/java%E4%BD%BF%E7%94%A8replace%E6%97%B6%E4%B8%AD%E6%96%87%E8%A2%ABURL%E7%BC%96%E7%A0%81%E5%AF%BC%E8%87%B4%E6%97%A0%E6%95%88%E8%A7%A3%E5%86%B3/" class="title">java使用replace时中文被URL编码导致无效解决</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-23T09:53:00.000Z" itemprop="datePublished">2022-01-23</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Junit5-单元测试---学习笔记" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Junit5 单元测试 - 学习笔记
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/clover-you/clover_blog_hexo.git/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+	  <time datetime="2022-01-02T10:13:28.000Z" itemprop="datePublished">2022-01-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/Junit/" rel="tag">Junit</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>在SpringBoot2.2.0+开始引入Junit5 作为单元测试默认库</p>
+<blockquote>
+<p>JUnit5 &#x3D; JUnit Platform + JUnit Jupiter + JUnit Vintage</p>
+</blockquote>
+<p><strong>JUnit Plaform</strong> 是在JVM上启动测试框架的基础，不仅支持Junit自制的测试引擎，其它测试引擎也都可以接入。</p>
+<p><strong>JUnit Jupiter</strong> 提供了JUnit5 的新的编程模型，时JUnit5 新特性的核心。内部包含了一个<strong>测试引擎</strong>，用于在Junit Platform上运行。</p>
+<p><strong>JUnit Vintage</strong> 为老版本提供了兼容。</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271054568.png" alt="截屏2021-07-11 21.38.27"></p>
+<p>在创建SpringBoot项目的时候，会自动引入junit 5并帮我们自动配好</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ctong.learnspringboot;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.jupiter.api.Test;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">LearnSpringBootApplicationTests</span> &#123;</span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">contextLoads</span><span class="params">()</span> &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在SpringBoot2.4中，移除了Junit Vintage，也就是说我们无法兼容3、4的版本，如果需要继续兼容需要手动加入Junit Vintage依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.junit.vintage<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit-vintage-engine<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.hamcrest<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hamcrest-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>在SpringBoot整合Junit后，</p>
+<ul>
+<li>编写测试方法时需要使用<code>@Test</code>标注，需要使用<strong>Junit5</strong>版本的注解</li>
+<li>Junit类具有Spring的功能，例如<code>@Autowired</code>、<code>@Transactional</code></li>
+</ul>
+<h2 id="Junit5-常用注解"><a href="#Junit5-常用注解" class="headerlink" title="Junit5 常用注解"></a>Junit5 常用注解</h2><p><a target="_blank" rel="noopener" href="https://junit.org/junit5/docs/current/user-guide/">JUnit5官方文档</a></p>
+<blockquote>
+<p>JUnit5 的注解和Junit4的注解有所变化</p>
+</blockquote>
+<ul>
+<li><code>@Test</code>表示方法是测试方法，但是与Junit4的<code>@Test</code>不同，他的职责非常单一，不能声明任何属性，拓展的测试将会由Jupiter提供额外测试</li>
+<li><code>@ParameterizedTest</code>  表示方法是参数化测试</li>
+<li><code>@DisplayName</code> 为测试类或测试方法设置展示名称</li>
+<li><code>@BeforeEach</code> 在每个单元测试之前执行</li>
+<li><code>@AfterEach</code> 在每个单元测试之后执行</li>
+<li><code>@BeforeAll</code> 在所有单元测试开始之前执行</li>
+<li><code>@AfterAll</code> 在所有单元测试结束之后执行</li>
+<li><code>@Tag</code> 给单元测试进行分类，类似JUnit4中的<code>@Categories</code></li>
+<li><code>Disabled</code> 表示当前测试方法不执行，类似JUnit4中的<code>@Ignore</code> </li>
+<li><code>@RepeatedTest</code> 重复执行当前测试方法</li>
+</ul>
+<h2 id="断言-（assertions）"><a href="#断言-（assertions）" class="headerlink" title="断言 （assertions）"></a>断言 （assertions）</h2><p> 断言（assertions）是测试方法中的核心部分，用来对测试需要满足的条件进行验证。这些断言方法都是<strong>org.junit.jupiter.api.Assertions</strong>的静态方法。Junit5内置的断言可以分成如下几个类别：</p>
+<blockquote>
+<p>检查业务逻辑返回的数据是否合理。</p>
+</blockquote>
+<h3 id="简单断言"><a href="#简单断言" class="headerlink" title="简单断言"></a>简单断言</h3><p>用来对单个值进行简单的验证</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>assertEquals</td>
+<td>判断两个对象或两个原始类型</td>
+</tr>
+<tr>
+<td>assertNotEquals</td>
+<td>判断两个对象或两个原始类型是否不相等</td>
+</tr>
+<tr>
+<td>assertSame</td>
+<td>判断两个对象引用是否指向同一个对象</td>
+</tr>
+<tr>
+<td>assertNotSame</td>
+<td>判断两个对象引用是否指向不同的对象</td>
+</tr>
+<tr>
+<td>assertTrue</td>
+<td>判断给定的布尔值是否为true</td>
+</tr>
+<tr>
+<td>assertFalse</td>
+<td>判断给定的布尔值是否为false</td>
+</tr>
+<tr>
+<td>assertNull</td>
+<td>判断给定的对象引用是否为null</td>
+</tr>
+<tr>
+<td>assertNotNull</td>
+<td>判断给定的对象引用是否不为null</td>
+</tr>
+</tbody></table>
+<p><strong>简单示例</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;测试简单断言&quot;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testSimpleAssertions</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> cal(<span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">  Assertions.assertEquals(<span class="number">3</span>, result, <span class="string">&quot;期望的测试结果为3， 但最终结果是：&quot;</span> + result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">org.opentest4j.AssertionFailedError: 期望的测试结果为<span class="number">3</span>， 但最终结果是：<span class="number">4</span> ==&gt; </span><br><span class="line">Expected :<span class="number">3</span></span><br><span class="line">Actual   :<span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="数组断言"><a href="#数组断言" class="headerlink" title="数组断言"></a>数组断言</h3><p><code>assertArrayEquals</code>方法用来判断两个对象或原始类型的数组是否相等</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;数组断言&quot;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testArrayAssertions</span><span class="params">()</span> &#123;</span><br><span class="line">  Assertions.assertArrayEquals(<span class="keyword">new</span> <span class="title class_">int</span>[] &#123;<span class="number">1</span>, <span class="number">2</span>&#125;, <span class="keyword">new</span> <span class="title class_">int</span>[] &#123;<span class="number">2</span>, <span class="number">3</span>&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">org.opentest4j.AssertionFailedError: array contents differ at index [<span class="number">0</span>], expected: &lt;<span class="number">1</span>&gt; but was: &lt;<span class="number">2</span>&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="组合断言"><a href="#组合断言" class="headerlink" title="组合断言"></a>组合断言</h3><p><code>assertAll</code>方法接受多个<code>org.junit.jupiter.api.function.Executable</code>函数式借口的实例作为要验证的断言，可以通过lambada表达式很容易的提供这些断言</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;组合断言&quot;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testAssertAll</span><span class="params">()</span> &#123;</span><br><span class="line">  Assertions.assertAll(<span class="string">&quot;test&quot;</span>,</span><br><span class="line">                       () -&gt; Assertions.assertTrue(<span class="literal">true</span>),</span><br><span class="line">                       () -&gt; Assertions.assertEquals(<span class="number">1</span>, <span class="number">1</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="异常断言"><a href="#异常断言" class="headerlink" title="异常断言"></a>异常断言</h3><p>在Junit4时期，想要测试方法的异常情况时， 需要用<code>@Rule</code>注解的Eexpected Exception变量还是比较麻烦的。而JUnit5提供了一种新的断言方式<code>Assertions.assertThrows()</code>配合函数式编程就可以进行使用。(业务逻辑不抛出异常断言就失败…)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;异常断言&quot;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testException</span><span class="params">()</span> &#123;</span><br><span class="line">  Assertions.assertThrows(ArithmeticException.class, ()-&gt; &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">10</span> / <span class="number">0</span>;</span><br><span class="line">  &#125;, <span class="string">&quot;因为太过正常导致与他们格格不入~~~&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="超时断言"><a href="#超时断言" class="headerlink" title="超时断言"></a>超时断言</h3><p><code>@Timeout</code> 当前测试方法运行如果超过了指定的时间测试将会不通过</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="meta">@Timeout(value = 500, unit = TimeUnit.MILLISECONDS)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testTimeout</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">  log.info(<span class="string">&quot;执行了test timeout方法...&quot;</span>);</span><br><span class="line">  Thread.sleep(<span class="number">600</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.util.concurrent.TimeoutException: testTimeout() timed out after <span class="number">500</span> milliseconds</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="快速失败"><a href="#快速失败" class="headerlink" title="快速失败"></a>快速失败</h3><p>能够使一个单元测试快速失败</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;快速失败&quot;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testFail</span><span class="params">()</span> &#123;</span><br><span class="line">  Assertions.fail(<span class="string">&quot;测试失败&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="前置条件（assumptions）"><a href="#前置条件（assumptions）" class="headerlink" title="前置条件（assumptions）"></a>前置条件（assumptions）</h2><p>JUnit5中的潜质条件（assumptions【假设】）类似于断言，不同之处在于<strong>不满足的断言会使得测试方法失败，而不满足的前置条件只会使得测试方法的执行终止</strong>。前置条件可以看成是测试方法执行的前提，当前提不满足时，就没有继续执行的必要。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;assumptions 前置条件&quot;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testAssumptions</span><span class="params">()</span> &#123;</span><br><span class="line">  Assumptions.assumeTrue(<span class="literal">false</span>, <span class="string">&quot;结果不为true&quot;</span>);</span><br><span class="line">  log.info(<span class="string">&quot;前置条件方法体执行...&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="嵌套测试"><a href="#嵌套测试" class="headerlink" title="嵌套测试"></a>嵌套测试</h3><p>JUnit5可以通过Java中的内部类和<code>@Nested</code>注解实现嵌套测试，从而可以更好的把相关方法组织在一起。在内部类中可以使用<code>@BeforeEach</code>和<code>@AfterEach</code>注解，而且嵌套的层次没有限制。</p>
+<blockquote>
+<p>嵌套测试的情况下，外层的Test不能驱动内层的Before(After)Each&#x2F;All之类的方法。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DisplayName(&quot;嵌套测试&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestingAStack</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">8946641935343845060L</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">TestingAStack</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 防止存在一个或多个有参构造器时反射通过无参构造起实例化发生异常</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  Stack&lt;Object&gt; stack;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="meta">@DisplayName(&quot;is instantiated with new Stack()&quot;)</span></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">isInstantiatedWithNew</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Nested</span></span><br><span class="line">  <span class="meta">@DisplayName(&quot;when new&quot;)</span></span><br><span class="line">  <span class="keyword">class</span> <span class="title class_">WhenNew</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@BeforeEach</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">createNewStack</span><span class="params">()</span> &#123;</span><br><span class="line">      stack = <span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="meta">@DisplayName(&quot;is empty&quot;)</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">isEmpty</span><span class="params">()</span> &#123;</span><br><span class="line">      assertTrue(stack.isEmpty());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="meta">@DisplayName(&quot;throws EmptyStackException when popped&quot;)</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">throwsExceptionWhenPopped</span><span class="params">()</span> &#123;</span><br><span class="line">      assertThrows(EmptyStackException.class, stack::pop);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="meta">@DisplayName(&quot;throws EmptyStackException when peeked&quot;)</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">throwsExceptionWhenPeeked</span><span class="params">()</span> &#123;</span><br><span class="line">      assertThrows(EmptyStackException.class, stack::peek);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nested</span></span><br><span class="line">    <span class="meta">@DisplayName(&quot;after pushing an element&quot;)</span></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">AfterPushing</span> &#123;</span><br><span class="line"></span><br><span class="line">      <span class="type">String</span> <span class="variable">anElement</span> <span class="operator">=</span> <span class="string">&quot;an element&quot;</span>;</span><br><span class="line"></span><br><span class="line">      <span class="meta">@BeforeEach</span></span><br><span class="line">      <span class="keyword">void</span> <span class="title function_">pushAnElement</span><span class="params">()</span> &#123;</span><br><span class="line">        stack.push(anElement);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="meta">@Test</span></span><br><span class="line">      <span class="meta">@DisplayName(&quot;it is no longer empty&quot;)</span></span><br><span class="line">      <span class="keyword">void</span> <span class="title function_">isNotEmpty</span><span class="params">()</span> &#123;</span><br><span class="line">        assertFalse(stack.isEmpty());</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="meta">@Test</span></span><br><span class="line">      <span class="meta">@DisplayName(&quot;returns the element when popped and is empty&quot;)</span></span><br><span class="line">      <span class="keyword">void</span> <span class="title function_">returnElementWhenPopped</span><span class="params">()</span> &#123;</span><br><span class="line">        assertEquals(anElement, stack.pop());</span><br><span class="line">        assertTrue(stack.isEmpty());</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="meta">@Test</span></span><br><span class="line">      <span class="meta">@DisplayName(&quot;returns the element when peeked but remains not empty&quot;)</span></span><br><span class="line">      <span class="keyword">void</span> <span class="title function_">returnElementWhenPeeked</span><span class="params">()</span> &#123;</span><br><span class="line">        assertEquals(anElement, stack.peek());</span><br><span class="line">        assertFalse(stack.isEmpty());</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参数化测试"><a href="#参数化测试" class="headerlink" title="参数化测试"></a>参数化测试</h2><p>参数化测试是JUnit5很重要的一个特性，它使得用不同的参数多次运行测试成为了可能，也为我门的单元测试带来许多便利。</p>
+<p>利用<code>@ValueSource</code>等注解，指定入参，我们将可以使用不同的参数进行多次单元测试，而不需要每新增一个参数就新增一个单元测试，省去了很多冗余代码。</p>
+<p><code>@ValueSource</code> 为参数化测试指定入参来源，支持八大基础类以及String类型，Class类型</p>
+<p><code>@NullSource</code>表示为参数测试提供一个null的入惨</p>
+<p><code>@EnumSource</code> 表示为参数化测试提供一个枚举入参</p>
+<p><code>@CsvFileSource</code> 表示读取指定CSV文件内容作为参数化测试入参</p>
+<p><code>@MethodSource</code> 表示读取指定方法的返回值作为参数化测试入参「返回方法需要是一个流」</p>
+<blockquote>
+<p>参数化测试之所以强大是因为它可以支持外部的各类入参，如：CSV、YML、JSON文件甚至方法的返回值也可以作为入参。只需要去实现Arguments Provider接口，任何外部文件都可以作为他的入参。</p>
+</blockquote>
+<h3 id="ValueSource"><a href="#ValueSource" class="headerlink" title="ValueSource"></a>ValueSource</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ParameterizedTest</span></span><br><span class="line"><span class="meta">@ValueSource(ints = &#123;1, 2, 3, 4, 5&#125;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testParameterized</span><span class="params">(<span class="type">int</span> i)</span> &#123;</span><br><span class="line">  log.info(<span class="string">&quot;当前i的值是: &#123;&#125;&quot;</span>, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="MethodSource"><a href="#MethodSource" class="headerlink" title="MethodSource"></a>MethodSource</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ParameterizedTest</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;方法参数化测试&quot;)</span></span><br><span class="line"><span class="meta">@MethodSource(&quot;stringProvider&quot;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testStreamParameterized</span><span class="params">(String str)</span> &#123;</span><br><span class="line">  log.info(<span class="string">&quot;方法参数化测试的值：&#123;&#125;&quot;</span>, str);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> Stream&lt;String&gt; <span class="title function_">stringProvider</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> Stream.of(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="Junit5 单元测试 - 学习笔记" target="_blank" rel="external">https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/02/Junit5-单元测试---学习笔记/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/clover-you/clover_blog_hexo.git/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/clover-you/clover_blog_hexo.git/2022/01/02/%E5%88%9D%E5%AD%A6MyBatis%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89Error-querying-database/" title="初学MyBatis（踩坑）Error querying database"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/clover-you/clover_blog_hexo.git/2022/01/02/MyBatis---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="MyBatis - 学习笔记"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/clover-you/clover_blog_hexo.git/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/clover-you/clover_blog_hexo.git/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/clover-you/clover_blog_hexo.git/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/clover-you/clover_blog_hexo.git/js/plugin.min.js"></script>
+
+
+<script src="/clover-you/clover_blog_hexo.git/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/clover-you/clover_blog_hexo.git/',
+        CONTENT_URL: '/clover-you/clover_blog_hexo.git/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/clover-you/clover_blog_hexo.git/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

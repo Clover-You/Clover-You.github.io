@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Redisson 配置附带官方关于锁的文档 | Hexo</title>
+  <meta name="description" content="Redisson是一个在Redis的基础上实现的Java驻内存数据网格（In-Memory Data Grid）。它不仅提供了一系列的分布式的Java常用对象，还提供了许多分布式服务。其中包括(BitSet, Set, Multimap, SortedSet, Map, List, Queue, BlockingQueue, Deque, BlockingDeque, Semaphore, Lo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redisson 配置附带官方关于锁的文档">
+<meta property="og:url" content="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/04/Redisson-%E9%85%8D%E7%BD%AE%E9%99%84%E5%B8%A6%E5%AE%98%E6%96%B9%E5%85%B3%E4%BA%8E%E9%94%81%E7%9A%84%E6%96%87%E6%A1%A3/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="Redisson是一个在Redis的基础上实现的Java驻内存数据网格（In-Memory Data Grid）。它不仅提供了一系列的分布式的Java常用对象，还提供了许多分布式服务。其中包括(BitSet, Set, Multimap, SortedSet, Map, List, Queue, BlockingQueue, Deque, BlockingDeque, Semaphore, Lo">
+<meta property="og:locale">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top//note/images/202201061000373.gif">
+<meta property="article:published_time" content="2022-01-04T08:42:00.000Z">
+<meta property="article:modified_time" content="2022-02-14T23:13:52.555Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="微服务">
+<meta property="article:tag" content="Redis">
+<meta property="article:tag" content="SpringCloud">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top//note/images/202201061000373.gif">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/04/Redisson-%E9%85%8D%E7%BD%AE%E9%99%84%E5%B8%A6%E5%AE%98%E6%96%B9%E5%85%B3%E4%BA%8E%E9%94%81%E7%9A%84%E6%96%87%E6%A1%A3/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/clover-you/clover_blog_hexo.git/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/clover-you/clover_blog_hexo.git/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">昵称</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/clover-you/clover_blog_hexo.git/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/clover-you/clover_blog_hexo.git/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/clover-you/clover_blog_hexo.git/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/clover-you/clover_blog_hexo.git/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/clover-you/clover_blog_hexo.git/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/clover-you/clover_blog_hexo.git/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/clover-you/clover_blog_hexo.git/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/clover-you/clover_blog_hexo.git/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/clover-you/clover_blog_hexo.git/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a><span class="category-list-count">42</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/MySQL/">MySQL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/React/">React</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%B0%8F%E7%8E%A9%E6%84%8F/">小玩意</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">25</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">77</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Junit/" rel="tag">Junit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Maven/" rel="tag">Maven</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/React/" rel="tag">React</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Session/" rel="tag">Session</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" rel="tag">SpringCloud</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" rel="tag">SpringMvc</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringSession/" rel="tag">SpringSession</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/js/" rel="tag">js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/ts/" rel="tag">ts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" rel="tag">原理解析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a><span class="tag-list-count">55</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/clover-you/clover_blog_hexo.git/tags/JAVA/" style="font-size: 14px;">JAVA</a> <a href="/clover-you/clover_blog_hexo.git/tags/JavaScript/" style="font-size: 13.4px;">JavaScript</a> <a href="/clover-you/clover_blog_hexo.git/tags/Junit/" style="font-size: 13px;">Junit</a> <a href="/clover-you/clover_blog_hexo.git/tags/Maven/" style="font-size: 13px;">Maven</a> <a href="/clover-you/clover_blog_hexo.git/tags/MySQL/" style="font-size: 13.4px;">MySQL</a> <a href="/clover-you/clover_blog_hexo.git/tags/React/" style="font-size: 13.2px;">React</a> <a href="/clover-you/clover_blog_hexo.git/tags/Redis/" style="font-size: 13.3px;">Redis</a> <a href="/clover-you/clover_blog_hexo.git/tags/SQL/" style="font-size: 13.4px;">SQL</a> <a href="/clover-you/clover_blog_hexo.git/tags/Session/" style="font-size: 13.1px;">Session</a> <a href="/clover-you/clover_blog_hexo.git/tags/Spring/" style="font-size: 13.7px;">Spring</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" style="font-size: 13.5px;">SpringBoot</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" style="font-size: 13.4px;">SpringCloud</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" style="font-size: 13.6px;">SpringMvc</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringSession/" style="font-size: 13.1px;">SpringSession</a> <a href="/clover-you/clover_blog_hexo.git/tags/TypeScript/" style="font-size: 13.4px;">TypeScript</a> <a href="/clover-you/clover_blog_hexo.git/tags/Vue/" style="font-size: 13.1px;">Vue</a> <a href="/clover-you/clover_blog_hexo.git/tags/js/" style="font-size: 13px;">js</a> <a href="/clover-you/clover_blog_hexo.git/tags/ts/" style="font-size: 13px;">ts</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.1px;">前端</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" style="font-size: 13px;">原理解析</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 13.9px;">学习笔记</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 13.3px;">微服务</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.8px;">随笔</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/clover-you/clover_blog_hexo.git/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/clover-you/clover_blog_hexo.git/archives/2022/01/">January 2022</a><span class="archive-list-count">88</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/02/15/SpringSession-%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" class="title">SpringSession 基本原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-02-14T22:12:21.000Z" itemprop="datePublished">2022-02-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/" class="title">分布式下Session共享</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-02-14T15:22:52.000Z" itemprop="datePublished">2022-02-14</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/31/Java-%E5%9B%9B%E5%A4%A7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/" class="title">Java 四大函数式接口</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-30T19:25:01.000Z" itemprop="datePublished">2022-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/23/Java-JUC---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="title">Java JUC - 学习笔记</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-23T15:55:00.000Z" itemprop="datePublished">2022-01-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
+              </p>
+              <p class="item-title">
+                <a href="/clover-you/clover_blog_hexo.git/2022/01/23/java%E4%BD%BF%E7%94%A8replace%E6%97%B6%E4%B8%AD%E6%96%87%E8%A2%ABURL%E7%BC%96%E7%A0%81%E5%AF%BC%E8%87%B4%E6%97%A0%E6%95%88%E8%A7%A3%E5%86%B3/" class="title">java使用replace时中文被URL编码导致无效解决</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-23T09:53:00.000Z" itemprop="datePublished">2022-01-23</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Redisson-配置附带官方关于锁的文档" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Redisson 配置附带官方关于锁的文档
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/clover-you/clover_blog_hexo.git/2022/01/04/Redisson-%E9%85%8D%E7%BD%AE%E9%99%84%E5%B8%A6%E5%AE%98%E6%96%B9%E5%85%B3%E4%BA%8E%E9%94%81%E7%9A%84%E6%96%87%E6%A1%A3/" class="article-date">
+	  <time datetime="2022-01-04T08:42:00.000Z" itemprop="datePublished">2022-01-04</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/Redis/" rel="tag">Redis</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" rel="tag">SpringCloud</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/04/Redisson-%E9%85%8D%E7%BD%AE%E9%99%84%E5%B8%A6%E5%AE%98%E6%96%B9%E5%85%B3%E4%BA%8E%E9%94%81%E7%9A%84%E6%96%87%E6%A1%A3/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>Redisson是一个在Redis的基础上实现的Java驻内存数据网格（In-Memory Data Grid）。它不仅提供了一系列的分布式的Java常用对象，还提供了许多分布式服务。其中包括(<code>BitSet</code>, <code>Set</code>, <code>Multimap</code>, <code>SortedSet</code>, <code>Map</code>, <code>List</code>, <code>Queue</code>, <code>BlockingQueue</code>, <code>Deque</code>, <code>BlockingDeque</code>, <code>Semaphore</code>, <code>Lock</code>, <code>AtomicLong</code>, <code>CountDownLatch</code>, <code>Publish / Subscribe</code>, <code>Bloom filter</code>, <code>Remote service</code>, <code>Spring cache</code>, <code>Executor service</code>, <code>Live Object service</code>, <code>Scheduler service</code>) Redisson提供了使用Redis的最简单和最便捷的方法。Redisson的宗旨是促进使用者对Redis的关注分离（Separation of Concern），从而让使用者能够将精力更集中地放在处理业务逻辑上。</p>
+</blockquote>
+<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><p>引入 Redisson 原生依赖。该依赖提供了分布式锁、分布式对象等功能</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.redisson/redisson --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.redisson<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>redisson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.16.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>使用程序化配置的方式注册一个 <code>RedissonClient</code> </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedissonConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 注册一个用于操作 Redisson 的RedissonClient</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> org.redisson.api.RedissonClient</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span>: Clover You</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span>: 2022/1/4 16:13</span></span><br><span class="line"><span class="comment">     **/</span></span><br><span class="line">    <span class="meta">@Bean(destroyMethod = &quot;shutdown&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> RedissonClient <span class="title function_">redisson</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Config</span> <span class="variable">config</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Config</span>();</span><br><span class="line">        <span class="comment">// 单节点模式</span></span><br><span class="line">        config.useSingleServer().setAddress(<span class="string">&quot;redis://192.168.226.128:6379&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> Redisson.create(config);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试一个是否可用就可以了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> RedissonClient redissonClient;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;redisson 是否加载成功&quot;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">loadRedisson</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="keyword">assert</span> redissonClient != <span class="literal">null</span> : <span class="string">&quot;Redisson 加载失败！&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果不想自己配置，也可以直接使用他官方提供的 spring-boot-starter，只不过这只能在 springboot 项目中使用</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.redisson/redisson-spring-boot-starter --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.redisson<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>redisson-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.16.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="8-分布式锁和同步器"><a href="#8-分布式锁和同步器" class="headerlink" title="8. 分布式锁和同步器"></a>8. 分布式锁和同步器</h1><p>这是官方的文档，地址: <a target="_blank" rel="noopener" href="https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8C%E5%90%8C%E6%AD%A5%E5%99%A8">传送门</a></p>
+<h3 id="8-1-可重入锁（Reentrant-Lock）"><a href="#8-1-可重入锁（Reentrant-Lock）" class="headerlink" title="8.1. 可重入锁（Reentrant Lock）"></a>8.1. 可重入锁（Reentrant Lock）</h3><p>基于Redis的Redisson分布式可重入锁<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RLock.html"><code>RLock</code></a> Java对象实现了<code>java.util.concurrent.locks.Lock</code>接口。同时还提供了<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RLockAsync.html">异步（Async）</a>、<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RLockReactive.html">反射式（Reactive）</a>和<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RLockRx.html">RxJava2标准</a>的接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RLock</span> <span class="variable">lock</span> <span class="operator">=</span> redisson.getLock(<span class="string">&quot;anyLock&quot;</span>);</span><br><span class="line"><span class="comment">// 最常见的使用方法</span></span><br><span class="line">lock.lock();</span><br></pre></td></tr></table></figure>
+
+<p>大家都知道，如果负责储存这个分布式锁的Redisson节点宕机以后，而且这个锁正好处于锁住的状态时，这个锁会出现锁死的状态。为了避免这种情况的发生，Redisson内部提供了一个监控锁的看门狗，它的作用是在Redisson实例被关闭前，不断的延长锁的有效期。默认情况下，看门狗的检查锁的超时时间是30秒钟，也可以通过修改<a target="_blank" rel="noopener" href="https://github.com/redisson/redisson/wiki/2.-%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95#lockwatchdogtimeout%E7%9B%91%E6%8E%A7%E9%94%81%E7%9A%84%E7%9C%8B%E9%97%A8%E7%8B%97%E8%B6%85%E6%97%B6%E5%8D%95%E4%BD%8D%E6%AF%AB%E7%A7%92">Config.lockWatchdogTimeout</a>来另行指定。</p>
+<p>另外Redisson还通过加锁的方法提供了<code>leaseTime</code>的参数来指定加锁的时间。超过这个时间后锁便自动解开了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 加锁以后10秒钟自动解锁</span></span><br><span class="line"><span class="comment">// 无需调用unlock方法手动解锁</span></span><br><span class="line">lock.lock(<span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 尝试加锁，最多等待100秒，上锁以后10秒自动解锁</span></span><br><span class="line"><span class="type">boolean</span> <span class="variable">res</span> <span class="operator">=</span> lock.tryLock(<span class="number">100</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line"><span class="keyword">if</span> (res) &#123;</span><br><span class="line">   <span class="keyword">try</span> &#123;</span><br><span class="line">     ...</span><br><span class="line">   &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">       lock.unlock();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Redisson同时还为分布式锁提供了异步执行的相关方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RLock</span> <span class="variable">lock</span> <span class="operator">=</span> redisson.getLock(<span class="string">&quot;anyLock&quot;</span>);</span><br><span class="line">lock.lockAsync();</span><br><span class="line">lock.lockAsync(<span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line">Future&lt;Boolean&gt; res = lock.tryLockAsync(<span class="number">100</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
+
+<p><code>RLock</code>对象完全符合Java的Lock规范。也就是说只有拥有锁的进程才能解锁，其他进程解锁则会抛出<code>IllegalMonitorStateException</code>错误。但是如果遇到需要其他进程也能解锁的情况，请使用<a target="_blank" rel="noopener" href="https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8C%E5%90%8C%E6%AD%A5%E5%99%A8#86-%E4%BF%A1%E5%8F%B7%E9%87%8Fsemaphore">分布式信号量<code>Semaphore</code></a> 对象.</p>
+<h3 id="8-2-公平锁（Fair-Lock）"><a href="#8-2-公平锁（Fair-Lock）" class="headerlink" title="8.2. 公平锁（Fair Lock）"></a>8.2. 公平锁（Fair Lock）</h3><p>基于Redis的Redisson分布式可重入公平锁也是实现了<code>java.util.concurrent.locks.Lock</code>接口的一种<code>RLock</code>对象。同时还提供了<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RLockAsync.html">异步（Async）</a>、<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RLockReactive.html">反射式（Reactive）</a>和<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RLockRx.html">RxJava2标准</a>的接口。它保证了当多个Redisson客户端线程同时请求加锁时，优先分配给先发出请求的线程。所有请求线程会在一个队列中排队，当某个线程出现宕机时，Redisson会等待5秒后继续下一个线程，也就是说如果前面有5个线程都处于等待状态，那么后面的线程会等待至少25秒。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RLock</span> <span class="variable">fairLock</span> <span class="operator">=</span> redisson.getFairLock(<span class="string">&quot;anyLock&quot;</span>);</span><br><span class="line"><span class="comment">// 最常见的使用方法</span></span><br><span class="line">fairLock.lock();</span><br></pre></td></tr></table></figure>
+
+<p>大家都知道，如果负责储存这个分布式锁的Redis节点宕机以后，而且这个锁正好处于锁住的状态时，这个锁会出现锁死的状态。为了避免这种情况的发生，Redisson内部提供了一个监控锁的看门狗，它的作用是在Redisson实例被关闭前，不断的延长锁的有效期。默认情况下，看门狗的检查锁的超时时间是30秒钟，也可以通过修改<a target="_blank" rel="noopener" href="https://github.com/redisson/redisson/wiki/2.-%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95#lockwatchdogtimeout%E7%9B%91%E6%8E%A7%E9%94%81%E7%9A%84%E7%9C%8B%E9%97%A8%E7%8B%97%E8%B6%85%E6%97%B6%E5%8D%95%E4%BD%8D%E6%AF%AB%E7%A7%92">Config.lockWatchdogTimeout</a>来另行指定。</p>
+<p>另外Redisson还通过加锁的方法提供了<code>leaseTime</code>的参数来指定加锁的时间。超过这个时间后锁便自动解开了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 10秒钟以后自动解锁</span></span><br><span class="line"><span class="comment">// 无需调用unlock方法手动解锁</span></span><br><span class="line">fairLock.lock(<span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 尝试加锁，最多等待100秒，上锁以后10秒自动解锁</span></span><br><span class="line"><span class="type">boolean</span> <span class="variable">res</span> <span class="operator">=</span> fairLock.tryLock(<span class="number">100</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line">...</span><br><span class="line">fairLock.unlock();</span><br></pre></td></tr></table></figure>
+
+<p>Redisson同时还为分布式可重入公平锁提供了异步执行的相关方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RLock</span> <span class="variable">fairLock</span> <span class="operator">=</span> redisson.getFairLock(<span class="string">&quot;anyLock&quot;</span>);</span><br><span class="line">fairLock.lockAsync();</span><br><span class="line">fairLock.lockAsync(<span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line">Future&lt;Boolean&gt; res = fairLock.tryLockAsync(<span class="number">100</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-3-联锁（MultiLock）"><a href="#8-3-联锁（MultiLock）" class="headerlink" title="8.3. 联锁（MultiLock）"></a>8.3. 联锁（MultiLock）</h3><p>基于Redis的Redisson分布式联锁<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/RedissonMultiLock.html"><code>RedissonMultiLock</code></a>对象可以将多个<code>RLock</code>对象关联为一个联锁，每个<code>RLock</code>对象实例可以来自于不同的Redisson实例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RLock</span> <span class="variable">lock1</span> <span class="operator">=</span> redissonInstance1.getLock(<span class="string">&quot;lock1&quot;</span>);</span><br><span class="line"><span class="type">RLock</span> <span class="variable">lock2</span> <span class="operator">=</span> redissonInstance2.getLock(<span class="string">&quot;lock2&quot;</span>);</span><br><span class="line"><span class="type">RLock</span> <span class="variable">lock3</span> <span class="operator">=</span> redissonInstance3.getLock(<span class="string">&quot;lock3&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="type">RedissonMultiLock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RedissonMultiLock</span>(lock1, lock2, lock3);</span><br><span class="line"><span class="comment">// 同时加锁：lock1 lock2 lock3</span></span><br><span class="line"><span class="comment">// 所有的锁都上锁成功才算成功。</span></span><br><span class="line">lock.lock();</span><br><span class="line">...</span><br><span class="line">lock.unlock();</span><br></pre></td></tr></table></figure>
+
+<p>大家都知道，如果负责储存某些分布式锁的某些Redis节点宕机以后，而且这些锁正好处于锁住的状态时，这些锁会出现锁死的状态。为了避免这种情况的发生，Redisson内部提供了一个监控锁的看门狗，它的作用是在Redisson实例被关闭前，不断的延长锁的有效期。默认情况下，看门狗的检查锁的超时时间是30秒钟，也可以通过修改<a target="_blank" rel="noopener" href="https://github.com/redisson/redisson/wiki/2.-%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95#lockwatchdogtimeout%E7%9B%91%E6%8E%A7%E9%94%81%E7%9A%84%E7%9C%8B%E9%97%A8%E7%8B%97%E8%B6%85%E6%97%B6%E5%8D%95%E4%BD%8D%E6%AF%AB%E7%A7%92">Config.lockWatchdogTimeout</a>来另行指定。</p>
+<p>另外Redisson还通过加锁的方法提供了<code>leaseTime</code>的参数来指定加锁的时间。超过这个时间后锁便自动解开了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RedissonMultiLock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RedissonMultiLock</span>(lock1, lock2, lock3);</span><br><span class="line"><span class="comment">// 给lock1，lock2，lock3加锁，如果没有手动解开的话，10秒钟后将会自动解开</span></span><br><span class="line">lock.lock(<span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 为加锁等待100秒时间，并在加锁成功10秒钟后自动解开</span></span><br><span class="line"><span class="type">boolean</span> <span class="variable">res</span> <span class="operator">=</span> lock.tryLock(<span class="number">100</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line">...</span><br><span class="line">lock.unlock();</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-4-红锁（RedLock）"><a href="#8-4-红锁（RedLock）" class="headerlink" title="8.4. 红锁（RedLock）"></a>8.4. 红锁（RedLock）</h3><p>基于Redis的Redisson红锁<code>RedissonRedLock</code>对象实现了<a target="_blank" rel="noopener" href="http://redis.cn/topics/distlock.html">Redlock</a>介绍的加锁算法。该对象也可以用来将多个<code>RLock</code>对象关联为一个红锁，每个<code>RLock</code>对象实例可以来自于不同的Redisson实例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RLock</span> <span class="variable">lock1</span> <span class="operator">=</span> redissonInstance1.getLock(<span class="string">&quot;lock1&quot;</span>);</span><br><span class="line"><span class="type">RLock</span> <span class="variable">lock2</span> <span class="operator">=</span> redissonInstance2.getLock(<span class="string">&quot;lock2&quot;</span>);</span><br><span class="line"><span class="type">RLock</span> <span class="variable">lock3</span> <span class="operator">=</span> redissonInstance3.getLock(<span class="string">&quot;lock3&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="type">RedissonRedLock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RedissonRedLock</span>(lock1, lock2, lock3);</span><br><span class="line"><span class="comment">// 同时加锁：lock1 lock2 lock3</span></span><br><span class="line"><span class="comment">// 红锁在大部分节点上加锁成功就算成功。</span></span><br><span class="line">lock.lock();</span><br><span class="line">...</span><br><span class="line">lock.unlock();</span><br></pre></td></tr></table></figure>
+
+<p>大家都知道，如果负责储存某些分布式锁的某些Redis节点宕机以后，而且这些锁正好处于锁住的状态时，这些锁会出现锁死的状态。为了避免这种情况的发生，Redisson内部提供了一个监控锁的看门狗，它的作用是在Redisson实例被关闭前，不断的延长锁的有效期。默认情况下，看门狗的检查锁的超时时间是30秒钟，也可以通过修改<a target="_blank" rel="noopener" href="https://github.com/redisson/redisson/wiki/2.-%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95#lockwatchdogtimeout%E7%9B%91%E6%8E%A7%E9%94%81%E7%9A%84%E7%9C%8B%E9%97%A8%E7%8B%97%E8%B6%85%E6%97%B6%E5%8D%95%E4%BD%8D%E6%AF%AB%E7%A7%92">Config.lockWatchdogTimeout</a>来另行指定。</p>
+<p>另外Redisson还通过加锁的方法提供了<code>leaseTime</code>的参数来指定加锁的时间。超过这个时间后锁便自动解开了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RedissonRedLock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RedissonRedLock</span>(lock1, lock2, lock3);</span><br><span class="line"><span class="comment">// 给lock1，lock2，lock3加锁，如果没有手动解开的话，10秒钟后将会自动解开</span></span><br><span class="line">lock.lock(<span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 为加锁等待100秒时间，并在加锁成功10秒钟后自动解开</span></span><br><span class="line"><span class="type">boolean</span> <span class="variable">res</span> <span class="operator">=</span> lock.tryLock(<span class="number">100</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line">...</span><br><span class="line">lock.unlock();</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-5-读写锁（ReadWriteLock）"><a href="#8-5-读写锁（ReadWriteLock）" class="headerlink" title="8.5. 读写锁（ReadWriteLock）"></a>8.5. 读写锁（ReadWriteLock）</h3><p>基于Redis的Redisson分布式可重入读写锁<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.4.3/org/redisson/api/RReadWriteLock.html"><code>RReadWriteLock</code></a> Java对象实现了<code>java.util.concurrent.locks.ReadWriteLock</code>接口。其中读锁和写锁都继承了<a target="_blank" rel="noopener" href="https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8C%E5%90%8C%E6%AD%A5%E5%99%A8#81-%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81reentrant-lock">RLock</a>接口。</p>
+<p>分布式可重入读写锁允许同时有多个读锁和一个写锁处于加锁状态。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RReadWriteLock</span> <span class="variable">rwlock</span> <span class="operator">=</span> redisson.getReadWriteLock(<span class="string">&quot;anyRWLock&quot;</span>);</span><br><span class="line"><span class="comment">// 最常见的使用方法</span></span><br><span class="line">rwlock.readLock().lock();</span><br><span class="line"><span class="comment">// 或</span></span><br><span class="line">rwlock.writeLock().lock();</span><br></pre></td></tr></table></figure>
+
+<p>大家都知道，如果负责储存这个分布式锁的Redis节点宕机以后，而且这个锁正好处于锁住的状态时，这个锁会出现锁死的状态。为了避免这种情况的发生，Redisson内部提供了一个监控锁的看门狗，它的作用是在Redisson实例被关闭前，不断的延长锁的有效期。默认情况下，看门狗的检查锁的超时时间是30秒钟，也可以通过修改<a target="_blank" rel="noopener" href="https://github.com/redisson/redisson/wiki/2.-%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95#lockwatchdogtimeout%E7%9B%91%E6%8E%A7%E9%94%81%E7%9A%84%E7%9C%8B%E9%97%A8%E7%8B%97%E8%B6%85%E6%97%B6%E5%8D%95%E4%BD%8D%E6%AF%AB%E7%A7%92">Config.lockWatchdogTimeout</a>来另行指定。</p>
+<p>另外Redisson还通过加锁的方法提供了<code>leaseTime</code>的参数来指定加锁的时间。超过这个时间后锁便自动解开了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 10秒钟以后自动解锁</span></span><br><span class="line"><span class="comment">// 无需调用unlock方法手动解锁</span></span><br><span class="line">rwlock.readLock().lock(<span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line"><span class="comment">// 或</span></span><br><span class="line">rwlock.writeLock().lock(<span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 尝试加锁，最多等待100秒，上锁以后10秒自动解锁</span></span><br><span class="line"><span class="type">boolean</span> <span class="variable">res</span> <span class="operator">=</span> rwlock.readLock().tryLock(<span class="number">100</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line"><span class="comment">// 或</span></span><br><span class="line"><span class="type">boolean</span> <span class="variable">res</span> <span class="operator">=</span> rwlock.writeLock().tryLock(<span class="number">100</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line">...</span><br><span class="line">lock.unlock();</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="8-6-信号量（Semaphore）"><a href="#8-6-信号量（Semaphore）" class="headerlink" title="8.6. 信号量（Semaphore）"></a>8.6. 信号量（Semaphore）</h3><p>基于Redis的Redisson的分布式信号量（<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RSemaphore.html">Semaphore</a>）Java对象<code>RSemaphore</code>采用了与<code>java.util.concurrent.Semaphore</code>相似的接口和用法。同时还提供了<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RSemaphoreAsync.html">异步（Async）</a>、<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RSemaphoreReactive.html">反射式（Reactive）</a>和<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RSemaphoreRx.html">RxJava2标准</a>的接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RSemaphore</span> <span class="variable">semaphore</span> <span class="operator">=</span> redisson.getSemaphore(<span class="string">&quot;semaphore&quot;</span>);</span><br><span class="line">semaphore.acquire();</span><br><span class="line"><span class="comment">//或</span></span><br><span class="line">semaphore.acquireAsync();</span><br><span class="line">semaphore.acquire(<span class="number">23</span>);</span><br><span class="line">semaphore.tryAcquire();</span><br><span class="line"><span class="comment">//或</span></span><br><span class="line">semaphore.tryAcquireAsync();</span><br><span class="line">semaphore.tryAcquire(<span class="number">23</span>, TimeUnit.SECONDS);</span><br><span class="line"><span class="comment">//或</span></span><br><span class="line">semaphore.tryAcquireAsync(<span class="number">23</span>, TimeUnit.SECONDS);</span><br><span class="line">semaphore.release(<span class="number">10</span>);</span><br><span class="line">semaphore.release();</span><br><span class="line"><span class="comment">//或</span></span><br><span class="line">semaphore.releaseAsync();</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-7-可过期性信号量（PermitExpirableSemaphore）"><a href="#8-7-可过期性信号量（PermitExpirableSemaphore）" class="headerlink" title="8.7. 可过期性信号量（PermitExpirableSemaphore）"></a>8.7. 可过期性信号量（PermitExpirableSemaphore）</h3><p>基于Redis的Redisson可过期性信号量（<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RPermitExpirableSemaphore.html">PermitExpirableSemaphore</a>）是在<code>RSemaphore</code>对象的基础上，为每个信号增加了一个过期时间。每个信号可以通过独立的ID来辨识，释放时只能通过提交这个ID才能释放。它提供了<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RPermitExpirableSemaphoreAsync.html">异步（Async）</a>、<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RPermitExpirableSemaphoreReactive.html">反射式（Reactive）</a>和<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RPermitExpirableSemaphoreRx.html">RxJava2标准</a>的接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RPermitExpirableSemaphore</span> <span class="variable">semaphore</span> <span class="operator">=</span> redisson.getPermitExpirableSemaphore(<span class="string">&quot;mySemaphore&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">permitId</span> <span class="operator">=</span> semaphore.acquire();</span><br><span class="line"><span class="comment">// 获取一个信号，有效期只有2秒钟。</span></span><br><span class="line"><span class="type">String</span> <span class="variable">permitId</span> <span class="operator">=</span> semaphore.acquire(<span class="number">2</span>, TimeUnit.SECONDS);</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">semaphore.release(permitId);</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-8-闭锁（CountDownLatch）"><a href="#8-8-闭锁（CountDownLatch）" class="headerlink" title="8.8. 闭锁（CountDownLatch）"></a>8.8. 闭锁（CountDownLatch）</h3><p>基于Redisson的Redisson分布式闭锁（<a target="_blank" rel="noopener" href="http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RCountDownLatch.html">CountDownLatch</a>）Java对象<code>RCountDownLatch</code>采用了与<code>java.util.concurrent.CountDownLatch</code>相似的接口和用法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RCountDownLatch</span> <span class="variable">latch</span> <span class="operator">=</span> redisson.getCountDownLatch(<span class="string">&quot;anyCountDownLatch&quot;</span>);</span><br><span class="line">latch.trySetCount(<span class="number">1</span>);</span><br><span class="line">latch.await();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在其他线程或其他JVM里</span></span><br><span class="line"><span class="type">RCountDownLatch</span> <span class="variable">latch</span> <span class="operator">=</span> redisson.getCountDownLatch(<span class="string">&quot;anyCountDownLatch&quot;</span>);</span><br><span class="line">latch.countDown();</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>Redisson 没有死锁问题，并且锁可以自动续期，如果业务超时间长，Redisson 会自动给锁续上新的30s</p>
+</blockquote>
+<h1 id="Redisson-lock阻塞式等待原理"><a href="#Redisson-lock阻塞式等待原理" class="headerlink" title="Redisson lock阻塞式等待原理"></a>Redisson lock阻塞式等待原理</h1><p>在 Redisson 中，调用 <code>lock()</code> 方法，如果拿不到锁，那么当前这行代码会一直阻塞，直到获取到锁。原理很简单，就是在底层不断的循环拿锁</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">lock</span><span class="params">(<span class="type">long</span> leaseTime, TimeUnit unit, <span class="type">boolean</span> interruptibly)</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">  ... </span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="comment">// 获取锁</span></span><br><span class="line">        ttl = <span class="built_in">this</span>.tryAcquire(-<span class="number">1L</span>, leaseTime, unit, threadId);</span><br><span class="line">        <span class="keyword">if</span> (ttl == <span class="literal">null</span>) &#123;</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br><span class="line">      &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.unsubscribe(future, threadId);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Redisson-lock-看门狗原理"><a href="#Redisson-lock-看门狗原理" class="headerlink" title="Redisson lock 看门狗原理"></a>Redisson lock 看门狗原理</h1><p>如果设置了过期时间，<code>lock.lock(10, TimeUnit.SECONDS);</code> ，就直接给 Redis 发送脚本使用我们指定的超时时间进行占锁。如果没有指定过期时间，只要占锁成功，就会启动一个定时任务，这个定时任务用于定时给锁重新设置过期时间，这个新的时间就是看门狗的默认时间。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> &lt;T&gt; RFuture&lt;Long&gt; <span class="title function_">tryAcquireAsync</span><span class="params">(<span class="type">long</span> waitTime, <span class="type">long</span> leaseTime, TimeUnit unit, <span class="type">long</span> threadId)</span> &#123;</span><br><span class="line">  RFuture ttlRemainingFuture;</span><br><span class="line">  <span class="keyword">if</span> (leaseTime != -<span class="number">1L</span>) &#123;</span><br><span class="line">    <span class="comment">// 使用我们自定的超时时间</span></span><br><span class="line">    ttlRemainingFuture = <span class="built_in">this</span>.tryLockInnerAsync(waitTime, leaseTime, unit, threadId, RedisCommands.EVAL_LONG);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    ttlRemainingFuture = <span class="built_in">this</span>.tryLockInnerAsync(waitTime, <span class="built_in">this</span>.internalLockLeaseTime, TimeUnit.MILLISECONDS, threadId, RedisCommands.EVAL_LONG);</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line">&lt;T&gt; RFuture&lt;T&gt; <span class="title function_">tryLockInnerAsync</span><span class="params">(<span class="type">long</span> waitTime, <span class="type">long</span> leaseTime, TimeUnit unit, <span class="type">long</span> threadId, RedisStrictCommand&lt;T&gt; command)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> evalWriteAsync(getRawName(), LongCodec.INSTANCE, command,</span><br><span class="line">                        <span class="string">&quot;if (redis.call(&#x27;exists&#x27;, KEYS[1]) == 0) then &quot;</span> +</span><br><span class="line">                        <span class="string">&quot;redis.call(&#x27;hincrby&#x27;, KEYS[1], ARGV[2], 1); &quot;</span> +</span><br><span class="line">                        <span class="string">&quot;redis.call(&#x27;pexpire&#x27;, KEYS[1], ARGV[1]); &quot;</span> +</span><br><span class="line">                        <span class="string">&quot;return nil; &quot;</span> +</span><br><span class="line">                        <span class="string">&quot;end; &quot;</span> +</span><br><span class="line">                        <span class="string">&quot;if (redis.call(&#x27;hexists&#x27;, KEYS[1], ARGV[2]) == 1) then &quot;</span> +</span><br><span class="line">                        <span class="string">&quot;redis.call(&#x27;hincrby&#x27;, KEYS[1], ARGV[2], 1); &quot;</span> +</span><br><span class="line">                        <span class="string">&quot;redis.call(&#x27;pexpire&#x27;, KEYS[1], ARGV[1]); &quot;</span> +</span><br><span class="line">                        <span class="string">&quot;return nil; &quot;</span> +</span><br><span class="line">                        <span class="string">&quot;end; &quot;</span> +</span><br><span class="line">                        <span class="string">&quot;return redis.call(&#x27;pttl&#x27;, KEYS[1]);&quot;</span>,</span><br><span class="line">                        Collections.singletonList(getRawName()), unit.toMillis(leaseTime), getLockName(threadId));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果我们没有制定锁的过期时间 <code>lock.lock();</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> &lt;T&gt; RFuture&lt;Long&gt; <span class="title function_">tryAcquireAsync</span><span class="params">(<span class="type">long</span> waitTime, <span class="type">long</span> leaseTime, TimeUnit unit, <span class="type">long</span> threadId)</span> &#123;</span><br><span class="line">    RFuture&lt;Long&gt; ttlRemainingFuture;</span><br><span class="line">    <span class="keyword">if</span> (leaseTime != -<span class="number">1</span>) &#123;</span><br><span class="line">        ttlRemainingFuture = tryLockInnerAsync(waitTime, leaseTime, unit, threadId, RedisCommands.EVAL_LONG);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 没有指定时间走者</span></span><br><span class="line">        ttlRemainingFuture = tryLockInnerAsync(waitTime, internalLockLeaseTime,</span><br><span class="line">                TimeUnit.MILLISECONDS, threadId, RedisCommands.EVAL_LONG);</span><br><span class="line">    &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>他的默认时间使用的是看门狗的时间</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="type">long</span> internalLockLeaseTime;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">RedissonLock</span><span class="params">(CommandAsyncExecutor commandExecutor, String name)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.internalLockLeaseTime = commandExecutor.getConnectionManager().getCfg().getLockWatchdogTimeout();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>监听占锁是否成功如果占锁成功了，并且为指定超时时间，那么就调用 <code>scheduleExpirationRenewal(threadId);</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> &lt;T&gt; RFuture&lt;Long&gt; <span class="title function_">tryAcquireAsync</span><span class="params">(<span class="type">long</span> waitTime, <span class="type">long</span> leaseTime, TimeUnit unit, <span class="type">long</span> threadId)</span> &#123;</span><br><span class="line">    RFuture&lt;Long&gt; ttlRemainingFuture;</span><br><span class="line">...</span><br><span class="line">    ttlRemainingFuture.onComplete((ttlRemaining, e) -&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// lock acquired</span></span><br><span class="line">        <span class="keyword">if</span> (ttlRemaining == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (leaseTime != -<span class="number">1</span>) &#123;</span><br><span class="line">                internalLockLeaseTime = unit.toMillis(leaseTime);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                scheduleExpirationRenewal(threadId);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> ttlRemainingFuture;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>主要执行 <code>renewExpiration</code> 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">scheduleExpirationRenewal</span><span class="params">(<span class="type">long</span> threadId)</span> &#123;</span><br><span class="line">    <span class="type">ExpirationEntry</span> <span class="variable">entry</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ExpirationEntry</span>();</span><br><span class="line">    <span class="type">ExpirationEntry</span> <span class="variable">oldEntry</span> <span class="operator">=</span> EXPIRATION_RENEWAL_MAP.putIfAbsent(getEntryName(), entry);</span><br><span class="line">    <span class="keyword">if</span> (oldEntry != <span class="literal">null</span>) &#123;</span><br><span class="line">        oldEntry.addThreadId(threadId);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        entry.addThreadId(threadId);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            renewExpiration();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (Thread.currentThread().isInterrupted()) &#123;</span><br><span class="line">                cancelExpirationRenewal(threadId);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个方法里主要是一个定时任务, <code>newTimeout</code> 整个定时任务主要是用来执行 <code>renewExpirationAsync</code> 这个方法，这个方法主要用来设置过期时间。这个定时任务执行时间是看门狗的时间的三分之一，也就是默认10秒。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">renewExpiration</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">ExpirationEntry</span> <span class="variable">ee</span> <span class="operator">=</span> EXPIRATION_RENEWAL_MAP.get(getEntryName());</span><br><span class="line">    <span class="keyword">if</span> (ee == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="type">Timeout</span> <span class="variable">task</span> <span class="operator">=</span> commandExecutor.getConnectionManager().newTimeout(<span class="keyword">new</span> <span class="title class_">TimerTask</span>() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">(Timeout timeout)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">            <span class="type">ExpirationEntry</span> <span class="variable">ent</span> <span class="operator">=</span> EXPIRATION_RENEWAL_MAP.get(getEntryName());</span><br><span class="line">            <span class="keyword">if</span> (ent == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Long</span> <span class="variable">threadId</span> <span class="operator">=</span> ent.getFirstThreadId();</span><br><span class="line">            <span class="keyword">if</span> (threadId == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            RFuture&lt;Boolean&gt; future = renewExpirationAsync(threadId);</span><br><span class="line">            future.onComplete((res, e) -&gt; &#123;</span><br><span class="line">                <span class="keyword">if</span> (e != <span class="literal">null</span>) &#123;</span><br><span class="line">                    log.error(<span class="string">&quot;Can&#x27;t update lock &quot;</span> + getRawName() + <span class="string">&quot; expiration&quot;</span>, e);</span><br><span class="line">                    EXPIRATION_RENEWAL_MAP.remove(getEntryName());</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> (res) &#123;</span><br><span class="line">                    <span class="comment">// reschedule itself</span></span><br><span class="line">                    renewExpiration();</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    cancelExpirationRenewal(<span class="literal">null</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, internalLockLeaseTime / <span class="number">3</span>, TimeUnit.MILLISECONDS);</span><br><span class="line">    </span><br><span class="line">    ee.setTimeout(task);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发送 Lua 脚本重制时间</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> RFuture&lt;Boolean&gt; <span class="title function_">renewExpirationAsync</span><span class="params">(<span class="type">long</span> threadId)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> evalWriteAsync(getRawName(), LongCodec.INSTANCE, RedisCommands.EVAL_BOOLEAN,</span><br><span class="line">                        <span class="string">&quot;if (redis.call(&#x27;hexists&#x27;, KEYS[1], ARGV[2]) == 1) then &quot;</span> +</span><br><span class="line">                        <span class="string">&quot;redis.call(&#x27;pexpire&#x27;, KEYS[1], ARGV[1]); &quot;</span> +</span><br><span class="line">                        <span class="string">&quot;return 1; &quot;</span> +</span><br><span class="line">                        <span class="string">&quot;end; &quot;</span> +</span><br><span class="line">                        <span class="string">&quot;return 0;&quot;</span>,</span><br><span class="line">                        Collections.singletonList(getRawName()),</span><br><span class="line">                        internalLockLeaseTime, getLockName(threadId));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="读写锁"><a href="#读写锁" class="headerlink" title="读写锁"></a>读写锁</h1><p>读写锁能保证能读到最新数据，修改期间，写锁是一个排他锁（互斥锁，独享锁）。读锁是一个共享锁。写锁没释放读锁就必须等待</p>
+<p><img src="http://qiniu-note-image.ctong.top//note/images/202201061000373.gif" alt="互斥锁演示"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/write&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">write</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> UUID.randomUUID().toString();</span><br><span class="line">  <span class="type">RReadWriteLock</span> <span class="variable">lock</span> <span class="operator">=</span> redisson.getReadWriteLock(<span class="string">&quot;rw-lock&quot;</span>);</span><br><span class="line">  <span class="type">RLock</span> <span class="variable">rLock</span> <span class="operator">=</span> lock.writeLock();</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    rLock.lock();</span><br><span class="line">    Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">    redisTemplate.opsForValue().set(<span class="string">&quot;test&quot;</span>, s);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    rLock.unlock();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> s;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/read&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">read</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">  <span class="type">RReadWriteLock</span> <span class="variable">lock</span> <span class="operator">=</span> redisson.getReadWriteLock(<span class="string">&quot;rw-lock&quot;</span>);</span><br><span class="line">  <span class="type">RLock</span> <span class="variable">rLock</span> <span class="operator">=</span> lock.readLock();</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    rLock.lock();</span><br><span class="line">    ValueOperations&lt;String, String&gt; ops = redisTemplate.opsForValue();</span><br><span class="line">    <span class="type">String</span> <span class="variable">test</span> <span class="operator">=</span> ops.get(<span class="string">&quot;test&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> test;</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    rLock.unlock();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>读 + 读：无锁，并发读，只会在redis中记录所有当前的读锁，他们都同时加锁成功。</p>
+<p>写 + 读：等待写锁释放</p>
+<p>写 + 写：阻塞</p>
+<p>读 + 写：等待写锁释放</p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/04/Redisson-%E9%85%8D%E7%BD%AE%E9%99%84%E5%B8%A6%E5%AE%98%E6%96%B9%E5%85%B3%E4%BA%8E%E9%94%81%E7%9A%84%E6%96%87%E6%A1%A3/" title="Redisson 配置附带官方关于锁的文档" target="_blank" rel="external">https://gitee.com/clover-you/clover_blog_hexo.git/2022/01/04/Redisson-配置附带官方关于锁的文档/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/clover-you/clover_blog_hexo.git/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/clover-you/clover_blog_hexo.git/2022/01/06/%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7/" title="缓存数据的一致性"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/clover-you/clover_blog_hexo.git/2022/01/04/Redis-%E7%BC%93%E5%AD%98/" title="Redis 缓存"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/clover-you/clover_blog_hexo.git/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/clover-you/clover_blog_hexo.git/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/clover-you/clover_blog_hexo.git/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/clover-you/clover_blog_hexo.git/js/plugin.min.js"></script>
+
+
+<script src="/clover-you/clover_blog_hexo.git/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/clover-you/clover_blog_hexo.git/',
+        CONTENT_URL: '/clover-you/clover_blog_hexo.git/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/clover-you/clover_blog_hexo.git/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
