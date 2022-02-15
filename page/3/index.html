@@ -1,789 +1,238 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-  <meta charset="utf-8">
-  
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="Cache-Control" content="no-transform" />
-  <meta http-equiv="Cache-Control" content="no-siteapp" />
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="format-detection" content="telephone=no,email=no,adress=no">
-  <!-- Color theme for statusbar -->
-  <meta name="theme-color" content="#000000" />
-  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
-  <meta http-equiv="window-target" content="_top" />
-  
-  
-  <title>Hexo</title>
-  <meta name="description" content="clover 的个人博客，是一个02年草根站长的技术博客...交个朋友">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Clover Blog - clover 的博客</title><meta name="keywords" content="blog,个人博客"><meta name="author" content="Clover You"><meta name="copyright" content="Clover You"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="clover 的个人博客，是一个02年草根站长的技术博客...交个朋友">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Clover Blog">
-<meta property="og:url" content="https://gitee.com/clover-you/clover_blog_hexo.git/page/3/index.html">
+<meta property="og:url" content="http://www.ctong.top/page/3/index.html">
 <meta property="og:site_name" content="Clover Blog">
 <meta property="og:description" content="clover 的个人博客，是一个02年草根站长的技术博客...交个朋友">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202202150828292.jpeg">
 <meta property="article:author" content="Clover You">
 <meta property="article:tag" content="blog,个人博客">
 <meta name="twitter:card" content="summary">
-  <!-- Canonical links -->
-  <link rel="canonical" href="https://gitee.com/clover-you/clover_blog_hexo.git/page/3/index.html">
-  
-    <link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png" type="image/x-icon">
-  
-  
-<link rel="stylesheet" href="/clover-you/clover_blog_hexo.git/css/style.css">
+<meta name="twitter:image" content="https://qiniu-note-image.ctong.top/note/images/202202150828292.jpeg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.ctong.top/page/3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Clover Blog',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-02-15 09:45:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-  
-  
-<meta name="generator" content="Hexo 6.0.0"></head>
-
-
-<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
-  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-  <div class="slimContent">
-    <div class="navbar-header">
-      
-      
-      <div class="profile-block text-center">
-        <a id="avatar" href="https://github.com/Clover-You" target="_blank">
-          <img class="img-circle img-rotate" src="https://qiniu-note-image.ctong.top/note/images/202202150828292.jpeg" width="200" height="200">
-        </a>
-        <h2 id="name" class="hidden-xs hidden-sm">Clover</h2>
-        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangdong, China</small>
-      </div>
-      
-      <div class="search" id="search-form-wrap">
-
-    <form class="search-form sidebar-form">
-        <div class="input-group">
-            <input type="text" class="search-form-input form-control" placeholder="搜索" />
-            <span class="input-group-btn">
-                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
-            </span>
-        </div>
-    </form>
-    <div class="ins-search">
-  <div class="ins-search-mask"></div>
-  <div class="ins-search-container">
-    <div class="ins-input-wrapper">
-      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
-      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-    </div>
-    <div class="ins-section-wrapper">
-      <div class="ins-section-container"></div>
-    </div>
-  </div>
-</div>
-
-
-</div>
-      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-    </div>
-    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
-      <ul class="nav navbar-nav main-nav ">
-        
-        
-        <li class="menu-item menu-item-home">
-          <a href="/clover-you/clover_blog_hexo.git/.">
-            
-            <i class="icon icon-home-fill"></i>
-            
-            <span class="menu-title">首页</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/clover-you/clover_blog_hexo.git/archives">
-            
-            <i class="icon icon-archives-fill"></i>
-            
-            <span class="menu-title">归档</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/clover-you/clover_blog_hexo.git/categories">
-            
-            <i class="icon icon-folder"></i>
-            
-            <span class="menu-title">分类</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/clover-you/clover_blog_hexo.git/tags">
-            
-            <i class="icon icon-tags"></i>
-            
-            <span class="menu-title">标签</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-repository">
-          <a href="/clover-you/clover_blog_hexo.git/repository">
-            
-            <i class="icon icon-project"></i>
-            
-            <span class="menu-title">项目</span>
-          </a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-about">
-          <a href="/clover-you/clover_blog_hexo.git/about">
-            
-            <i class="icon icon-cup-fill"></i>
-            
-            <span class="menu-title">关于</span>
-          </a>
-        </li>
-        
-      </ul>
-      
-	
-    <ul class="social-links">
-    	
-        <li><a href="https://github.com/Clover-You" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
-        
-        <li><a href="/clover-you/clover_blog_hexo.git/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
-        
-    </ul>
-
-    </nav>
-  </div>
-</header>
-
-  
-    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
-  <div class="slimContent">
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-      <div class="widget">
-    <h3 class="widget-title">公告</h3>
-    <div class="widget-body">
-        <div id="board">
-            <div class="content">
-                <p>欢迎交流与分享经验!</p>
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://qiniu-note-image.ctong.top/note/images/202202150828292.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">90</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div><hr/></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('https://qiniu-note-image.ctong.top/note/images/202202150847349.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Clover Blog</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Clover Blog</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2022/01/02/java%E8%8E%B7%E5%8F%96%E7%B1%BB%E8%B7%AF%E5%BE%84%E4%B8%8B%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84/" title="java获取类路径下文件的绝对路径"><img class="post_bg" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java获取类路径下文件的绝对路径"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/01/02/java%E8%8E%B7%E5%8F%96%E7%B1%BB%E8%B7%AF%E5%BE%84%E4%B8%8B%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84/" title="java获取类路径下文件的绝对路径">java获取类路径下文件的绝对路径</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-01-02T10:21:39.000Z" title="发表于 2022-01-02 18:21:39">2022-01-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></span></div><div class="content">获取文件绝对路径在idea中，默认的当前路径是project的根路径，如果你使用idea的默认路径，只要离开idea换到其他位置，可能当前路径就不是project的根路径了。
+使用以下通用方式的前提是：这个文件必须在类路径下。在项目的src目录下的都是类路径下，src是类的根路径
+1String currentPath = Thread.currentThread().getContextClassLoader().getResource(&quot;fileName&quot;).getPath();
+
+Thread.currentThread()是当前线程对象
+getContextClassLoader()是线程对象的方法，可以获取到当前线程类加载器对象。
+getResource()类加载器的方法，当前线程的类加载器默认从类的根路径下加载资源。
+采用以上方法可以拿到一个文件的绝对路径
+
+这种方式无法获取一个.java文件，因为java程序是需要编译后才能执行，而 .java会被编译成 .class。而java编译时可能会被编译在别的路径下，例如IDEA，是在target文件下，这才 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/01/02/Java-%E8%A7%A3%E5%86%B3Enum.valueOf%E6%89%BE%E4%B8%8D%E5%88%B0%E6%9E%9A%E4%B8%BE%E5%87%BA%E7%8E%B0%E7%9A%84%E5%BC%82%E5%B8%B8/" title="Java 解决Enum.valueOf找不到枚举出现的异常"><img class="post_bg" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 解决Enum.valueOf找不到枚举出现的异常"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/01/02/Java-%E8%A7%A3%E5%86%B3Enum.valueOf%E6%89%BE%E4%B8%8D%E5%88%B0%E6%9E%9A%E4%B8%BE%E5%87%BA%E7%8E%B0%E7%9A%84%E5%BC%82%E5%B8%B8/" title="Java 解决Enum.valueOf找不到枚举出现的异常">Java 解决Enum.valueOf找不到枚举出现的异常</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-01-02T10:21:06.000Z" title="发表于 2022-01-02 18:21:06">2022-01-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></span></div><div class="content">由于Enum.valueOf匹配不到枚举时会出现异常，这个可以用try...catch来解决，但是这样会导致代码往臃肿的道路上越走越远。本文与其说是解决Enum.valueOf找不到枚举出现的异常还不如说是换了解决方案：现在有这么一个枚举
+1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556/** * 类型操作接口 */public interface TypeEnum &#123;  Boolean ret(); // 表示是某个类型时返回结果&#125;public enum ImageEnumImpl implements TypeEnum &#123;  /**   * jpeg类型的图片   */  JPEG &#123;    @Override    public Boolean ret() &#123;      return true;    &#125;  &#125;,  /**   * jpg类型的图片   * ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/" title="idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><img class="post_bg" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="idea创建普通Web项目lib目录无法输出，tomcat不报错问题"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/" title="idea创建普通Web项目lib目录无法输出，tomcat不报错问题">idea创建普通Web项目lib目录无法输出，tomcat不报错问题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-01-02T10:20:09.000Z" title="发表于 2022-01-02 18:20:09">2022-01-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></span></div><div class="content">idea创建普通Web项目lib目录无法输出，tomcat不报错问题idea版本：2021.2
+tomcat版本：9.0.50
+项目结构创建一个普普通通的web项目，目录结构大概就是这样
+123456789101112131415161718192021222324252627282930.├── .idea│   ├── artifacts│   ├── inspectionProfiles│   ├── libraries│   └── sonarlint│       └── issuestore├── conf├── lib├── out│   ├── artifacts│   │   └── test03_war_exploded│   │       └── WEB-INF│   │           ├── classes│   │           │   └── top│   │           │       └── ctong│   │           │           └── controller│   │           └── lib│ ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/01/02/Http%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%8C%85%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/" title="Http网络协议包简单学习"><img class="post_bg" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Http网络协议包简单学习"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/01/02/Http%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%8C%85%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/" title="Http网络协议包简单学习">Http网络协议包简单学习</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-01-02T10:19:32.000Z" title="发表于 2022-01-02 18:19:32">2022-01-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></span></div><div class="content">Http网络协议包
+在网络中传递信息都是以二进制形式存在的。
+
+接收方（浏览器、服务器）在接收到信息后，要做第一件事就是将二进制数据进行编译，例如文字、图片、视频、命令等
+
+传递的信息数据量往往都比较巨大，因此导致接收方很难在一组连续的二进制中得到对应数据，例如浏览器发送一个请求：http://xxx/xxx
+这个请求信息以二进制发送，例如：01010100101010101010100110101011010111100
+Http服务器很难从这组二进制数据中得到相关信息
+
+网络协议包是一组有规律的二进制数据，在这组数据中存在了固定空间，每一个空间里main专门存放特定的信息，这样接收放在收到网络协议包之后就可以到固定的空间得到对应信息，网络协议包的出现极大程度降低了接收方对接收到的二进制的编译难度。[0000（ip地址） 0000（端口号） 0000（资源文件名） 0000]
+
+
+常见网络协议
+FTP网络协议包
+Http网络协议包
+Https网络协议包
+
+Http网络协议包在基于B&#x2F;S结构下互联网通信过程中，所有在网络中传递信息都是保存在Http网络协议包中
+Http也分为 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/" title="性能与压力测试"><img class="post_bg" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="性能与压力测试"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/" title="性能与压力测试">性能与压力测试</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-01-02T10:18:00.000Z" title="发表于 2022-01-02 18:18:00">2022-01-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></span></div><div class="content">压力测试压力测试可以考察但前硬件环境下系统所能承受的最大负荷并帮助找出系统瓶颈所在。压测都是为了系统在线上的处理能力和稳定性维持在一个标准范围内。
+使用压力测试，我们希望找到很多种用其它测试方法更难发现的错误。有两种错误类型，它们分别是：
+
+内存泄漏
+并发同步
+
+有效的压力测试系统将应用以下这些关键条件：重复、并发、量级、随机变化
+性能指标
+响应时间（Response Time：RT）
+响应时间指，用户从客户端发起一个请求开始，到客户端接收到从服务端返回的响应结束，整个过程所消耗的时间。
+
+HPS（Hits Per Second）：每秒的点击数，单位是次&#x2F;秒
+
+TPS（Transaction Per Second）：系统每秒处理交易数，单位是笔&#x2F;秒
+
+QPS（Query Per Second）：系统每秒处理查询次数，单位是次&#x2F;秒。
+对于互联网业务中，如果某些业务有且仅有一个请求连接，那么 TPS&#x3D;QPS&#x3D;HPS，一般情况下用 TPS 来衡量整个业务流程，用 QPS 来衡量接口查询次数，用 HPS 来表示对服务器点击请求。
+
+无论 TPS ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/" title="手撸Spring整合MyBatis玩具"><img class="post_bg" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="手撸Spring整合MyBatis玩具"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/" title="手撸Spring整合MyBatis玩具">手撸Spring整合MyBatis玩具</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-01-02T10:17:52.000Z" title="发表于 2022-01-02 18:17:52">2022-01-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></span></div><div class="content">源码在我GitHub上，有兴趣可以去观望一下：传送门
+这个只是个玩具、玩具、玩具，正经的还得看官方提供的整合包先说下这个玩具的问题所在吧！&#x3D;&#x3D;&#x3D;&#x3D;&gt;&gt;&gt; 无法提交事务和无法关闭SqlSession，嗯嗯嗯~~~
+开始吧～～
+
+难点若想使用Spring容器提供的强大功能，例如：Autowired，那么就需要让Spring容器将其管理。
+没整合之前，每次都需要通过SqlSessionFactory将其创建，一个两个还好，写多了整个人都麻了…
+所以我就想，能不能在service层直接注入呢？
+让Spring注入的话就得注册到容器，Dao层数量和命名都无法确定，怎么注册Bean呢？..嘶～～～
+嗯。。。使用工厂模式加上自动扫包好像能实现..
+说干就干…
+1234567891011121314151617181920212223242526272829303132333435363738394041424344@Configurationpublic class MyBatisSqlSessionFactory implements Se ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/01/02/%E4%BD%BF%E7%94%A8nacos%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE/" title="使用nacos作为配置中心统一管理配置"><img class="post_bg" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用nacos作为配置中心统一管理配置"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/01/02/%E4%BD%BF%E7%94%A8nacos%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE/" title="使用nacos作为配置中心统一管理配置">使用nacos作为配置中心统一管理配置</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-01-02T10:16:00.000Z" title="发表于 2022-01-02 18:16:00">2022-01-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></span></div><div class="content">基础环境引入所需依赖包
+1234&lt;dependency&gt;  &lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;  &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-config&lt;/artifactId&gt;&lt;/dependency&gt;
+
+创建一个 bootstrap.properties 或 bootstrap.yaml 。其中指定项目名与配置中心服务器地址
+12spring.application.name=gulimall-couponspring.cloud.nacos.config.server-addr=127.0.0.1:8848
+
+最后需要再配置中心添加一个数据集（Data Id），通常是「应用名.properties」。新建完后就可以给“配置内容”中添加任何配置，可以通过@Value(&quot;$&#123;配置名&#125;&quot;)获取到配置。如果还需要动态刷新，可以给类加上 @RefreshScope 。
+12345@Refre ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/" title="关于synchronized无法锁住Integer"><img class="post_bg" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于synchronized无法锁住Integer"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/" title="关于synchronized无法锁住Integer">关于synchronized无法锁住Integer</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-01-02T10:15:43.000Z" title="发表于 2022-01-02 18:15:43">2022-01-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></span></div><div class="content">原因在多线程的时候，为了保证数据安全，必须在修改数据时使用线程同步，java中的synchronized用来实现线程同步、线程列队。
+学完多线程基础的我，写一个多线程交替输出1,2,3,4,5...，一个线程负责输出偶数，一个线程负责输出奇数，由于这个数是整数，在java中int又是基本数据类型，基本数据类型并不是共享的，也就是基础数据类型是在栈中申明，java提供了一个Integer包装类，使用的时候发现根本锁不住这个对象。
+回忆之前对Integer的知识：为了提高程序效率，Integer在类加载时就已经创建了-128到127的对象
+
+嗯！！！！如果我对这个对象进行运算的话！内存地址是不是也不一样？（细思极恐）
+1System.out.println(num++;)
+
+
+
+
+粗暴解决方案建一个加锁类（人工造锁），将需要用到的运算什么的加进去，嗯简单粗暴！！！！
+123456789101112131415161718192021222324class IntegerLock &#123;  private Integer num = 0;  public Integer getNum( ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/01/02/%E5%88%9D%E5%AD%A6MyBatis%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89Error-querying-database/" title="初学MyBatis（踩坑）Error querying database"><img class="post_bg" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="初学MyBatis（踩坑）Error querying database"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/01/02/%E5%88%9D%E5%AD%A6MyBatis%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89Error-querying-database/" title="初学MyBatis（踩坑）Error querying database">初学MyBatis（踩坑）Error querying database</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-01-02T10:14:49.000Z" title="发表于 2022-01-02 18:14:49">2022-01-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></span></div><div class="content">最近在学习Mybatis，代码全部根据教程写好了，一运行结果报了一个错误，主要错误内容：
+12345678910111213141516Caused by: org.apache.ibatis.exceptions.PersistenceException: ### Error querying database.  Cause: java.sql.SQLException: java.lang.ClassCastException: java.math.BigInteger cannot be cast to java.lang.Long### The error may exist in com/ctong/crm/dao/UserDao.xml### The error may involve com.ctong.crm.dao.UserDao.login### The error occurred while executing a query### Cause: java.sql.SQLException: java.lang.ClassCastException: java ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="Junit5 单元测试 - 学习笔记"><img class="post_bg" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Junit5 单元测试 - 学习笔记"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="Junit5 单元测试 - 学习笔记">Junit5 单元测试 - 学习笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-01-02T10:13:28.000Z" title="发表于 2022-01-02 18:13:28">2022-01-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%B6%E5%AE%83/">其它</a></span></div><div class="content">在SpringBoot2.2.0+开始引入Junit5 作为单元测试默认库
+
+JUnit5 &#x3D; JUnit Platform + JUnit Jupiter + JUnit Vintage
+
+JUnit Plaform 是在JVM上启动测试框架的基础，不仅支持Junit自制的测试引擎，其它测试引擎也都可以接入。
+JUnit Jupiter 提供了JUnit5 的新的编程模型，时JUnit5 新特性的核心。内部包含了一个测试引擎，用于在Junit Platform上运行。
+JUnit Vintage 为老版本提供了兼容。
+
+在创建SpringBoot项目的时候，会自动引入junit 5并帮我们自动配好
+12345678910package com.ctong.learnspringboot;import org.junit.jupiter.api.Test;import org.springframework.boot.test.context.SpringBootTest;@SpringBootTestclass LearnSpringBootApplicationTests ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/2/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#content-inner">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#content-inner">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/#content-inner">9</a><a class="extend next" rel="next" href="/page/4/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://qiniu-note-image.ctong.top/note/images/202202150828292.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Clover You</div><div class="author-info__description">clover 的个人博客，是一个02年草根站长的技术博客...交个朋友</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">90</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/02/15/SpringSession-%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" title="SpringSession 基本原理"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SpringSession 基本原理"/></a><div class="content"><a class="title" href="/2022/02/15/SpringSession-%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" title="SpringSession 基本原理">SpringSession 基本原理</a><time datetime="2022-02-14T22:12:21.000Z" title="发表于 2022-02-15 06:12:21">2022-02-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/" title="分布式下Session共享"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="分布式下Session共享"/></a><div class="content"><a class="title" href="/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/" title="分布式下Session共享">分布式下Session共享</a><time datetime="2022-02-14T15:22:52.000Z" title="发表于 2022-02-14 23:22:52">2022-02-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/31/Java-%E5%9B%9B%E5%A4%A7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/" title="Java 四大函数式接口"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 四大函数式接口"/></a><div class="content"><a class="title" href="/2022/01/31/Java-%E5%9B%9B%E5%A4%A7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/" title="Java 四大函数式接口">Java 四大函数式接口</a><time datetime="2022-01-30T19:25:01.000Z" title="发表于 2022-01-31 03:25:01">2022-01-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/23/Java-JUC---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="Java JUC - 学习笔记"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java JUC - 学习笔记"/></a><div class="content"><a class="title" href="/2022/01/23/Java-JUC---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="Java JUC - 学习笔记">Java JUC - 学习笔记</a><time datetime="2022-01-23T15:55:00.000Z" title="发表于 2022-01-23 23:55:00">2022-01-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/23/java%E4%BD%BF%E7%94%A8replace%E6%97%B6%E4%B8%AD%E6%96%87%E8%A2%ABURL%E7%BC%96%E7%A0%81%E5%AF%BC%E8%87%B4%E6%97%A0%E6%95%88%E8%A7%A3%E5%86%B3/" title="java使用replace时中文被URL编码导致无效解决"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java使用replace时中文被URL编码导致无效解决"/></a><div class="content"><a class="title" href="/2022/01/23/java%E4%BD%BF%E7%94%A8replace%E6%97%B6%E4%B8%AD%E6%96%87%E8%A2%ABURL%E7%BC%96%E7%A0%81%E5%AF%BC%E8%87%B4%E6%97%A0%E6%95%88%E8%A7%A3%E5%86%B3/" title="java使用replace时中文被URL编码导致无效解决">java使用replace时中文被URL编码导致无效解决</a><time datetime="2022-01-23T09:53:00.000Z" title="发表于 2022-01-23 17:53:00">2022-01-23</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            
             </div>
-        </div>
-    </div>
-</div>
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a><span class="category-list-count">42</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/MySQL/">MySQL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/React/">React</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%B0%8F%E7%8E%A9%E6%84%8F/">小玩意</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">25</span></li></ul>
-    </div>
-  </div>
-
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget-body">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">77</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/JavaScript/" rel="tag">JavaScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Junit/" rel="tag">Junit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Maven/" rel="tag">Maven</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/React/" rel="tag">React</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SQL/" rel="tag">SQL</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Session/" rel="tag">Session</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" rel="tag">SpringCloud</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" rel="tag">SpringMvc</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/SpringSession/" rel="tag">SpringSession</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/TypeScript/" rel="tag">TypeScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/Vue/" rel="tag">Vue</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/js/" rel="tag">js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/ts/" rel="tag">ts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" rel="tag">原理解析</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a><span class="tag-list-count">55</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a><span class="tag-list-count">22</span></li></ul>
-    </div>
-  </div>
-
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget-body tagcloud">
-      <a href="/clover-you/clover_blog_hexo.git/tags/JAVA/" style="font-size: 14px;">JAVA</a> <a href="/clover-you/clover_blog_hexo.git/tags/JavaScript/" style="font-size: 13.4px;">JavaScript</a> <a href="/clover-you/clover_blog_hexo.git/tags/Junit/" style="font-size: 13px;">Junit</a> <a href="/clover-you/clover_blog_hexo.git/tags/Maven/" style="font-size: 13px;">Maven</a> <a href="/clover-you/clover_blog_hexo.git/tags/MySQL/" style="font-size: 13.4px;">MySQL</a> <a href="/clover-you/clover_blog_hexo.git/tags/React/" style="font-size: 13.2px;">React</a> <a href="/clover-you/clover_blog_hexo.git/tags/Redis/" style="font-size: 13.3px;">Redis</a> <a href="/clover-you/clover_blog_hexo.git/tags/SQL/" style="font-size: 13.4px;">SQL</a> <a href="/clover-you/clover_blog_hexo.git/tags/Session/" style="font-size: 13.1px;">Session</a> <a href="/clover-you/clover_blog_hexo.git/tags/Spring/" style="font-size: 13.7px;">Spring</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" style="font-size: 13.5px;">SpringBoot</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" style="font-size: 13.4px;">SpringCloud</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" style="font-size: 13.6px;">SpringMvc</a> <a href="/clover-you/clover_blog_hexo.git/tags/SpringSession/" style="font-size: 13.1px;">SpringSession</a> <a href="/clover-you/clover_blog_hexo.git/tags/TypeScript/" style="font-size: 13.4px;">TypeScript</a> <a href="/clover-you/clover_blog_hexo.git/tags/Vue/" style="font-size: 13.1px;">Vue</a> <a href="/clover-you/clover_blog_hexo.git/tags/js/" style="font-size: 13px;">js</a> <a href="/clover-you/clover_blog_hexo.git/tags/ts/" style="font-size: 13px;">ts</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.1px;">前端</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" style="font-size: 13px;">原理解析</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 13.9px;">学习笔记</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 13.3px;">微服务</a> <a href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 13.8px;">随笔</a>
-    </div>
-  </div>
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/clover-you/clover_blog_hexo.git/archives/2022/02/">二月 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/clover-you/clover_blog_hexo.git/archives/2022/01/">一月 2022</a><span class="archive-list-count">88</span></li></ul>
-    </div>
-  </div>
-
-
-    
-      
-  <div class="widget">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget-body">
-      <ul class="recent-post-list list-unstyled no-thumbnail">
-        
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/Spring/">Spring</a>
-              </p>
-              <p class="item-title">
-                <a href="/clover-you/clover_blog_hexo.git/2022/02/15/SpringSession-%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" class="title">SpringSession 基本原理</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2022-02-14T22:12:21.000Z" itemprop="datePublished">2022-02-15</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
-              </p>
-              <p class="item-title">
-                <a href="/clover-you/clover_blog_hexo.git/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/" class="title">分布式下Session共享</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2022-02-14T15:22:52.000Z" itemprop="datePublished">2022-02-14</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
-              </p>
-              <p class="item-title">
-                <a href="/clover-you/clover_blog_hexo.git/2022/01/31/Java-%E5%9B%9B%E5%A4%A7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/" class="title">Java 四大函数式接口</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2022-01-30T19:25:01.000Z" itemprop="datePublished">2022-01-31</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a>
-              </p>
-              <p class="item-title">
-                <a href="/clover-you/clover_blog_hexo.git/2022/01/23/Java-JUC---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="title">Java JUC - 学习笔记</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2022-01-23T15:55:00.000Z" itemprop="datePublished">2022-01-23</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/clover-you/clover_blog_hexo.git/categories/JAVA/">JAVA</a>
-              </p>
-              <p class="item-title">
-                <a href="/clover-you/clover_blog_hexo.git/2022/01/23/java%E4%BD%BF%E7%94%A8replace%E6%97%B6%E4%B8%AD%E6%96%87%E8%A2%ABURL%E7%BC%96%E7%A0%81%E5%AF%BC%E8%87%B4%E6%97%A0%E6%95%88%E8%A7%A3%E5%86%B3/" class="title">java使用replace时中文被URL编码导致无效解决</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2022-01-23T09:53:00.000Z" itemprop="datePublished">2022-01-23</time>
-              </p>
-            </div>
-          </li>
-          
-      </ul>
-    </div>
-  </div>
-  
-
-    
-  </div>
-</aside>
-
-  
-  <main class="main" role="main">
-  
-  <div class="content article-list">
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/clover-you/clover_blog_hexo.git/2022/01/02/java%E8%8E%B7%E5%8F%96%E7%B1%BB%E8%B7%AF%E5%BE%84%E4%B8%8B%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84/">java获取类路径下文件的绝对路径</a>
-    </h1>
-  
-
-  </div>
-  
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/clover-you/clover_blog_hexo.git/2022/01/02/java%E8%8E%B7%E5%8F%96%E7%B1%BB%E8%B7%AF%E5%BE%84%E4%B8%8B%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84/" class="article-date">
-	  <time datetime="2022-01-02T10:21:39.000Z" itemprop="datePublished">1月 2</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/02/java%E8%8E%B7%E5%8F%96%E7%B1%BB%E8%B7%AF%E5%BE%84%E4%B8%8B%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84/#comments" class="article-comment-link">评论</a></span>
-    
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/clover-you/clover_blog_hexo.git/2022/01/02/Java-%E8%A7%A3%E5%86%B3Enum.valueOf%E6%89%BE%E4%B8%8D%E5%88%B0%E6%9E%9A%E4%B8%BE%E5%87%BA%E7%8E%B0%E7%9A%84%E5%BC%82%E5%B8%B8/">Java 解决Enum.valueOf找不到枚举出现的异常</a>
-    </h1>
-  
-
-  </div>
-  
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/clover-you/clover_blog_hexo.git/2022/01/02/Java-%E8%A7%A3%E5%86%B3Enum.valueOf%E6%89%BE%E4%B8%8D%E5%88%B0%E6%9E%9A%E4%B8%BE%E5%87%BA%E7%8E%B0%E7%9A%84%E5%BC%82%E5%B8%B8/" class="article-date">
-	  <time datetime="2022-01-02T10:21:06.000Z" itemprop="datePublished">1月 2</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/02/Java-%E8%A7%A3%E5%86%B3Enum.valueOf%E6%89%BE%E4%B8%8D%E5%88%B0%E6%9E%9A%E4%B8%BE%E5%87%BA%E7%8E%B0%E7%9A%84%E5%BC%82%E5%B8%B8/#comments" class="article-comment-link">评论</a></span>
-    
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/clover-you/clover_blog_hexo.git/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/">idea创建普通Web项目lib目录无法输出，tomcat不报错问题</a>
-    </h1>
-  
-
-  </div>
-  
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/clover-you/clover_blog_hexo.git/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/" class="article-date">
-	  <time datetime="2022-01-02T10:20:09.000Z" itemprop="datePublished">1月 2</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/#comments" class="article-comment-link">评论</a></span>
-    
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/clover-you/clover_blog_hexo.git/2022/01/02/Http%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%8C%85%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/">Http网络协议包简单学习</a>
-    </h1>
-  
-
-  </div>
-  
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/clover-you/clover_blog_hexo.git/2022/01/02/Http%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%8C%85%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/" class="article-date">
-	  <time datetime="2022-01-02T10:19:32.000Z" itemprop="datePublished">1月 2</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/02/Http%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%8C%85%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/#comments" class="article-comment-link">评论</a></span>
-    
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/clover-you/clover_blog_hexo.git/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/">性能与压力测试</a>
-    </h1>
-  
-
-  </div>
-  
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/clover-you/clover_blog_hexo.git/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/" class="article-date">
-	  <time datetime="2022-01-02T10:18:00.000Z" itemprop="datePublished">1月 2</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/#comments" class="article-comment-link">评论</a></span>
-    
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/clover-you/clover_blog_hexo.git/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/">手撸Spring整合MyBatis玩具</a>
-    </h1>
-  
-
-  </div>
-  
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/clover-you/clover_blog_hexo.git/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/" class="article-date">
-	  <time datetime="2022-01-02T10:17:52.000Z" itemprop="datePublished">1月 2</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" rel="tag">SpringMvc</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/#comments" class="article-comment-link">评论</a></span>
-    
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/clover-you/clover_blog_hexo.git/2022/01/02/%E4%BD%BF%E7%94%A8nacos%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE/">使用nacos作为配置中心统一管理配置</a>
-    </h1>
-  
-
-  </div>
-  
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/clover-you/clover_blog_hexo.git/2022/01/02/%E4%BD%BF%E7%94%A8nacos%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE/" class="article-date">
-	  <time datetime="2022-01-02T10:16:00.000Z" itemprop="datePublished">1月 2</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" rel="tag">SpringBoot</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/SpringCloud/" rel="tag">SpringCloud</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/02/%E4%BD%BF%E7%94%A8nacos%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE/#comments" class="article-comment-link">评论</a></span>
-    
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/clover-you/clover_blog_hexo.git/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/">关于synchronized无法锁住Integer</a>
-    </h1>
-  
-
-  </div>
-  
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/clover-you/clover_blog_hexo.git/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/" class="article-date">
-	  <time datetime="2022-01-02T10:15:43.000Z" itemprop="datePublished">1月 2</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/#comments" class="article-comment-link">评论</a></span>
-    
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/clover-you/clover_blog_hexo.git/2022/01/02/%E5%88%9D%E5%AD%A6MyBatis%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89Error-querying-database/">初学MyBatis（踩坑）Error querying database</a>
-    </h1>
-  
-
-  </div>
-  
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/clover-you/clover_blog_hexo.git/2022/01/02/%E5%88%9D%E5%AD%A6MyBatis%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89Error-querying-database/" class="article-date">
-	  <time datetime="2022-01-02T10:14:49.000Z" itemprop="datePublished">1月 2</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/MySQL/" rel="tag">MySQL</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/SQL/" rel="tag">SQL</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/Spring/" rel="tag">Spring</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/SpringBoot/" rel="tag">SpringBoot</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/SpringMvc/" rel="tag">SpringMvc</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/02/%E5%88%9D%E5%AD%A6MyBatis%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89Error-querying-database/#comments" class="article-comment-link">评论</a></span>
-    
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/clover-you/clover_blog_hexo.git/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Junit5 单元测试 - 学习笔记</a>
-    </h1>
-  
-
-  </div>
-  
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/clover-you/clover_blog_hexo.git/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
-	  <time datetime="2022-01-02T10:13:28.000Z" itemprop="datePublished">1月 2</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/clover-you/clover_blog_hexo.git/categories/%E5%85%B6%E5%AE%83/">其它</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/JAVA/" rel="tag">JAVA</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/Junit/" rel="tag">Junit</a>, <a class="article-tag-link-link" href="/clover-you/clover_blog_hexo.git/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/clover-you/clover_blog_hexo.git/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#comments" class="article-comment-link">评论</a></span>
-    
-  </p>
-</article>
-
-    
-  </div>
-
-  
-    
-    <nav class="bar bar-footer clearfix" data-stick-bottom>
-        <div class="bar-inner">
-        <ul class="pager pull-left">
-            
-            <li class="prev">
-                <a href="/clover-you/clover_blog_hexo.git/page/2/">
-                    <i class="icon icon-angle-left"></i>
-                    上一页
-                </a>
-            </li>
-            
-            
-            <li class="next">
-                <a href="/clover-you/clover_blog_hexo.git/page/4/">
-                    下一页
-                    <i class="icon icon-angle-right"></i>
-                </a>
-            </li>
-            
-        </ul>
-            <div class="total-article bar-right">Page 3 of 9</div>
-        </div>
-    </nav>
-    
- 
-</main>
-
-  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
-	
-	
-    <ul class="social-links">
-    	
-        <li><a href="https://github.com/Clover-You" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
-        
-        <li><a href="/clover-you/clover_blog_hexo.git/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
-        
-    </ul>
-
-    <div class="copyright">
-    	
-        <div class="publishby">
-        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
-        </div>
-    </div>
-</footer>
-  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
-<script>
-window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
-</script>
-
-<script src="/clover-you/clover_blog_hexo.git/js/plugin.min.js"></script>
-
-
-<script src="/clover-you/clover_blog_hexo.git/js/application.js"></script>
-
-
-    <script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/clover-you/clover_blog_hexo.git/',
-        CONTENT_URL: '/clover-you/clover_blog_hexo.git/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-
-<script src="/clover-you/clover_blog_hexo.git/js/insight.js"></script>
-
-
-
-
-
-
-   
-
-
-
-
-
-
-
-
-
-</body>
-</html>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/JAVA/"><span class="card-category-list-name">JAVA</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java-%E5%9F%BA%E7%A1%80/"><span class="card-category-list-name">Java 基础</span><span class="card-category-list-count">42</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MySQL/"><span class="card-category-list-name">MySQL</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/React/"><span class="card-category-list-name">React</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Spring/"><span class="card-category-list-name">Spring</span><span class="card-category-list-count">8</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%85%B6%E5%AE%83/"><span class="card-category-list-name">其它</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B0%8F%E7%8E%A9%E6%84%8F/"><span class="card-category-list-name">小玩意</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="card-category-list-name">随笔</span><span class="card-category-list-count">25</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/JAVA/" style="font-size: 1.5em; color: #99a9bf">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 1.26em; color: #999fa8">JavaScript</a> <a href="/tags/Junit/" style="font-size: 1.1em; color: #999">Junit</a> <a href="/tags/Maven/" style="font-size: 1.1em; color: #999">Maven</a> <a href="/tags/MySQL/" style="font-size: 1.26em; color: #999fa8">MySQL</a> <a href="/tags/React/" style="font-size: 1.18em; color: #999ca1">React</a> <a href="/tags/Redis/" style="font-size: 1.22em; color: #999ea4">Redis</a> <a href="/tags/SQL/" style="font-size: 1.26em; color: #999fa8">SQL</a> <a href="/tags/Session/" style="font-size: 1.14em; color: #999b9d">Session</a> <a href="/tags/Spring/" style="font-size: 1.38em; color: #99a4b4">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 1.3em; color: #99a1ac">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 1.26em; color: #999fa8">SpringCloud</a> <a href="/tags/SpringMvc/" style="font-size: 1.34em; color: #99a3b0">SpringMvc</a> <a href="/tags/SpringSession/" style="font-size: 1.14em; color: #999b9d">SpringSession</a> <a href="/tags/TypeScript/" style="font-size: 1.26em; color: #999fa8">TypeScript</a> <a href="/tags/Vue/" style="font-size: 1.14em; color: #999b9d">Vue</a> <a href="/tags/js/" style="font-size: 1.1em; color: #999">js</a> <a href="/tags/ts/" style="font-size: 1.1em; color: #999">ts</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 1.14em; color: #999b9d">前端</a> <a href="/tags/%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" style="font-size: 1.1em; color: #999">原理解析</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 1.46em; color: #99a7bb">学习笔记</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 1.22em; color: #999ea4">微服务</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 1.42em; color: #99a6b7">随笔</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/02/"><span class="card-archive-list-date">二月 2022</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/01/"><span class="card-archive-list-date">一月 2022</span><span class="card-archive-list-count">88</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">90</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2022-02-15T01:45:51.142Z"></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Clover You</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
