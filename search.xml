@@ -125,44 +125,6 @@
       </tags>
   </entry>
   <entry>
-    <title>13、Java参数传递</title>
-    <url>/2022/01/02/13%E3%80%81Java%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92/</url>
-    <content><![CDATA[<p>对象和引用的概念：</p>
-<ul>
-<li>对象：目前在使用<code>new</code>运算符在堆内存中开辟的内存空间称为对象。</li>
-<li>引用：是一个变量，不一定是局部变量，这可能是成员变量。引用保存了内存地址，指向了堆内存当中的对象。所有访问实例相关的数据，都需要通过“引用”的方式访问，因为只有通过引用才能找到对象。如果有一个空的引用，访问对象的实例相关的数据会出现空指针异常。</li>
-</ul>
-<p>Java语言当中方法调用的时候涉及到参数传递的问题，参数传递实际上传递的是变量中保存的具体值。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">  <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">  add(i);</span><br><span class="line">  System.out.println(<span class="string">&quot;main --&gt; &quot;</span> + i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> i)</span>&#123;</span><br><span class="line">  i++;</span><br><span class="line">  System.out.println(<span class="string">&quot;add ---&gt;&quot;</span> + i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>main</code> 方法中<code>i</code>变量是局部变量，<code>i</code>变量本身占有内存空间，所以<code>i</code>变量本身也有内存地址，<code>i</code>变量中保持的是 10 这个字面值。</p>
-<p><code>add(i);</code>方法在调用的时候，实际上给<code>add</code>方法传递的是<code>main</code> 方法中<code>i</code>这个变量保存的值。与<code>i</code>本身无关。</p>
-<p><strong>以下程序如何执行？</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainApplication</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">    <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">    user.setName(<span class="string">&quot;Rename&quot;</span>);<span class="comment">// 第一次做修改</span></span><br><span class="line">    setName(user);</span><br><span class="line">    System.out.println(user.getName());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(User user)</span>&#123;</span><br><span class="line">    user.setName(<span class="string">&quot;UpYou&quot;</span>);<span class="comment">// 第二次做修改</span></span><br><span class="line">    System.out.println(<span class="string">&quot;当前 name 值为：&quot;</span> + user.getName());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面程序分别打印出什么结果？为什么呢？</p>
-<ul>
-<li>分别打印出<ul>
-<li>当前 name 值为：UpYou</li>
-<li>UpYou</li>
-<li>因为<code>main</code>中的<code>user</code>拿到的是<code>User</code>对象的内存地址，当第一次修改时，将<code>user</code>对象中的<code>name</code>字段修改为<code>Rename</code>,后又调用<code>setName</code>方法，将<code>User</code>对象的内存地址给到<code>setName</code>方法的<code>user</code>变量，调用这个对象中的<code>setName</code>方法修改<code>name</code>字段。打印输出：<code>当前 name 值为：UpYou</code>后弹栈，继续执行<code>main</code>方法，<code>main</code>使用<code>println</code>方法打印，因为堆内存中的<code>User</code>对象中的<code>name</code>字段已经被<code>setName</code>方法修改，而<code>user</code>的内存地址也是指向<code>User</code>对象，所以拿到的是已经修改后的值。</li>
-</ul>
-</li>
-</ul>
-<p><strong><code>user</code>本身也有内存地址，是局部变量，<code>user</code>变量中保存的那个值，这个值是另一个Java对象在堆内存中的内存地址。</strong></p>
-<blockquote>
-<p>在Java中，方法在调用的时候，参数在传递的时候，传的永远都是变量中保存的那个值。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Java 基础</category>
-      </categories>
-      <tags>
-        <tag>JAVA</tag>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>11、Java面向对象封装性</title>
     <url>/2022/01/02/11%E3%80%81Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85%E6%80%A7/</url>
     <content><![CDATA[<p><code> Student</code>类中的<code>age    </code>属性在外部程序中可以随意访问，导致<code>age</code>属性的不安全。一个<code>Student</code>对象表示一个用户，年龄不可能等于负数，以下程序当中年龄值为负数，程序运行的时候并没有报错，这是当前程序存在的缺陷。</p>
@@ -233,55 +195,6 @@
       </tags>
   </entry>
   <entry>
-    <title>14、Java this关键字</title>
-    <url>/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/</url>
-    <content><![CDATA[<ol>
-<li><p><code>this</code>是一个关键字，翻译为：<strong>这个</strong></p>
-</li>
-<li><p><code>this</code>是一个引用，<code>this</code>是一个变量,<code>this</code>变量中保存了内存地址指向自身，<code>this</code>存储在<code>JVM</code>堆内存Java对象内部。</p>
-</li>
-<li><p>创建100个对象，每一个对象都有<code>this</code>，也就是说有100个不同的<code>this</code></p>
-</li>
-<li><p>没有<code>static</code>关键字的方法被称为<strong>实例方法</strong></p>
-</li>
-<li><p>没有<code>static</code>关键字的变量被称为<strong>实例变量</strong></p>
-</li>
-<li><p>实例变量、实例方法在堆内存中存储，所以访问该数据的时候，必须先创建对象，通过引用方法访问。</p>
-</li>
-<li><p><code>this</code>可以出现在“<strong>实例方法</strong>”中，<code>this</code>指向当前正在执行的对象。(<code>this</code>代表当前对象)</p>
-</li>
-<li><p><code>this</code>在多数情况下都可以省略不写。</p>
-<ul>
-<li>用来区分局部变量和实例变量的时候<code>this</code>不能省略</li>
-</ul>
-</li>
-<li><p>如果一个程序执行过程中没有“<strong>当前对象</strong>”，因为带有<code>static</code>的方法是通过类名的方式访问的，或者说这个“<strong>上下文</strong>”当中没有”<strong>当前对象</strong>“，自然也不存在<code>this</code>(<code>this</code>代表的是当前正在执行这个动作的对象)</p>
-</li>
-<li><p><code>this</code>不能使用在带有<code>static</code>方法中</p>
-</li>
-</ol>
-<p><strong>例如以下没有当前对象程序：</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> String name;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">getName</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>以上程序在编译过程中报错<code>connot be referenced from a static context.</code></p>
-<p><code>name</code>是一个实例变量，以上代码的含义是：访问当前对象的<code>name</code>，<code>getName</code>没有当前对象，自然也不能访问当前对象的<code>name</code>。如果<code>static</code>要访问实例变量，必须通过<strong>实例化</strong>对象访问。例如<code>User u = new User();</code></p>
-<p><strong>以下程序不会出现空指针异常：</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainApplication</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">    <span class="type">User</span> <span class="variable">u</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">    u = <span class="literal">null</span>;</span><br><span class="line">    System.out.println(u.getName());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">getName</span><span class="params">()</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;getName&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>带有<code>static</code>的方法，其实既可以采用类名的方式访问，也可以采用引用的方式访问，但是即使采用引用的方式去访问，实际上执行的时候和引用指向的对象无关。</p>
-<h3 id="this-内存结构图"><a href="#this-内存结构图" class="headerlink" title="this 内存结构图"></a><code>this</code> 内存结构图</h3><p><img src="http://qiniu-note-image.ctong.top/note/images/image-6f47ab1909474ebca9f3b85ba58faa46.png" alt="image.png"></p>
-]]></content>
-      <categories>
-        <category>Java 基础</category>
-      </categories>
-      <tags>
-        <tag>JAVA</tag>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>12、Java构造方法</title>
     <url>/2022/01/02/12%E3%80%81Java%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<p>关于Java类中的构造方法：</p>
@@ -323,6 +236,93 @@
 <blockquote>
 <p>成员变量之实例变量，属于对象级别的变量，这种变量必须先有对象才能有实例变量。实例变量没有手动赋值的时候，系统会赋默认值，那么这个系统默认值是在什么时候完成的呢？是在类加载的时候吗？不是，因为类加载的时候只加载了代码片段，还没来的及创建对象。所以此时实例变量并没有初始化。实际上，实例变量的内存空间是在构造方法执行过程中完成开辟的，完成初始化的。系统在默认赋值的时候，也是在构造方法当中完成的赋值</p>
 </blockquote>
+]]></content>
+      <categories>
+        <category>Java 基础</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>13、Java参数传递</title>
+    <url>/2022/01/02/13%E3%80%81Java%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92/</url>
+    <content><![CDATA[<p>对象和引用的概念：</p>
+<ul>
+<li>对象：目前在使用<code>new</code>运算符在堆内存中开辟的内存空间称为对象。</li>
+<li>引用：是一个变量，不一定是局部变量，这可能是成员变量。引用保存了内存地址，指向了堆内存当中的对象。所有访问实例相关的数据，都需要通过“引用”的方式访问，因为只有通过引用才能找到对象。如果有一个空的引用，访问对象的实例相关的数据会出现空指针异常。</li>
+</ul>
+<p>Java语言当中方法调用的时候涉及到参数传递的问题，参数传递实际上传递的是变量中保存的具体值。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">  <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">  add(i);</span><br><span class="line">  System.out.println(<span class="string">&quot;main --&gt; &quot;</span> + i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> i)</span>&#123;</span><br><span class="line">  i++;</span><br><span class="line">  System.out.println(<span class="string">&quot;add ---&gt;&quot;</span> + i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>main</code> 方法中<code>i</code>变量是局部变量，<code>i</code>变量本身占有内存空间，所以<code>i</code>变量本身也有内存地址，<code>i</code>变量中保持的是 10 这个字面值。</p>
+<p><code>add(i);</code>方法在调用的时候，实际上给<code>add</code>方法传递的是<code>main</code> 方法中<code>i</code>这个变量保存的值。与<code>i</code>本身无关。</p>
+<p><strong>以下程序如何执行？</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainApplication</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">    <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">    user.setName(<span class="string">&quot;Rename&quot;</span>);<span class="comment">// 第一次做修改</span></span><br><span class="line">    setName(user);</span><br><span class="line">    System.out.println(user.getName());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(User user)</span>&#123;</span><br><span class="line">    user.setName(<span class="string">&quot;UpYou&quot;</span>);<span class="comment">// 第二次做修改</span></span><br><span class="line">    System.out.println(<span class="string">&quot;当前 name 值为：&quot;</span> + user.getName());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面程序分别打印出什么结果？为什么呢？</p>
+<ul>
+<li>分别打印出<ul>
+<li>当前 name 值为：UpYou</li>
+<li>UpYou</li>
+<li>因为<code>main</code>中的<code>user</code>拿到的是<code>User</code>对象的内存地址，当第一次修改时，将<code>user</code>对象中的<code>name</code>字段修改为<code>Rename</code>,后又调用<code>setName</code>方法，将<code>User</code>对象的内存地址给到<code>setName</code>方法的<code>user</code>变量，调用这个对象中的<code>setName</code>方法修改<code>name</code>字段。打印输出：<code>当前 name 值为：UpYou</code>后弹栈，继续执行<code>main</code>方法，<code>main</code>使用<code>println</code>方法打印，因为堆内存中的<code>User</code>对象中的<code>name</code>字段已经被<code>setName</code>方法修改，而<code>user</code>的内存地址也是指向<code>User</code>对象，所以拿到的是已经修改后的值。</li>
+</ul>
+</li>
+</ul>
+<p><strong><code>user</code>本身也有内存地址，是局部变量，<code>user</code>变量中保存的那个值，这个值是另一个Java对象在堆内存中的内存地址。</strong></p>
+<blockquote>
+<p>在Java中，方法在调用的时候，参数在传递的时候，传的永远都是变量中保存的那个值。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Java 基础</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>14、Java this关键字</title>
+    <url>/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/</url>
+    <content><![CDATA[<ol>
+<li><p><code>this</code>是一个关键字，翻译为：<strong>这个</strong></p>
+</li>
+<li><p><code>this</code>是一个引用，<code>this</code>是一个变量,<code>this</code>变量中保存了内存地址指向自身，<code>this</code>存储在<code>JVM</code>堆内存Java对象内部。</p>
+</li>
+<li><p>创建100个对象，每一个对象都有<code>this</code>，也就是说有100个不同的<code>this</code></p>
+</li>
+<li><p>没有<code>static</code>关键字的方法被称为<strong>实例方法</strong></p>
+</li>
+<li><p>没有<code>static</code>关键字的变量被称为<strong>实例变量</strong></p>
+</li>
+<li><p>实例变量、实例方法在堆内存中存储，所以访问该数据的时候，必须先创建对象，通过引用方法访问。</p>
+</li>
+<li><p><code>this</code>可以出现在“<strong>实例方法</strong>”中，<code>this</code>指向当前正在执行的对象。(<code>this</code>代表当前对象)</p>
+</li>
+<li><p><code>this</code>在多数情况下都可以省略不写。</p>
+<ul>
+<li>用来区分局部变量和实例变量的时候<code>this</code>不能省略</li>
+</ul>
+</li>
+<li><p>如果一个程序执行过程中没有“<strong>当前对象</strong>”，因为带有<code>static</code>的方法是通过类名的方式访问的，或者说这个“<strong>上下文</strong>”当中没有”<strong>当前对象</strong>“，自然也不存在<code>this</code>(<code>this</code>代表的是当前正在执行这个动作的对象)</p>
+</li>
+<li><p><code>this</code>不能使用在带有<code>static</code>方法中</p>
+</li>
+</ol>
+<p><strong>例如以下没有当前对象程序：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> String name;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">getName</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上程序在编译过程中报错<code>connot be referenced from a static context.</code></p>
+<p><code>name</code>是一个实例变量，以上代码的含义是：访问当前对象的<code>name</code>，<code>getName</code>没有当前对象，自然也不能访问当前对象的<code>name</code>。如果<code>static</code>要访问实例变量，必须通过<strong>实例化</strong>对象访问。例如<code>User u = new User();</code></p>
+<p><strong>以下程序不会出现空指针异常：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainApplication</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">    <span class="type">User</span> <span class="variable">u</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">    u = <span class="literal">null</span>;</span><br><span class="line">    System.out.println(u.getName());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">getName</span><span class="params">()</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;getName&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>带有<code>static</code>的方法，其实既可以采用类名的方式访问，也可以采用引用的方式访问，但是即使采用引用的方式去访问，实际上执行的时候和引用指向的对象无关。</p>
+<h3 id="this-内存结构图"><a href="#this-内存结构图" class="headerlink" title="this 内存结构图"></a><code>this</code> 内存结构图</h3><p><img src="http://qiniu-note-image.ctong.top/note/images/image-6f47ab1909474ebca9f3b85ba58faa46.png" alt="image.png"></p>
 ]]></content>
       <categories>
         <category>Java 基础</category>
@@ -392,6 +392,58 @@
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>Java 基础</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>16、Java 方法覆盖</title>
+    <url>/2022/01/02/16%E3%80%81Java-%E6%96%B9%E6%B3%95%E8%A6%86%E7%9B%96/</url>
+    <content><![CDATA[<ol>
+<li>方法覆盖又被称为方法重写<code>override</code></li>
+<li>什么时候使用方法重写？<ul>
+<li>当父类中的方法无法满足子类的业务需求，子有必要见父类中继承过来的方法进行重新编写，这个重新编写的过程称为方法重写、覆盖。</li>
+</ul>
+</li>
+<li>什么条件满足之后方法会发生重写？<ul>
+<li>方法重写发生在具有关系的父子类之间。</li>
+<li>方法名相同、返回值类型相同、参数列表相同。</li>
+<li>访问权限不能更低，可以更高。</li>
+<li>抛出异常不能更多，可以更少。</li>
+</ul>
+</li>
+<li>注意：<ul>
+<li>私有方法不能继承，所以不能覆盖。</li>
+<li>构造方法不能继承，所以不能覆盖。</li>
+<li>静态方法不存在覆盖。</li>
+<li>覆盖只针对方法，不针对属性。</li>
+</ul>
+</li>
+</ol>
+<p>有一个<code>Animal</code>类，里面有一个<code>move</code>方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">move</span><span class="params">()</span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;动物在飞行!&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Cat</code>类继承了<code>Animal</code>，那么<code>Cat</code>可以使用<code>move</code>方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Cat</span> <span class="keyword">extends</span> <span class="title class_">Animal</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出<code>动物在飞行!</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Cat</span> <span class="variable">cat</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Cat</span>();</span><br><span class="line">cat.move();</span><br></pre></td></tr></table></figure>
+
+<p>而猫会飞吗？它不会，<code>Animal</code>中的<code>move</code>方法已经无法满足<code>Cat</code>，这时需要重写<code>Animal</code>中的 &#96;&#96;move&#96;方法</p>
+<p>根据上面第3条第2项规则：</p>
+<p>输出<code>猫在地上走!</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Cat</span> <span class="keyword">extends</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">move</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;猫在地上走!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这时有一个<code>Bird</code>类也继承了<code>Animal</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Bird</span> <span class="keyword">extends</span> <span class="title class_">Animal</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出:</p>
+<p><code>猫在地上走!</code><br><code>动物在飞行!</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Cat</span> <span class="variable">cat</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Cat</span>();</span><br><span class="line">cat.move();</span><br><span class="line"><span class="type">Bird</span> <span class="variable">bird</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Bird</span>();</span><br><span class="line">bird.move();</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Java 基础</category>
       </categories>
@@ -575,58 +627,6 @@
       </tags>
   </entry>
   <entry>
-    <title>16、Java 方法覆盖</title>
-    <url>/2022/01/02/16%E3%80%81Java-%E6%96%B9%E6%B3%95%E8%A6%86%E7%9B%96/</url>
-    <content><![CDATA[<ol>
-<li>方法覆盖又被称为方法重写<code>override</code></li>
-<li>什么时候使用方法重写？<ul>
-<li>当父类中的方法无法满足子类的业务需求，子有必要见父类中继承过来的方法进行重新编写，这个重新编写的过程称为方法重写、覆盖。</li>
-</ul>
-</li>
-<li>什么条件满足之后方法会发生重写？<ul>
-<li>方法重写发生在具有关系的父子类之间。</li>
-<li>方法名相同、返回值类型相同、参数列表相同。</li>
-<li>访问权限不能更低，可以更高。</li>
-<li>抛出异常不能更多，可以更少。</li>
-</ul>
-</li>
-<li>注意：<ul>
-<li>私有方法不能继承，所以不能覆盖。</li>
-<li>构造方法不能继承，所以不能覆盖。</li>
-<li>静态方法不存在覆盖。</li>
-<li>覆盖只针对方法，不针对属性。</li>
-</ul>
-</li>
-</ol>
-<p>有一个<code>Animal</code>类，里面有一个<code>move</code>方法</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">move</span><span class="params">()</span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;动物在飞行!&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>Cat</code>类继承了<code>Animal</code>，那么<code>Cat</code>可以使用<code>move</code>方法</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Cat</span> <span class="keyword">extends</span> <span class="title class_">Animal</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出<code>动物在飞行!</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Cat</span> <span class="variable">cat</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Cat</span>();</span><br><span class="line">cat.move();</span><br></pre></td></tr></table></figure>
-
-<p>而猫会飞吗？它不会，<code>Animal</code>中的<code>move</code>方法已经无法满足<code>Cat</code>，这时需要重写<code>Animal</code>中的 &#96;&#96;move&#96;方法</p>
-<p>根据上面第3条第2项规则：</p>
-<p>输出<code>猫在地上走!</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Cat</span> <span class="keyword">extends</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">move</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;猫在地上走!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这时有一个<code>Bird</code>类也继承了<code>Animal</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Bird</span> <span class="keyword">extends</span> <span class="title class_">Animal</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出:</p>
-<p><code>猫在地上走!</code><br><code>动物在飞行!</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Cat</span> <span class="variable">cat</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Cat</span>();</span><br><span class="line">cat.move();</span><br><span class="line"><span class="type">Bird</span> <span class="variable">bird</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Bird</span>();</span><br><span class="line">bird.move();</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Java 基础</category>
-      </categories>
-      <tags>
-        <tag>JAVA</tag>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>18、Java final关键字</title>
     <url>/2022/01/02/18%E3%80%81Java-final%E5%85%B3%E9%94%AE%E5%AD%97/</url>
     <content><![CDATA[<p>关于Java语言当中final关键字：</p>
@@ -791,27 +791,6 @@
       </tags>
   </entry>
   <entry>
-    <title>20、Java 访问控制权限修饰符</title>
-    <url>/2022/01/02/20%E3%80%81Java-%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90%E4%BF%AE%E9%A5%B0%E7%AC%A6/</url>
-    <content><![CDATA[<p>访问控制权限修饰符：</p>
-<ol>
-<li>访问控制权限修饰符来控制元素的访问范围</li>
-<li>访问控制权限修饰符包括：<br><code>public</code>   表示公开的，在任何位置都可以访问<br><code>protected</code>   表示受保护的，同包、子类可以访问<br><code>缺省</code>    表示这个修饰符没写，同包下可以访问<br><code>private</code>   表示私有的，只能在本类中访问</li>
-<li>访问控制修饰符可以修饰类、变量、方法</li>
-<li>当某个数据只希望子类使用，使用<code>protected</code>进行修饰。</li>
-<li>修饰符的范围：<br>privste &lt; 缺省 &lt; protected &lt; public </li>
-<li>类只能采用public和缺省的修饰符进行修饰「内部类除外」</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Java 基础</category>
-      </categories>
-      <tags>
-        <tag>JAVA</tag>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>1、Java 数据类型</title>
     <url>/2022/01/02/1%E3%80%81Java-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</url>
     <content><![CDATA[<h3 id="数据类型转换规则"><a href="#数据类型转换规则" class="headerlink" title="数据类型转换规则"></a>数据类型转换规则</h3><ol>
@@ -858,6 +837,27 @@
 <blockquote>
 <p>所有学习资料均来自互联网,本人各种摘抄实验的结果</p>
 </blockquote>
+]]></content>
+      <categories>
+        <category>Java 基础</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>20、Java 访问控制权限修饰符</title>
+    <url>/2022/01/02/20%E3%80%81Java-%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90%E4%BF%AE%E9%A5%B0%E7%AC%A6/</url>
+    <content><![CDATA[<p>访问控制权限修饰符：</p>
+<ol>
+<li>访问控制权限修饰符来控制元素的访问范围</li>
+<li>访问控制权限修饰符包括：<br><code>public</code>   表示公开的，在任何位置都可以访问<br><code>protected</code>   表示受保护的，同包、子类可以访问<br><code>缺省</code>    表示这个修饰符没写，同包下可以访问<br><code>private</code>   表示私有的，只能在本类中访问</li>
+<li>访问控制修饰符可以修饰类、变量、方法</li>
+<li>当某个数据只希望子类使用，使用<code>protected</code>进行修饰。</li>
+<li>修饰符的范围：<br>privste &lt; 缺省 &lt; protected &lt; public </li>
+<li>类只能采用public和缺省的修饰符进行修饰「内部类除外」</li>
+</ol>
 ]]></content>
       <categories>
         <category>Java 基础</category>
@@ -4442,6 +4442,61 @@ if ( !( i &gt; 2 ) )&#123;
       </tags>
   </entry>
   <entry>
+    <title>8、Java面向对象和面向过程的区别</title>
+    <url>/2022/01/02/8%E3%80%81Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%92%8C%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><ol>
+<li><p><strong>面向过程：</strong></p>
+<ul>
+<li><p>如果有一个软件，采用面向过程开发，在这个过程当中，没有任何独立体的概念。将<strong>因为所以</strong>关联在一起把整个业务逻辑实现。这种方式的开发，我们称为面向过程。面向过程开发，关注的是因果关系的一个实现，没有独立体的概念，面向过程统是以因果关系为核心。一个小因果关系构成一个小的步骤，小的步骤之间因为<strong>因果关系</strong>构成一个小的模块。模块之间又因为因果关系构成一个系统。只要有一个因果关系发生了断裂，整个软件就废了。采用面向过程开发的系统，都应该关注的是<strong>过程</strong></p>
+</li>
+<li><p>优点</p>
+<ul>
+<li>对于业务逻辑比较简单的程序，可以达到快速开发，前期投入成本低。</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>采用面向过程开发的开发方式很难解决非常复杂的业务逻辑，另外面向过程的方式导致软件元素之间的<strong>耦合度</strong>非常高，只要其中一环出问题，整个系统受到影响，导致最终的软件扩展力差。另外，由于没有独立体的概念，所以无法达到组件复用。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>面向对象：</strong></p>
+<ul>
+<li><p>面向对象的关注点在对象上，面向对象就相当于，我不关心这个对象底层到底是怎么实现的，我只关心这个对象能给我带来什么。你给我个打火机，我不关心这个打火机是怎么实现的，我只要知道这个打火机按这个钮就能打火。</p>
+</li>
+<li><p>关注的是一个独立的组件、独立的个体，而这个独立的个体主要分析的是你这个独立的个体到底可以给我带来什么、做什么。</p>
+</li>
+<li><p>像现实世界，分割成不同的单元，每个单元都是独立的对象，然后让对象之间协作起来形成一个系统</p>
+</li>
+<li><p>优点</p>
+<ul>
+<li>独立体耦合度低，扩展力强。更容易解决现实世界当中更复杂的业务逻辑。组件复用性强</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>前期投入的成本较高，需要进行独立体的抽取，大量的系统设计</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>想象一个人抽烟的场景，想到了有个哥们，拿着一根香烟，然后又想到他手里拿了个打火机。大脑里想象的是什么，想象到了几个独立个体，想象到了人，想象到了抽烟场合，想象到了打火机想象到了香烟。把这几个对象放到这，组合起来这个场景就形成了</p>
+<blockquote>
+<p>面向过程主要关注的是实现的具体过程，因果关系。</p>
+<p>面向对象：主要关注的是对象「<strong>独立的个体</strong>」，能完成哪些功能。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Java 基础</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>9、Java类的定义</title>
     <url>/2022/01/02/9%E3%80%81Java%E7%B1%BB%E7%9A%84%E5%AE%9A%E4%B9%89/</url>
     <content><![CDATA[<ol>
@@ -4503,61 +4558,6 @@ if ( !( i &gt; 2 ) )&#123;
 <p><code>Student</code>是一个类，代表了所有学生对象。是一个学生模板。</p>
 <p>以下程序表述的是一个对象的属性。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Student</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> age;</span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> no;</span><br><span class="line">  <span class="keyword">public</span> String name;</span><br><span class="line">  <span class="keyword">public</span> String address;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Java 基础</category>
-      </categories>
-      <tags>
-        <tag>JAVA</tag>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>8、Java面向对象和面向过程的区别</title>
-    <url>/2022/01/02/8%E3%80%81Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%92%8C%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
-    <content><![CDATA[<h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><ol>
-<li><p><strong>面向过程：</strong></p>
-<ul>
-<li><p>如果有一个软件，采用面向过程开发，在这个过程当中，没有任何独立体的概念。将<strong>因为所以</strong>关联在一起把整个业务逻辑实现。这种方式的开发，我们称为面向过程。面向过程开发，关注的是因果关系的一个实现，没有独立体的概念，面向过程统是以因果关系为核心。一个小因果关系构成一个小的步骤，小的步骤之间因为<strong>因果关系</strong>构成一个小的模块。模块之间又因为因果关系构成一个系统。只要有一个因果关系发生了断裂，整个软件就废了。采用面向过程开发的系统，都应该关注的是<strong>过程</strong></p>
-</li>
-<li><p>优点</p>
-<ul>
-<li>对于业务逻辑比较简单的程序，可以达到快速开发，前期投入成本低。</li>
-</ul>
-</li>
-<li><p>缺点</p>
-<ul>
-<li>采用面向过程开发的开发方式很难解决非常复杂的业务逻辑，另外面向过程的方式导致软件元素之间的<strong>耦合度</strong>非常高，只要其中一环出问题，整个系统受到影响，导致最终的软件扩展力差。另外，由于没有独立体的概念，所以无法达到组件复用。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><strong>面向对象：</strong></p>
-<ul>
-<li><p>面向对象的关注点在对象上，面向对象就相当于，我不关心这个对象底层到底是怎么实现的，我只关心这个对象能给我带来什么。你给我个打火机，我不关心这个打火机是怎么实现的，我只要知道这个打火机按这个钮就能打火。</p>
-</li>
-<li><p>关注的是一个独立的组件、独立的个体，而这个独立的个体主要分析的是你这个独立的个体到底可以给我带来什么、做什么。</p>
-</li>
-<li><p>像现实世界，分割成不同的单元，每个单元都是独立的对象，然后让对象之间协作起来形成一个系统</p>
-</li>
-<li><p>优点</p>
-<ul>
-<li>独立体耦合度低，扩展力强。更容易解决现实世界当中更复杂的业务逻辑。组件复用性强</li>
-</ul>
-</li>
-<li><p>缺点</p>
-<ul>
-<li>前期投入的成本较高，需要进行独立体的抽取，大量的系统设计</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>想象一个人抽烟的场景，想到了有个哥们，拿着一根香烟，然后又想到他手里拿了个打火机。大脑里想象的是什么，想象到了几个独立个体，想象到了人，想象到了抽烟场合，想象到了打火机想象到了香烟。把这几个对象放到这，组合起来这个场景就形成了</p>
-<blockquote>
-<p>面向过程主要关注的是实现的具体过程，因果关系。</p>
-<p>面向对象：主要关注的是对象「<strong>独立的个体</strong>」，能完成哪些功能。</p>
-</blockquote>
-]]></content>
       <categories>
         <category>Java 基础</category>
       </categories>
@@ -4864,47 +4864,6 @@ if ( !( i &gt; 2 ) )&#123;
         <tag>ts</tag>
         <tag>JavaScript</tag>
         <tag>前端</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java使用DES算法加密处理</title>
-    <url>/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/</url>
-    <content><![CDATA[<p>定义所需要用到的变量</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ENCRYPTION_KEY</span> <span class="operator">=</span> <span class="string">&quot;HI, I&#x27;M UPYOU.&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">CHARSET_NAME</span> <span class="operator">=</span> <span class="string">&quot;UTF-8&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ALGORITHM_NAME</span> <span class="operator">=</span> <span class="string">&quot;DES&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> Key key;</span><br></pre></td></tr></table></figure>
-
-<p>将<code>ENCRYPTION_KEY</code>作为一个加密密钥，将<code>ENCRYPTION_KEY</code>转成<code>Key</code>类型。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 生成 ALGORITHM_NAME 算法对象</span></span><br><span class="line">        <span class="type">KeyGenerator</span> <span class="variable">edsAlgorithmInstance</span> <span class="operator">=</span> KeyGenerator.getInstance(ALGORITHM_NAME);</span><br><span class="line">        <span class="comment">// 使用SHA1安全策略</span></span><br><span class="line">        <span class="type">SecureRandom</span> <span class="variable">sha1PRNG</span> <span class="operator">=</span> SecureRandom.getInstance(<span class="string">&quot;SHA1PRNG&quot;</span>);</span><br><span class="line">        <span class="comment">// 设置密钥 ENCRYPTION_KEY</span></span><br><span class="line">        sha1PRNG.setSeed(ENCRYPTION_KEY.getBytes());</span><br><span class="line">        <span class="comment">// 初始化KeyGenerator对象</span></span><br><span class="line">        edsAlgorithmInstance.init(sha1PRNG);</span><br><span class="line">        <span class="comment">//生成 key</span></span><br><span class="line">        key = edsAlgorithmInstance.generateKey();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>创建对字符串加密方法 <code>encrypetString</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">encryptString</span><span class="params">()</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong><code>encrypetString</code>方法中操作</strong></p>
-<p>需要使用<code>BASE64Encoder</code>将加密后的结果转成 <code>String</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">BASE64Encoder</span> <span class="variable">base64Encoder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BASE64Encoder</span>();</span><br></pre></td></tr></table></figure>
-
-<p>得到待加密字符串基于<code>CHARSET_NAME</code>编码的<code>byte[]</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">byte</span>[] bytes = str.getBytes(CHARSET_NAME);</span><br></pre></td></tr></table></figure>
-
-<p>创建基于<code>ALGORITHM_NAME</code>的加密算法</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(ALGORITHM_NAME);</span><br></pre></td></tr></table></figure>
-
-<p>初始化加密设置,使用无三参初始化方式。<br><img src="http://qiniu-note-image.ctong.top/note/images/202112271118040.png" alt="image.png"></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">cipher.init(Cipher.ENCRYPT_MODE, key);</span><br></pre></td></tr></table></figure>
-
-<p>将密码进行加密，此处返回的是加密后的<code>byte[]</code>对象</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">byte</span>[] doFinal = cipher.doFinal(bytes);</span><br></pre></td></tr></table></figure>
-
-<p>使用 <code>BASE64Encoder</code> 将加密结果转成 <code>String</code> 后返回</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">return</span> base64Encoder.encode(doFinal);</span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">encryptString</span><span class="params">(String str)</span>&#123;</span><br><span class="line">    <span class="comment">//基于BASE64编码，接收byte[]并转换成String</span></span><br><span class="line">    <span class="type">BASE64Encoder</span> <span class="variable">base64Encoder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BASE64Encoder</span>();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 按UTF8编码</span></span><br><span class="line">        <span class="type">byte</span>[] bytes = str.getBytes(CHARSET_NAME);</span><br><span class="line">        <span class="comment">// 获取加密对象</span></span><br><span class="line">        <span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(ALGORITHM_NAME);</span><br><span class="line">        <span class="comment">// 初始化密码信息</span></span><br><span class="line">        cipher.init(Cipher.ENCRYPT_MODE, key);</span><br><span class="line">        <span class="comment">// 加密</span></span><br><span class="line">        <span class="type">byte</span>[] doFinal = cipher.doFinal(bytes);</span><br><span class="line">        <span class="comment">// byte[]to encode好的String并返回</span></span><br><span class="line">        <span class="keyword">return</span> base64Encoder.encode(doFinal);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>JAVA</tag>
       </tags>
   </entry>
   <entry>
@@ -5300,6 +5259,47 @@ if ( !( i &gt; 2 ) )&#123;
       <tags>
         <tag>JAVA</tag>
         <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java使用DES算法加密处理</title>
+    <url>/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/</url>
+    <content><![CDATA[<p>定义所需要用到的变量</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ENCRYPTION_KEY</span> <span class="operator">=</span> <span class="string">&quot;HI, I&#x27;M UPYOU.&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">CHARSET_NAME</span> <span class="operator">=</span> <span class="string">&quot;UTF-8&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ALGORITHM_NAME</span> <span class="operator">=</span> <span class="string">&quot;DES&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> Key key;</span><br></pre></td></tr></table></figure>
+
+<p>将<code>ENCRYPTION_KEY</code>作为一个加密密钥，将<code>ENCRYPTION_KEY</code>转成<code>Key</code>类型。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 生成 ALGORITHM_NAME 算法对象</span></span><br><span class="line">        <span class="type">KeyGenerator</span> <span class="variable">edsAlgorithmInstance</span> <span class="operator">=</span> KeyGenerator.getInstance(ALGORITHM_NAME);</span><br><span class="line">        <span class="comment">// 使用SHA1安全策略</span></span><br><span class="line">        <span class="type">SecureRandom</span> <span class="variable">sha1PRNG</span> <span class="operator">=</span> SecureRandom.getInstance(<span class="string">&quot;SHA1PRNG&quot;</span>);</span><br><span class="line">        <span class="comment">// 设置密钥 ENCRYPTION_KEY</span></span><br><span class="line">        sha1PRNG.setSeed(ENCRYPTION_KEY.getBytes());</span><br><span class="line">        <span class="comment">// 初始化KeyGenerator对象</span></span><br><span class="line">        edsAlgorithmInstance.init(sha1PRNG);</span><br><span class="line">        <span class="comment">//生成 key</span></span><br><span class="line">        key = edsAlgorithmInstance.generateKey();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建对字符串加密方法 <code>encrypetString</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">encryptString</span><span class="params">()</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>encrypetString</code>方法中操作</strong></p>
+<p>需要使用<code>BASE64Encoder</code>将加密后的结果转成 <code>String</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">BASE64Encoder</span> <span class="variable">base64Encoder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BASE64Encoder</span>();</span><br></pre></td></tr></table></figure>
+
+<p>得到待加密字符串基于<code>CHARSET_NAME</code>编码的<code>byte[]</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">byte</span>[] bytes = str.getBytes(CHARSET_NAME);</span><br></pre></td></tr></table></figure>
+
+<p>创建基于<code>ALGORITHM_NAME</code>的加密算法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(ALGORITHM_NAME);</span><br></pre></td></tr></table></figure>
+
+<p>初始化加密设置,使用无三参初始化方式。<br><img src="http://qiniu-note-image.ctong.top/note/images/202112271118040.png" alt="image.png"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">cipher.init(Cipher.ENCRYPT_MODE, key);</span><br></pre></td></tr></table></figure>
+
+<p>将密码进行加密，此处返回的是加密后的<code>byte[]</code>对象</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">byte</span>[] doFinal = cipher.doFinal(bytes);</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>BASE64Encoder</code> 将加密结果转成 <code>String</code> 后返回</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">return</span> base64Encoder.encode(doFinal);</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">encryptString</span><span class="params">(String str)</span>&#123;</span><br><span class="line">    <span class="comment">//基于BASE64编码，接收byte[]并转换成String</span></span><br><span class="line">    <span class="type">BASE64Encoder</span> <span class="variable">base64Encoder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BASE64Encoder</span>();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 按UTF8编码</span></span><br><span class="line">        <span class="type">byte</span>[] bytes = str.getBytes(CHARSET_NAME);</span><br><span class="line">        <span class="comment">// 获取加密对象</span></span><br><span class="line">        <span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(ALGORITHM_NAME);</span><br><span class="line">        <span class="comment">// 初始化密码信息</span></span><br><span class="line">        cipher.init(Cipher.ENCRYPT_MODE, key);</span><br><span class="line">        <span class="comment">// 加密</span></span><br><span class="line">        <span class="type">byte</span>[] doFinal = cipher.doFinal(bytes);</span><br><span class="line">        <span class="comment">// byte[]to encode好的String并返回</span></span><br><span class="line">        <span class="keyword">return</span> base64Encoder.encode(doFinal);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
       </tags>
   </entry>
   <entry>
@@ -5728,55 +5728,6 @@ if ( !( i &gt; 2 ) )&#123;
       <tags>
         <tag>JAVA</tag>
         <tag>随笔</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MySQL查询区分大小写敏感问题</title>
-    <url>/2022/01/02/MySQL%E6%9F%A5%E8%AF%A2%E5%8C%BA%E5%88%86%E5%A4%A7%E5%B0%8F%E5%86%99%E6%95%8F%E6%84%9F%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>由于mysql是不区分大小写的，所以当你查询的时候，例如数据库里有条数据用户名为UpYou（用户名唯一），当你输入：upyou时发现也可以查询，在某些需求下这样是不允许的，可以在查询语句中加入binary关键字过滤，例如</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> id, username, password, type, createtime, comm <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="type">binary</span> username <span class="operator">=</span> <span class="string">&#x27;upyou&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>以下是测试查询没有加<code>binary</code>执行的查询语句</p>
-<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271103340.png" alt="没加binary的java代码"></p>
-<p>执行结果，可以看到返回的data为true，证明这个用户存在，我可以很确定这个用户并不存在</p>
-<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271103932.png" alt="没加binary的结果"></p>
-<p>这是加了binary的查询<br><img src="http://qiniu-note-image.ctong.top/note/images/202112271103406.png" alt="加了binary的java代码"></p>
-<p>执行结果<br><img src="http://qiniu-note-image.ctong.top/note/images/202112271103456.png" alt="加了binary的查询结果"></p>
-<p>再试试正确的还好不好使</p>
-<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271103644.png" alt="正确结果"></p>
-]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>MySQL</tag>
-        <tag>SQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>React react-redux props或state更新视图无法重新渲染问题</title>
-    <url>/2022/01/02/React-react-redux-props%E6%88%96state%E6%9B%B4%E6%96%B0%E8%A7%86%E5%9B%BE%E6%97%A0%E6%B3%95%E9%87%8D%E6%96%B0%E6%B8%B2%E6%9F%93%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>记录学习React时自己是如何挖坑把自己埋了的过程：<code>children</code>以及其它<code>props</code>被修改时相关组件无法重新渲染（做了两天）</p>
-<p>父组件代码：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UserHome</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Component</span>&lt;<span class="title class_">Props</span>, <span class="title class_">State</span>&gt; <span class="keyword">implements</span> <span class="title class_">IUserHome</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="attr">name</span>: <span class="built_in">string</span> | <span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">readonly</span> <span class="attr">state</span>: <span class="title class_">State</span> = initialState;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">handlerClick</span>(<span class="params"></span>) &#123;</span><br><span class="line">    store.<span class="title function_">dispatch</span>(<span class="title function_">sendAction</span>());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * DOM挂载完成后执行</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">componentDidMount</span>(<span class="params"></span>) &#123;</span><br><span class="line">    store.<span class="title function_">subscribe</span>(<span class="variable language_">this</span>.<span class="property">subscribe</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">HomeBackground</span> <span class="attr">url</span>=<span class="string">&#123;BackgroundImg&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">HomeScreenHeightBox</span> <span class="attr">width</span>=<span class="string">&#123;1400&#125;</span> <span class="attr">background</span>=<span class="string">&#x27;rgba(246, 248, 249, .92)&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-xml">            this.props.setCount(10)</span></span><br><span class="line"><span class="language-xml">            // console.log(this.state.count)</span></span><br><span class="line"><span class="language-xml">          &#125;&#125;&gt; 点我<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">HomeNavigationBar</span> <span class="attr">height</span>=<span class="string">&#123;this.state.count&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">HomeScreenHeightBox</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">HomeBackground</span>&gt;</span></span> </span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mapDispatchToProps = (<span class="attr">dispatch</span>: <span class="title class_">Function</span>): <span class="function"><span class="params">mapDispatchToPropsInterface</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="title function_">sendAction</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="title function_">dispatch</span>(&#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;send_action&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&quot;UpYou of blog&quot;</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="title function_">setCount</span>(<span class="params">sun</span>) &#123;</span><br><span class="line">      <span class="title function_">dispatch</span>(&#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;set_count&#x27;</span>,</span><br><span class="line">        <span class="attr">count</span>: sun</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">mapStateToProps</span> = (<span class="params">state: StateInferface</span>) =&gt; &#123;</span><br><span class="line">  <span class="comment">// console.log(state)</span></span><br><span class="line">  <span class="keyword">return</span> state;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">connect</span>(mapStateToProps, mapDispatchToProps)(<span class="title class_">UserHome</span>)</span><br></pre></td></tr></table></figure>
-
-<p>readux层</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="attr">initialState</span>: <span class="title class_">StateInferface</span> = &#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="string">&quot;HELLO WORLD&quot;</span>,</span><br><span class="line">  <span class="attr">count</span>: <span class="number">50</span>,</span><br><span class="line">  <span class="attr">height</span>: <span class="number">50</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> reducer = (state = initialState, <span class="attr">action</span>: <span class="title class_">ActionInterface</span>): <span class="function"><span class="params">any</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">switch</span> (action.<span class="property">type</span>) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&quot;send_action&quot;</span>:</span><br><span class="line">      <span class="keyword">return</span> <span class="title class_">Object</span>.<span class="title function_">assign</span>(&#123; ...state &#125;, action);</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&quot;set_count&quot;</span>: </span><br><span class="line">      <span class="keyword">return</span> <span class="title class_">Object</span>.<span class="title function_">assign</span>(&#123; ...state &#125;, &#123;  <span class="attr">count</span>: state.<span class="property">count</span> + <span class="number">10</span>&#125;);</span><br><span class="line">    <span class="attr">default</span>:</span><br><span class="line">      <span class="keyword">return</span> state;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> reducer;</span><br></pre></td></tr></table></figure>
-<p>现需求是点击“点我”按钮改变<code>HomeNavigationBar</code>组件<code>height</code>属性,<code>HomeNavigationBar</code>代码(这个组件实际上是将<code>height</code>再传给另一个容器组件<code>NavigationBar</code>,一下省略了中间调用代码)：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 首页导航栏容器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">HomeNavigationBar</span> <span class="keyword">extends</span> <span class="title class_ inherited__">PureComponent</span>&lt;<span class="title class_">Props</span>, <span class="built_in">object</span>&gt; <span class="keyword">implements</span> <span class="title class_">IHomeNavigationBar</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 设置默认Props</span></span><br><span class="line">  <span class="keyword">static</span> defaultProps = &#123;</span><br><span class="line">    <span class="attr">height</span>: <span class="number">50</span>,</span><br><span class="line">    <span class="attr">backColor</span>: <span class="string">&quot;#3a3f51&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> height?: <span class="built_in">number</span> = <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">height</span>; <span class="comment">// 导航栏高度</span></span><br><span class="line">  <span class="keyword">private</span> backColor?: <span class="built_in">string</span> = <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">backColor</span>; <span class="comment">// 背景颜色</span></span><br><span class="line">  <span class="keyword">private</span> children?: <span class="title class_">ReactNode</span> = <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">children</span>; <span class="comment">// 插槽</span></span><br><span class="line"></span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> homeNavigationBarStyles = &#123;</span><br><span class="line">      <span class="attr">height</span>: <span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.height&#125;</span>px`</span>,</span><br><span class="line">      <span class="attr">backgroundColor</span>: <span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.backColor&#125;</span>`</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&#x27;HomeNavigationBar&#x27;</span> <span class="attr">style</span>=<span class="string">&#123;homeNavigationBarStyles&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        &#123;this.props.height&#125;</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;flex-1&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          &#123;this.children&#125;</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在<code>NavigationBar</code>中有几段代码导致无法动态改变、重新渲染组件<br><img src="http://qiniu-note-image.ctong.top//note/images/202201021532823.png" alt="image.png"><br>为了方便直接将<code>props</code>中的值给到<code>height</code>字段，来简单验证一下图中圈起部分代码的可行性：</p>
-<p><img src="http://qiniu-note-image.ctong.top//note/images/202201021533565.png" alt="image.png"></p>
-<p>上图证明无法对基础数据类型的数据进行修改，而是直接将当前变量中的内存地址替换：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">0x213</span>; <span class="comment">// 例如等于3</span></span><br><span class="line">a = <span class="number">2</span>;<span class="comment">// 0x645 改变a的值，实际上改变的是内存地址</span></span><br></pre></td></tr></table></figure>
-<p>所以当<code>props</code>改变时<code>height</code>数据没变化就是这个原因,需要将<code>style</code>中的<code>this.height</code>改为<code>this.props.height</code>，声明的其它变量作废…<br>由于react中state或props改变时就会触发<code>render</code>方法重新渲染DOM，可以在<code>render</code>中定义<code>height</code>等字段<code>const &#123; children, height, backColor &#125; = this.props;</code></p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; children, height, backColor &#125; = <span class="variable language_">this</span>.<span class="property">props</span>;</span><br><span class="line">    <span class="keyword">const</span> homeNavigationBarStyles = &#123;</span><br><span class="line">      <span class="attr">height</span>: <span class="string">`<span class="subst">$&#123;height&#125;</span>px`</span>,</span><br><span class="line">      <span class="attr">backgroundColor</span>: <span class="string">`<span class="subst">$&#123;backColor&#125;</span>`</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&#x27;HomeNavigationBar&#x27;</span> <span class="attr">style</span>=<span class="string">&#123;homeNavigationBarStyles&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;flex-1&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          &#123;children&#125;</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>JavaScript</tag>
-        <tag>React</tag>
       </tags>
   </entry>
   <entry>
@@ -7080,6 +7031,55 @@ if ( !( i &gt; 2 ) )&#123;
       </tags>
   </entry>
   <entry>
+    <title>MySQL查询区分大小写敏感问题</title>
+    <url>/2022/01/02/MySQL%E6%9F%A5%E8%AF%A2%E5%8C%BA%E5%88%86%E5%A4%A7%E5%B0%8F%E5%86%99%E6%95%8F%E6%84%9F%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>由于mysql是不区分大小写的，所以当你查询的时候，例如数据库里有条数据用户名为UpYou（用户名唯一），当你输入：upyou时发现也可以查询，在某些需求下这样是不允许的，可以在查询语句中加入binary关键字过滤，例如</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> id, username, password, type, createtime, comm <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="type">binary</span> username <span class="operator">=</span> <span class="string">&#x27;upyou&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>以下是测试查询没有加<code>binary</code>执行的查询语句</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271103340.png" alt="没加binary的java代码"></p>
+<p>执行结果，可以看到返回的data为true，证明这个用户存在，我可以很确定这个用户并不存在</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271103932.png" alt="没加binary的结果"></p>
+<p>这是加了binary的查询<br><img src="http://qiniu-note-image.ctong.top/note/images/202112271103406.png" alt="加了binary的java代码"></p>
+<p>执行结果<br><img src="http://qiniu-note-image.ctong.top/note/images/202112271103456.png" alt="加了binary的查询结果"></p>
+<p>再试试正确的还好不好使</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271103644.png" alt="正确结果"></p>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>React react-redux props或state更新视图无法重新渲染问题</title>
+    <url>/2022/01/02/React-react-redux-props%E6%88%96state%E6%9B%B4%E6%96%B0%E8%A7%86%E5%9B%BE%E6%97%A0%E6%B3%95%E9%87%8D%E6%96%B0%E6%B8%B2%E6%9F%93%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>记录学习React时自己是如何挖坑把自己埋了的过程：<code>children</code>以及其它<code>props</code>被修改时相关组件无法重新渲染（做了两天）</p>
+<p>父组件代码：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UserHome</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Component</span>&lt;<span class="title class_">Props</span>, <span class="title class_">State</span>&gt; <span class="keyword">implements</span> <span class="title class_">IUserHome</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="attr">name</span>: <span class="built_in">string</span> | <span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">readonly</span> <span class="attr">state</span>: <span class="title class_">State</span> = initialState;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">handlerClick</span>(<span class="params"></span>) &#123;</span><br><span class="line">    store.<span class="title function_">dispatch</span>(<span class="title function_">sendAction</span>());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * DOM挂载完成后执行</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">componentDidMount</span>(<span class="params"></span>) &#123;</span><br><span class="line">    store.<span class="title function_">subscribe</span>(<span class="variable language_">this</span>.<span class="property">subscribe</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">HomeBackground</span> <span class="attr">url</span>=<span class="string">&#123;BackgroundImg&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">HomeScreenHeightBox</span> <span class="attr">width</span>=<span class="string">&#123;1400&#125;</span> <span class="attr">background</span>=<span class="string">&#x27;rgba(246, 248, 249, .92)&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-xml">            this.props.setCount(10)</span></span><br><span class="line"><span class="language-xml">            // console.log(this.state.count)</span></span><br><span class="line"><span class="language-xml">          &#125;&#125;&gt; 点我<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">HomeNavigationBar</span> <span class="attr">height</span>=<span class="string">&#123;this.state.count&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">HomeScreenHeightBox</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">HomeBackground</span>&gt;</span></span> </span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mapDispatchToProps = (<span class="attr">dispatch</span>: <span class="title class_">Function</span>): <span class="function"><span class="params">mapDispatchToPropsInterface</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="title function_">sendAction</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="title function_">dispatch</span>(&#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;send_action&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&quot;UpYou of blog&quot;</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="title function_">setCount</span>(<span class="params">sun</span>) &#123;</span><br><span class="line">      <span class="title function_">dispatch</span>(&#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;set_count&#x27;</span>,</span><br><span class="line">        <span class="attr">count</span>: sun</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">mapStateToProps</span> = (<span class="params">state: StateInferface</span>) =&gt; &#123;</span><br><span class="line">  <span class="comment">// console.log(state)</span></span><br><span class="line">  <span class="keyword">return</span> state;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">connect</span>(mapStateToProps, mapDispatchToProps)(<span class="title class_">UserHome</span>)</span><br></pre></td></tr></table></figure>
+
+<p>readux层</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="attr">initialState</span>: <span class="title class_">StateInferface</span> = &#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="string">&quot;HELLO WORLD&quot;</span>,</span><br><span class="line">  <span class="attr">count</span>: <span class="number">50</span>,</span><br><span class="line">  <span class="attr">height</span>: <span class="number">50</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> reducer = (state = initialState, <span class="attr">action</span>: <span class="title class_">ActionInterface</span>): <span class="function"><span class="params">any</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">switch</span> (action.<span class="property">type</span>) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&quot;send_action&quot;</span>:</span><br><span class="line">      <span class="keyword">return</span> <span class="title class_">Object</span>.<span class="title function_">assign</span>(&#123; ...state &#125;, action);</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&quot;set_count&quot;</span>: </span><br><span class="line">      <span class="keyword">return</span> <span class="title class_">Object</span>.<span class="title function_">assign</span>(&#123; ...state &#125;, &#123;  <span class="attr">count</span>: state.<span class="property">count</span> + <span class="number">10</span>&#125;);</span><br><span class="line">    <span class="attr">default</span>:</span><br><span class="line">      <span class="keyword">return</span> state;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> reducer;</span><br></pre></td></tr></table></figure>
+<p>现需求是点击“点我”按钮改变<code>HomeNavigationBar</code>组件<code>height</code>属性,<code>HomeNavigationBar</code>代码(这个组件实际上是将<code>height</code>再传给另一个容器组件<code>NavigationBar</code>,一下省略了中间调用代码)：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 首页导航栏容器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">HomeNavigationBar</span> <span class="keyword">extends</span> <span class="title class_ inherited__">PureComponent</span>&lt;<span class="title class_">Props</span>, <span class="built_in">object</span>&gt; <span class="keyword">implements</span> <span class="title class_">IHomeNavigationBar</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 设置默认Props</span></span><br><span class="line">  <span class="keyword">static</span> defaultProps = &#123;</span><br><span class="line">    <span class="attr">height</span>: <span class="number">50</span>,</span><br><span class="line">    <span class="attr">backColor</span>: <span class="string">&quot;#3a3f51&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> height?: <span class="built_in">number</span> = <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">height</span>; <span class="comment">// 导航栏高度</span></span><br><span class="line">  <span class="keyword">private</span> backColor?: <span class="built_in">string</span> = <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">backColor</span>; <span class="comment">// 背景颜色</span></span><br><span class="line">  <span class="keyword">private</span> children?: <span class="title class_">ReactNode</span> = <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">children</span>; <span class="comment">// 插槽</span></span><br><span class="line"></span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> homeNavigationBarStyles = &#123;</span><br><span class="line">      <span class="attr">height</span>: <span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.height&#125;</span>px`</span>,</span><br><span class="line">      <span class="attr">backgroundColor</span>: <span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.backColor&#125;</span>`</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&#x27;HomeNavigationBar&#x27;</span> <span class="attr">style</span>=<span class="string">&#123;homeNavigationBarStyles&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        &#123;this.props.height&#125;</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;flex-1&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          &#123;this.children&#125;</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在<code>NavigationBar</code>中有几段代码导致无法动态改变、重新渲染组件<br><img src="http://qiniu-note-image.ctong.top//note/images/202201021532823.png" alt="image.png"><br>为了方便直接将<code>props</code>中的值给到<code>height</code>字段，来简单验证一下图中圈起部分代码的可行性：</p>
+<p><img src="http://qiniu-note-image.ctong.top//note/images/202201021533565.png" alt="image.png"></p>
+<p>上图证明无法对基础数据类型的数据进行修改，而是直接将当前变量中的内存地址替换：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">0x213</span>; <span class="comment">// 例如等于3</span></span><br><span class="line">a = <span class="number">2</span>;<span class="comment">// 0x645 改变a的值，实际上改变的是内存地址</span></span><br></pre></td></tr></table></figure>
+<p>所以当<code>props</code>改变时<code>height</code>数据没变化就是这个原因,需要将<code>style</code>中的<code>this.height</code>改为<code>this.props.height</code>，声明的其它变量作废…<br>由于react中state或props改变时就会触发<code>render</code>方法重新渲染DOM，可以在<code>render</code>中定义<code>height</code>等字段<code>const &#123; children, height, backColor &#125; = this.props;</code></p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; children, height, backColor &#125; = <span class="variable language_">this</span>.<span class="property">props</span>;</span><br><span class="line">    <span class="keyword">const</span> homeNavigationBarStyles = &#123;</span><br><span class="line">      <span class="attr">height</span>: <span class="string">`<span class="subst">$&#123;height&#125;</span>px`</span>,</span><br><span class="line">      <span class="attr">backgroundColor</span>: <span class="string">`<span class="subst">$&#123;backColor&#125;</span>`</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&#x27;HomeNavigationBar&#x27;</span> <span class="attr">style</span>=<span class="string">&#123;homeNavigationBarStyles&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;flex-1&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          &#123;children&#125;</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>JavaScript</tag>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>React使用代理跨域后后端无法接收Session问题</title>
     <url>/2022/01/02/React%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%90%86%E8%B7%A8%E5%9F%9F%E5%90%8E%E5%90%8E%E7%AB%AF%E6%97%A0%E6%B3%95%E6%8E%A5%E6%94%B6Session%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<p>将一个 MVC 项目重构为一个前后端分离项目，前端使用了 react + axios + vite…。</p>
@@ -7112,101 +7112,6 @@ if ( !( i &gt; 2 ) )&#123;
         <tag>TypeScript</tag>
         <tag>JavaScript</tag>
         <tag>React</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis 缓存</title>
-    <url>/2022/01/04/Redis-%E7%BC%93%E5%AD%98/</url>
-    <content><![CDATA[<h1 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h1><p>为了系统性能的提升，一般会将部分数据加入缓存中，加速访问。而 db 承担数据落盘工作。</p>
-<p> 哪些数据适合放入缓存？</p>
-<ul>
-<li>即时性、数据一致性要求不高的</li>
-<li>访问量大而且更新频率不高的数据（读多，写少）</li>
-</ul>
-<p><img src="http://qiniu-note-image.ctong.top/note/images/202112301501739.png" alt="请求流程"></p>
-<h1 id="整合Redis"><a href="#整合Redis" class="headerlink" title="整合Redis"></a>整合Redis</h1><p>在 SpringBoot 工程中引入 Redis 场景</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>在配置文件中配置 Redis，Redis 的属性配置都在 <code>org.springframework.boot.autoconfigure.data.redis.RedisProperties</code></p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="comment"># 配置 redis</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">host:</span> <span class="number">172.16</span><span class="number">.34</span><span class="number">.128</span></span><br></pre></td></tr></table></figure>
-
-<p>使用 <code>StringRedisTemplate</code> 操作 redis</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;Redis 测试&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisTest</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> StringRedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="meta">@DisplayName(&quot;redis 操作简单值&quot;)</span></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">opsForValueTest</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 操作简单值</span></span><br><span class="line">    ValueOperations&lt;String, String&gt; ops = redisTemplate.opsForValue();</span><br><span class="line">    <span class="comment">// 保存</span></span><br><span class="line">    ops.set(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;world_&quot;</span> + UUID.randomUUID());</span><br><span class="line">    <span class="comment">// 查询</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">hello</span> <span class="operator">=</span> ops.get(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    log.info(hello); <span class="comment">// world_9f7fb10f-23fa-424d-a6e6-2de794852fed</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h1><ul>
-<li>缓存穿透是指查询一个一定不存在的数据，由于缓存是不命中，将去查询数据库，但是数据库也无此记录，我们没有将这次的查询 null 写入缓存，这将导致这个不存在的数据每次请求都要去存储层查询，失去了缓存的意义。</li>
-<li>该问题存在极大风险，如果利用不存在的数据进行攻击，数据库瞬时压力增大，最终导致崩溃</li>
-<li>可以将一个null结果缓存，并加入短暂的过期时间。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> Map&lt;String, List&lt;Catalog2Vo&gt;&gt; <span class="title function_">getCatalogJson</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="comment">// 从缓存中获取数据</span></span><br><span class="line">  <span class="type">String</span> <span class="variable">catalogJson</span> <span class="operator">=</span> redisTemplate.opsForValue().get(<span class="string">&quot;catalogJson&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> (!StringUtils.hasText(catalogJson)) &#123;</span><br><span class="line">    <span class="comment">// 从数据库中获取数据</span></span><br><span class="line">    Map&lt;String, List&lt;Catalog2Vo&gt;&gt; catalogJsonFormDb = getCatalogJsonFormDB();</span><br><span class="line">    <span class="comment">// 解决缓存穿透</span></span><br><span class="line">    <span class="keyword">if</span> (catalogJsonFormDb == <span class="literal">null</span> || catalogJsonFormDb.isEmpty()) &#123;</span><br><span class="line">      redisTemplate.opsForValue().set(<span class="string">&quot;catalogJson&quot;</span>, <span class="string">&quot;&#123;&#125;&quot;</span>, <span class="number">30000</span>);</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(<span class="number">0</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="type">String</span> <span class="variable">jsonString</span> <span class="operator">=</span> JSON.toJSONString(catalogJsonFormDb);</span><br><span class="line">      redisTemplate.opsForValue().set(<span class="string">&quot;catalogJson&quot;</span>, jsonString);</span><br><span class="line">      <span class="keyword">return</span> catalogJsonFormDb;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 将缓存的数据转为对象返回</span></span><br><span class="line">  <span class="keyword">return</span> JSON.parseObject(catalogJson, <span class="keyword">new</span> <span class="title class_">TypeReference</span>&lt;Map&lt;String, List&lt;Catalog2Vo&gt;&gt;&gt;()&#123;&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h1><ul>
-<li>缓存雪崩是指在我们设置缓存时 key 采用了相同的过期时间，导致缓存在某一时刻同时失效，请求全部转发到 DB，DB 瞬时压力过重导致崩溃。</li>
-<li>在原有的实效时间基础上增加一个随机值，比如1-5分钟随机，这样每一个缓存的过期时间的重复率就会降低，很难引发集体失效的事件</li>
-</ul>
-<h1 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h1><ul>
-<li>对一些设置了过期时间的 key，如果这些 key 可能会在某些时间点被超高并发访问，那么这就是一种非常 “热点” 的数据。</li>
-<li>如果这个 key 在大量请求同时进来前正好失效，那么所有对这个 key 的数据查询都落到 DB，这被称为缓存击穿</li>
-<li>如果要解决这个问题，那么可以加锁，大量并发只让一个去查，其他人等着，查到后释放锁，其他人获取到锁，先查缓存就会有数据，不用去db。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * getCatalogJsonLock 锁对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Object</span> <span class="variable">getCatalogJsonLock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Map&lt;String, List&lt;Catalog2Vo&gt;&gt; <span class="title function_">getCatalogJson</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="comment">// 从缓存中获取数据</span></span><br><span class="line">  <span class="type">String</span> <span class="variable">catalogJson</span> <span class="operator">=</span> redisTemplate.opsForValue().get(<span class="string">&quot;catalogJson&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> (!StringUtils.hasText(catalogJson)) &#123;</span><br><span class="line">    <span class="comment">// 防止击穿</span></span><br><span class="line">    <span class="keyword">synchronized</span> (getCatalogJsonLock) &#123;</span><br><span class="line">      <span class="comment">// 确认缓存数据</span></span><br><span class="line">      <span class="type">String</span> <span class="variable">confirmCache</span> <span class="operator">=</span> redisTemplate.opsForValue().get(<span class="string">&quot;catalogJson&quot;</span>);</span><br><span class="line">      <span class="keyword">if</span> (!StringUtils.hasText(confirmCache)) &#123;</span><br><span class="line">        <span class="comment">// 从数据库中获取数据</span></span><br><span class="line">        Map&lt;String, List&lt;Catalog2Vo&gt;&gt; catalogJsonFormDb = getCatalogJsonFormDB();</span><br><span class="line">        <span class="comment">// 解决缓存穿透</span></span><br><span class="line">        <span class="keyword">if</span> (catalogJsonFormDb == <span class="literal">null</span> || catalogJsonFormDb.isEmpty()) &#123;</span><br><span class="line">          redisTemplate.opsForValue().set(<span class="string">&quot;catalogJson&quot;</span>, <span class="string">&quot;&#123;&#125;&quot;</span>, <span class="number">1</span>, TimeUnit.DAYS);</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(<span class="number">0</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="type">String</span> <span class="variable">jsonString</span> <span class="operator">=</span> JSON.toJSONString(catalogJsonFormDb);</span><br><span class="line">          redisTemplate.opsForValue().set(<span class="string">&quot;catalogJson&quot;</span>, jsonString);</span><br><span class="line">          <span class="keyword">return</span> catalogJsonFormDb;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 将缓存的数据转为对象返回</span></span><br><span class="line">  <span class="keyword">return</span> JSON.parseObject(catalogJson, <span class="keyword">new</span> <span class="title class_">TypeReference</span>&lt;Map&lt;String, List&lt;Catalog2Vo&gt;&gt;&gt;() &#123;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在分布式系统中，我们应该使用分布式锁，因为本地锁只能锁住当前进程</p>
-<p><img src="http://qiniu-note-image.ctong.top/note/images/202112301707003.png" alt="分布式锁"></p>
-<h1 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h1><p>在发送 <code>set</code> 命令时携带 <code>NX</code> 选项可以进行占锁，如果拿不到锁则返回 <code>nil</code> 。</p>
-<blockquote>
-<p><code>SET KEY VAL NX EX</code> key 不存在的情况下才设置密钥</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ValueOperations&lt;String, String&gt; ops = redisTemplate.opsForValue();</span><br><span class="line"><span class="comment">// 占用分布式锁 set EX NX</span></span><br><span class="line"><span class="type">Boolean</span> <span class="variable">lock</span> <span class="operator">=</span> ops.setIfAbsent(<span class="string">&quot;product_catalog_lock&quot;</span>, <span class="string">&quot;lock val&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(lock) &#123;</span><br><span class="line">  <span class="comment">// 抢到分布式锁</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// 没抢到锁，使用自旋方式重试</span></span><br><span class="line">  Thread.sleep(<span class="number">100</span>);</span><br><span class="line">  <span class="keyword">return</span> getCatalogJsonWithRedisLock();<span class="comment">// 自旋代码</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>防止当前抢到锁的服务 “断水断电” 后导致死锁问题，我们应该给这个锁一个短暂的过期时间。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">redisTemplate.expire(<span class="string">&quot;product_catalog_lock&quot;</span>, <span class="number">30</span>, TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
-
-<p>为了防止程序在设置过期时间代码执行前 “断水断电”，我们需要的是抢占锁和设置过期时间这是一个原子操作。所以需要在抢锁时设置而不是另外设置过期时间。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Boolean</span> <span class="variable">lock</span> <span class="operator">=</span> ops.setIfAbsent(<span class="string">&quot;product_catalog_lock&quot;</span>,<span class="string">&quot;lock val&quot;</span>, <span class="number">30</span>, TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
-
-<p>当业务完成后释放分布式锁，其实就是把当前存在的 <code>KEY</code> 删了。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">redisTemplate.delete(<span class="string">&quot;product_catalog_lock&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p>但是这样还有一个问题，这个问题在官网就给出了解释和答案</p>
-<blockquote>
-<p><strong>注意:</strong> 下面这种设计模式并不推荐用来实现redis分布式锁。应该参考<a href="http://redis.io/topics/distlock">the Redlock algorithm</a>的实现，因为这个方法只是复杂一点，但是却能保证更好的使用效果。</p>
-<p>命令 <code>SET resource-name anystring NX EX max-lock-time</code> 是一种用 Redis 来实现锁机制的简单方法。</p>
-<p>如果上述命令返回<code>OK</code>，那么客户端就可以获得锁（如果上述命令返回Nil，那么客户端可以在一段时间之后重新尝试），并且可以通过<a href="http://www.redis.cn/commands/del.html">DEL</a>命令来释放锁。</p>
-<p>客户端加锁之后，如果没有主动释放，会在过期时间之后自动释放。</p>
-<p>可以通过如下优化使得上面的锁系统变得更加鲁棒：</p>
-<ul>
-<li>不要设置固定的字符串，而是设置为随机的大字符串，可以称为token。</li>
-<li>通过脚步删除指定锁的key，而不是<a href="http://www.redis.cn/commands/del.html">DEL</a>命令。</li>
-</ul>
-<p>上述优化方法会避免下述场景：a客户端获得的锁（键key）已经由于过期时间到了被redis服务器删除，但是这个时候a客户端还去执行<a href="http://www.redis.cn/commands/del.html">DEL</a>命令。而b客户端已经在a设置的过期时间之后重新获取了这个同样key的锁，那么a执行<a href="http://www.redis.cn/commands/del.html">DEL</a>就会释放了b客户端加好的锁。</p>
-<p>解锁脚本(Lua)的一个例子将类似于以下：</p>
-<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> redis.call(<span class="string">&quot;get&quot;</span>,KEYS[<span class="number">1</span>]) == ARGV[<span class="number">1</span>]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    <span class="keyword">return</span> redis.call(<span class="string">&quot;del&quot;</span>,KEYS[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<p>这个脚本执行方式如下：</p>
-<p>EVAL …script… 1 resource-name token-value</p>
-</blockquote>
-<p>其实就是怕我们设置的过期时间短，而业务代码比预期的久，导致业务没完成锁就过期并被别的线程占用，当业务执行完后删除锁，把别人的锁给删了。</p>
-<p>这种情况需要将锁保存的值设置为一个随机的大长字符串「token」，删除时判断当前锁是不是自己的，如果是再删。这判断和删除也需要是一个原子操作，因为 IO 操作是需要时间的。</p>
-<p>在抢占锁时设置一个 UUID </p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">uuid</span> <span class="operator">=</span> UUID.randomUUID().toString();</span><br><span class="line"><span class="type">Boolean</span> <span class="variable">lock</span> <span class="operator">=</span> ops.setIfAbsent(<span class="string">&quot;product_catalog_lock&quot;</span>, uuid, <span class="number">30</span>, TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
-
-<p>删除锁通过Lua脚步达到原子操作</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">luaScript</span> <span class="operator">=</span> <span class="string">&quot;if redis.call(&#x27;get&#x27;,KEYS[1]) == ARGV[1] then return redis.call(&#x27;del&#x27;,KEYS[1]) else return 0 end&quot;</span>;</span><br><span class="line">DefaultRedisScript&lt;Long&gt; redisScript = <span class="keyword">new</span> <span class="title class_">DefaultRedisScript</span>&lt;&gt;(luaScript, Long.class);</span><br><span class="line">redisTemplate.execute(redisScript, Collections.singletonList(<span class="string">&quot;product_catalog_lock&quot;</span>), uuid);</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <categories>
-        <category>其它</category>
-      </categories>
-      <tags>
-        <tag>JAVA</tag>
-        <tag>微服务</tag>
-        <tag>Redis</tag>
       </tags>
   </entry>
   <entry>
@@ -8837,6 +8742,101 @@ if ( !( i &gt; 2 ) )&#123;
       </tags>
   </entry>
   <entry>
+    <title>Redis 缓存</title>
+    <url>/2022/01/04/Redis-%E7%BC%93%E5%AD%98/</url>
+    <content><![CDATA[<h1 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h1><p>为了系统性能的提升，一般会将部分数据加入缓存中，加速访问。而 db 承担数据落盘工作。</p>
+<p> 哪些数据适合放入缓存？</p>
+<ul>
+<li>即时性、数据一致性要求不高的</li>
+<li>访问量大而且更新频率不高的数据（读多，写少）</li>
+</ul>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112301501739.png" alt="请求流程"></p>
+<h1 id="整合Redis"><a href="#整合Redis" class="headerlink" title="整合Redis"></a>整合Redis</h1><p>在 SpringBoot 工程中引入 Redis 场景</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在配置文件中配置 Redis，Redis 的属性配置都在 <code>org.springframework.boot.autoconfigure.data.redis.RedisProperties</code></p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="comment"># 配置 redis</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">host:</span> <span class="number">172.16</span><span class="number">.34</span><span class="number">.128</span></span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>StringRedisTemplate</code> 操作 redis</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;Redis 测试&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisTest</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> StringRedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="meta">@DisplayName(&quot;redis 操作简单值&quot;)</span></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">opsForValueTest</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 操作简单值</span></span><br><span class="line">    ValueOperations&lt;String, String&gt; ops = redisTemplate.opsForValue();</span><br><span class="line">    <span class="comment">// 保存</span></span><br><span class="line">    ops.set(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;world_&quot;</span> + UUID.randomUUID());</span><br><span class="line">    <span class="comment">// 查询</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">hello</span> <span class="operator">=</span> ops.get(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    log.info(hello); <span class="comment">// world_9f7fb10f-23fa-424d-a6e6-2de794852fed</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h1><ul>
+<li>缓存穿透是指查询一个一定不存在的数据，由于缓存是不命中，将去查询数据库，但是数据库也无此记录，我们没有将这次的查询 null 写入缓存，这将导致这个不存在的数据每次请求都要去存储层查询，失去了缓存的意义。</li>
+<li>该问题存在极大风险，如果利用不存在的数据进行攻击，数据库瞬时压力增大，最终导致崩溃</li>
+<li>可以将一个null结果缓存，并加入短暂的过期时间。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> Map&lt;String, List&lt;Catalog2Vo&gt;&gt; <span class="title function_">getCatalogJson</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="comment">// 从缓存中获取数据</span></span><br><span class="line">  <span class="type">String</span> <span class="variable">catalogJson</span> <span class="operator">=</span> redisTemplate.opsForValue().get(<span class="string">&quot;catalogJson&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> (!StringUtils.hasText(catalogJson)) &#123;</span><br><span class="line">    <span class="comment">// 从数据库中获取数据</span></span><br><span class="line">    Map&lt;String, List&lt;Catalog2Vo&gt;&gt; catalogJsonFormDb = getCatalogJsonFormDB();</span><br><span class="line">    <span class="comment">// 解决缓存穿透</span></span><br><span class="line">    <span class="keyword">if</span> (catalogJsonFormDb == <span class="literal">null</span> || catalogJsonFormDb.isEmpty()) &#123;</span><br><span class="line">      redisTemplate.opsForValue().set(<span class="string">&quot;catalogJson&quot;</span>, <span class="string">&quot;&#123;&#125;&quot;</span>, <span class="number">30000</span>);</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(<span class="number">0</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="type">String</span> <span class="variable">jsonString</span> <span class="operator">=</span> JSON.toJSONString(catalogJsonFormDb);</span><br><span class="line">      redisTemplate.opsForValue().set(<span class="string">&quot;catalogJson&quot;</span>, jsonString);</span><br><span class="line">      <span class="keyword">return</span> catalogJsonFormDb;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 将缓存的数据转为对象返回</span></span><br><span class="line">  <span class="keyword">return</span> JSON.parseObject(catalogJson, <span class="keyword">new</span> <span class="title class_">TypeReference</span>&lt;Map&lt;String, List&lt;Catalog2Vo&gt;&gt;&gt;()&#123;&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h1><ul>
+<li>缓存雪崩是指在我们设置缓存时 key 采用了相同的过期时间，导致缓存在某一时刻同时失效，请求全部转发到 DB，DB 瞬时压力过重导致崩溃。</li>
+<li>在原有的实效时间基础上增加一个随机值，比如1-5分钟随机，这样每一个缓存的过期时间的重复率就会降低，很难引发集体失效的事件</li>
+</ul>
+<h1 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h1><ul>
+<li>对一些设置了过期时间的 key，如果这些 key 可能会在某些时间点被超高并发访问，那么这就是一种非常 “热点” 的数据。</li>
+<li>如果这个 key 在大量请求同时进来前正好失效，那么所有对这个 key 的数据查询都落到 DB，这被称为缓存击穿</li>
+<li>如果要解决这个问题，那么可以加锁，大量并发只让一个去查，其他人等着，查到后释放锁，其他人获取到锁，先查缓存就会有数据，不用去db。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * getCatalogJsonLock 锁对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Object</span> <span class="variable">getCatalogJsonLock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Map&lt;String, List&lt;Catalog2Vo&gt;&gt; <span class="title function_">getCatalogJson</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="comment">// 从缓存中获取数据</span></span><br><span class="line">  <span class="type">String</span> <span class="variable">catalogJson</span> <span class="operator">=</span> redisTemplate.opsForValue().get(<span class="string">&quot;catalogJson&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> (!StringUtils.hasText(catalogJson)) &#123;</span><br><span class="line">    <span class="comment">// 防止击穿</span></span><br><span class="line">    <span class="keyword">synchronized</span> (getCatalogJsonLock) &#123;</span><br><span class="line">      <span class="comment">// 确认缓存数据</span></span><br><span class="line">      <span class="type">String</span> <span class="variable">confirmCache</span> <span class="operator">=</span> redisTemplate.opsForValue().get(<span class="string">&quot;catalogJson&quot;</span>);</span><br><span class="line">      <span class="keyword">if</span> (!StringUtils.hasText(confirmCache)) &#123;</span><br><span class="line">        <span class="comment">// 从数据库中获取数据</span></span><br><span class="line">        Map&lt;String, List&lt;Catalog2Vo&gt;&gt; catalogJsonFormDb = getCatalogJsonFormDB();</span><br><span class="line">        <span class="comment">// 解决缓存穿透</span></span><br><span class="line">        <span class="keyword">if</span> (catalogJsonFormDb == <span class="literal">null</span> || catalogJsonFormDb.isEmpty()) &#123;</span><br><span class="line">          redisTemplate.opsForValue().set(<span class="string">&quot;catalogJson&quot;</span>, <span class="string">&quot;&#123;&#125;&quot;</span>, <span class="number">1</span>, TimeUnit.DAYS);</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(<span class="number">0</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="type">String</span> <span class="variable">jsonString</span> <span class="operator">=</span> JSON.toJSONString(catalogJsonFormDb);</span><br><span class="line">          redisTemplate.opsForValue().set(<span class="string">&quot;catalogJson&quot;</span>, jsonString);</span><br><span class="line">          <span class="keyword">return</span> catalogJsonFormDb;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 将缓存的数据转为对象返回</span></span><br><span class="line">  <span class="keyword">return</span> JSON.parseObject(catalogJson, <span class="keyword">new</span> <span class="title class_">TypeReference</span>&lt;Map&lt;String, List&lt;Catalog2Vo&gt;&gt;&gt;() &#123;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在分布式系统中，我们应该使用分布式锁，因为本地锁只能锁住当前进程</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112301707003.png" alt="分布式锁"></p>
+<h1 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h1><p>在发送 <code>set</code> 命令时携带 <code>NX</code> 选项可以进行占锁，如果拿不到锁则返回 <code>nil</code> 。</p>
+<blockquote>
+<p><code>SET KEY VAL NX EX</code> key 不存在的情况下才设置密钥</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ValueOperations&lt;String, String&gt; ops = redisTemplate.opsForValue();</span><br><span class="line"><span class="comment">// 占用分布式锁 set EX NX</span></span><br><span class="line"><span class="type">Boolean</span> <span class="variable">lock</span> <span class="operator">=</span> ops.setIfAbsent(<span class="string">&quot;product_catalog_lock&quot;</span>, <span class="string">&quot;lock val&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(lock) &#123;</span><br><span class="line">  <span class="comment">// 抢到分布式锁</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// 没抢到锁，使用自旋方式重试</span></span><br><span class="line">  Thread.sleep(<span class="number">100</span>);</span><br><span class="line">  <span class="keyword">return</span> getCatalogJsonWithRedisLock();<span class="comment">// 自旋代码</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>防止当前抢到锁的服务 “断水断电” 后导致死锁问题，我们应该给这个锁一个短暂的过期时间。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">redisTemplate.expire(<span class="string">&quot;product_catalog_lock&quot;</span>, <span class="number">30</span>, TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
+
+<p>为了防止程序在设置过期时间代码执行前 “断水断电”，我们需要的是抢占锁和设置过期时间这是一个原子操作。所以需要在抢锁时设置而不是另外设置过期时间。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Boolean</span> <span class="variable">lock</span> <span class="operator">=</span> ops.setIfAbsent(<span class="string">&quot;product_catalog_lock&quot;</span>,<span class="string">&quot;lock val&quot;</span>, <span class="number">30</span>, TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
+
+<p>当业务完成后释放分布式锁，其实就是把当前存在的 <code>KEY</code> 删了。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">redisTemplate.delete(<span class="string">&quot;product_catalog_lock&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>但是这样还有一个问题，这个问题在官网就给出了解释和答案</p>
+<blockquote>
+<p><strong>注意:</strong> 下面这种设计模式并不推荐用来实现redis分布式锁。应该参考<a href="http://redis.io/topics/distlock">the Redlock algorithm</a>的实现，因为这个方法只是复杂一点，但是却能保证更好的使用效果。</p>
+<p>命令 <code>SET resource-name anystring NX EX max-lock-time</code> 是一种用 Redis 来实现锁机制的简单方法。</p>
+<p>如果上述命令返回<code>OK</code>，那么客户端就可以获得锁（如果上述命令返回Nil，那么客户端可以在一段时间之后重新尝试），并且可以通过<a href="http://www.redis.cn/commands/del.html">DEL</a>命令来释放锁。</p>
+<p>客户端加锁之后，如果没有主动释放，会在过期时间之后自动释放。</p>
+<p>可以通过如下优化使得上面的锁系统变得更加鲁棒：</p>
+<ul>
+<li>不要设置固定的字符串，而是设置为随机的大字符串，可以称为token。</li>
+<li>通过脚步删除指定锁的key，而不是<a href="http://www.redis.cn/commands/del.html">DEL</a>命令。</li>
+</ul>
+<p>上述优化方法会避免下述场景：a客户端获得的锁（键key）已经由于过期时间到了被redis服务器删除，但是这个时候a客户端还去执行<a href="http://www.redis.cn/commands/del.html">DEL</a>命令。而b客户端已经在a设置的过期时间之后重新获取了这个同样key的锁，那么a执行<a href="http://www.redis.cn/commands/del.html">DEL</a>就会释放了b客户端加好的锁。</p>
+<p>解锁脚本(Lua)的一个例子将类似于以下：</p>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> redis.call(<span class="string">&quot;get&quot;</span>,KEYS[<span class="number">1</span>]) == ARGV[<span class="number">1</span>]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    <span class="keyword">return</span> redis.call(<span class="string">&quot;del&quot;</span>,KEYS[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>这个脚本执行方式如下：</p>
+<p>EVAL …script… 1 resource-name token-value</p>
+</blockquote>
+<p>其实就是怕我们设置的过期时间短，而业务代码比预期的久，导致业务没完成锁就过期并被别的线程占用，当业务执行完后删除锁，把别人的锁给删了。</p>
+<p>这种情况需要将锁保存的值设置为一个随机的大长字符串「token」，删除时判断当前锁是不是自己的，如果是再删。这判断和删除也需要是一个原子操作，因为 IO 操作是需要时间的。</p>
+<p>在抢占锁时设置一个 UUID </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">uuid</span> <span class="operator">=</span> UUID.randomUUID().toString();</span><br><span class="line"><span class="type">Boolean</span> <span class="variable">lock</span> <span class="operator">=</span> ops.setIfAbsent(<span class="string">&quot;product_catalog_lock&quot;</span>, uuid, <span class="number">30</span>, TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
+
+<p>删除锁通过Lua脚步达到原子操作</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">luaScript</span> <span class="operator">=</span> <span class="string">&quot;if redis.call(&#x27;get&#x27;,KEYS[1]) == ARGV[1] then return redis.call(&#x27;del&#x27;,KEYS[1]) else return 0 end&quot;</span>;</span><br><span class="line">DefaultRedisScript&lt;Long&gt; redisScript = <span class="keyword">new</span> <span class="title class_">DefaultRedisScript</span>&lt;&gt;(luaScript, Long.class);</span><br><span class="line">redisTemplate.execute(redisScript, Collections.singletonList(<span class="string">&quot;product_catalog_lock&quot;</span>), uuid);</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <categories>
+        <category>其它</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>微服务</tag>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Redisson 配置附带官方关于锁的文档</title>
     <url>/2022/01/04/Redisson-%E9%85%8D%E7%BD%AE%E9%99%84%E5%B8%A6%E5%AE%98%E6%96%B9%E5%85%B3%E4%BA%8E%E9%94%81%E7%9A%84%E6%96%87%E6%A1%A3/</url>
     <content><![CDATA[<blockquote>
@@ -8965,68 +8965,6 @@ if ( !( i &gt; 2 ) )&#123;
         <tag>微服务</tag>
         <tag>Redis</tag>
         <tag>SpringCloud</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Servlet Cookie</title>
-    <url>/2022/01/02/Servlet-Cookie/</url>
-    <content><![CDATA[<ol>
-<li><p>Cookie是什么？</p>
-<ul>
-<li>Cookie可以保存会话状态，但是这个会话状态是保留在客户端上。</li>
-<li>只要Cookie清楚或者失效，这个会话状态就没有了。</li>
-<li>Cookie是保存在客户端上的</li>
-<li>Cookie可以保存在浏览器的缓存中，浏览器关闭，Cookie消失。Cookie也可以保存在客户端的硬盘文件中，浏览器关闭Cookie还在，除非Cookie失效。</li>
-</ul>
-</li>
-<li><p>Cookie只有在javaweb中有吗？</p>
-<ul>
-<li>Cookie不止是在javaweb中存在，只要是web开发，只要是B&#x2F;S架构的系统，只要是基于HTTP协议，就有Cookie的存在。</li>
-<li>Cookie这种机制是HTTP协议规定的。</li>
-</ul>
-</li>
-<li><p>Cookie实现的功能常见的有：</p>
-<ul>
-<li>保留购物车商品的状态在客户端上</li>
-<li>xxx天内免登录</li>
-</ul>
-</li>
-<li><p>java中Cookie被当作类来处理，使用new运算符可以创建Cookie对象，而且Cookie有两部分组成，分别是Cookie的name和value，name和value都是字符串类型。</p>
-</li>
-<li><p>在java中怎么创建Cookie，Cookie是在javax.servlet.http包下的</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">improt javax.servlet.http.Cookie;</span><br><span class="line"><span class="type">Cookie</span> <span class="variable">cookie</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Cookie</span>(name, value);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>服务器可以一次向浏览器发送多个Cookie</p>
-</li>
-<li><p>默认情况下，服务器发送Cookie给浏览器之后，浏览器将Cookie保存在缓存当中，只要不关闭浏览器，Cookie永远存在，并且有效。当浏览器关闭之后，缓存中的Cookie清除。</p>
-</li>
-<li><p>在浏览器客户端无论是硬盘文件中还是缓存中保存的Cookie，什么时候会再次发送给服务器呢？</p>
-<ul>
-<li>浏览器会不会提交发送这些Cookie给服务器，和请求路径有关系。</li>
-<li>请求路径和Cookie是紧密关联的。</li>
-<li>不同的请求路径会发送提交不同的Cookie</li>
-</ul>
-</li>
-<li><p>默认情况下Cookie会和哪些路径绑定在一起？</p>
-<ul>
-<li>只会在请求和servlet同路径的情况下才会携带cookie中存储的数据，包含同级目录和下级目录。</li>
-</ul>
-</li>
-<li><p>Cookie路径是可以指定的，可以通过java程序进行设置，保证Cookie和某个特定的路径绑定在一起。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">cookie.setPath(<span class="string">&quot;/xxx&quot;</span>);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>默认情况下，没有设置Cookie的有效时长，该Cookie被默认保存在浏览器的缓存当中，只要浏览器不关闭，Cookie就一直存在，如果浏览器关闭了，那么Cookie就会消失。这是会话级别的Cookie。我们可以通过设置Cookie的有效时长，以保证Cookie保存在硬盘文件当中，但是这个有效时长必须大于0。如果Cookie时长设置为0，则该cookie会被删除，如果Cookie被设置为负数，则不会被保存。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">cookie.setMaxAge(<span class="number">10000</span>);</span><br></pre></td></tr></table></figure></li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> &#123;</span><br><span class="line">  response.setContentType(<span class="string">&quot;text/html;charset=UTF-8&quot;</span>);</span><br><span class="line">  createAndSendCookieToBrowser(request, response);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">createAndSendCookieToBrowser</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="type">PrintWriter</span> <span class="variable">pw</span> <span class="operator">=</span> response.getWriter();</span><br><span class="line">    <span class="type">Cookie</span> <span class="variable">cookie</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Cookie</span>(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;UpYou&quot;</span>);</span><br><span class="line">    cookie.setMaxAge(<span class="number">10000</span>);</span><br><span class="line">    response.addCookie(cookie);</span><br><span class="line">  &#125; <span class="keyword">catch</span>(IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271104479.png" alt="image.png"></p>
-]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>JAVA</tag>
-        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
@@ -9733,6 +9671,68 @@ if ( !( i &gt; 2 ) )&#123;
         <tag>学习笔记</tag>
         <tag>前端</tag>
         <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Servlet Cookie</title>
+    <url>/2022/01/02/Servlet-Cookie/</url>
+    <content><![CDATA[<ol>
+<li><p>Cookie是什么？</p>
+<ul>
+<li>Cookie可以保存会话状态，但是这个会话状态是保留在客户端上。</li>
+<li>只要Cookie清楚或者失效，这个会话状态就没有了。</li>
+<li>Cookie是保存在客户端上的</li>
+<li>Cookie可以保存在浏览器的缓存中，浏览器关闭，Cookie消失。Cookie也可以保存在客户端的硬盘文件中，浏览器关闭Cookie还在，除非Cookie失效。</li>
+</ul>
+</li>
+<li><p>Cookie只有在javaweb中有吗？</p>
+<ul>
+<li>Cookie不止是在javaweb中存在，只要是web开发，只要是B&#x2F;S架构的系统，只要是基于HTTP协议，就有Cookie的存在。</li>
+<li>Cookie这种机制是HTTP协议规定的。</li>
+</ul>
+</li>
+<li><p>Cookie实现的功能常见的有：</p>
+<ul>
+<li>保留购物车商品的状态在客户端上</li>
+<li>xxx天内免登录</li>
+</ul>
+</li>
+<li><p>java中Cookie被当作类来处理，使用new运算符可以创建Cookie对象，而且Cookie有两部分组成，分别是Cookie的name和value，name和value都是字符串类型。</p>
+</li>
+<li><p>在java中怎么创建Cookie，Cookie是在javax.servlet.http包下的</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">improt javax.servlet.http.Cookie;</span><br><span class="line"><span class="type">Cookie</span> <span class="variable">cookie</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Cookie</span>(name, value);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>服务器可以一次向浏览器发送多个Cookie</p>
+</li>
+<li><p>默认情况下，服务器发送Cookie给浏览器之后，浏览器将Cookie保存在缓存当中，只要不关闭浏览器，Cookie永远存在，并且有效。当浏览器关闭之后，缓存中的Cookie清除。</p>
+</li>
+<li><p>在浏览器客户端无论是硬盘文件中还是缓存中保存的Cookie，什么时候会再次发送给服务器呢？</p>
+<ul>
+<li>浏览器会不会提交发送这些Cookie给服务器，和请求路径有关系。</li>
+<li>请求路径和Cookie是紧密关联的。</li>
+<li>不同的请求路径会发送提交不同的Cookie</li>
+</ul>
+</li>
+<li><p>默认情况下Cookie会和哪些路径绑定在一起？</p>
+<ul>
+<li>只会在请求和servlet同路径的情况下才会携带cookie中存储的数据，包含同级目录和下级目录。</li>
+</ul>
+</li>
+<li><p>Cookie路径是可以指定的，可以通过java程序进行设置，保证Cookie和某个特定的路径绑定在一起。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">cookie.setPath(<span class="string">&quot;/xxx&quot;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>默认情况下，没有设置Cookie的有效时长，该Cookie被默认保存在浏览器的缓存当中，只要浏览器不关闭，Cookie就一直存在，如果浏览器关闭了，那么Cookie就会消失。这是会话级别的Cookie。我们可以通过设置Cookie的有效时长，以保证Cookie保存在硬盘文件当中，但是这个有效时长必须大于0。如果Cookie时长设置为0，则该cookie会被删除，如果Cookie被设置为负数，则不会被保存。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">cookie.setMaxAge(<span class="number">10000</span>);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> &#123;</span><br><span class="line">  response.setContentType(<span class="string">&quot;text/html;charset=UTF-8&quot;</span>);</span><br><span class="line">  createAndSendCookieToBrowser(request, response);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">createAndSendCookieToBrowser</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="type">PrintWriter</span> <span class="variable">pw</span> <span class="operator">=</span> response.getWriter();</span><br><span class="line">    <span class="type">Cookie</span> <span class="variable">cookie</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Cookie</span>(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;UpYou&quot;</span>);</span><br><span class="line">    cookie.setMaxAge(<span class="number">10000</span>);</span><br><span class="line">    response.addCookie(cookie);</span><br><span class="line">  &#125; <span class="keyword">catch</span>(IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271104479.png" alt="image.png"></p>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
@@ -12916,6 +12916,27 @@ if ( !( i &gt; 2 ) )&#123;
       </tags>
   </entry>
   <entry>
+    <title>java使用replace时中文被URL编码导致无效解决</title>
+    <url>/2022/01/23/java%E4%BD%BF%E7%94%A8replace%E6%97%B6%E4%B8%AD%E6%96%87%E8%A2%ABURL%E7%BC%96%E7%A0%81%E5%AF%BC%E8%87%B4%E6%97%A0%E6%95%88%E8%A7%A3%E5%86%B3/</url>
+    <content><![CDATA[<p>在使用 <code>&quot;&quot;.replace(&quot;中文&quot;, &quot;&quot;)</code> 时，如果 <code>target</code> 中存在中文就会被进行 URL 编码，例如</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202201231739592.png" alt="源信息"></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202201231739458.png" alt="URL编码后"></p>
+<p>以上例子是想用 <code>queryString.replace(&quot;&amp;attrs=44_以官网信息为准&quot;, &quot;&quot;);</code> 将 <code>&amp;attrs=44_以官网信息为准</code> 替换为空字符，但被URL编码了，编码后相当于 <code> queryString.replace(&quot;&amp;attrs=44_%E4%.....&quot;, &quot;&quot;);</code> ，这时候就匹配不到我们的目标字符串。</p>
+<p>可以将中文进行 <strong>UTF-8</strong> 编码就可以了</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 对字符串进行UTF-8编码</span></span><br><span class="line"><span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> URLEncoder.encode(<span class="string">&quot;44_以官网信息为准&quot;</span>, <span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">targetStr</span> <span class="operator">=</span> queryString.replace(<span class="string">&quot;&amp;attrs=&quot;</span> + str, <span class="string">&quot;&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>在进行编码后，浏览器将空格替换为 <code>%20</code>，而java将空格替换为 <code>+</code> ,所以需要解决他们的差异</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 解决java与浏览器的差异</span></span><br><span class="line">str.replace(<span class="string">&quot;+&quot;</span>, <span class="string">&quot;%20&quot;</span>);</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>随笔</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Spring学习笔记</title>
     <url>/2022/01/02/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><p>资料： <a href="https://pan.baidu.com/s/1aS4B69iA8-AtXqT7D9obXA">https://pan.baidu.com/s/1aS4B69iA8-AtXqT7D9obXA</a> 提取码: rczx</p>
@@ -13498,27 +13519,6 @@ if ( !( i &gt; 2 ) )&#123;
         <tag>JAVA</tag>
         <tag>学习笔记</tag>
         <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>java使用replace时中文被URL编码导致无效解决</title>
-    <url>/2022/01/23/java%E4%BD%BF%E7%94%A8replace%E6%97%B6%E4%B8%AD%E6%96%87%E8%A2%ABURL%E7%BC%96%E7%A0%81%E5%AF%BC%E8%87%B4%E6%97%A0%E6%95%88%E8%A7%A3%E5%86%B3/</url>
-    <content><![CDATA[<p>在使用 <code>&quot;&quot;.replace(&quot;中文&quot;, &quot;&quot;)</code> 时，如果 <code>target</code> 中存在中文就会被进行 URL 编码，例如</p>
-<p><img src="http://qiniu-note-image.ctong.top/note/images/202201231739592.png" alt="源信息"></p>
-<p><img src="http://qiniu-note-image.ctong.top/note/images/202201231739458.png" alt="URL编码后"></p>
-<p>以上例子是想用 <code>queryString.replace(&quot;&amp;attrs=44_以官网信息为准&quot;, &quot;&quot;);</code> 将 <code>&amp;attrs=44_以官网信息为准</code> 替换为空字符，但被URL编码了，编码后相当于 <code> queryString.replace(&quot;&amp;attrs=44_%E4%.....&quot;, &quot;&quot;);</code> ，这时候就匹配不到我们的目标字符串。</p>
-<p>可以将中文进行 <strong>UTF-8</strong> 编码就可以了</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 对字符串进行UTF-8编码</span></span><br><span class="line"><span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> URLEncoder.encode(<span class="string">&quot;44_以官网信息为准&quot;</span>, <span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">targetStr</span> <span class="operator">=</span> queryString.replace(<span class="string">&quot;&amp;attrs=&quot;</span> + str, <span class="string">&quot;&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p>在进行编码后，浏览器将空格替换为 <code>%20</code>，而java将空格替换为 <code>+</code> ,所以需要解决他们的差异</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 解决java与浏览器的差异</span></span><br><span class="line">str.replace(<span class="string">&quot;+&quot;</span>, <span class="string">&quot;%20&quot;</span>);</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>JAVA</category>
-      </categories>
-      <tags>
-        <tag>JAVA</tag>
-        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
@@ -14143,66 +14143,6 @@ if ( !( i &gt; 2 ) )&#123;
       </tags>
   </entry>
   <entry>
-    <title>手撸Spring整合MyBatis玩具</title>
-    <url>/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/</url>
-    <content><![CDATA[<p>源码在我GitHub上，有兴趣可以去观望一下：<a href="https://github.com/YouChuantong/mybatis_learn_demo">传送门</a></p>
-<p>这个只是个<strong>玩具、玩具、玩具</strong>，正经的还得看官方提供的整合包<br>先说下这个玩具的问题所在吧！&#x3D;&#x3D;&#x3D;&#x3D;&gt;&gt;&gt; 无法提交事务和无法关闭SqlSession，嗯嗯嗯~~~</p>
-<p>开始吧～～</p>
-<hr>
-<h2 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h2><p>若想使用Spring容器提供的强大功能，例如：<code>Autowired</code>，那么就需要让Spring容器将其管理。</p>
-<p>没整合之前，每次都需要通过<code>SqlSessionFactory</code>将其创建，一个两个还好，写多了整个人都麻了…</p>
-<p>所以我就想，能不能在service层直接注入呢？</p>
-<p>让Spring注入的话就得注册到容器，Dao层数量和命名都无法确定，怎么注册Bean呢？..嘶～～～</p>
-<p><del>嗯。。。使用工厂模式加上自动扫包好像能实现..</del></p>
-<p>说干就干…</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyBatisSqlSessionFactory</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">7157094465332447639L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * MyBatis配置文件路径</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">MYBATIS_CONFIG_PATH</span> <span class="operator">=</span> <span class="string">&quot;mybatis-config.xml&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 注册一个全局SqlSessionFactory组件</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> SqlSessionFactory <span class="title function_">getSqlSessionFactory</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;getSqlSessionFactory&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> (<span class="type">InputStream</span> <span class="variable">configStream</span> <span class="operator">=</span> getConfigStream()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">SqlSessionFactoryBuilder</span>().build(configStream);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 懒加载Bean工厂</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> daoClass Bean类型</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &lt;T&gt; Bean类型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; T <span class="title function_">getMapping</span><span class="params">(Class&lt;T&gt; daoClass)</span> &#123;</span><br><span class="line">        <span class="type">SpringUtils</span> <span class="variable">springUtils</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SpringUtils</span>();</span><br><span class="line">        <span class="type">SqlSessionFactory</span> <span class="variable">bean</span> <span class="operator">=</span> springUtils.getBean(SqlSessionFactory.class);</span><br><span class="line">        <span class="type">SqlSession</span> <span class="variable">sqlSession</span> <span class="operator">=</span> bean.openSession();</span><br><span class="line">        <span class="keyword">return</span> sqlSession.getMapper(daoClass);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取配置文件文件流</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 文件流</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> InputStream <span class="title function_">getConfigStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="keyword">return</span> Resources.getResourceAsStream(MYBATIS_CONFIG_PATH);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<p>嗯？我该怎么为<code>getMapping</code>注册为懒加载呢???还有<code>Class&lt;T&gt; daoClass</code>我该怎么拿到当前<code>getBean</code>时要找的类型呢？</p>
-<p>嘶～～～</p>
-<p>嘶～～～</p>
-<p>嘶～～～</p>
-<h2 id="更换方案"><a href="#更换方案" class="headerlink" title="更换方案"></a>更换方案</h2><p>翻了翻<code>ClassPathXmlApplication</code>源码，启动的时候它去执行了个后置处理器<code>org.springframework.beans.factory.config.BeanFactoryPostProcessor</code>。这个处理器需要实现一个<code>postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory)</code>，这个<code>ConfigurableListableBeanFactory</code>就是那个还未启动完成的容器。嗯嗯嗯…</p>
-<p>它里面有一个<code>registerSingleton</code>方法，可以注册单实例Bean，可我需要注册多实例…先不管了</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">postProcessBeanFactory</span><span class="params">(ConfigurableListableBeanFactory configurableListableBeanFactory)</span></span><br><span class="line">  <span class="keyword">throws</span> BeansException &#123;</span><br><span class="line">  <span class="built_in">this</span>.configurableListableBeanFactory = configurableListableBeanFactory;</span><br><span class="line">  <span class="keyword">if</span> (factory == <span class="literal">null</span>) &#123;</span><br><span class="line">    factory = configurableListableBeanFactory.getBean(SqlSessionFactory.class);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="type">RegisterMyBatisFactory</span> <span class="variable">registerMyBatisFactory</span> <span class="operator">=</span> configurableListableBeanFactory.getBean(</span><br><span class="line">    RegisterMyBatisFactory.class);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (registerMyBatisFactory == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line">  <span class="type">String</span> <span class="variable">mapperPackage</span> <span class="operator">=</span> registerMyBatisFactory.getPackage();</span><br><span class="line">  <span class="comment">// 获取指定包下所有class</span></span><br><span class="line">  List&lt;Class&lt;?&gt;&gt; allClass = getClassByPackage(mapperPackage);</span><br><span class="line">  <span class="comment">// 通过@Mapper过滤无效class</span></span><br><span class="line">  List&lt;Class&lt;?&gt;&gt; interfaceByWithMyBatis = getInterfaceByMapper(allClass);</span><br><span class="line">  <span class="comment">// 将所有Mapper注册到IOC中</span></span><br><span class="line">  registerMyBatis(interfaceByWithMyBatis);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<ul>
-<li><p><code> this.configurableListableBeanFactory = configurableListableBeanFactory;</code>  保存这个容器</p>
-</li>
-<li><p><code>RegisterMyBatisFactory registerMyBatisFactory = configurableListableBeanFactory.getBean(RegisterMyBatisFactory.class);</code> 这里定义了个接口，通过这个借口拿到Dao所在的包。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * mybatis，将其注册在容器中，整合器就可以获取到指定包名</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">RegisterMyBatisFactory</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 获取mapper所在的包</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  String <span class="title function_">getPackage</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>List&lt;Class&lt;?&gt;&gt; allClass = getClassByPackage(mapperPackage);</code> 通过包名找这个包下所有的类，这个方法就不说了，就一个普通的文件查找而已。有兴趣就拉源码吧！</p>
-</li>
-<li><p><code>List&lt;Class&lt;?&gt;&gt; interfaceByWithMyBatis = getInterfaceByMapper(allClass);</code>需要过滤没有用的类，也就是说可能不是Dao。通过MyBatis提供的<code>@Mapper</code>注解来识别了，懒得自己写注解，先把功能实现。就一个简简单单的反射</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 通过指定注解获取接口</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 过滤结果</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> List&lt;Class&lt;?&gt;&gt; getInterfaceByMapper(List&lt;Class&lt;?&gt;&gt; clazz) &#123;</span><br><span class="line">  <span class="keyword">return</span> clazz.stream().filter(aClass -&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (!aClass.isInterface()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="type">Mapper</span> <span class="variable">annotation</span> <span class="operator">=</span> aClass.getAnnotation(Mapper.class);</span><br><span class="line">    <span class="keyword">return</span> annotation != <span class="literal">null</span>;</span><br><span class="line">  &#125;).collect(Collectors.toList());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>registerMyBatis(interfaceByWithMyBatis);</code> 接下来就将过滤后的Mapper注册到容器中了。如果是注册的多实例Bean，那么就可以通过切面去搞定这个事务问题。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将MyBatis注册到IOC</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">registerMyBatis</span><span class="params">(List&lt;Class&lt;?&gt;&gt; mappers)</span> &#123;</span><br><span class="line">  mappers.forEach(clazz -&gt; &#123;</span><br><span class="line">    <span class="type">SqlSession</span> <span class="variable">sqlSession</span> <span class="operator">=</span> factory.openSession();</span><br><span class="line">    <span class="type">Object</span> <span class="variable">mapper</span> <span class="operator">=</span> sqlSession.getMapper(clazz);</span><br><span class="line">    configurableListableBeanFactory.registerSingleton(clazz.getName(), mapper);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="使用演示"><a href="#使用演示" class="headerlink" title="使用演示"></a>使用演示</h2><p>Dao层用<code>@Mapper</code>标注</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmployeeDao</span> <span class="keyword">extends</span> <span class="title class_">GenericDao</span>&lt;Employee&gt; &#123;...&#125;</span><br></pre></td></tr></table></figure>
-
-<p>service层直接注入。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmployeeServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span>, EmployeeService &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1863674392751816610L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> EmployeeDao employeeDao;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>现在就可以了…..</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;id&quot;</span><span class="punctuation">:</span><span class="number">1</span><span class="punctuation">,</span><span class="attr">&quot;empName&quot;</span><span class="punctuation">:</span><span class="string">&quot;Clover&quot;</span><span class="punctuation">,</span><span class="attr">&quot;gender&quot;</span><span class="punctuation">:</span><span class="number">0</span><span class="punctuation">,</span><span class="attr">&quot;email&quot;</span><span class="punctuation">:</span><span class="string">&quot;cloveryou.ctong@qq.com&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>随笔</tag>
-        <tag>SpringMvc</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>性能与压力测试</title>
     <url>/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/</url>
     <content><![CDATA[<h1 id="压力测试"><a href="#压力测试" class="headerlink" title="压力测试"></a>压力测试</h1><p>压力测试可以考察但前硬件环境下系统所能承受的最大负荷并帮助找出系统瓶颈所在。压测都是为了系统在线上的处理能力和稳定性维持在一个标准范围内。</p>
@@ -14514,6 +14454,66 @@ if ( !( i &gt; 2 ) )&#123;
       <tags>
         <tag>JAVA</tag>
         <tag>随笔</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手撸Spring整合MyBatis玩具</title>
+    <url>/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/</url>
+    <content><![CDATA[<p>源码在我GitHub上，有兴趣可以去观望一下：<a href="https://github.com/YouChuantong/mybatis_learn_demo">传送门</a></p>
+<p>这个只是个<strong>玩具、玩具、玩具</strong>，正经的还得看官方提供的整合包<br>先说下这个玩具的问题所在吧！&#x3D;&#x3D;&#x3D;&#x3D;&gt;&gt;&gt; 无法提交事务和无法关闭SqlSession，嗯嗯嗯~~~</p>
+<p>开始吧～～</p>
+<hr>
+<h2 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h2><p>若想使用Spring容器提供的强大功能，例如：<code>Autowired</code>，那么就需要让Spring容器将其管理。</p>
+<p>没整合之前，每次都需要通过<code>SqlSessionFactory</code>将其创建，一个两个还好，写多了整个人都麻了…</p>
+<p>所以我就想，能不能在service层直接注入呢？</p>
+<p>让Spring注入的话就得注册到容器，Dao层数量和命名都无法确定，怎么注册Bean呢？..嘶～～～</p>
+<p><del>嗯。。。使用工厂模式加上自动扫包好像能实现..</del></p>
+<p>说干就干…</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyBatisSqlSessionFactory</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">7157094465332447639L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * MyBatis配置文件路径</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">MYBATIS_CONFIG_PATH</span> <span class="operator">=</span> <span class="string">&quot;mybatis-config.xml&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 注册一个全局SqlSessionFactory组件</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> SqlSessionFactory <span class="title function_">getSqlSessionFactory</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;getSqlSessionFactory&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> (<span class="type">InputStream</span> <span class="variable">configStream</span> <span class="operator">=</span> getConfigStream()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">SqlSessionFactoryBuilder</span>().build(configStream);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 懒加载Bean工厂</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> daoClass Bean类型</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &lt;T&gt; Bean类型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; T <span class="title function_">getMapping</span><span class="params">(Class&lt;T&gt; daoClass)</span> &#123;</span><br><span class="line">        <span class="type">SpringUtils</span> <span class="variable">springUtils</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SpringUtils</span>();</span><br><span class="line">        <span class="type">SqlSessionFactory</span> <span class="variable">bean</span> <span class="operator">=</span> springUtils.getBean(SqlSessionFactory.class);</span><br><span class="line">        <span class="type">SqlSession</span> <span class="variable">sqlSession</span> <span class="operator">=</span> bean.openSession();</span><br><span class="line">        <span class="keyword">return</span> sqlSession.getMapper(daoClass);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取配置文件文件流</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 文件流</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> InputStream <span class="title function_">getConfigStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="keyword">return</span> Resources.getResourceAsStream(MYBATIS_CONFIG_PATH);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>嗯？我该怎么为<code>getMapping</code>注册为懒加载呢???还有<code>Class&lt;T&gt; daoClass</code>我该怎么拿到当前<code>getBean</code>时要找的类型呢？</p>
+<p>嘶～～～</p>
+<p>嘶～～～</p>
+<p>嘶～～～</p>
+<h2 id="更换方案"><a href="#更换方案" class="headerlink" title="更换方案"></a>更换方案</h2><p>翻了翻<code>ClassPathXmlApplication</code>源码，启动的时候它去执行了个后置处理器<code>org.springframework.beans.factory.config.BeanFactoryPostProcessor</code>。这个处理器需要实现一个<code>postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory)</code>，这个<code>ConfigurableListableBeanFactory</code>就是那个还未启动完成的容器。嗯嗯嗯…</p>
+<p>它里面有一个<code>registerSingleton</code>方法，可以注册单实例Bean，可我需要注册多实例…先不管了</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">postProcessBeanFactory</span><span class="params">(ConfigurableListableBeanFactory configurableListableBeanFactory)</span></span><br><span class="line">  <span class="keyword">throws</span> BeansException &#123;</span><br><span class="line">  <span class="built_in">this</span>.configurableListableBeanFactory = configurableListableBeanFactory;</span><br><span class="line">  <span class="keyword">if</span> (factory == <span class="literal">null</span>) &#123;</span><br><span class="line">    factory = configurableListableBeanFactory.getBean(SqlSessionFactory.class);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="type">RegisterMyBatisFactory</span> <span class="variable">registerMyBatisFactory</span> <span class="operator">=</span> configurableListableBeanFactory.getBean(</span><br><span class="line">    RegisterMyBatisFactory.class);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (registerMyBatisFactory == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line">  <span class="type">String</span> <span class="variable">mapperPackage</span> <span class="operator">=</span> registerMyBatisFactory.getPackage();</span><br><span class="line">  <span class="comment">// 获取指定包下所有class</span></span><br><span class="line">  List&lt;Class&lt;?&gt;&gt; allClass = getClassByPackage(mapperPackage);</span><br><span class="line">  <span class="comment">// 通过@Mapper过滤无效class</span></span><br><span class="line">  List&lt;Class&lt;?&gt;&gt; interfaceByWithMyBatis = getInterfaceByMapper(allClass);</span><br><span class="line">  <span class="comment">// 将所有Mapper注册到IOC中</span></span><br><span class="line">  registerMyBatis(interfaceByWithMyBatis);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p><code> this.configurableListableBeanFactory = configurableListableBeanFactory;</code>  保存这个容器</p>
+</li>
+<li><p><code>RegisterMyBatisFactory registerMyBatisFactory = configurableListableBeanFactory.getBean(RegisterMyBatisFactory.class);</code> 这里定义了个接口，通过这个借口拿到Dao所在的包。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * mybatis，将其注册在容器中，整合器就可以获取到指定包名</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">RegisterMyBatisFactory</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 获取mapper所在的包</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  String <span class="title function_">getPackage</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>List&lt;Class&lt;?&gt;&gt; allClass = getClassByPackage(mapperPackage);</code> 通过包名找这个包下所有的类，这个方法就不说了，就一个普通的文件查找而已。有兴趣就拉源码吧！</p>
+</li>
+<li><p><code>List&lt;Class&lt;?&gt;&gt; interfaceByWithMyBatis = getInterfaceByMapper(allClass);</code>需要过滤没有用的类，也就是说可能不是Dao。通过MyBatis提供的<code>@Mapper</code>注解来识别了，懒得自己写注解，先把功能实现。就一个简简单单的反射</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 通过指定注解获取接口</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 过滤结果</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> List&lt;Class&lt;?&gt;&gt; getInterfaceByMapper(List&lt;Class&lt;?&gt;&gt; clazz) &#123;</span><br><span class="line">  <span class="keyword">return</span> clazz.stream().filter(aClass -&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (!aClass.isInterface()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="type">Mapper</span> <span class="variable">annotation</span> <span class="operator">=</span> aClass.getAnnotation(Mapper.class);</span><br><span class="line">    <span class="keyword">return</span> annotation != <span class="literal">null</span>;</span><br><span class="line">  &#125;).collect(Collectors.toList());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>registerMyBatis(interfaceByWithMyBatis);</code> 接下来就将过滤后的Mapper注册到容器中了。如果是注册的多实例Bean，那么就可以通过切面去搞定这个事务问题。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将MyBatis注册到IOC</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">registerMyBatis</span><span class="params">(List&lt;Class&lt;?&gt;&gt; mappers)</span> &#123;</span><br><span class="line">  mappers.forEach(clazz -&gt; &#123;</span><br><span class="line">    <span class="type">SqlSession</span> <span class="variable">sqlSession</span> <span class="operator">=</span> factory.openSession();</span><br><span class="line">    <span class="type">Object</span> <span class="variable">mapper</span> <span class="operator">=</span> sqlSession.getMapper(clazz);</span><br><span class="line">    configurableListableBeanFactory.registerSingleton(clazz.getName(), mapper);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="使用演示"><a href="#使用演示" class="headerlink" title="使用演示"></a>使用演示</h2><p>Dao层用<code>@Mapper</code>标注</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmployeeDao</span> <span class="keyword">extends</span> <span class="title class_">GenericDao</span>&lt;Employee&gt; &#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+<p>service层直接注入。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmployeeServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span>, EmployeeService &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1863674392751816610L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> EmployeeDao employeeDao;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在就可以了…..</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;id&quot;</span><span class="punctuation">:</span><span class="number">1</span><span class="punctuation">,</span><span class="attr">&quot;empName&quot;</span><span class="punctuation">:</span><span class="string">&quot;Clover&quot;</span><span class="punctuation">,</span><span class="attr">&quot;gender&quot;</span><span class="punctuation">:</span><span class="number">0</span><span class="punctuation">,</span><span class="attr">&quot;email&quot;</span><span class="punctuation">:</span><span class="string">&quot;cloveryou.ctong@qq.com&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>SpringMvc</tag>
       </tags>
   </entry>
   <entry>
