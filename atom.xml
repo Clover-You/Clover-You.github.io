@@ -6,7 +6,7 @@
   <link href="http://www.ctong.top/atom.xml" rel="self"/>
   
   <link href="http://www.ctong.top/"/>
-  <updated>2022-02-15T01:30:26.091Z</updated>
+  <updated>2022-02-19T14:55:13.534Z</updated>
   <id>http://www.ctong.top/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>VMware 网络配置</title>
+    <link href="http://www.ctong.top/2022/02/19/VMware%20%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/"/>
+    <id>http://www.ctong.top/2022/02/19/VMware%20%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/</id>
+    <published>2022-02-19T14:54:21.000Z</published>
+    <updated>2022-02-19T14:55:13.534Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;VMware-网络配置&quot;&gt;&lt;a href=&quot;#VMware-网络配置&quot; class=&quot;headerlink&quot; title=&quot;VMware 网络配置&quot;&gt;&lt;/a&gt;VMware 网络配置&lt;/h1&gt;&lt;p&gt;运行 &lt;code&gt;dhcpd&lt;/code&gt; 命令分配一个 ip</summary>
+        
+      
+    
+    
+    
+    <category term="随笔" scheme="http://www.ctong.top/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
   
   <entry>
     <title>SpringSession 基本原理</title>
@@ -225,9 +250,9 @@
     
     <category term="JAVA" scheme="http://www.ctong.top/tags/JAVA/"/>
     
-    <category term="Redis" scheme="http://www.ctong.top/tags/Redis/"/>
-    
     <category term="微服务" scheme="http://www.ctong.top/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    
+    <category term="Redis" scheme="http://www.ctong.top/tags/Redis/"/>
     
     <category term="SpringCloud" scheme="http://www.ctong.top/tags/SpringCloud/"/>
     
@@ -257,9 +282,9 @@
     
     <category term="JAVA" scheme="http://www.ctong.top/tags/JAVA/"/>
     
-    <category term="Redis" scheme="http://www.ctong.top/tags/Redis/"/>
-    
     <category term="微服务" scheme="http://www.ctong.top/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    
+    <category term="Redis" scheme="http://www.ctong.top/tags/Redis/"/>
     
     <category term="SpringCloud" scheme="http://www.ctong.top/tags/SpringCloud/"/>
     
@@ -289,9 +314,9 @@
     
     <category term="JAVA" scheme="http://www.ctong.top/tags/JAVA/"/>
     
-    <category term="Redis" scheme="http://www.ctong.top/tags/Redis/"/>
-    
     <category term="微服务" scheme="http://www.ctong.top/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    
+    <category term="Redis" scheme="http://www.ctong.top/tags/Redis/"/>
     
   </entry>
   
@@ -588,42 +613,6 @@
     <category term="JAVA" scheme="http://www.ctong.top/tags/JAVA/"/>
     
     <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JavaScript 判断0非空问题</title>
-    <link href="http://www.ctong.top/2022/01/02/JavaScript-%E5%88%A4%E6%96%AD0%E9%9D%9E%E7%A9%BA%E9%97%AE%E9%A2%98/"/>
-    <id>http://www.ctong.top/2022/01/02/JavaScript-%E5%88%A4%E6%96%AD0%E9%9D%9E%E7%A9%BA%E9%97%AE%E9%A2%98/</id>
-    <published>2022-01-02T10:22:37.000Z</published>
-    <updated>2022-02-14T23:13:48.454Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;用uniapp做商城购物车时有个需求：类似饿了么中的选商品规格功能，只不过我们需求是多选，我是这么做的：&lt;br&gt;用一个对象记录选中的’规格’，例如：&lt;/p&gt;
-&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
-        
-      
-    
-    
-    
-    <category term="随笔" scheme="http://www.ctong.top/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-    <category term="TypeScript" scheme="http://www.ctong.top/tags/TypeScript/"/>
-    
-    <category term="js" scheme="http://www.ctong.top/tags/js/"/>
-    
-    <category term="ts" scheme="http://www.ctong.top/tags/ts/"/>
-    
-    <category term="JavaScript" scheme="http://www.ctong.top/tags/JavaScript/"/>
-    
-    <category term="前端" scheme="http://www.ctong.top/tags/%E5%89%8D%E7%AB%AF/"/>
     
   </entry>
   
