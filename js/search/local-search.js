@@ -46,8 +46,7 @@ window.addEventListener('load', () => {
   async function search (path) {
     let datas = []
     const typeF = path.split('.')[1]
-    // const response = await fetch(GLOBAL_CONFIG.root + path)
-    const response = await fetch('https://cdn.jsdelivr.net/gh/Clover-You/Clover-You.github.io/search.xml')
+    const response = await fetch(GLOBAL_CONFIG.root + path)
     if (typeF === 'json') {
       datas = await response.json()
     } else if (typeF === 'xml') {
