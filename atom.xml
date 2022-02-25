@@ -6,7 +6,7 @@
   <link href="http://www.ctong.top/atom.xml" rel="self"/>
   
   <link href="http://www.ctong.top/"/>
-  <updated>2022-02-19T14:59:00.157Z</updated>
+  <updated>2022-02-25T00:09:14.192Z</updated>
   <id>http://www.ctong.top/</id>
   
   <author>
@@ -17,11 +17,40 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>RabitMQ基础-学习笔记</title>
+    <link href="http://www.ctong.top/2022/02/25/RabitMQ%E5%9F%BA%E7%A1%80-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>http://www.ctong.top/2022/02/25/RabitMQ%E5%9F%BA%E7%A1%80-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</id>
+    <published>2022-02-25T00:07:00.000Z</published>
+    <updated>2022-02-25T00:09:14.192Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="JAVA" scheme="http://www.ctong.top/categories/JAVA/"/>
+    
+    
+    <category term="JAVA" scheme="http://www.ctong.top/tags/JAVA/"/>
+    
+    <category term="学习笔记" scheme="http://www.ctong.top/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    <category term="SpringBoot" scheme="http://www.ctong.top/tags/SpringBoot/"/>
+    
+  </entry>
+  
+  <entry>
     <title>VMware 网络配置</title>
     <link href="http://www.ctong.top/2022/02/19/VMware%20%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/"/>
     <id>http://www.ctong.top/2022/02/19/VMware%20%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/</id>
     <published>2022-02-19T14:54:21.000Z</published>
-    <updated>2022-02-19T14:59:00.157Z</updated>
+    <updated>2022-02-24T00:03:13.952Z</updated>
     
     
       
@@ -67,9 +96,9 @@
     
     <category term="JAVA" scheme="http://www.ctong.top/tags/JAVA/"/>
     
-    <category term="SpringCloud" scheme="http://www.ctong.top/tags/SpringCloud/"/>
-    
     <category term="SpringBoot" scheme="http://www.ctong.top/tags/SpringBoot/"/>
+    
+    <category term="SpringCloud" scheme="http://www.ctong.top/tags/SpringCloud/"/>
     
     <category term="Spring" scheme="http://www.ctong.top/tags/Spring/"/>
     
@@ -221,9 +250,9 @@
     
     <category term="学习笔记" scheme="http://www.ctong.top/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
-    <category term="Redis" scheme="http://www.ctong.top/tags/Redis/"/>
-    
     <category term="SpringBoot" scheme="http://www.ctong.top/tags/SpringBoot/"/>
+    
+    <category term="Redis" scheme="http://www.ctong.top/tags/Redis/"/>
     
   </entry>
   
@@ -574,34 +603,6 @@
 &lt;li&gt;只要Cookie清楚或者失效，这个会话状态就没有了。&lt;/li&gt;
 &lt;li&gt;Cookie是保存在客户端上的&lt;/li&gt;
 &lt;li&gt;C</summary>
-        
-      
-    
-    
-    
-    <category term="随笔" scheme="http://www.ctong.top/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-    <category term="JAVA" scheme="http://www.ctong.top/tags/JAVA/"/>
-    
-    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MyBatis 配置结构</title>
-    <link href="http://www.ctong.top/2022/01/02/MyBatis-%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84/"/>
-    <id>http://www.ctong.top/2022/01/02/MyBatis-%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84/</id>
-    <published>2022-01-02T10:23:27.000Z</published>
-    <updated>2022-02-14T23:13:50.184Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;&lt;code&gt;pom.xml&lt;/code&gt; 配置文件添加以下代码，配置MyBatis运行时扫描的路径，否则可能会导致找不到 &lt;code&gt;Mapper&lt;/code&gt;&lt;/p&gt;
-&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
         
       
     
