@@ -6,7 +6,7 @@
   <link href="http://www.ctong.top/atom.xml" rel="self"/>
   
   <link href="http://www.ctong.top/"/>
-  <updated>2022-02-25T00:09:14.192Z</updated>
+  <updated>2022-02-25T13:51:39.499Z</updated>
   <id>http://www.ctong.top/</id>
   
   <author>
@@ -15,6 +15,41 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Feign远程调用丢失请求头问题</title>
+    <link href="http://www.ctong.top/2022/02/25/Feign%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E4%B8%A2%E5%A4%B1%E8%AF%B7%E6%B1%82%E5%A4%B4%E9%97%AE%E9%A2%98/"/>
+    <id>http://www.ctong.top/2022/02/25/Feign%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E4%B8%A2%E5%A4%B1%E8%AF%B7%E6%B1%82%E5%A4%B4%E9%97%AE%E9%A2%98/</id>
+    <published>2022-02-25T13:49:00.000Z</published>
+    <updated>2022-02-25T13:51:39.499Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在业务中，需要使用A、B两个模块，这些模块使用了SpringSession共享Session数据。在B模块中的业务需要用户登录后才能操作。当A调用B的业务时，在B模块中获取不到用户的Session信息，导致B模块判定该请求用户没有登录导致A模块拿不到所需数据。问题是A模块可</summary>
+        
+      
+    
+    
+    
+    <category term="随笔" scheme="http://www.ctong.top/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+    <category term="JAVA" scheme="http://www.ctong.top/tags/JAVA/"/>
+    
+    <category term="学习笔记" scheme="http://www.ctong.top/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+    <category term="SpringBoot" scheme="http://www.ctong.top/tags/SpringBoot/"/>
+    
+    <category term="SpringCloud" scheme="http://www.ctong.top/tags/SpringCloud/"/>
+    
+    <category term="微服务" scheme="http://www.ctong.top/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>RabitMQ基础-学习笔记</title>
@@ -279,11 +314,11 @@
     
     <category term="JAVA" scheme="http://www.ctong.top/tags/JAVA/"/>
     
+    <category term="SpringCloud" scheme="http://www.ctong.top/tags/SpringCloud/"/>
+    
     <category term="微服务" scheme="http://www.ctong.top/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
     
     <category term="Redis" scheme="http://www.ctong.top/tags/Redis/"/>
-    
-    <category term="SpringCloud" scheme="http://www.ctong.top/tags/SpringCloud/"/>
     
   </entry>
   
@@ -311,11 +346,11 @@
     
     <category term="JAVA" scheme="http://www.ctong.top/tags/JAVA/"/>
     
+    <category term="SpringCloud" scheme="http://www.ctong.top/tags/SpringCloud/"/>
+    
     <category term="微服务" scheme="http://www.ctong.top/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
     
     <category term="Redis" scheme="http://www.ctong.top/tags/Redis/"/>
-    
-    <category term="SpringCloud" scheme="http://www.ctong.top/tags/SpringCloud/"/>
     
   </entry>
   
@@ -570,39 +605,6 @@
         
         
     <summary type="html">&lt;h1 id=&quot;Servlet生命周期&quot;&gt;&lt;a href=&quot;#Servlet生命周期&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="随笔" scheme="http://www.ctong.top/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-    <category term="JAVA" scheme="http://www.ctong.top/tags/JAVA/"/>
-    
-    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Servlet Cookie</title>
-    <link href="http://www.ctong.top/2022/01/02/Servlet-Cookie/"/>
-    <id>http://www.ctong.top/2022/01/02/Servlet-Cookie/</id>
-    <published>2022-01-02T10:24:00.000Z</published>
-    <updated>2022-02-14T23:13:53.094Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;Cookie是什么？&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Cookie可以保存会话状态，但是这个会话状态是保留在客户端上。&lt;/li&gt;
-&lt;li&gt;只要Cookie清楚或者失效，这个会话状态就没有了。&lt;/li&gt;
-&lt;li&gt;Cookie是保存在客户端上的&lt;/li&gt;
-&lt;li&gt;C</summary>
         
       
     
