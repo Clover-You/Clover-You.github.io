@@ -41,11 +41,11 @@
     
     <category term="学习笔记" scheme="http://www.ctong.top/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
-    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
-    
     <category term="SpringBoot" scheme="http://www.ctong.top/tags/SpringBoot/"/>
     
     <category term="SpringCloud" scheme="http://www.ctong.top/tags/SpringCloud/"/>
+    
+    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
     
     <category term="微服务" scheme="http://www.ctong.top/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
     
@@ -524,9 +524,9 @@
     <category term="随笔" scheme="http://www.ctong.top/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
-    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
-    
     <category term="SpringCloud" scheme="http://www.ctong.top/tags/SpringCloud/"/>
+    
+    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
     
   </entry>
   
