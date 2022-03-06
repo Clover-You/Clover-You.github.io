@@ -6,7 +6,7 @@
   <link href="http://www.ctong.top/atom.xml" rel="self"/>
   
   <link href="http://www.ctong.top/"/>
-  <updated>2022-02-26T13:33:06.165Z</updated>
+  <updated>2022-03-06T06:43:56.673Z</updated>
   <id>http://www.ctong.top/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ElasticSearch-学习笔记</title>
+    <link href="http://www.ctong.top/2022/03/06/ElasticSearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>http://www.ctong.top/2022/03/06/ElasticSearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</id>
+    <published>2022-03-06T06:37:46.000Z</published>
+    <updated>2022-03-06T06:43:56.673Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;基本概念&quot;&gt;&lt;a href=&quot;#基本概念&quot; class=&quot;headerlink&quot; title=&quot;基本概念&quot;&gt;&lt;/a&gt;基本概念&lt;/h2&gt;&lt;h3 id=&quot;Index（索引）&quot;&gt;&lt;a href=&quot;#Index（索引）&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="JAVA" scheme="http://www.ctong.top/categories/JAVA/"/>
+    
+    
+    <category term="JAVA" scheme="http://www.ctong.top/tags/JAVA/"/>
+    
+    <category term="学习笔记" scheme="http://www.ctong.top/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>接口幂等性-学习笔记</title>
@@ -585,41 +612,6 @@
     <category term="JAVA" scheme="http://www.ctong.top/tags/JAVA/"/>
     
     <category term="SpringBoot" scheme="http://www.ctong.top/tags/SpringBoot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Servlet线程安全</title>
-    <link href="http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"/>
-    <id>http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/</id>
-    <published>2022-01-02T10:26:00.000Z</published>
-    <updated>2022-02-14T23:13:53.636Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;ol&gt;
-&lt;li&gt;Servlet是单实例多线程环境下运行的。&lt;/li&gt;
-&lt;li&gt;什么时候程序存在线程安全问题？&lt;ul&gt;
-&lt;li&gt;多线程并发&lt;/li&gt;
-&lt;li&gt;有共享数据&lt;/li&gt;
-&lt;li&gt;共享数据有修改操作&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;在JVM中，哪些数据可能会存在</summary>
-        
-      
-    
-    
-    
-    <category term="随笔" scheme="http://www.ctong.top/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-    <category term="JAVA" scheme="http://www.ctong.top/tags/JAVA/"/>
-    
-    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
     
   </entry>
   
