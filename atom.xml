@@ -6,7 +6,7 @@
   <link href="http://www.ctong.top/atom.xml" rel="self"/>
   
   <link href="http://www.ctong.top/"/>
-  <updated>2022-03-21T01:06:23.604Z</updated>
+  <updated>2022-03-21T12:13:51.233Z</updated>
   <id>http://www.ctong.top/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Sleuth + Zipkin 服务链路追踪 - 学习笔记</title>
+    <link href="http://www.ctong.top/2022/03/21/Sleuth-Zipkin-%E6%9C%8D%E5%8A%A1%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>http://www.ctong.top/2022/03/21/Sleuth-Zipkin-%E6%9C%8D%E5%8A%A1%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</id>
+    <published>2022-03-21T12:11:00.000Z</published>
+    <updated>2022-03-21T12:13:51.233Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Sleuth-Zipkin-服务链路追踪-学习笔记&quot;&gt;&lt;a href=&quot;#Sleuth-Zipkin-服务链路追踪-学习笔记&quot; class=&quot;headerlink&quot; title=&quot;Sleuth + Zipkin 服务链路追踪 - 学习笔记&quot;&gt;&lt;/a&gt;Sleuth</summary>
+        
+      
+    
+    
+    
+    <category term="Spring" scheme="http://www.ctong.top/categories/Spring/"/>
+    
+    
+    <category term="学习笔记" scheme="http://www.ctong.top/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    <category term="SpringCloud" scheme="http://www.ctong.top/tags/SpringCloud/"/>
+    
+    <category term="微服务" scheme="http://www.ctong.top/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    
+    <category term="Java" scheme="http://www.ctong.top/tags/Java/"/>
+    
+  </entry>
   
   <entry>
     <title>SpringCloud Alibaba-Sentinel - 学习笔记</title>
@@ -66,9 +97,9 @@
     <category term="随笔" scheme="http://www.ctong.top/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
-    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
-    
     <category term="SpringBoot" scheme="http://www.ctong.top/tags/SpringBoot/"/>
+    
+    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
     
     <category term="Java" scheme="http://www.ctong.top/tags/Java/"/>
     
@@ -95,9 +126,9 @@
     <category term="随笔" scheme="http://www.ctong.top/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
-    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
-    
     <category term="SpringCloud" scheme="http://www.ctong.top/tags/SpringCloud/"/>
+    
+    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
     
     <category term="微服务" scheme="http://www.ctong.top/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
     
@@ -161,11 +192,11 @@
     
     <category term="学习笔记" scheme="http://www.ctong.top/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
-    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
-    
     <category term="SpringBoot" scheme="http://www.ctong.top/tags/SpringBoot/"/>
     
     <category term="SpringCloud" scheme="http://www.ctong.top/tags/SpringCloud/"/>
+    
+    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
     
     <category term="微服务" scheme="http://www.ctong.top/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
     
@@ -586,38 +617,6 @@
     
     
     <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-    <category term="SpringMvc" scheme="http://www.ctong.top/tags/SpringMvc/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring与SpringMVC整合</title>
-    <link href="http://www.ctong.top/2022/01/02/Spring%E4%B8%8ESpringMVC%E6%95%B4%E5%90%88/"/>
-    <id>http://www.ctong.top/2022/01/02/Spring%E4%B8%8ESpringMVC%E6%95%B4%E5%90%88/</id>
-    <published>2022-01-02T10:28:20.000Z</published>
-    <updated>2022-02-14T23:13:56.517Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;SpringMVC和Spring整合的目的是为了分工明确。例如：SpringMVC的配置文件就来配置和网站转发逻辑以及网站功能有关的配置，如：视图解析器、文件上传解析器、支持ajax….&lt;/p&gt;
-&lt;p&gt;而Spring的配置文件用来配置和业务有关的，如：事物控制、数据源….&lt;</summary>
-        
-      
-    
-    
-    
-    <category term="随笔" scheme="http://www.ctong.top/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-    <category term="JAVA" scheme="http://www.ctong.top/tags/JAVA/"/>
-    
-    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-    <category term="Spring" scheme="http://www.ctong.top/tags/Spring/"/>
     
     <category term="SpringMvc" scheme="http://www.ctong.top/tags/SpringMvc/"/>
     
