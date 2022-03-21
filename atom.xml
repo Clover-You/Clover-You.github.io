@@ -6,7 +6,7 @@
   <link href="http://www.ctong.top/atom.xml" rel="self"/>
   
   <link href="http://www.ctong.top/"/>
-  <updated>2022-03-14T08:43:41.990Z</updated>
+  <updated>2022-03-21T01:06:23.604Z</updated>
   <id>http://www.ctong.top/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SpringCloud Alibaba-Sentinel - 学习笔记</title>
+    <link href="http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</id>
+    <published>2022-03-21T01:03:58.000Z</published>
+    <updated>2022-03-21T01:06:23.604Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;SpringCloud-Alibaba-Sentinel-学习笔记&quot;&gt;&lt;a href=&quot;#SpringCloud-Alibaba-Sentinel-学习笔记&quot; class=&quot;headerlink&quot; title=&quot;SpringCloud</summary>
+        
+      
+    
+    
+    
+    <category term="Spring" scheme="http://www.ctong.top/categories/Spring/"/>
+    
+    
+    <category term="SpringBoot" scheme="http://www.ctong.top/tags/SpringBoot/"/>
+    
+    <category term="SpringCloud" scheme="http://www.ctong.top/tags/SpringCloud/"/>
+    
+    <category term="Java" scheme="http://www.ctong.top/tags/Java/"/>
+    
+  </entry>
   
   <entry>
     <title>定时任务</title>
@@ -591,33 +620,6 @@
     <category term="Spring" scheme="http://www.ctong.top/tags/Spring/"/>
     
     <category term="SpringMvc" scheme="http://www.ctong.top/tags/SpringMvc/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>spring-cloud远程调用</title>
-    <link href="http://www.ctong.top/2022/01/02/spring-cloud%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8/"/>
-    <id>http://www.ctong.top/2022/01/02/spring-cloud%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8/</id>
-    <published>2022-01-02T10:27:00.000Z</published>
-    <updated>2022-02-14T23:13:55.390Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;笔记&quot;&gt;&lt;a href=&quot;#笔记&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="随笔" scheme="http://www.ctong.top/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-    <category term="SpringCloud" scheme="http://www.ctong.top/tags/SpringCloud/"/>
-    
-    <category term="随笔" scheme="http://www.ctong.top/tags/%E9%9A%8F%E7%AC%94/"/>
     
   </entry>
   
