@@ -125,57 +125,6 @@
       </tags>
   </entry>
   <entry>
-    <title>12、Java构造方法</title>
-    <url>/2022/01/02/12%E3%80%81Java%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<p>关于Java类中的构造方法：</p>
-<ol>
-<li><p>构造方法又被称为构造函数、构造器、Constructor</p>
-</li>
-<li><p>构造方法语法结构：<br>[修饰符列表] 构造方法名 （形式参数列表）{构造方法体}</p>
-</li>
-<li><p>对于构造方法来说，返回值类型不需要指定，并且也不能写<code>void</code></p>
-</li>
-<li><p>构造方法的方法名必须和类名保持一致</p>
-</li>
-<li><p>构造方法的作用？</p>
-<ul>
-<li>构造方法存在的意义是，通过构造方法的调用，可以创建对象。</li>
-<li>给实例变量赋值。</li>
-<li>创建对象的同时，初始化实例变量的内存空间。</li>
-</ul>
-</li>
-<li><p>构造方法应该怎么调用？</p>
-<ul>
-<li>构造方法必须使用<code>new</code>调用</li>
-<li><code>new 构造方法名(实参列表);</code></li>
-</ul>
-</li>
-<li><p>构造方法执行之后，有返回值吗？</p>
-<ul>
-<li>每一个构造方法实际上执行结束之后都有返回值，但是这个“<code>return 值;</code>”这样的语句不需要写。Java程序自动返回值。</li>
-<li>返回值类型是构造方法所在类的类型。由于构造方法的返回值类型就是类本身，所以返回值类型不需要写。</li>
-</ul>
-</li>
-<li><p>当一个类中没有定义任何构造方法的话，系统默认给该类提供一个无参数的构造方法，这个构造方法被称为<strong>缺省构造器</strong></p>
-</li>
-<li><p>当一个类显示的将构造方法定义出来了，那么系统将不再默认为这个类提供缺省构造器。建议开发中手动的为当前类提供无参数的构造法。</p>
-</li>
-<li><p>构造方法支持重载机制，在一个类当中编写多个构造方法，这多个构造方法显然已经构成方法重载机制。</p>
-</li>
-</ol>
-<blockquote>
-<p>成员变量之实例变量，属于对象级别的变量，这种变量必须先有对象才能有实例变量。实例变量没有手动赋值的时候，系统会赋默认值，那么这个系统默认值是在什么时候完成的呢？是在类加载的时候吗？不是，因为类加载的时候只加载了代码片段，还没来的及创建对象。所以此时实例变量并没有初始化。实际上，实例变量的内存空间是在构造方法执行过程中完成开辟的，完成初始化的。系统在默认赋值的时候，也是在构造方法当中完成的赋值</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Java 基础</category>
-      </categories>
-      <tags>
-        <tag>JAVA</tag>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>11、Java面向对象封装性</title>
     <url>/2022/01/02/11%E3%80%81Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85%E6%80%A7/</url>
     <content><![CDATA[<p><code> Student</code>类中的<code>age    </code>属性在外部程序中可以随意访问，导致<code>age</code>属性的不安全。一个<code>Student</code>对象表示一个用户，年龄不可能等于负数，以下程序当中年龄值为负数，程序运行的时候并没有报错，这是当前程序存在的缺陷。</p>
@@ -237,6 +186,57 @@
 
 <p>封装完后，应该这样使用</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">  <span class="type">Student</span> <span class="variable">St</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Student</span>();</span><br><span class="line">  St.setAge(<span class="number">17</span>);<span class="comment">// 发生错误，输出 提供了不合法的age:-17</span></span><br><span class="line">  St.setName(<span class="string">&quot;UpYou&quot;</span>);</span><br><span class="line">  St.setAddress(<span class="string">&quot;广东湛江&quot;</span>);</span><br><span class="line">  </span><br><span class="line">  System.out.println(ZF.getName());<span class="comment">// 输出 UpYou</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Java 基础</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>12、Java构造方法</title>
+    <url>/2022/01/02/12%E3%80%81Java%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>关于Java类中的构造方法：</p>
+<ol>
+<li><p>构造方法又被称为构造函数、构造器、Constructor</p>
+</li>
+<li><p>构造方法语法结构：<br>[修饰符列表] 构造方法名 （形式参数列表）{构造方法体}</p>
+</li>
+<li><p>对于构造方法来说，返回值类型不需要指定，并且也不能写<code>void</code></p>
+</li>
+<li><p>构造方法的方法名必须和类名保持一致</p>
+</li>
+<li><p>构造方法的作用？</p>
+<ul>
+<li>构造方法存在的意义是，通过构造方法的调用，可以创建对象。</li>
+<li>给实例变量赋值。</li>
+<li>创建对象的同时，初始化实例变量的内存空间。</li>
+</ul>
+</li>
+<li><p>构造方法应该怎么调用？</p>
+<ul>
+<li>构造方法必须使用<code>new</code>调用</li>
+<li><code>new 构造方法名(实参列表);</code></li>
+</ul>
+</li>
+<li><p>构造方法执行之后，有返回值吗？</p>
+<ul>
+<li>每一个构造方法实际上执行结束之后都有返回值，但是这个“<code>return 值;</code>”这样的语句不需要写。Java程序自动返回值。</li>
+<li>返回值类型是构造方法所在类的类型。由于构造方法的返回值类型就是类本身，所以返回值类型不需要写。</li>
+</ul>
+</li>
+<li><p>当一个类中没有定义任何构造方法的话，系统默认给该类提供一个无参数的构造方法，这个构造方法被称为<strong>缺省构造器</strong></p>
+</li>
+<li><p>当一个类显示的将构造方法定义出来了，那么系统将不再默认为这个类提供缺省构造器。建议开发中手动的为当前类提供无参数的构造法。</p>
+</li>
+<li><p>构造方法支持重载机制，在一个类当中编写多个构造方法，这多个构造方法显然已经构成方法重载机制。</p>
+</li>
+</ol>
+<blockquote>
+<p>成员变量之实例变量，属于对象级别的变量，这种变量必须先有对象才能有实例变量。实例变量没有手动赋值的时候，系统会赋默认值，那么这个系统默认值是在什么时候完成的呢？是在类加载的时候吗？不是，因为类加载的时候只加载了代码片段，还没来的及创建对象。所以此时实例变量并没有初始化。实际上，实例变量的内存空间是在构造方法执行过程中完成开辟的，完成初始化的。系统在默认赋值的时候，也是在构造方法当中完成的赋值</p>
+</blockquote>
+]]></content>
       <categories>
         <category>Java 基础</category>
       </categories>
@@ -3318,43 +3318,6 @@ if ( !( i &gt; 2 ) )&#123;
       </tags>
   </entry>
   <entry>
-    <title>41、关于java中的类加载器</title>
-    <url>/2022/01/02/41%E3%80%81%E5%85%B3%E4%BA%8Ejava%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/</url>
-    <content><![CDATA[<h2 id="什么是类加载器？"><a href="#什么是类加载器？" class="headerlink" title="什么是类加载器？"></a>什么是类加载器？</h2><p>类加载器是专门负责加载类的命令或者说工具</p>
-<p><strong>ClassLoader</strong></p>
-<h2 id="java中的3个类加载器"><a href="#java中的3个类加载器" class="headerlink" title="java中的3个类加载器"></a>java中的3个类加载器</h2><p>JDK中自带了3个类加载器</p>
-<ol>
-<li>启动类加载器</li>
-<li>扩展类加载器</li>
-<li>应用类加载器</li>
-</ol>
-<hr>
-<p>假设有这样一段代码</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="string">&quot;abc&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>代码在开始执行之前，会将所需要的类全部加载到JVM当中。通过类加载器加载。</p>
-<p>看到以上代码类加载器会去找String.class文件，找到就加载，那么是怎么进行加载的呢？</p>
-<ul>
-<li><p>首先通过“启动类加载器”加载。<br>  <strong>“启动类加载器”专门加载jre&#x2F;lib&#x2F;rt.jar包下的类，rt.jar都是JDK中最核心的类库。</strong></p>
-</li>
-<li><p>如果通过“启动类加载器”加载不到的时候，会通过“扩展类加载器”加载。</p>
-<p>  <strong>“扩展类加载器”专门加载jre&#x2F;lib&#x2F;ext目录下的class文件</strong></p>
-</li>
-<li><p>如果“扩展类加载器”没有加载到时，那么会通过“应用类加载器”加载。<br><strong>“应用类加载器”专门加载：classpath中的jar包（class）</strong></p>
-</li>
-</ul>
-<hr>
-<p>java中为了保证类加载的安全，使用了双亲委派机制。优先从“启动类加载器”中加载，这个称为“父”，“父”无法加载到，再从“扩展类加载器”中加载，这个称为“母”。双亲委派。如果都加载不到，才会考虑从“应用类加载器”中加载，直到加载到为止。</p>
-]]></content>
-      <categories>
-        <category>Java 基础</category>
-      </categories>
-      <tags>
-        <tag>JAVA</tag>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>40、Java 多线程</title>
     <url>/2022/01/02/40%E3%80%81Java-%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
     <content><![CDATA[<h2 id="什么是进程？什么是线程？"><a href="#什么是进程？什么是线程？" class="headerlink" title="什么是进程？什么是线程？"></a>什么是进程？什么是线程？</h2><ol>
@@ -3683,6 +3646,43 @@ if ( !( i &gt; 2 ) )&#123;
 </li>
 </ol>
 <p> <a href="https://github.com/Clover-You/my-blog-file/blob/main/%E7%94%9F%E4%BA%A7%E8%80%85%E5%92%8C%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E4%BB%A3%E7%A0%81.zip">点击下载「生产者和消费者模式」的学习代码</a></p>
+]]></content>
+      <categories>
+        <category>Java 基础</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>41、关于java中的类加载器</title>
+    <url>/2022/01/02/41%E3%80%81%E5%85%B3%E4%BA%8Ejava%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/</url>
+    <content><![CDATA[<h2 id="什么是类加载器？"><a href="#什么是类加载器？" class="headerlink" title="什么是类加载器？"></a>什么是类加载器？</h2><p>类加载器是专门负责加载类的命令或者说工具</p>
+<p><strong>ClassLoader</strong></p>
+<h2 id="java中的3个类加载器"><a href="#java中的3个类加载器" class="headerlink" title="java中的3个类加载器"></a>java中的3个类加载器</h2><p>JDK中自带了3个类加载器</p>
+<ol>
+<li>启动类加载器</li>
+<li>扩展类加载器</li>
+<li>应用类加载器</li>
+</ol>
+<hr>
+<p>假设有这样一段代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="string">&quot;abc&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>代码在开始执行之前，会将所需要的类全部加载到JVM当中。通过类加载器加载。</p>
+<p>看到以上代码类加载器会去找String.class文件，找到就加载，那么是怎么进行加载的呢？</p>
+<ul>
+<li><p>首先通过“启动类加载器”加载。<br>  <strong>“启动类加载器”专门加载jre&#x2F;lib&#x2F;rt.jar包下的类，rt.jar都是JDK中最核心的类库。</strong></p>
+</li>
+<li><p>如果通过“启动类加载器”加载不到的时候，会通过“扩展类加载器”加载。</p>
+<p>  <strong>“扩展类加载器”专门加载jre&#x2F;lib&#x2F;ext目录下的class文件</strong></p>
+</li>
+<li><p>如果“扩展类加载器”没有加载到时，那么会通过“应用类加载器”加载。<br><strong>“应用类加载器”专门加载：classpath中的jar包（class）</strong></p>
+</li>
+</ul>
+<hr>
+<p>java中为了保证类加载的安全，使用了双亲委派机制。优先从“启动类加载器”中加载，这个称为“父”，“父”无法加载到，再从“扩展类加载器”中加载，这个称为“母”。双亲委派。如果都加载不到，才会考虑从“应用类加载器”中加载，直到加载到为止。</p>
 ]]></content>
       <categories>
         <category>Java 基础</category>
@@ -4567,6 +4567,217 @@ if ( !( i &gt; 2 ) )&#123;
       </tags>
   </entry>
   <entry>
+    <title>Docker - 学习笔记</title>
+    <url>/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><p>docker 的出现开启了一个新的时代：容器化时代</p>
+<p>市面上有很多开发语言，如：Java、C++、JavaScript，如果你要运行，你可能拿到的是一个 <code>.jar</code> <code>.exe</code> <code>.sh</code> 文件甚至你需要自己编译源码。没有一个统一的标准进行管理。</p>
+<p>而 Docker 却可以将这些应用 build 成一个镜像，你只要是一个 Docker 镜像，那么 Docker 就可以直接给你跑起来。不仅如此， 这些镜像还很容易分享，例如将某些镜像放到指定的地方，别人就可以找到这个镜像下载和运行，所以 Docker 的推出还统一了标准。</p>
+<h2 id="虚拟化技术"><a href="#虚拟化技术" class="headerlink" title="虚拟化技术"></a>虚拟化技术</h2><p>在 Docker 之前，非常流行一种“虚拟化技术”，这种技术其实就是在一台机器中安装多个虚拟机，我们部署的应用都在这些安装的虚拟机中。如果有应用出现问题，比如内存泄露，顶多把他自个的机子内存占满，不会影响到别的应用。</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203311724774.png" alt="虚拟化技术"></p>
+<p>虚拟化技术有一下痛点：</p>
+<ol>
+<li>基础镜像GB级别</li>
+<li>创建使用比较复杂</li>
+<li>启动速度慢</li>
+<li>移植与分享不方便</li>
+</ol>
+<p>优点是隔离性很强</p>
+<h2 id="容器化技术"><a href="#容器化技术" class="headerlink" title="容器化技术"></a>容器化技术</h2><p><img src="https://qiniu-note-image.ctong.top/note/images/202203311906410.png" alt="容器化技术"></p>
+<ol>
+<li>基础镜像MB级别</li>
+<li>创建简单</li>
+<li>隔离性强</li>
+<li>启动速度秒级</li>
+<li>移植与分享方便</li>
+</ol>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="https://qiniu-note-image.ctong.top/note/images/202203312031389.png" alt="架构图"></p>
+<ul>
+<li><p>Docker_Host</p>
+<p>如果需要使用 Docker，那么需要在使用的机器上安装 Docker。安装了 Docker 的机器称为 Docker 主机。</p>
+</li>
+<li><p>Docker Daemon</p>
+<p>安装了 Docker 后，主机启动那么后台就会启动一个 Docker 的进程 <code>Docker Daemon</code></p>
+</li>
+<li><p>Client<br>如果需要操作 Docker，那么需要使用命令行，这个命令行被称为Docker 客户端</p>
+</li>
+<li><p>Images</p>
+<p>镜像，一个带环境打包好的程序，可以直接启动运行</p>
+</li>
+<li><p>Registry<br>镜像仓库，官方的镜像仓库是 Docker Hub</p>
+</li>
+<li><p>Containers</p>
+<p>容器，由镜像启动起来正在运行中的程序</p>
+</li>
+</ul>
+<h2 id="Docker-安装"><a href="#Docker-安装" class="headerlink" title="Docker 安装"></a>Docker 安装</h2><p>卸载旧版</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo yum remove docker \</span><br><span class="line">docker-client \</span><br><span class="line">docker-client-latest \</span><br><span class="line">docker-common \</span><br><span class="line">docker-latest \</span><br><span class="line">docker-latest-logrotate \</span><br><span class="line">docker-logrotate \</span><br><span class="line">docker-engine</span><br></pre></td></tr></table></figure>
+
+<p>设置 Docker yum 源所在的位置</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo yum install -y yum-utils</span><br><span class="line">sudo yum-config-manager \</span><br><span class="line">   --add-repo \</span><br><span class="line">   https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
+
+<p>安装 Docker</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo yum -y install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
+
+<p>安装成功后将 docker 设置为开机启动</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# systemctl enable docker --now</span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.</span><br></pre></td></tr></table></figure>
+
+<p>国内使用默认的镜像仓库可能会很慢，我们可以替换成阿里云的地址，<code>registry-mirrors</code> 用你自己的就行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://gnsz5r5r.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<h2 id="镜像操作"><a href="#镜像操作" class="headerlink" title="镜像操作"></a>镜像操作</h2><h3 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a><strong>下载镜像</strong></h3><p>可以到中央镜像仓库  <code>https://hub.docker.com/</code> 找你需要的镜像。</p>
+<p>第一步首先找到你需要的镜像然后点击进去</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203312149988.png" alt="搜索"></p>
+<p>右边会有一个下载命令，我们可以直接使用这个命令来下载这个容器，这命令默认是下载的最新版本。</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203312150831.png" alt="下载命令"></p>
+<p>可以点 <strong>tags</strong> 来找你需要的版本</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203312151865.png" alt="切换tags"></p>
+<p>找到需要的版本后，可以使用 <code>docker pull &lt;image&gt;:&lt;tag&gt;</code> 命令下载，在 Docker 中，版本名还被称为标签</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull nginx:1.21.6-perl</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看已下载的镜像"><a href="#查看已下载的镜像" class="headerlink" title="查看已下载的镜像"></a><strong>查看已下载的镜像</strong></h3><p>可以使用 <code>docker images</code> 命令查看已下载的镜像</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker images</span><br><span class="line">REPOSITORY   TAG       IMAGE ID       CREATED        SIZE</span><br><span class="line">nginx        latest    605c77e624dd   3 months ago   141MB</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a><strong>删除镜像</strong></h3><p>可以使用 <code>docker rmi &lt;image&gt;:&lt;tag&gt;</code> 命令移除镜像</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker rmi nginx</span><br><span class="line">Untagged: nginx:latest</span><br><span class="line">Untagged: nginx@sha256:0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31</span><br><span class="line">Deleted: sha256:605c77e624ddb75e6110f997c58876baa13f8754486b461117934b24a9dc3a85</span><br><span class="line">Deleted: sha256:b625d8e29573fa369e799ca7c5df8b7a902126d2b7cbeb390af59e4b9e1210c5</span><br><span class="line">Deleted: sha256:7850d382fb05e393e211067c5ca0aada2111fcbe550a90fed04d1c634bd31a14</span><br><span class="line">Deleted: sha256:02b80ac2055edd757a996c3d554e6a8906fd3521e14d1227440afd5163a5f1c4</span><br><span class="line">Deleted: sha256:b92aa5824592ecb46e6d169f8e694a99150ccef01a2aabea7b9c02356cdabe7c</span><br><span class="line">Deleted: sha256:780238f18c540007376dd5e904f583896a69fe620876cabc06977a3af4ba4fb5</span><br><span class="line">Deleted: sha256:2edcec3590a4ec7f40cf0743c15d78fb39d8326bc029073b41ef9727da6c851f</span><br></pre></td></tr></table></figure>
+
+<p>再检查镜像列表，就可以看到已经被移除了</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker images</span><br><span class="line">REPOSITORY   TAG       IMAGE ID   CREATED   SIZE</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a><strong>启动容器</strong></h3><p>在下载了一个镜像后，可以使用 <code>docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</code> 启动指定镜像</p>
+<p>例如启动一个 nginx</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name=nginx -d --restart=always nginx:latest</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>--name</code> 启动别名</li>
+<li><code>-d</code> 后台启动</li>
+<li><code>--restart</code> 容器是否开机自启，默认是 <code>no</code> ，如果需要设置为开启自启，可以设置为 <code>always</code></li>
+</ul>
+<h3 id="查看正在运行的容器"><a href="#查看正在运行的容器" class="headerlink" title="查看正在运行的容器"></a><strong>查看正在运行的容器</strong></h3><p>如果需要查看正在运行的容器，可以使用 <code>docker ps</code> 进行查看</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker ps</span><br><span class="line">CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES</span><br><span class="line">0546ab754a92   nginx:latest   &quot;/docker-entrypoint.…&quot;   29 seconds ago   Up 29 seconds   80/tcp    nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a><strong>删除容器</strong></h3><p>删除一个已经停止的容器，通过这个命令 <code>docker rm &lt;container_id | name&gt;</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker rm nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="停止一个正在运行的容器"><a href="#停止一个正在运行的容器" class="headerlink" title="停止一个正在运行的容器"></a><strong>停止一个正在运行的容器</strong></h3><p><code>docker stop &lt;container_Id | name&gt;</code> 命令可以停止一个正在运行的容器</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker stop nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动已停止运行的容器"><a href="#启动已停止运行的容器" class="headerlink" title="启动已停止运行的容器"></a><strong>启动已停止运行的容器</strong></h3><p>使用 <code>docker start &lt;container_Id | name&gt;</code> 命令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker start nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改已启动容器的设置项"><a href="#修改已启动容器的设置项" class="headerlink" title="修改已启动容器的设置项"></a><strong>修改已启动容器的设置项</strong></h3><p><code>docker update [OPTIONS] CONTAINER [CONTAINER...] </code>,例如将一个容器修改为开启自启</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker update nginx --restart=always</span><br></pre></td></tr></table></figure>
+
+<h3 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a><strong>端口映射</strong></h3><p>docker 容器其实是一个小的Linux，里面的nginx暴露了一个端口为80，但是它不是在我们主机上暴露的，所以我们无法通过 ip 去访问这个nginx。需要在 docker 做一层端口映射，将主机的某个端口映射到 docker 容器中的指定端口上。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name=nginx -d -p 88:80 nginx</span><br></pre></td></tr></table></figure>
+
+<p> 启动后检查 <code>PORTS</code> 是不是成功的 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker ps</span><br><span class="line">CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                               NAMES</span><br><span class="line">8e6d1342b9e8   nginx     &quot;/docker-entrypoint.…&quot;   51 seconds ago   Up 50 seconds   0.0.0.0:88-&gt;80/tcp, :::88-&gt;80/tcp   nginx</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010843412.png" alt="公网访问Nginx"></p>
+<h3 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a><strong>进入容器</strong></h3><p>如果需要修改容器的配置或者什么东西，由于 Docker 的资源隔离是非常高的，所以不能直接修改，需要进入这个容器的控制台，类似 ssh 远程连接某个服务器。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker exec -it nginx /bin/bash</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker exec -it nginx /bin/bash</span><br><span class="line">root@8e6d1342b9e8:/#</span><br></pre></td></tr></table></figure>
+
+<p>进到容器后，可以找到例如nginx的部署目录并修改内容</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">root@8e6d1342b9e8:/# cd /usr/share/nginx/html</span><br><span class="line">root@8e6d1342b9e8:/usr/share/nginx/html# echo &quot;&lt;h1&gt;Hello World&lt;/h1&gt;&quot; &gt; index.html</span><br></pre></td></tr></table></figure>
+
+<p>修改后刷新浏览器访问</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010900085.png" alt="修改index.html"></p>
+<p>改完后直接使用 <code>exit</code> 退出即可</p>
+<h3 id="提交改变"><a href="#提交改变" class="headerlink" title="提交改变"></a><strong>提交改变</strong></h3><p>可以将自己已经修改好的镜像提交，例如配置nginx容器，配置了很多次配好了，如果移到新的服务器上，还需要重新配置。那么可以使用 <code>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]</code> 命令将当前容器重新生成为一个新的镜像。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker commit -a &quot;Clover You&quot; -m &quot;修改index.html&quot; nginx clover-nginx:v0.0.1</span><br><span class="line">sha256:3c5ae6aa7604e19944106c35299f2b317ae454a4a34bbf0a6875aad7aabcc296</span><br></pre></td></tr></table></figure>
+
+<p>可以再检查一下已下载的镜像</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker images</span><br><span class="line">REPOSITORY     TAG       IMAGE ID       CREATED          SIZE</span><br><span class="line">clover-nginx   v0.0.1    3c5ae6aa7604   27 seconds ago   141MB</span><br><span class="line">nginx          latest    605c77e624dd   3 months ago     141MB</span><br></pre></td></tr></table></figure>
+
+<p>测试一下，将之前在运行的nginx删掉，直接运行我们刚刚 commit 的镜像</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d -p 88:80 --name=clover-nginx clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
+
+<p>再访问，它保留了我们上次修改容器的结果</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010917406.png" alt="commit 镜像启动结果"></p>
+<h3 id="镜像传输"><a href="#镜像传输" class="headerlink" title="镜像传输"></a><strong>镜像传输</strong></h3><p>当我们做好一个镜像后，如果我们需要给别人分享，有两种办法，一种是物理传输，还有一种是推送至远程仓库。</p>
+<p>可以先使用 <code>docker save [OPTIONS] IMAGE [IMAGE...]</code> 命令将镜像压缩</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker save -o clover-nginx.tar  clover-nginx:v0.0.1</span><br><span class="line">[root@i-ul0sb6hn ~]# ls</span><br><span class="line">clover-nginx.tar</span><br></pre></td></tr></table></figure>
+
+<p>之后直接将 <code>clover-nginx.tar</code> 分享出去就行了</p>
+<p>再通过 <code>docker load [OPTIONS]</code> 命令加载这个镜像</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker load -i ./clover-nginx.tar</span><br><span class="line">Loaded image: clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
+
+<p>检查镜像</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker images</span><br><span class="line">REPOSITORY     TAG       IMAGE ID       CREATED          SIZE</span><br><span class="line">clover-nginx   v0.0.1    3c5ae6aa7604   19 minutes ago   141MB</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>推送到远程仓库，先创建一个镜像仓库</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010939283.png" alt="创建仓库"></p>
+<p>填好仓库信息后点【create】就好</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010941163.png" alt="创建"></p>
+<p>给我们本地镜像加个标签 <code>docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker tag clover-nginx:v0.0.1 cloveryou/clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
+
+<p>最后通过 <code>docker push</code> 命令将镜像推送</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker push cloveryou/clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
+
+<p>以上操作是需要登录的，如果没有登录需要使用 <code>docker login</code> 登录</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker login -u &lt;user name&gt; -p &lt;password&gt;</span><br><span class="line">WARNING! Using --password via the CLI is insecure. Use --password-stdin.</span><br><span class="line">WARNING! Your password will be stored unencrypted in /root/.docker/config.json.</span><br><span class="line">Configure a credential helper to remove this warning. See</span><br><span class="line">https://docs.docker.com/engine/reference/commandline/login/#credentials-store</span><br><span class="line"></span><br><span class="line">Login Succeeded</span><br></pre></td></tr></table></figure>
+
+<p>登录成功后再重新推送</p>
+<p>推送成功刷新仓库就可以看到了</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010951531.png" alt="推送结果"></p>
+<p>如果是公开的仓库，也可以通过搜索搜到</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010952767.png" alt="搜索结果"></p>
+<p>最后需要用就直接下载就好啦</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull cloveryou/clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="挂载数据到外部"><a href="#挂载数据到外部" class="headerlink" title="挂载数据到外部"></a><strong>挂载数据到外部</strong></h3><p>像我们之前修改nginx，是需要进入到容器里修改，其实可以将容器中的某个文件夹挂载到主机的某个位置。<code>docker run --name=xxx -d -v [target path]:[source path]:[缺省，ro容器内只读，rw容器内可读写]</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name=clover-nginx -d -p 88:80 -v /data/html:/usr/share/nginx/html:ro clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>-v</code> 将容器中某个目录挂在到主机上，如果挂载的是一个文件，那么这个文件在主机上必须存在</li>
+</ul>
+<p>启动后我们只要在主机的 <code>/data/html</code></p>
+<h3 id="检查容器日志"><a href="#检查容器日志" class="headerlink" title="检查容器日志"></a><strong>检查容器日志</strong></h3><p><code>docker logs &lt;container&gt;</code></p>
+<h3 id="复制容器文件到主机"><a href="#复制容器文件到主机" class="headerlink" title="复制容器文件到主机"></a>复制容器文件到主机</h3><p><code>docker cp &lt;container&gt;:&lt;source path&gt; &lt;target path&gt;</code></p>
+<p>例如将nginx中的文件复制出来</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker cp 52924565fcfc:/etc/nginx /data/nginx</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn data]# ls</span><br><span class="line"><span class="meta">--&gt; </span><span class="language-bash"> nginx</span></span><br></pre></td></tr></table></figure>
+
+<p>然后将nginx的配置文件挂载到本地</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name=clover-nginx -d -p 88:80 \</span><br><span class="line">-v /usr/share/html:/data/html:ro \</span><br><span class="line">-v /etc/nginx:/data/nginx:ro \</span><br><span class="line">cloveryou/clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
+
+<h2 id="将现有应用打包成-Docker-镜像"><a href="#将现有应用打包成-Docker-镜像" class="headerlink" title="将现有应用打包成 Docker 镜像"></a>将现有应用打包成 Docker 镜像</h2><p>以 SpringBoot 为例，先将我们的项目打包成 <code>.jar</code> 包。然后编写一个 <code>Dockerfile</code> 将这个 <code>.jar</code> 打包成 Docker 镜像。</p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">8</span>-jdk-slim</span><br><span class="line"><span class="keyword">LABEL</span><span class="language-bash"> maintainer=CloverYou</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> target/**.jar /app.jar</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;java&quot;</span>, <span class="string">&quot;-jar&quot;</span>, <span class="string">&quot;/app.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<p>由于 Docker 镜像都是一个很小的 Linux 系统，并没有我们的运行环境，所以需要指定安装jdk环境 <code>openjdk:8-jdk-slim</code>。</p>
+<p>然后将项目打包结果复制到 Linux 的某个位置，<code>ENTRYPOINT</code> 用于 Docker 启动时执行的命令，也可以使用 <code>CMD</code>。让 Docker 启动时执行 <code>java -jar /app.jar</code> 启动我们的项目。</p>
+<p>Dockerfile 文件编写好后，需要到一个有 Docker 环境的机子上执行。</p>
+<p>执行 <code>docker build [OPTIONS] &lt;工作路径&gt;</code> 命令打包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker build -t spring-boot-hello-world:v1.0.0 .</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：如果出现以下错误，那是因为 Dockerfile 不能放在 <code>/</code> 目录</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">error checking context: &#x27;file (&#x27;/proc/1500/fd/7&#x27;) not found or excluded by .dockerignore&#x27;.</span><br></pre></td></tr></table></figure>
+
+<p>打包完成后查看镜像，就可以看到我们打包的镜像</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker images</span><br><span class="line">REPOSITORY                TAG          IMAGE ID       CREATED         SIZE</span><br><span class="line">spring-boot-hello-world   v1.0.0       a9c63c4b9ad4   6 seconds ago   313MB</span><br></pre></td></tr></table></figure>
+
+<p>启动容器</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d -p 80:8080 --name=helloworld spring-boot-hello-world:v1.0.0</span><br></pre></td></tr></table></figure>
+
+<p>检查是否启动成功</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker ps</span><br><span class="line">CONTAINER ID   IMAGE                            COMMAND                CREATED         STATUS         PORTS                                   NAMES</span><br><span class="line">7f62352ef378   spring-boot-hello-world:v1.0.0   &quot;java -jar /app.jar&quot;   3 seconds ago   Up 3 seconds   0.0.0.0:80-&gt;8080/tcp, :::80-&gt;8080/tcp   helloworld</span><br></pre></td></tr></table></figure>
+
+<p>然后访问我们的服务就可以了</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202204011533435.png" alt="执行结果"></p>
+]]></content>
+      <categories>
+        <category>其它</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ElasticSearch-学习笔记</title>
     <url>/2021/12/21/ElasticSearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="Index（索引）"><a href="#Index（索引）" class="headerlink" title="Index（索引）"></a>Index（索引）</h3><p>保存一条数据到 ElasticSearch 中叫做索引一条数据</p>
@@ -4926,217 +5137,6 @@ if ( !( i &gt; 2 ) )&#123;
       </tags>
   </entry>
   <entry>
-    <title>Docker - 学习笔记</title>
-    <url>/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><p>docker 的出现开启了一个新的时代：容器化时代</p>
-<p>市面上有很多开发语言，如：Java、C++、JavaScript，如果你要运行，你可能拿到的是一个 <code>.jar</code> <code>.exe</code> <code>.sh</code> 文件甚至你需要自己编译源码。没有一个统一的标准进行管理。</p>
-<p>而 Docker 却可以将这些应用 build 成一个镜像，你只要是一个 Docker 镜像，那么 Docker 就可以直接给你跑起来。不仅如此， 这些镜像还很容易分享，例如将某些镜像放到指定的地方，别人就可以找到这个镜像下载和运行，所以 Docker 的推出还统一了标准。</p>
-<h2 id="虚拟化技术"><a href="#虚拟化技术" class="headerlink" title="虚拟化技术"></a>虚拟化技术</h2><p>在 Docker 之前，非常流行一种“虚拟化技术”，这种技术其实就是在一台机器中安装多个虚拟机，我们部署的应用都在这些安装的虚拟机中。如果有应用出现问题，比如内存泄露，顶多把他自个的机子内存占满，不会影响到别的应用。</p>
-<p><img src="https://qiniu-note-image.ctong.top/note/images/202203311724774.png" alt="虚拟化技术"></p>
-<p>虚拟化技术有一下痛点：</p>
-<ol>
-<li>基础镜像GB级别</li>
-<li>创建使用比较复杂</li>
-<li>启动速度慢</li>
-<li>移植与分享不方便</li>
-</ol>
-<p>优点是隔离性很强</p>
-<h2 id="容器化技术"><a href="#容器化技术" class="headerlink" title="容器化技术"></a>容器化技术</h2><p><img src="https://qiniu-note-image.ctong.top/note/images/202203311906410.png" alt="容器化技术"></p>
-<ol>
-<li>基础镜像MB级别</li>
-<li>创建简单</li>
-<li>隔离性强</li>
-<li>启动速度秒级</li>
-<li>移植与分享方便</li>
-</ol>
-<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="https://qiniu-note-image.ctong.top/note/images/202203312031389.png" alt="架构图"></p>
-<ul>
-<li><p>Docker_Host</p>
-<p>如果需要使用 Docker，那么需要在使用的机器上安装 Docker。安装了 Docker 的机器称为 Docker 主机。</p>
-</li>
-<li><p>Docker Daemon</p>
-<p>安装了 Docker 后，主机启动那么后台就会启动一个 Docker 的进程 <code>Docker Daemon</code></p>
-</li>
-<li><p>Client<br>如果需要操作 Docker，那么需要使用命令行，这个命令行被称为Docker 客户端</p>
-</li>
-<li><p>Images</p>
-<p>镜像，一个带环境打包好的程序，可以直接启动运行</p>
-</li>
-<li><p>Registry<br>镜像仓库，官方的镜像仓库是 Docker Hub</p>
-</li>
-<li><p>Containers</p>
-<p>容器，由镜像启动起来正在运行中的程序</p>
-</li>
-</ul>
-<h2 id="Docker-安装"><a href="#Docker-安装" class="headerlink" title="Docker 安装"></a>Docker 安装</h2><p>卸载旧版</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo yum remove docker \</span><br><span class="line">docker-client \</span><br><span class="line">docker-client-latest \</span><br><span class="line">docker-common \</span><br><span class="line">docker-latest \</span><br><span class="line">docker-latest-logrotate \</span><br><span class="line">docker-logrotate \</span><br><span class="line">docker-engine</span><br></pre></td></tr></table></figure>
-
-<p>设置 Docker yum 源所在的位置</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo yum install -y yum-utils</span><br><span class="line">sudo yum-config-manager \</span><br><span class="line">   --add-repo \</span><br><span class="line">   https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
-
-<p>安装 Docker</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo yum -y install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
-
-<p>安装成功后将 docker 设置为开机启动</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# systemctl enable docker --now</span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.</span><br></pre></td></tr></table></figure>
-
-<p>国内使用默认的镜像仓库可能会很慢，我们可以替换成阿里云的地址，<code>registry-mirrors</code> 用你自己的就行</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://gnsz5r5r.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<h2 id="镜像操作"><a href="#镜像操作" class="headerlink" title="镜像操作"></a>镜像操作</h2><h3 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a><strong>下载镜像</strong></h3><p>可以到中央镜像仓库  <code>https://hub.docker.com/</code> 找你需要的镜像。</p>
-<p>第一步首先找到你需要的镜像然后点击进去</p>
-<p><img src="https://qiniu-note-image.ctong.top/note/images/202203312149988.png" alt="搜索"></p>
-<p>右边会有一个下载命令，我们可以直接使用这个命令来下载这个容器，这命令默认是下载的最新版本。</p>
-<p><img src="https://qiniu-note-image.ctong.top/note/images/202203312150831.png" alt="下载命令"></p>
-<p>可以点 <strong>tags</strong> 来找你需要的版本</p>
-<p><img src="https://qiniu-note-image.ctong.top/note/images/202203312151865.png" alt="切换tags"></p>
-<p>找到需要的版本后，可以使用 <code>docker pull &lt;image&gt;:&lt;tag&gt;</code> 命令下载，在 Docker 中，版本名还被称为标签</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull nginx:1.21.6-perl</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看已下载的镜像"><a href="#查看已下载的镜像" class="headerlink" title="查看已下载的镜像"></a><strong>查看已下载的镜像</strong></h3><p>可以使用 <code>docker images</code> 命令查看已下载的镜像</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker images</span><br><span class="line">REPOSITORY   TAG       IMAGE ID       CREATED        SIZE</span><br><span class="line">nginx        latest    605c77e624dd   3 months ago   141MB</span><br></pre></td></tr></table></figure>
-
-<h3 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a><strong>删除镜像</strong></h3><p>可以使用 <code>docker rmi &lt;image&gt;:&lt;tag&gt;</code> 命令移除镜像</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker rmi nginx</span><br><span class="line">Untagged: nginx:latest</span><br><span class="line">Untagged: nginx@sha256:0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31</span><br><span class="line">Deleted: sha256:605c77e624ddb75e6110f997c58876baa13f8754486b461117934b24a9dc3a85</span><br><span class="line">Deleted: sha256:b625d8e29573fa369e799ca7c5df8b7a902126d2b7cbeb390af59e4b9e1210c5</span><br><span class="line">Deleted: sha256:7850d382fb05e393e211067c5ca0aada2111fcbe550a90fed04d1c634bd31a14</span><br><span class="line">Deleted: sha256:02b80ac2055edd757a996c3d554e6a8906fd3521e14d1227440afd5163a5f1c4</span><br><span class="line">Deleted: sha256:b92aa5824592ecb46e6d169f8e694a99150ccef01a2aabea7b9c02356cdabe7c</span><br><span class="line">Deleted: sha256:780238f18c540007376dd5e904f583896a69fe620876cabc06977a3af4ba4fb5</span><br><span class="line">Deleted: sha256:2edcec3590a4ec7f40cf0743c15d78fb39d8326bc029073b41ef9727da6c851f</span><br></pre></td></tr></table></figure>
-
-<p>再检查镜像列表，就可以看到已经被移除了</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker images</span><br><span class="line">REPOSITORY   TAG       IMAGE ID   CREATED   SIZE</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a><strong>启动容器</strong></h3><p>在下载了一个镜像后，可以使用 <code>docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</code> 启动指定镜像</p>
-<p>例如启动一个 nginx</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name=nginx -d --restart=always nginx:latest</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>--name</code> 启动别名</li>
-<li><code>-d</code> 后台启动</li>
-<li><code>--restart</code> 容器是否开机自启，默认是 <code>no</code> ，如果需要设置为开启自启，可以设置为 <code>always</code></li>
-</ul>
-<h3 id="查看正在运行的容器"><a href="#查看正在运行的容器" class="headerlink" title="查看正在运行的容器"></a><strong>查看正在运行的容器</strong></h3><p>如果需要查看正在运行的容器，可以使用 <code>docker ps</code> 进行查看</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker ps</span><br><span class="line">CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES</span><br><span class="line">0546ab754a92   nginx:latest   &quot;/docker-entrypoint.…&quot;   29 seconds ago   Up 29 seconds   80/tcp    nginx</span><br></pre></td></tr></table></figure>
-
-<h3 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a><strong>删除容器</strong></h3><p>删除一个已经停止的容器，通过这个命令 <code>docker rm &lt;container_id | name&gt;</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker rm nginx</span><br></pre></td></tr></table></figure>
-
-<h3 id="停止一个正在运行的容器"><a href="#停止一个正在运行的容器" class="headerlink" title="停止一个正在运行的容器"></a><strong>停止一个正在运行的容器</strong></h3><p><code>docker stop &lt;container_Id | name&gt;</code> 命令可以停止一个正在运行的容器</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker stop nginx</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动已停止运行的容器"><a href="#启动已停止运行的容器" class="headerlink" title="启动已停止运行的容器"></a><strong>启动已停止运行的容器</strong></h3><p>使用 <code>docker start &lt;container_Id | name&gt;</code> 命令</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker start nginx</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改已启动容器的设置项"><a href="#修改已启动容器的设置项" class="headerlink" title="修改已启动容器的设置项"></a><strong>修改已启动容器的设置项</strong></h3><p><code>docker update [OPTIONS] CONTAINER [CONTAINER...] </code>,例如将一个容器修改为开启自启</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker update nginx --restart=always</span><br></pre></td></tr></table></figure>
-
-<h3 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a><strong>端口映射</strong></h3><p>docker 容器其实是一个小的Linux，里面的nginx暴露了一个端口为80，但是它不是在我们主机上暴露的，所以我们无法通过 ip 去访问这个nginx。需要在 docker 做一层端口映射，将主机的某个端口映射到 docker 容器中的指定端口上。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name=nginx -d -p 88:80 nginx</span><br></pre></td></tr></table></figure>
-
-<p> 启动后检查 <code>PORTS</code> 是不是成功的 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker ps</span><br><span class="line">CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                               NAMES</span><br><span class="line">8e6d1342b9e8   nginx     &quot;/docker-entrypoint.…&quot;   51 seconds ago   Up 50 seconds   0.0.0.0:88-&gt;80/tcp, :::88-&gt;80/tcp   nginx</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010843412.png" alt="公网访问Nginx"></p>
-<h3 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a><strong>进入容器</strong></h3><p>如果需要修改容器的配置或者什么东西，由于 Docker 的资源隔离是非常高的，所以不能直接修改，需要进入这个容器的控制台，类似 ssh 远程连接某个服务器。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker exec -it nginx /bin/bash</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker exec -it nginx /bin/bash</span><br><span class="line">root@8e6d1342b9e8:/#</span><br></pre></td></tr></table></figure>
-
-<p>进到容器后，可以找到例如nginx的部署目录并修改内容</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">root@8e6d1342b9e8:/# cd /usr/share/nginx/html</span><br><span class="line">root@8e6d1342b9e8:/usr/share/nginx/html# echo &quot;&lt;h1&gt;Hello World&lt;/h1&gt;&quot; &gt; index.html</span><br></pre></td></tr></table></figure>
-
-<p>修改后刷新浏览器访问</p>
-<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010900085.png" alt="修改index.html"></p>
-<p>改完后直接使用 <code>exit</code> 退出即可</p>
-<h3 id="提交改变"><a href="#提交改变" class="headerlink" title="提交改变"></a><strong>提交改变</strong></h3><p>可以将自己已经修改好的镜像提交，例如配置nginx容器，配置了很多次配好了，如果移到新的服务器上，还需要重新配置。那么可以使用 <code>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]</code> 命令将当前容器重新生成为一个新的镜像。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker commit -a &quot;Clover You&quot; -m &quot;修改index.html&quot; nginx clover-nginx:v0.0.1</span><br><span class="line">sha256:3c5ae6aa7604e19944106c35299f2b317ae454a4a34bbf0a6875aad7aabcc296</span><br></pre></td></tr></table></figure>
-
-<p>可以再检查一下已下载的镜像</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker images</span><br><span class="line">REPOSITORY     TAG       IMAGE ID       CREATED          SIZE</span><br><span class="line">clover-nginx   v0.0.1    3c5ae6aa7604   27 seconds ago   141MB</span><br><span class="line">nginx          latest    605c77e624dd   3 months ago     141MB</span><br></pre></td></tr></table></figure>
-
-<p>测试一下，将之前在运行的nginx删掉，直接运行我们刚刚 commit 的镜像</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d -p 88:80 --name=clover-nginx clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
-
-<p>再访问，它保留了我们上次修改容器的结果</p>
-<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010917406.png" alt="commit 镜像启动结果"></p>
-<h3 id="镜像传输"><a href="#镜像传输" class="headerlink" title="镜像传输"></a><strong>镜像传输</strong></h3><p>当我们做好一个镜像后，如果我们需要给别人分享，有两种办法，一种是物理传输，还有一种是推送至远程仓库。</p>
-<p>可以先使用 <code>docker save [OPTIONS] IMAGE [IMAGE...]</code> 命令将镜像压缩</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker save -o clover-nginx.tar  clover-nginx:v0.0.1</span><br><span class="line">[root@i-ul0sb6hn ~]# ls</span><br><span class="line">clover-nginx.tar</span><br></pre></td></tr></table></figure>
-
-<p>之后直接将 <code>clover-nginx.tar</code> 分享出去就行了</p>
-<p>再通过 <code>docker load [OPTIONS]</code> 命令加载这个镜像</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker load -i ./clover-nginx.tar</span><br><span class="line">Loaded image: clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
-
-<p>检查镜像</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker images</span><br><span class="line">REPOSITORY     TAG       IMAGE ID       CREATED          SIZE</span><br><span class="line">clover-nginx   v0.0.1    3c5ae6aa7604   19 minutes ago   141MB</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>推送到远程仓库，先创建一个镜像仓库</p>
-<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010939283.png" alt="创建仓库"></p>
-<p>填好仓库信息后点【create】就好</p>
-<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010941163.png" alt="创建"></p>
-<p>给我们本地镜像加个标签 <code>docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker tag clover-nginx:v0.0.1 cloveryou/clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
-
-<p>最后通过 <code>docker push</code> 命令将镜像推送</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker push cloveryou/clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
-
-<p>以上操作是需要登录的，如果没有登录需要使用 <code>docker login</code> 登录</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker login -u &lt;user name&gt; -p &lt;password&gt;</span><br><span class="line">WARNING! Using --password via the CLI is insecure. Use --password-stdin.</span><br><span class="line">WARNING! Your password will be stored unencrypted in /root/.docker/config.json.</span><br><span class="line">Configure a credential helper to remove this warning. See</span><br><span class="line">https://docs.docker.com/engine/reference/commandline/login/#credentials-store</span><br><span class="line"></span><br><span class="line">Login Succeeded</span><br></pre></td></tr></table></figure>
-
-<p>登录成功后再重新推送</p>
-<p>推送成功刷新仓库就可以看到了</p>
-<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010951531.png" alt="推送结果"></p>
-<p>如果是公开的仓库，也可以通过搜索搜到</p>
-<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010952767.png" alt="搜索结果"></p>
-<p>最后需要用就直接下载就好啦</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull cloveryou/clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="挂载数据到外部"><a href="#挂载数据到外部" class="headerlink" title="挂载数据到外部"></a><strong>挂载数据到外部</strong></h3><p>像我们之前修改nginx，是需要进入到容器里修改，其实可以将容器中的某个文件夹挂载到主机的某个位置。<code>docker run --name=xxx -d -v [target path]:[source path]:[缺省，ro容器内只读，rw容器内可读写]</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name=clover-nginx -d -p 88:80 -v /data/html:/usr/share/nginx/html:ro clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>-v</code> 将容器中某个目录挂在到主机上，如果挂载的是一个文件，那么这个文件在主机上必须存在</li>
-</ul>
-<p>启动后我们只要在主机的 <code>/data/html</code></p>
-<h3 id="检查容器日志"><a href="#检查容器日志" class="headerlink" title="检查容器日志"></a><strong>检查容器日志</strong></h3><p><code>docker logs &lt;container&gt;</code></p>
-<h3 id="复制容器文件到主机"><a href="#复制容器文件到主机" class="headerlink" title="复制容器文件到主机"></a>复制容器文件到主机</h3><p><code>docker cp &lt;container&gt;:&lt;source path&gt; &lt;target path&gt;</code></p>
-<p>例如将nginx中的文件复制出来</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker cp 52924565fcfc:/etc/nginx /data/nginx</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn data]# ls</span><br><span class="line"><span class="meta">--&gt; </span><span class="language-bash"> nginx</span></span><br></pre></td></tr></table></figure>
-
-<p>然后将nginx的配置文件挂载到本地</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name=clover-nginx -d -p 88:80 \</span><br><span class="line">-v /usr/share/html:/data/html:ro \</span><br><span class="line">-v /etc/nginx:/data/nginx:ro \</span><br><span class="line">cloveryou/clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
-
-<h2 id="将现有应用打包成-Docker-镜像"><a href="#将现有应用打包成-Docker-镜像" class="headerlink" title="将现有应用打包成 Docker 镜像"></a>将现有应用打包成 Docker 镜像</h2><p>以 SpringBoot 为例，先将我们的项目打包成 <code>.jar</code> 包。然后编写一个 <code>Dockerfile</code> 将这个 <code>.jar</code> 打包成 Docker 镜像。</p>
-<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">8</span>-jdk-slim</span><br><span class="line"><span class="keyword">LABEL</span><span class="language-bash"> maintainer=CloverYou</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> target/**.jar /app.jar</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;java&quot;</span>, <span class="string">&quot;-jar&quot;</span>, <span class="string">&quot;/app.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
-
-<p>由于 Docker 镜像都是一个很小的 Linux 系统，并没有我们的运行环境，所以需要指定安装jdk环境 <code>openjdk:8-jdk-slim</code>。</p>
-<p>然后将项目打包结果复制到 Linux 的某个位置，<code>ENTRYPOINT</code> 用于 Docker 启动时执行的命令，也可以使用 <code>CMD</code>。让 Docker 启动时执行 <code>java -jar /app.jar</code> 启动我们的项目。</p>
-<p>Dockerfile 文件编写好后，需要到一个有 Docker 环境的机子上执行。</p>
-<p>执行 <code>docker build [OPTIONS] &lt;工作路径&gt;</code> 命令打包</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker build -t spring-boot-hello-world:v1.0.0 .</span><br></pre></td></tr></table></figure>
-
-<p><strong>注意：如果出现以下错误，那是因为 Dockerfile 不能放在 <code>/</code> 目录</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">error checking context: &#x27;file (&#x27;/proc/1500/fd/7&#x27;) not found or excluded by .dockerignore&#x27;.</span><br></pre></td></tr></table></figure>
-
-<p>打包完成后查看镜像，就可以看到我们打包的镜像</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker images</span><br><span class="line">REPOSITORY                TAG          IMAGE ID       CREATED         SIZE</span><br><span class="line">spring-boot-hello-world   v1.0.0       a9c63c4b9ad4   6 seconds ago   313MB</span><br></pre></td></tr></table></figure>
-
-<p>启动容器</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d -p 80:8080 --name=helloworld spring-boot-hello-world:v1.0.0</span><br></pre></td></tr></table></figure>
-
-<p>检查是否启动成功</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker ps</span><br><span class="line">CONTAINER ID   IMAGE                            COMMAND                CREATED         STATUS         PORTS                                   NAMES</span><br><span class="line">7f62352ef378   spring-boot-hello-world:v1.0.0   &quot;java -jar /app.jar&quot;   3 seconds ago   Up 3 seconds   0.0.0.0:80-&gt;8080/tcp, :::80-&gt;8080/tcp   helloworld</span><br></pre></td></tr></table></figure>
-
-<p>然后访问我们的服务就可以了</p>
-<p><img src="https://qiniu-note-image.ctong.top/note/images/202204011533435.png" alt="执行结果"></p>
-]]></content>
-      <categories>
-        <category>其它</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Feign远程调用丢失请求头问题</title>
     <url>/2022/02/25/Feign%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E4%B8%A2%E5%A4%B1%E8%AF%B7%E6%B1%82%E5%A4%B4%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<p>在业务中，需要使用A、B两个模块，这些模块使用了SpringSession共享Session数据。在B模块中的业务需要用户登录后才能操作。当A调用B的业务时，在B模块中获取不到用户的Session信息，导致B模块判定该请求用户没有登录导致A模块拿不到所需数据。问题是A模块可以拿到该用户的登录信息并且，已经使用了SpringSession进行共享Session数据。</p>
@@ -5395,6 +5395,71 @@ if ( !( i &gt; 2 ) )&#123;
         <tag>JAVA</tag>
         <tag>MySQL</tag>
         <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java 四大函数式接口</title>
+    <url>/2022/01/31/Java-%E5%9B%9B%E5%A4%A7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/</url>
+    <content><![CDATA[<h1 id="Java-四大函数式接口"><a href="#Java-四大函数式接口" class="headerlink" title="Java 四大函数式接口"></a>Java 四大函数式接口</h1><table>
+<thead>
+<tr>
+<th>接口名</th>
+<th>参数类型</th>
+<th>返回类型</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Consumer&lt;T&gt;<br />消费型接口</td>
+<td>T</td>
+<td>void</td>
+<td>对类型为T的对象应用操作，包含方法：<code>void accept(T t)</code></td>
+</tr>
+<tr>
+<td>Supplier&lt;T&gt;<br />供给型接口</td>
+<td>无</td>
+<td>T</td>
+<td>返回类型为T的对象，包含方法：<code>T get()</code></td>
+</tr>
+<tr>
+<td>Function&lt;T, R&gt;<br />函数型接口</td>
+<td>T</td>
+<td>R</td>
+<td>对类型为T的对象应用操作，并返回结果。结果是R类型的对象，包含方法：<code>R apply(T t)</code></td>
+</tr>
+<tr>
+<td>Predicate&lt;T&gt;<br />断定型接口</td>
+<td>T</td>
+<td>boolean</td>
+<td>确定类型为T的对象是否满足约束，并返回 boolean 值。包含方法 <code>boolean test(T t)</code></td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>随笔</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java 解决Enum.valueOf找不到枚举出现的异常</title>
+    <url>/2022/01/02/Java-%E8%A7%A3%E5%86%B3Enum.valueOf%E6%89%BE%E4%B8%8D%E5%88%B0%E6%9E%9A%E4%B8%BE%E5%87%BA%E7%8E%B0%E7%9A%84%E5%BC%82%E5%B8%B8/</url>
+    <content><![CDATA[<p>由于<code>Enum.valueOf</code>匹配不到枚举时会出现异常，这个可以用<code>try...catch</code>来解决，但是这样会导致代码往臃肿的道路上越走越远。<br>本文与其说是解决<strong>Enum.valueOf找不到枚举出现的异常</strong>还不如说是换了解决方案：<br>现在有这么一个枚举</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 类型操作接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">TypeEnum</span> &#123;</span><br><span class="line">  Boolean <span class="title function_">ret</span><span class="params">()</span>; <span class="comment">// 表示是某个类型时返回结果</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">ImageEnumImpl</span> <span class="keyword">implements</span> <span class="title class_">TypeEnum</span> &#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * jpeg类型的图片</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  JPEG &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Boolean <span class="title function_">ret</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * jpg类型的图片</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  JPG &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Boolean <span class="title function_">ret</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * gif类型的图片</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  GIF &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Boolean <span class="title function_">ret</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * bmp类型的图片</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  BMP &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Boolean <span class="title function_">ret</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * png类型的图片</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  PNG &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Boolean <span class="title function_">ret</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>服务端需要通过枚举来判断支持上传的文件类型，可以使用<code>Enum.valueOf</code>来判断，而且很香</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (ImageEnumImpl.valueOf(exhibitionName).ret())&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>但是如果枚举类中并不存在这个类型就会抛出一个异常，导致无法用<code>if</code>的方式来判断，可以使用以下代码来操作，当枚举不存在时返回<code>null</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> ImageEnumImpl <span class="title function_">getIfPresent</span><span class="params">(String name)</span> &#123;</span><br><span class="line">   <span class="keyword">return</span> Enums.getIfPresent(ImageEnumImpl.class, name).orNull();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用这个方法，这样代码就好看多了</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (getIfPresent(exhibitionName) == <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> AjaxResult.error(<span class="number">400</span>, <span class="string">&quot;请上传正确的图片文件，如：jpg、png、bmp、gif！&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
@@ -5790,71 +5855,6 @@ if ( !( i &gt; 2 ) )&#123;
       <tags>
         <tag>JAVA</tag>
         <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java 四大函数式接口</title>
-    <url>/2022/01/31/Java-%E5%9B%9B%E5%A4%A7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/</url>
-    <content><![CDATA[<h1 id="Java-四大函数式接口"><a href="#Java-四大函数式接口" class="headerlink" title="Java 四大函数式接口"></a>Java 四大函数式接口</h1><table>
-<thead>
-<tr>
-<th>接口名</th>
-<th>参数类型</th>
-<th>返回类型</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Consumer&lt;T&gt;<br />消费型接口</td>
-<td>T</td>
-<td>void</td>
-<td>对类型为T的对象应用操作，包含方法：<code>void accept(T t)</code></td>
-</tr>
-<tr>
-<td>Supplier&lt;T&gt;<br />供给型接口</td>
-<td>无</td>
-<td>T</td>
-<td>返回类型为T的对象，包含方法：<code>T get()</code></td>
-</tr>
-<tr>
-<td>Function&lt;T, R&gt;<br />函数型接口</td>
-<td>T</td>
-<td>R</td>
-<td>对类型为T的对象应用操作，并返回结果。结果是R类型的对象，包含方法：<code>R apply(T t)</code></td>
-</tr>
-<tr>
-<td>Predicate&lt;T&gt;<br />断定型接口</td>
-<td>T</td>
-<td>boolean</td>
-<td>确定类型为T的对象是否满足约束，并返回 boolean 值。包含方法 <code>boolean test(T t)</code></td>
-</tr>
-</tbody></table>
-]]></content>
-      <categories>
-        <category>JAVA</category>
-      </categories>
-      <tags>
-        <tag>JAVA</tag>
-        <tag>随笔</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java 解决Enum.valueOf找不到枚举出现的异常</title>
-    <url>/2022/01/02/Java-%E8%A7%A3%E5%86%B3Enum.valueOf%E6%89%BE%E4%B8%8D%E5%88%B0%E6%9E%9A%E4%B8%BE%E5%87%BA%E7%8E%B0%E7%9A%84%E5%BC%82%E5%B8%B8/</url>
-    <content><![CDATA[<p>由于<code>Enum.valueOf</code>匹配不到枚举时会出现异常，这个可以用<code>try...catch</code>来解决，但是这样会导致代码往臃肿的道路上越走越远。<br>本文与其说是解决<strong>Enum.valueOf找不到枚举出现的异常</strong>还不如说是换了解决方案：<br>现在有这么一个枚举</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 类型操作接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">TypeEnum</span> &#123;</span><br><span class="line">  Boolean <span class="title function_">ret</span><span class="params">()</span>; <span class="comment">// 表示是某个类型时返回结果</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">ImageEnumImpl</span> <span class="keyword">implements</span> <span class="title class_">TypeEnum</span> &#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * jpeg类型的图片</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  JPEG &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Boolean <span class="title function_">ret</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * jpg类型的图片</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  JPG &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Boolean <span class="title function_">ret</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * gif类型的图片</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  GIF &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Boolean <span class="title function_">ret</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * bmp类型的图片</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  BMP &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Boolean <span class="title function_">ret</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * png类型的图片</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  PNG &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Boolean <span class="title function_">ret</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>服务端需要通过枚举来判断支持上传的文件类型，可以使用<code>Enum.valueOf</code>来判断，而且很香</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (ImageEnumImpl.valueOf(exhibitionName).ret())&#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>但是如果枚举类中并不存在这个类型就会抛出一个异常，导致无法用<code>if</code>的方式来判断，可以使用以下代码来操作，当枚举不存在时返回<code>null</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> ImageEnumImpl <span class="title function_">getIfPresent</span><span class="params">(String name)</span> &#123;</span><br><span class="line">   <span class="keyword">return</span> Enums.getIfPresent(ImageEnumImpl.class, name).orNull();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用这个方法，这样代码就好看多了</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (getIfPresent(exhibitionName) == <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> AjaxResult.error(<span class="number">400</span>, <span class="string">&quot;请上传正确的图片文件，如：jpg、png、bmp、gif！&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>JAVA</tag>
-        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
@@ -7677,61 +7677,6 @@ if ( !( i &gt; 2 ) )&#123;
       </tags>
   </entry>
   <entry>
-    <title>RabbitMQ延时队列实现定时任务</title>
-    <url>/2022/03/06/RabbitMQ%E5%BB%B6%E6%97%B6%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
-    <content><![CDATA[<h1 id="RabbitMQ延时队列（实现定时任务）"><a href="#RabbitMQ延时队列（实现定时任务）" class="headerlink" title="RabbitMQ延时队列（实现定时任务）"></a>RabbitMQ延时队列（实现定时任务）</h1><p>比如有一个未付款订单，超过一定时间后，系统自动取消订单并释放占有的商品。</p>
-<p>可以使用spring 的 schedule 定时任务轮询数据库，但是使用这种方式会极其消耗系统内存、增加数据库压力并且存在较大的时间误差</p>
-<p><img src="https://qiniu-note-image.ctong.top/note/images/202203030930376.png" alt="时间误差"></p>
-<p>以上问题可以使用 RabbitMQ 的消息TTL和死信 Exchange 结合，下单后，如果30分钟未支付就会关闭订单和解锁库存，不需要全表扫描</p>
-<p><img src="https://qiniu-note-image.ctong.top/note/images/202203030931785.png" alt="延时队列"></p>
-<h2 id="消息的TTL（Time-To-Live）"><a href="#消息的TTL（Time-To-Live）" class="headerlink" title="消息的TTL（Time To Live）"></a>消息的TTL（Time To Live）</h2><ul>
-<li>消息的TTL就是消息的存活时间</li>
-<li>RabbitMQ 可以对队列和消息分别设置TTL<ul>
-<li>对队列设置就是队列没有消费者连接着的保留时间，也可以对每一个单独的消息做单独的设置。超过了这个时间，我们认为这个消息就死了，称之为死信。</li>
-<li>如果队列设置了，消息也设置了，那么会取最小的。所以一个消息如果被路由到不同的队列中，这个消息死亡的时间有可能不一样（不同队列设置）。可以通过设置消息的 expiration 字段或者 x-message-ttl 属性来设置时间，两者都是一样的效果。</li>
-</ul>
-</li>
-</ul>
-<h2 id="Dead-Letter-Exchanges（DLX）"><a href="#Dead-Letter-Exchanges（DLX）" class="headerlink" title="Dead Letter Exchanges（DLX）"></a>Dead Letter Exchanges（DLX）</h2><ul>
-<li>一个消息在满足如下条件下，会进入<strong>死信路由</strong>（路由不是队列），一个路由可以对应多个队列。<ul>
-<li>一个消息被 Cnsumer 拒收了，并且 reject 方法的参数里 requeue 是false。也就是说不会被再次放在队列里，被其他消费者使用。（basic.reject&#x2F;basic.nack）requeue&#x3D;false</li>
-<li>上面的消息的 TTL 到了，消息过期了</li>
-<li>队列的长长度限制满了。排在前面的消息被丢弃或者仍在死信路由上</li>
-</ul>
-</li>
-<li>Dead Letter Exchange 其实就是一种普通的 Exchange，和创建其它 exchange 没有两样。只是在某一个设置 Dead Letter Exchange 中有消息过期了，会自动触发消息的转发，发送到 Dead Letter Exchange 中去。</li>
-<li>我们既可以控制消息在一段时间后变成死信，又可以控制变成死信的消息被路由到某一个指定的交换机，结合二者，就可以实现一个延时队列。</li>
-</ul>
-<p>可以给队列设置过期时间：</p>
-<p><img src="https://qiniu-note-image.ctong.top/note/images/202203031507600.png" alt="延时队列实现1"></p>
-<p>给每个消息设置过期时间</p>
-<p><img src="https://qiniu-note-image.ctong.top/note/images/202203031508551.png" alt="延时队列实现2"></p>
-<blockquote>
-<p>死信路由不能有消费者</p>
-</blockquote>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>先创建好Queue、Exchange、Binding</p>
-<p>使用SpringBoot容器进行创建</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AmqpMqConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 延时队列</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Queue</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> Clover You</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> 2022/3/3 3:20 PM</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Queue <span class="title function_">orderDelayQueue</span><span class="params">()</span> &#123;</span><br><span class="line">        Map&lt;String, Object&gt; args = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(<span class="number">3</span>);</span><br><span class="line">      	<span class="comment">// 过期后发到哪个交换机/死信路由</span></span><br><span class="line">        args.put(<span class="string">&quot;x-dead-letter-exchange&quot;</span>, <span class="string">&quot;order-event-exchange&quot;</span>);</span><br><span class="line">       <span class="comment">// 过期后转发到指定死信路由时使用的路由键</span></span><br><span class="line">        args.put(<span class="string">&quot;x-dead-letter-routing-key&quot;</span>, <span class="string">&quot;order.release.order&quot;</span>);</span><br><span class="line">       <span class="comment">// 每个消息的过期时间毫秒为单位</span></span><br><span class="line">        args.put(<span class="string">&quot;x-message-ttl&quot;</span>, <span class="number">60000</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Queue</span>(</span><br><span class="line">            <span class="string">&quot;order.delay.queue&quot;</span>,</span><br><span class="line">            <span class="literal">true</span>,</span><br><span class="line">            <span class="literal">false</span>,</span><br><span class="line">            <span class="literal">false</span>,</span><br><span class="line">            args</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 死信队列</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Queue</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> Clover You</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> 2022/3/3 3:26 PM</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Queue <span class="title function_">orderReleaseOrderQueue</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Queue</span>(</span><br><span class="line">            <span class="string">&quot;order.release.order.queue&quot;</span>,</span><br><span class="line">            <span class="literal">true</span>,</span><br><span class="line">            <span class="literal">false</span>,</span><br><span class="line">            <span class="literal">false</span></span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 死信路由</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Exchange</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> Clover You</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> 2022/3/3 3:25 PM</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Exchange <span class="title function_">orderEventExchange</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">TopicExchange</span>(<span class="string">&quot;order-event-exchange&quot;</span>, <span class="literal">true</span>, <span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 延时队列绑定</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Binding</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> Clover You</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> 2022/3/3 3:25 PM</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Binding <span class="title function_">orderCreateOrderBinding</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Binding</span>(</span><br><span class="line">            <span class="string">&quot;order.delay.queue&quot;</span>,</span><br><span class="line">            Binding.DestinationType.QUEUE,</span><br><span class="line">            <span class="string">&quot;order-event-exchange&quot;</span>,</span><br><span class="line">            <span class="string">&quot;order.create.order&quot;</span>,</span><br><span class="line">            <span class="literal">null</span></span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 死信队列绑定</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Binding</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> Clover You</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> 2022/3/3 3:25 PM</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Binding <span class="title function_">orderReleaseOrderBinding</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Binding</span>(</span><br><span class="line">            <span class="string">&quot;order.release.order.queue&quot;</span>,</span><br><span class="line">            Binding.DestinationType.QUEUE,</span><br><span class="line">            <span class="string">&quot;order-event-exchange&quot;</span>,</span><br><span class="line">            <span class="string">&quot;order.release.order&quot;</span>,</span><br><span class="line">            <span class="literal">null</span></span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>创建好后监听我们的死信队列，不能监听延时队列，因为延时队列中的消息到了过期时间没人处理后就会被当作死信，按照规则发到死信路由中，再由死信路由以指定路由键发到指定队列，然后队列将消息分发给消费者。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Listener</span> &#123;</span><br><span class="line">  <span class="meta">@RabbitListener(queues = &quot;order.release.order.queue&quot;)</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">(Message message,String str, Channel channel)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">    log.info(<span class="string">&quot;有订单过期啦： ====&gt;&gt;&gt; &#123;&#125;&quot;</span>,str);</span><br><span class="line">    <span class="comment">// 如果没开启手动ack则不用写这行</span></span><br><span class="line">    channel.basicAck(message.getMessageProperties().getDeliveryTag(), <span class="literal">false</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后再创建一个控制器准备发送消息</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;order/order&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RabbitTemplate rabbitTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/amqp&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">testAmqp</span><span class="params">()</span> &#123;</span><br><span class="line">        rabbitTemplate.convertAndSend(<span class="string">&quot;order-event-exchange&quot;</span>,<span class="string">&quot;order.create.order&quot;</span>, <span class="string">&quot;Hello World&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;successful&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>调用 <code>OrderController.testAmqp()</code> 就可以看到结果了</p>
-]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>SpringCloud</tag>
-        <tag>随笔</tag>
-        <tag>微服务</tag>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MySQL学习笔记</title>
     <url>/2022/01/02/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h1 id="数据库概述"><a href="#数据库概述" class="headerlink" title="数据库概述"></a>数据库概述</h1><p>MySQL最初是由“MySQL AB”公司开发的一套关系型数据库管理系统（RDBMS-Relational DataBase Management System）。</p>
@@ -9359,6 +9304,61 @@ if ( !( i &gt; 2 ) )&#123;
       </tags>
   </entry>
   <entry>
+    <title>RabbitMQ延时队列实现定时任务</title>
+    <url>/2022/03/06/RabbitMQ%E5%BB%B6%E6%97%B6%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
+    <content><![CDATA[<h1 id="RabbitMQ延时队列（实现定时任务）"><a href="#RabbitMQ延时队列（实现定时任务）" class="headerlink" title="RabbitMQ延时队列（实现定时任务）"></a>RabbitMQ延时队列（实现定时任务）</h1><p>比如有一个未付款订单，超过一定时间后，系统自动取消订单并释放占有的商品。</p>
+<p>可以使用spring 的 schedule 定时任务轮询数据库，但是使用这种方式会极其消耗系统内存、增加数据库压力并且存在较大的时间误差</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203030930376.png" alt="时间误差"></p>
+<p>以上问题可以使用 RabbitMQ 的消息TTL和死信 Exchange 结合，下单后，如果30分钟未支付就会关闭订单和解锁库存，不需要全表扫描</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203030931785.png" alt="延时队列"></p>
+<h2 id="消息的TTL（Time-To-Live）"><a href="#消息的TTL（Time-To-Live）" class="headerlink" title="消息的TTL（Time To Live）"></a>消息的TTL（Time To Live）</h2><ul>
+<li>消息的TTL就是消息的存活时间</li>
+<li>RabbitMQ 可以对队列和消息分别设置TTL<ul>
+<li>对队列设置就是队列没有消费者连接着的保留时间，也可以对每一个单独的消息做单独的设置。超过了这个时间，我们认为这个消息就死了，称之为死信。</li>
+<li>如果队列设置了，消息也设置了，那么会取最小的。所以一个消息如果被路由到不同的队列中，这个消息死亡的时间有可能不一样（不同队列设置）。可以通过设置消息的 expiration 字段或者 x-message-ttl 属性来设置时间，两者都是一样的效果。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Dead-Letter-Exchanges（DLX）"><a href="#Dead-Letter-Exchanges（DLX）" class="headerlink" title="Dead Letter Exchanges（DLX）"></a>Dead Letter Exchanges（DLX）</h2><ul>
+<li>一个消息在满足如下条件下，会进入<strong>死信路由</strong>（路由不是队列），一个路由可以对应多个队列。<ul>
+<li>一个消息被 Cnsumer 拒收了，并且 reject 方法的参数里 requeue 是false。也就是说不会被再次放在队列里，被其他消费者使用。（basic.reject&#x2F;basic.nack）requeue&#x3D;false</li>
+<li>上面的消息的 TTL 到了，消息过期了</li>
+<li>队列的长长度限制满了。排在前面的消息被丢弃或者仍在死信路由上</li>
+</ul>
+</li>
+<li>Dead Letter Exchange 其实就是一种普通的 Exchange，和创建其它 exchange 没有两样。只是在某一个设置 Dead Letter Exchange 中有消息过期了，会自动触发消息的转发，发送到 Dead Letter Exchange 中去。</li>
+<li>我们既可以控制消息在一段时间后变成死信，又可以控制变成死信的消息被路由到某一个指定的交换机，结合二者，就可以实现一个延时队列。</li>
+</ul>
+<p>可以给队列设置过期时间：</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203031507600.png" alt="延时队列实现1"></p>
+<p>给每个消息设置过期时间</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203031508551.png" alt="延时队列实现2"></p>
+<blockquote>
+<p>死信路由不能有消费者</p>
+</blockquote>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>先创建好Queue、Exchange、Binding</p>
+<p>使用SpringBoot容器进行创建</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AmqpMqConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 延时队列</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Queue</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> Clover You</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> 2022/3/3 3:20 PM</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Queue <span class="title function_">orderDelayQueue</span><span class="params">()</span> &#123;</span><br><span class="line">        Map&lt;String, Object&gt; args = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(<span class="number">3</span>);</span><br><span class="line">      	<span class="comment">// 过期后发到哪个交换机/死信路由</span></span><br><span class="line">        args.put(<span class="string">&quot;x-dead-letter-exchange&quot;</span>, <span class="string">&quot;order-event-exchange&quot;</span>);</span><br><span class="line">       <span class="comment">// 过期后转发到指定死信路由时使用的路由键</span></span><br><span class="line">        args.put(<span class="string">&quot;x-dead-letter-routing-key&quot;</span>, <span class="string">&quot;order.release.order&quot;</span>);</span><br><span class="line">       <span class="comment">// 每个消息的过期时间毫秒为单位</span></span><br><span class="line">        args.put(<span class="string">&quot;x-message-ttl&quot;</span>, <span class="number">60000</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Queue</span>(</span><br><span class="line">            <span class="string">&quot;order.delay.queue&quot;</span>,</span><br><span class="line">            <span class="literal">true</span>,</span><br><span class="line">            <span class="literal">false</span>,</span><br><span class="line">            <span class="literal">false</span>,</span><br><span class="line">            args</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 死信队列</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Queue</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> Clover You</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> 2022/3/3 3:26 PM</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Queue <span class="title function_">orderReleaseOrderQueue</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Queue</span>(</span><br><span class="line">            <span class="string">&quot;order.release.order.queue&quot;</span>,</span><br><span class="line">            <span class="literal">true</span>,</span><br><span class="line">            <span class="literal">false</span>,</span><br><span class="line">            <span class="literal">false</span></span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 死信路由</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Exchange</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> Clover You</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> 2022/3/3 3:25 PM</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Exchange <span class="title function_">orderEventExchange</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">TopicExchange</span>(<span class="string">&quot;order-event-exchange&quot;</span>, <span class="literal">true</span>, <span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 延时队列绑定</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Binding</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> Clover You</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> 2022/3/3 3:25 PM</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Binding <span class="title function_">orderCreateOrderBinding</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Binding</span>(</span><br><span class="line">            <span class="string">&quot;order.delay.queue&quot;</span>,</span><br><span class="line">            Binding.DestinationType.QUEUE,</span><br><span class="line">            <span class="string">&quot;order-event-exchange&quot;</span>,</span><br><span class="line">            <span class="string">&quot;order.create.order&quot;</span>,</span><br><span class="line">            <span class="literal">null</span></span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 死信队列绑定</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Binding</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> Clover You</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> 2022/3/3 3:25 PM</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Binding <span class="title function_">orderReleaseOrderBinding</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Binding</span>(</span><br><span class="line">            <span class="string">&quot;order.release.order.queue&quot;</span>,</span><br><span class="line">            Binding.DestinationType.QUEUE,</span><br><span class="line">            <span class="string">&quot;order-event-exchange&quot;</span>,</span><br><span class="line">            <span class="string">&quot;order.release.order&quot;</span>,</span><br><span class="line">            <span class="literal">null</span></span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建好后监听我们的死信队列，不能监听延时队列，因为延时队列中的消息到了过期时间没人处理后就会被当作死信，按照规则发到死信路由中，再由死信路由以指定路由键发到指定队列，然后队列将消息分发给消费者。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Listener</span> &#123;</span><br><span class="line">  <span class="meta">@RabbitListener(queues = &quot;order.release.order.queue&quot;)</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">(Message message,String str, Channel channel)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">    log.info(<span class="string">&quot;有订单过期啦： ====&gt;&gt;&gt; &#123;&#125;&quot;</span>,str);</span><br><span class="line">    <span class="comment">// 如果没开启手动ack则不用写这行</span></span><br><span class="line">    channel.basicAck(message.getMessageProperties().getDeliveryTag(), <span class="literal">false</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后再创建一个控制器准备发送消息</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;order/order&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RabbitTemplate rabbitTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/amqp&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">testAmqp</span><span class="params">()</span> &#123;</span><br><span class="line">        rabbitTemplate.convertAndSend(<span class="string">&quot;order-event-exchange&quot;</span>,<span class="string">&quot;order.create.order&quot;</span>, <span class="string">&quot;Hello World&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;successful&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用 <code>OrderController.testAmqp()</code> 就可以看到结果了</p>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>SpringCloud</tag>
+        <tag>随笔</tag>
+        <tag>微服务</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>RabitMQ基础-学习笔记</title>
     <url>/2022/02/25/RabitMQ%E5%9F%BA%E7%A1%80-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ol>
@@ -10804,6 +10804,49 @@ if ( !( i &gt; 2 ) )&#123;
       </tags>
   </entry>
   <entry>
+    <title>Servlet生命周期</title>
+    <url>/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</url>
+    <content><![CDATA[<h1 id="Servlet生命周期"><a href="#Servlet生命周期" class="headerlink" title="Servlet生命周期"></a>Servlet生命周期</h1><ol>
+<li><p>什么是生命周期？<br>生命周期表示一个Java对象从最初创建到被销毁的过程</p>
+</li>
+<li><p>Servlet的生命周期是谁来管理的？程序员可以干涉吗？</p>
+<p>Servlet对象的生命周期javaweb程序员是无权干涉的，包括Servlet对象的相关方法的调用，javaweb程序员也是无权干涉的。Servlet对象从最初的创建开始，方法的调用、以及最后Servlet对象的销毁，整个过程都是由WEB容器来管理的。<br>Web Container管理Servlet对象的生命周期。</p>
+</li>
+<li><p><strong>默认情况下</strong>，Servlet对象在WEB服务器启动阶段不会被实例化。若希望在web服务器启动阶段实例化Servlet对象，需要使用特殊设置。</p>
+</li>
+</ol>
+<hr>
+<h1 id="简单描述Servlet生命周期"><a href="#简单描述Servlet生命周期" class="headerlink" title="简单描述Servlet生命周期"></a>简单描述Servlet生命周期</h1><ol>
+<li>用户在浏览器地址栏上输入URL：<a href="http://localhost:8080/xxx/xxx">http://localhost:8080/xxx/xxx</a></li>
+<li>web容器窃取请求路径：&#x2F;xxx&#x2F;xxx</li>
+<li>web容器在容器上下文中找请求路径<code>/xxx/xxx</code>对应的Servlet对象</li>
+<li>若没有找到对应的Servlet对象<ol>
+<li>通过web.xml文件中相关的配置信息，得到请求路径<code>/xxx/xxx</code>对应的Servlet完整类名</li>
+<li>通过反射机制，调用Servlet类的无参数构造方法完成Servlet对象的实例化</li>
+<li>web容器调用Servlet对象的<code>init</code>方法完成初始化操作。</li>
+<li>web容器调用Servlet对象的service方法提供服务</li>
+</ol>
+</li>
+<li>若找到对应的Servlet对象<ol>
+<li>web容器直接调用Servlet对象的service方法提供服务</li>
+</ol>
+</li>
+<li>web容器关闭的时候&#x2F;webapp重新部署的时候&#x2F;该Servlet对象长时间没有用户再次访问的时候，web容器会将该Servlet对象销毁，在销毁该对象之前，web容器会调用Servlet对象的destroy方法，完成销毁之前的准备。</li>
+</ol>
+<blockquote>
+<p>init方法执行的时候，Servlet对象已经创建好了。destroy方法执行的时候，Servlet对象还没有被销毁，即将被销毁。</p>
+<p>Servlet对象是单例，但是不符合单例模式，只能称为伪单例。真单例的构造方法是私有化的，Tomcat服务器是支持多线程的。所以Servlet对象在单实例多线程的环境下运行的，那么Servlet对象中若有实例变量，并且实例变量涉及到修改操作，那么这个Servlet对象一定会存在线程安全问题。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>随笔</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Servlet线程安全</title>
     <url>/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/</url>
     <content><![CDATA[<ol>
@@ -10846,49 +10889,6 @@ if ( !( i &gt; 2 ) )&#123;
 </ol>
 </li>
 </ol>
-]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>JAVA</tag>
-        <tag>随笔</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Servlet生命周期</title>
-    <url>/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</url>
-    <content><![CDATA[<h1 id="Servlet生命周期"><a href="#Servlet生命周期" class="headerlink" title="Servlet生命周期"></a>Servlet生命周期</h1><ol>
-<li><p>什么是生命周期？<br>生命周期表示一个Java对象从最初创建到被销毁的过程</p>
-</li>
-<li><p>Servlet的生命周期是谁来管理的？程序员可以干涉吗？</p>
-<p>Servlet对象的生命周期javaweb程序员是无权干涉的，包括Servlet对象的相关方法的调用，javaweb程序员也是无权干涉的。Servlet对象从最初的创建开始，方法的调用、以及最后Servlet对象的销毁，整个过程都是由WEB容器来管理的。<br>Web Container管理Servlet对象的生命周期。</p>
-</li>
-<li><p><strong>默认情况下</strong>，Servlet对象在WEB服务器启动阶段不会被实例化。若希望在web服务器启动阶段实例化Servlet对象，需要使用特殊设置。</p>
-</li>
-</ol>
-<hr>
-<h1 id="简单描述Servlet生命周期"><a href="#简单描述Servlet生命周期" class="headerlink" title="简单描述Servlet生命周期"></a>简单描述Servlet生命周期</h1><ol>
-<li>用户在浏览器地址栏上输入URL：<a href="http://localhost:8080/xxx/xxx">http://localhost:8080/xxx/xxx</a></li>
-<li>web容器窃取请求路径：&#x2F;xxx&#x2F;xxx</li>
-<li>web容器在容器上下文中找请求路径<code>/xxx/xxx</code>对应的Servlet对象</li>
-<li>若没有找到对应的Servlet对象<ol>
-<li>通过web.xml文件中相关的配置信息，得到请求路径<code>/xxx/xxx</code>对应的Servlet完整类名</li>
-<li>通过反射机制，调用Servlet类的无参数构造方法完成Servlet对象的实例化</li>
-<li>web容器调用Servlet对象的<code>init</code>方法完成初始化操作。</li>
-<li>web容器调用Servlet对象的service方法提供服务</li>
-</ol>
-</li>
-<li>若找到对应的Servlet对象<ol>
-<li>web容器直接调用Servlet对象的service方法提供服务</li>
-</ol>
-</li>
-<li>web容器关闭的时候&#x2F;webapp重新部署的时候&#x2F;该Servlet对象长时间没有用户再次访问的时候，web容器会将该Servlet对象销毁，在销毁该对象之前，web容器会调用Servlet对象的destroy方法，完成销毁之前的准备。</li>
-</ol>
-<blockquote>
-<p>init方法执行的时候，Servlet对象已经创建好了。destroy方法执行的时候，Servlet对象还没有被销毁，即将被销毁。</p>
-<p>Servlet对象是单例，但是不符合单例模式，只能称为伪单例。真单例的构造方法是私有化的，Tomcat服务器是支持多线程的。所以Servlet对象在单实例多线程的环境下运行的，那么Servlet对象中若有实例变量，并且实例变量涉及到修改操作，那么这个Servlet对象一定会存在线程安全问题。</p>
-</blockquote>
 ]]></content>
       <categories>
         <category>随笔</category>
@@ -14164,30 +14164,6 @@ if ( !( i &gt; 2 ) )&#123;
       </tags>
   </entry>
   <entry>
-    <title>Tomcat 安装</title>
-    <url>/2022/01/02/Tomcat-%E5%AE%89%E8%A3%85/</url>
-    <content><![CDATA[<h2 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h2><p>到官网下载 <a href="http://maven.apache.org/download.cgi">tomcat</a><br><img src="http://qiniu-note-image.ctong.top/note/images/202112271120666.png" alt="image.png"></p>
-<p>下载完成解压后，将该文件夹命名为 Tomcat，移动到资源库（&#x2F;Library）</p>
-<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271120671.png" alt="image.png"></p>
-<p>打开终端转到 Tomcat &#x2F;bin 路径,给所有 .sh 文件755权限。</p>
-<p><code>sudo chmod 755 *.sh</code></p>
-<p>启动 tomcat，输入 sudo sh .&#x2F;startup.sh 后回车：</p>
-<p><code>sudo sh ./startup.sh</code></p>
-<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271121914.png" alt="image.png"></p>
-<p>tomcat 启动后打开浏览器，输入<a href="localhost:8080">localhost:8080</a></p>
-<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271121258.png" alt="image.png"></p>
-<p>如果启动失败请检查8080端口是否被占用，如果已经被占用需要将8080杀死。</p>
-<p>关闭Tomcat，用终端输入sh .&#x2F;shutdown.sh</p>
-]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>JAVA</tag>
-        <tag>随笔</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spring学习笔记</title>
     <url>/2022/01/02/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><p>资料： <a href="https://pan.baidu.com/s/1aS4B69iA8-AtXqT7D9obXA">https://pan.baidu.com/s/1aS4B69iA8-AtXqT7D9obXA</a> 提取码: rczx</p>
@@ -14770,6 +14746,30 @@ if ( !( i &gt; 2 ) )&#123;
         <tag>JAVA</tag>
         <tag>学习笔记</tag>
         <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Tomcat 安装</title>
+    <url>/2022/01/02/Tomcat-%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h2 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h2><p>到官网下载 <a href="http://maven.apache.org/download.cgi">tomcat</a><br><img src="http://qiniu-note-image.ctong.top/note/images/202112271120666.png" alt="image.png"></p>
+<p>下载完成解压后，将该文件夹命名为 Tomcat，移动到资源库（&#x2F;Library）</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271120671.png" alt="image.png"></p>
+<p>打开终端转到 Tomcat &#x2F;bin 路径,给所有 .sh 文件755权限。</p>
+<p><code>sudo chmod 755 *.sh</code></p>
+<p>启动 tomcat，输入 sudo sh .&#x2F;startup.sh 后回车：</p>
+<p><code>sudo sh ./startup.sh</code></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271121914.png" alt="image.png"></p>
+<p>tomcat 启动后打开浏览器，输入<a href="localhost:8080">localhost:8080</a></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271121258.png" alt="image.png"></p>
+<p>如果启动失败请检查8080端口是否被占用，如果已经被占用需要将8080杀死。</p>
+<p>关闭Tomcat，用终端输入sh .&#x2F;shutdown.sh</p>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
