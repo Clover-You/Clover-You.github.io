@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="泛型的使用 泛型是jdk5.0之后推出的新特性 泛型这种语法机制只在程序编译阶段起作用，这中语法只是用来骗编译器的。 使用泛型好处 集合中存储的元素类型统一了 从集合中取出的元素类型是泛型指定的类型，不需要大量的向下转型。   使用了泛型之后，导致集合中存储的元素缺乏多样性！ 如果调用子类型中特有的方法，还是需要向下转型！  不使用泛型，分析程序存在哪些缺点 1234567891011121314">
+<meta property="og:type" content="article">
+<meta property="og:title" content="35、Java泛型">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="泛型的使用 泛型是jdk5.0之后推出的新特性 泛型这种语法机制只在程序编译阶段起作用，这中语法只是用来骗编译器的。 使用泛型好处 集合中存储的元素类型统一了 从集合中取出的元素类型是泛型指定的类型，不需要大量的向下转型。   使用了泛型之后，导致集合中存储的元素缺乏多样性！ 如果调用子类型中特有的方法，还是需要向下转型！  不使用泛型，分析程序存在哪些缺点 1234567891011121314">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-02T09:07:25.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.840Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>35、Java泛型</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/36%E3%80%81Java%E9%9B%86%E5%90%88/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&text=35、Java泛型"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&title=35、Java泛型"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&is_video=false&description=35、Java泛型"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=35、Java泛型&body=Check out this article: http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&title=35、Java泛型"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&title=35、Java泛型"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&title=35、Java泛型"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&title=35、Java泛型"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&name=35、Java泛型&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&t=35、Java泛型"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%9B%E5%9E%8B%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">泛型的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E7%B1%BB%E5%9E%8B%E6%8E%A8%E6%96%AD"><span class="toc-number">2.</span> <span class="toc-text">自动类型推断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%9B%E5%9E%8B"><span class="toc-number">3.</span> <span class="toc-text">自定义泛型</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        35、Java泛型
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T09:07:25.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="泛型的使用"><a href="#泛型的使用" class="headerlink" title="泛型的使用"></a>泛型的使用</h3><ol>
+<li>泛型是<strong>jdk5.0</strong>之后推出的新特性</li>
+<li>泛型这种语法机制只在程序编译阶段起作用，这中语法只是用来骗编译器的。</li>
+<li>使用泛型好处<ol>
+<li>集合中存储的元素类型统一了</li>
+<li>从集合中取出的元素类型是泛型指定的类型，不需要大量的向下转型。</li>
+</ol>
+</li>
+<li>使用了泛型之后，导致集合中存储的元素缺乏多样性！</li>
+<li>如果调用子类型中特有的方法，还是需要向下转型！</li>
+</ol>
+<p>不使用泛型，分析程序存在哪些缺点</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GenericityTest</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">List</span> <span class="variable">animalList</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ArrayList</span>();</span><br><span class="line">    <span class="type">Cat</span> <span class="variable">catObj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Cat</span>();</span><br><span class="line">    <span class="type">Bird</span> <span class="variable">birdObj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Bird</span>();</span><br><span class="line">    animalList.add(catObj);</span><br><span class="line">    animalList.add(birdObj);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 遍历集合，让动物走路</span></span><br><span class="line">    <span class="type">Iterator</span> <span class="variable">it</span> <span class="operator">=</span> animalList.iterator();</span><br><span class="line">    <span class="keyword">while</span> ( it.hasNext() ) &#123;</span><br><span class="line">      <span class="type">Object</span> <span class="variable">o</span> <span class="operator">=</span> it.next();</span><br><span class="line">      <span class="keyword">if</span> ( o <span class="keyword">instanceof</span> Cat ) &#123;</span><br><span class="line">        <span class="type">Cat</span> <span class="variable">cat</span> <span class="operator">=</span> ( Cat )o;</span><br><span class="line">        cat.move();</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( o <span class="keyword">instanceof</span> Bird ) &#123;</span><br><span class="line">        <span class="type">Bird</span> <span class="variable">bird</span> <span class="operator">=</span> ( Bird )o;</span><br><span class="line">        bird.move();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 动物类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span> &#123; &#125;</span><br><span class="line"><span class="comment">// 猫科类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Cat</span> <span class="keyword">extends</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">move</span><span class="params">()</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;猫抓老鼠!&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 鸟类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Bird</span> <span class="keyword">extends</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">move</span><span class="params">()</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;鸟在飞！&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>迭代器返回的是<code>Object</code>类型，<code>Object</code>类型没有<code>move</code>方法，无法调用，需要向下转型。</p>
+<p>使用泛型，<code>ArrayList</code>支持泛型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ArrayList</span>&lt;E&gt; &#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用泛型<code>List&lt;Animal&gt;</code>之后，表示<code>List</code>集合中只允许存储<code>Animal</code>类型的数据。用泛型来指定集合中存储的数据类型，集合中的数据更统一了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Animal&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Animal&gt;();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Animal&gt; animalList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Animal&gt;();</span><br><span class="line"><span class="type">Cat</span> <span class="variable">catObj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Cat</span>();</span><br><span class="line"><span class="type">Bird</span> <span class="variable">birdObj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Bird</span>();</span><br><span class="line">animalList.add(catObj);</span><br><span class="line">animalList.add(birdObj);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遍历集合，让猫抓老鼠，让鸟飞</span></span><br><span class="line">Iterator&lt;Animal&gt; it = animalList.iterator();</span><br><span class="line"><span class="keyword">while</span> ( it.hasNext() ) &#123;</span><br><span class="line">  <span class="type">Animal</span> <span class="variable">animal</span> <span class="operator">=</span> it.next();</span><br><span class="line">  animal.move();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Iterator&lt;Animal&gt; it</code>指明迭代器返回的是一个<code>Animal</code>类型。</p>
+<hr>
+<h3 id="自动类型推断"><a href="#自动类型推断" class="headerlink" title="自动类型推断"></a>自动类型推断</h3><p>JDK8之后的新特性：自动类型推断，又称钻石表达式</p>
+<p>使用类型推断之前泛型需要这样写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Animal&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Animal&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>使用类型推断后：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Animal&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义泛型"><a href="#自定义泛型" class="headerlink" title="自定义泛型"></a>自定义泛型</h3><p>自定义泛型可以吗？可以</p>
+<p>自定义泛型的时候<code>&lt;&gt;</code>尖括号里面是一个标识符</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GenericityTest</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    Genericity&lt; String &gt; s = <span class="keyword">new</span> <span class="title class_">Genericity</span>&lt;&gt;();</span><br><span class="line">    System.out.println(s.see(<span class="string">&quot;看猴子呢！&quot;</span>));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Genericity</span>&lt; 你看什么 &gt; &#123;</span><br><span class="line">  <span class="keyword">public</span> 你看什么 see(你看什么 s) &#123;</span><br><span class="line">    <span class="keyword">return</span> s;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果调用时不使用泛型，那么泛型默认是<code>Object</code></p>
+<p>Java源代码中经常出现的是:  <E>和<T></p>
+<ul>
+<li>E是Element</li>
+<li>T是Type</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%9B%E5%9E%8B%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">泛型的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E7%B1%BB%E5%9E%8B%E6%8E%A8%E6%96%AD"><span class="toc-number">2.</span> <span class="toc-text">自动类型推断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%9B%E5%9E%8B"><span class="toc-number">3.</span> <span class="toc-text">自定义泛型</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&text=35、Java泛型"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&title=35、Java泛型"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&is_video=false&description=35、Java泛型"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=35、Java泛型&body=Check out this article: http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&title=35、Java泛型"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&title=35、Java泛型"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&title=35、Java泛型"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&title=35、Java泛型"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&name=35、Java泛型&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/&t=35、Java泛型"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

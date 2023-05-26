@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="分布式下Session共享首先聊聊session和cookie，session对象存储在服务器端节点内存中，cookie存储在客户端浏览器中。一般是客户端请求服务器，服务器端生成session对象，将session对象存储在jvm内存中，并且在响应头中放入sessionId响应给客户端，客户端收到响应后，将sessionid存储在本地。当浏览器第二次请求时会将本地cookie中存储的seesion">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式下Session共享">
+<meta property="og:url" content="http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="分布式下Session共享首先聊聊session和cookie，session对象存储在服务器端节点内存中，cookie存储在客户端浏览器中。一般是客户端请求服务器，服务器端生成session对象，将session对象存储在jvm内存中，并且在响应头中放入sessionId响应给客户端，客户端收到响应后，将sessionid存储在本地。当浏览器第二次请求时会将本地cookie中存储的seesion">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202202141813781.jpg">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202202141813789.jpg">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202202141905270.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202202141909184.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202202141922452.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202202141936301.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202202142002916.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202202142116653.png">
+<meta property="article:published_time" content="2022-02-14T15:22:52.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.856Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="随笔">
+<meta property="article:tag" content="Spring">
+<meta property="article:tag" content="Session">
+<meta property="article:tag" content="SpringSession">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiniu-note-image.ctong.top/note/images/202202141813781.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>分布式下Session共享</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/02/15/SpringSession-%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/31/Java-%E5%9B%9B%E5%A4%A7%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&text=分布式下Session共享"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&title=分布式下Session共享"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&is_video=false&description=分布式下Session共享"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=分布式下Session共享&body=Check out this article: http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&title=分布式下Session共享"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&title=分布式下Session共享"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&title=分布式下Session共享"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&title=分布式下Session共享"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&name=分布式下Session共享&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&t=分布式下Session共享"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB"><span class="toc-number">1.</span> <span class="toc-text">分布式下Session共享</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">1.1.</span> <span class="toc-text">解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#sessions-%E5%A4%8D%E5%88%B6"><span class="toc-number">1.1.1.</span> <span class="toc-text">sessions 复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AD%98%E5%82%A8"><span class="toc-number">1.1.2.</span> <span class="toc-text">客户端存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hash%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">1.1.3.</span> <span class="toc-text">hash一致性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%9F%E4%B8%80%E5%AD%98%E5%82%A8"><span class="toc-number">1.1.4.</span> <span class="toc-text">统一存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringSession"><span class="toc-number">1.1.5.</span> <span class="toc-text">SpringSession</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringSession-1"><span class="toc-number">1.2.</span> <span class="toc-text">SpringSession</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E5%90%88"><span class="toc-number">1.3.</span> <span class="toc-text">整合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">1.4.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-number">1.5.</span> <span class="toc-text">注意</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        分布式下Session共享
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-02-14T15:22:52.000Z" class="dt-published" itemprop="datePublished">2022-02-14</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/JAVA/">JAVA</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/Session/" rel="tag">Session</a>, <a class="p-category" href="/tags/Spring/" rel="tag">Spring</a>, <a class="p-category" href="/tags/SpringSession/" rel="tag">SpringSession</a>, <a class="p-category" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="分布式下Session共享"><a href="#分布式下Session共享" class="headerlink" title="分布式下Session共享"></a>分布式下Session共享</h1><p>首先聊聊session和cookie，session对象存储在服务器端节点内存中，cookie存储在客户端浏览器中。一般是客户端请求服务器，服务器端生成session对象，将session对象存储在jvm内存中，并且在响应头中放入sessionId响应给客户端，客户端收到响应后，将sessionid存储在本地。当浏览器第二次请求时会将本地cookie中存储的seesionId通过请求头的方式传递给服务器，这样服务器和客户端就能保持会话信息啦！如下图</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202202141813781.jpg" alt="img"></p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202202141813789.jpg" alt="img"></p>
+<p>那么为什么会出现分布式session问题呢，为了提高服务器端的负载能力，后台一般将服务器节点做集群，通过ngnix通过轮询的方式转发到目标服务器。打个比方，当浏览器首次访问A服务器生成session对象，然后在访问生成的session对象，如果正好被ngnix转发到了A服务器，那么没问题可以获取到session对象，如果不巧请求被转发到B服务器，由于之前生成的session对象在A服务器，B服务器根本没有生成session对象，很自然访问不到session对象。</p>
+<blockquote>
+<p>上文来自<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/95687710#:~:text=%E5%88%86%E5%B8%83%E5%BC%8Fsessi,ssion%E5%AF%B9%E8%B1%A1%E3%80%82">知乎https://zhuanlan.zhihu.com/p/95687710#:~:text&#x3D;%E5%88%86%E5%B8%83%E5%BC%8Fsessi,ssion%E5%AF%B9%E8%B1%A1%E3%80%82</a></p>
+</blockquote>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="sessions-复制"><a href="#sessions-复制" class="headerlink" title="sessions 复制"></a>sessions 复制</h3><p>session复制的优点是，web-server原生支持，只需要修改配置文件</p>
+<p>而他的缺点也很明显：</p>
+<ul>
+<li>sessiong同步需要数据传输，占用大量网络带宽，降低了服务器群的业务处理能力</li>
+<li>任意一台 web-server 保存的数据都是所有 web-server 的 session 总和，受到内存限制无法水平扩展更多的 web-server</li>
+<li>大型分布式集群情况下，由所有 web-server 都全量保存数据，所以此方案不可取。</li>
+</ul>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202202141905270.png" alt="截屏2022-02-14 下午7.05.56"></p>
+<h3 id="客户端存储"><a href="#客户端存储" class="headerlink" title="客户端存储"></a>客户端存储</h3><p>客户端存储，其优点是，服务器不需要存储 session，用户保存自己的session信息到cookie中。节省服务端资源。</p>
+<p>缺点是：</p>
+<ul>
+<li>每次发起请求，都需要携带cookie中的完整信息，浪费网络带宽。</li>
+<li>session 数据放在 cookie 中，cookie 有长度<strong>限制4k</strong>，不能保存大量信息</li>
+<li>session 数据放在 cookie 中，存在泄露、篡改、盗取等安全隐患</li>
+</ul>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202202141909184.png" alt="截屏2022-02-14 下午7.09.41"></p>
+<h3 id="hash一致性"><a href="#hash一致性" class="headerlink" title="hash一致性"></a>hash一致性</h3><p>优点：</p>
+<ul>
+<li>只需要秀海 nginx 配置，不需要修改应用代码</li>
+<li>负载均衡，只要hash属性值的分布是均匀的，多台 web-server 的负载是均匀的</li>
+<li>可以支持 web-server 水平扩展</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>session 还是存在 web-server 中的，所以 web-server 重启可能导致部分 session 丢失，影响业务，如部分用户需要重新登录。</li>
+<li>如果 web-server 水平扩展，rehash 后 session 重新分布，也会有一部分用户路由到不正确的 session</li>
+</ul>
+<p>以上缺点问题不是很大，因为 session 本来都是有效期的，所以这两种反向代理的方式可以使用。</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202202141922452.png" alt="截屏2022-02-14 下午7.21.57"></p>
+<h3 id="统一存储"><a href="#统一存储" class="headerlink" title="统一存储"></a>统一存储</h3><p>优点：</p>
+<ul>
+<li>没有安全隐患</li>
+<li>可以水平扩展，数据库&#x2F;缓存水平切分即可</li>
+<li>Web-server 重启或者扩容都不会有 session 丢失</li>
+</ul>
+<p>不足：</p>
+<ul>
+<li>增加了一次网络调用，并且需要修改应用代码。如果将所有的 getSession 方法替换为从 Redis 查询数据的方式，Redis 获取数据比本地内存慢很多</li>
+<li>上面缺点可以用 SpringSession 完美解决</li>
+</ul>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202202141936301.png" alt="截屏2022-02-14 下午7.36.04"></p>
+<h3 id="SpringSession"><a href="#SpringSession" class="headerlink" title="SpringSession"></a>SpringSession</h3><p>SpringSession 的好处是，它替换掉了 Servlet 默认的 <code>HttpSession</code> 并且实现了原生的 <code>HttpSession</code> 。也就是说我们的代码不需要修改，只需要添加几个SpringSession的配置就可以使用它。</p>
+<p>默认的 session 是在本地保存用户session（Map）。SpringSession是使用指定的store进行存储，我们可以指定redis、mongodb等。</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202202142002916.png" alt="截屏2022-02-14 下午8.02.56"></p>
+<h2 id="SpringSession-1"><a href="#SpringSession-1" class="headerlink" title="SpringSession"></a>SpringSession</h2><h2 id="整合"><a href="#整合" class="headerlink" title="整合"></a>整合</h2><p>在对应服务中引入 SpringSession</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.session<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-session-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>之后再添加这个配置到你的配置文件中 <code>application.yaml/application.properties</code> ，用于指定存储服务类型</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring.session.store-type</span>=<span class="string">redis</span></span><br></pre></td></tr></table></figure>
+
+<p>可以通过配置进行定制，如过期时间、存储前缀等：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server.servlet.session.timeout</span>= <span class="string"># Session timeout. If a duration suffix is not specified, seconds is used.</span></span><br><span class="line"><span class="attr">spring.session.redis.flush-mode</span>=<span class="string">on_save # Sessions flush mode.</span></span><br><span class="line"><span class="attr">spring.session.redis.namespace</span>=<span class="string">spring:session # Namespace for keys used to store sessions</span></span><br></pre></td></tr></table></figure>
+
+<p>最后开启 SpringSession</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableRedisHttpSession</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GulimallAuthServerApplication</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>就正常使用我们的Session就可以了，因为SpringSession实现了HttpSession并替换掉 Servlet 默认的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/gitee/success&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">giteeAuth</span><span class="params">(HttpSession session)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="type">R</span> <span class="variable">r</span> <span class="operator">=</span> memberServerFeign.giteeLogin(giteeUserInfo);</span><br><span class="line">    ...</span><br><span class="line">    <span class="type">MemberRespVo</span> <span class="variable">memberData</span> <span class="operator">=</span> r.getData(<span class="keyword">new</span> <span class="title class_">TypeReference</span>&lt;MemberRespVo&gt;() &#123;&#125;);</span><br><span class="line">    session.setAttribute(<span class="string">&quot;loginUser&quot;</span>, memberData);</span><br><span class="line"></span><br><span class="line">    log.info(<span class="string">&quot;登录成功 ====&gt;&gt; &#123;&#125;&quot;</span>, memberData);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;redirect:xxx;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202202142116653.png" alt="截屏2022-02-14 下午9.16.36"></p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ol>
+<li><p>SpringSession 默认使用jdk存储，也就是java的序列化，如果存储的对象没有实现 <code>Serializable</code> 接口，那么会抛出 <code>SerializationException</code> 异常。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MemberRespVo</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1L</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在分布式系统下，session 是无法跨域取值的，session 设置时默认作用域是当前服务器域名，别的服务是无权使用的。需要将 cookie 中的 jsessionid 设置到父域名，提升作用域。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> CookieSerializer <span class="title function_">cookieSerializer</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="type">DefaultCookieSerializer</span> <span class="variable">serializer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DefaultCookieSerializer</span>();</span><br><span class="line">  serializer.setDomainName(<span class="string">&quot;gulimall.com&quot;</span>);</span><br><span class="line">  serializer.setCookieName(<span class="string">&quot;JSESSIONID&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> serializer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>SpringSession默认使用的是jdk序列化，这样的话就只能用Java程序进行操作了，如果其它语言也要使用，那么我们需要修改其配置，让它默认将数据序列化为JSON格式保存到Redis。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> RedisSerializer&lt;?&gt; springSessionDefaultRedisSerializer() &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">GenericJackson2JsonRedisSerializer</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB"><span class="toc-number">1.</span> <span class="toc-text">分布式下Session共享</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">1.1.</span> <span class="toc-text">解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#sessions-%E5%A4%8D%E5%88%B6"><span class="toc-number">1.1.1.</span> <span class="toc-text">sessions 复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AD%98%E5%82%A8"><span class="toc-number">1.1.2.</span> <span class="toc-text">客户端存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hash%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">1.1.3.</span> <span class="toc-text">hash一致性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%9F%E4%B8%80%E5%AD%98%E5%82%A8"><span class="toc-number">1.1.4.</span> <span class="toc-text">统一存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringSession"><span class="toc-number">1.1.5.</span> <span class="toc-text">SpringSession</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringSession-1"><span class="toc-number">1.2.</span> <span class="toc-text">SpringSession</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E5%90%88"><span class="toc-number">1.3.</span> <span class="toc-text">整合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">1.4.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-number">1.5.</span> <span class="toc-text">注意</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&text=分布式下Session共享"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&title=分布式下Session共享"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&is_video=false&description=分布式下Session共享"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=分布式下Session共享&body=Check out this article: http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&title=分布式下Session共享"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&title=分布式下Session共享"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&title=分布式下Session共享"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&title=分布式下Session共享"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&name=分布式下Session共享&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/02/14/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%8BSession%E5%85%B1%E4%BA%AB/&t=分布式下Session共享"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

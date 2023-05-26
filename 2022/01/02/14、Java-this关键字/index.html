@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="this是一个关键字，翻译为：这个  this是一个引用，this是一个变量,this变量中保存了内存地址指向自身，this存储在JVM堆内存Java对象内部。  创建100个对象，每一个对象都有this，也就是说有100个不同的this  没有static关键字的方法被称为实例方法  没有static关键字的变量被称为实例变量  实例变量、实例方法在堆内存中存储，所以访问该数据的时候，必须先创">
+<meta property="og:type" content="article">
+<meta property="og:title" content="14、Java this关键字">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="this是一个关键字，翻译为：这个  this是一个引用，this是一个变量,this变量中保存了内存地址指向自身，this存储在JVM堆内存Java对象内部。  创建100个对象，每一个对象都有this，也就是说有100个不同的this  没有static关键字的方法被称为实例方法  没有static关键字的变量被称为实例变量  实例变量、实例方法在堆内存中存储，所以访问该数据的时候，必须先创">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-6f47ab1909474ebca9f3b85ba58faa46.png">
+<meta property="article:published_time" content="2022-01-02T06:42:27.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.835Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/image-6f47ab1909474ebca9f3b85ba58faa46.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>14、Java this关键字</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/13%E3%80%81Java%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&text=14、Java this关键字"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&title=14、Java this关键字"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&is_video=false&description=14、Java this关键字"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=14、Java this关键字&body=Check out this article: http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&title=14、Java this关键字"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&title=14、Java this关键字"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&title=14、Java this关键字"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&title=14、Java this关键字"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&name=14、Java this关键字&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&t=14、Java this关键字"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#this-%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E5%9B%BE"><span class="toc-number">1.</span> <span class="toc-text">this 内存结构图</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        14、Java this关键字
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T06:42:27.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <ol>
+<li><p><code>this</code>是一个关键字，翻译为：<strong>这个</strong></p>
+</li>
+<li><p><code>this</code>是一个引用，<code>this</code>是一个变量,<code>this</code>变量中保存了内存地址指向自身，<code>this</code>存储在<code>JVM</code>堆内存Java对象内部。</p>
+</li>
+<li><p>创建100个对象，每一个对象都有<code>this</code>，也就是说有100个不同的<code>this</code></p>
+</li>
+<li><p>没有<code>static</code>关键字的方法被称为<strong>实例方法</strong></p>
+</li>
+<li><p>没有<code>static</code>关键字的变量被称为<strong>实例变量</strong></p>
+</li>
+<li><p>实例变量、实例方法在堆内存中存储，所以访问该数据的时候，必须先创建对象，通过引用方法访问。</p>
+</li>
+<li><p><code>this</code>可以出现在“<strong>实例方法</strong>”中，<code>this</code>指向当前正在执行的对象。(<code>this</code>代表当前对象)</p>
+</li>
+<li><p><code>this</code>在多数情况下都可以省略不写。</p>
+<ul>
+<li>用来区分局部变量和实例变量的时候<code>this</code>不能省略</li>
+</ul>
+</li>
+<li><p>如果一个程序执行过程中没有“<strong>当前对象</strong>”，因为带有<code>static</code>的方法是通过类名的方式访问的，或者说这个“<strong>上下文</strong>”当中没有”<strong>当前对象</strong>“，自然也不存在<code>this</code>(<code>this</code>代表的是当前正在执行这个动作的对象)</p>
+</li>
+<li><p><code>this</code>不能使用在带有<code>static</code>方法中</p>
+</li>
+</ol>
+<p><strong>例如以下没有当前对象程序：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> String name;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">getName</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上程序在编译过程中报错<code>connot be referenced from a static context.</code></p>
+<p><code>name</code>是一个实例变量，以上代码的含义是：访问当前对象的<code>name</code>，<code>getName</code>没有当前对象，自然也不能访问当前对象的<code>name</code>。如果<code>static</code>要访问实例变量，必须通过<strong>实例化</strong>对象访问。例如<code>User u = new User();</code></p>
+<p><strong>以下程序不会出现空指针异常：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainApplication</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">    <span class="type">User</span> <span class="variable">u</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">    u = <span class="literal">null</span>;</span><br><span class="line">    System.out.println(u.getName());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">User</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">getName</span><span class="params">()</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;getName&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>带有<code>static</code>的方法，其实既可以采用类名的方式访问，也可以采用引用的方式访问，但是即使采用引用的方式去访问，实际上执行的时候和引用指向的对象无关。</p>
+<h3 id="this-内存结构图"><a href="#this-内存结构图" class="headerlink" title="this 内存结构图"></a><code>this</code> 内存结构图</h3><p><img src="http://qiniu-note-image.ctong.top/note/images/image-6f47ab1909474ebca9f3b85ba58faa46.png" alt="image.png"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#this-%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E5%9B%BE"><span class="toc-number">1.</span> <span class="toc-text">this 内存结构图</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&text=14、Java this关键字"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&title=14、Java this关键字"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&is_video=false&description=14、Java this关键字"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=14、Java this关键字&body=Check out this article: http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&title=14、Java this关键字"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&title=14、Java this关键字"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&title=14、Java this关键字"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&title=14、Java this关键字"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&name=14、Java this关键字&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/&t=14、Java this关键字"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

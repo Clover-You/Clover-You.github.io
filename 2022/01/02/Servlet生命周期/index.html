@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Servlet生命周期 什么是生命周期？生命周期表示一个Java对象从最初创建到被销毁的过程  Servlet的生命周期是谁来管理的？程序员可以干涉吗？ Servlet对象的生命周期javaweb程序员是无权干涉的，包括Servlet对象的相关方法的调用，javaweb程序员也是无权干涉的。Servlet对象从最初的创建开始，方法的调用、以及最后Servlet对象的销毁，整个过程都是由WEB容器来">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Servlet生命周期">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="Servlet生命周期 什么是生命周期？生命周期表示一个Java对象从最初创建到被销毁的过程  Servlet的生命周期是谁来管理的？程序员可以干涉吗？ Servlet对象的生命周期javaweb程序员是无权干涉的，包括Servlet对象的相关方法的调用，javaweb程序员也是无权干涉的。Servlet对象从最初的创建开始，方法的调用、以及最后Servlet对象的销毁，整个过程都是由WEB容器来">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-02T10:25:08.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.849Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="随笔">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Servlet生命周期</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/Servlet-Cookie/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&text=Servlet生命周期"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&title=Servlet生命周期"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&is_video=false&description=Servlet生命周期"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Servlet生命周期&body=Check out this article: http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&title=Servlet生命周期"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&title=Servlet生命周期"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&title=Servlet生命周期"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&title=Servlet生命周期"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&name=Servlet生命周期&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&t=Servlet生命周期"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">1.</span> <span class="toc-text">Servlet生命周期</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%8F%8F%E8%BF%B0Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">2.</span> <span class="toc-text">简单描述Servlet生命周期</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Servlet生命周期
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T10:25:08.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="Servlet生命周期"><a href="#Servlet生命周期" class="headerlink" title="Servlet生命周期"></a>Servlet生命周期</h1><ol>
+<li><p>什么是生命周期？<br>生命周期表示一个Java对象从最初创建到被销毁的过程</p>
+</li>
+<li><p>Servlet的生命周期是谁来管理的？程序员可以干涉吗？</p>
+<p>Servlet对象的生命周期javaweb程序员是无权干涉的，包括Servlet对象的相关方法的调用，javaweb程序员也是无权干涉的。Servlet对象从最初的创建开始，方法的调用、以及最后Servlet对象的销毁，整个过程都是由WEB容器来管理的。<br>Web Container管理Servlet对象的生命周期。</p>
+</li>
+<li><p><strong>默认情况下</strong>，Servlet对象在WEB服务器启动阶段不会被实例化。若希望在web服务器启动阶段实例化Servlet对象，需要使用特殊设置。</p>
+</li>
+</ol>
+<hr>
+<h1 id="简单描述Servlet生命周期"><a href="#简单描述Servlet生命周期" class="headerlink" title="简单描述Servlet生命周期"></a>简单描述Servlet生命周期</h1><ol>
+<li>用户在浏览器地址栏上输入URL：<a target="_blank" rel="noopener" href="http://localhost:8080/xxx/xxx">http://localhost:8080/xxx/xxx</a></li>
+<li>web容器窃取请求路径：&#x2F;xxx&#x2F;xxx</li>
+<li>web容器在容器上下文中找请求路径<code>/xxx/xxx</code>对应的Servlet对象</li>
+<li>若没有找到对应的Servlet对象<ol>
+<li>通过web.xml文件中相关的配置信息，得到请求路径<code>/xxx/xxx</code>对应的Servlet完整类名</li>
+<li>通过反射机制，调用Servlet类的无参数构造方法完成Servlet对象的实例化</li>
+<li>web容器调用Servlet对象的<code>init</code>方法完成初始化操作。</li>
+<li>web容器调用Servlet对象的service方法提供服务</li>
+</ol>
+</li>
+<li>若找到对应的Servlet对象<ol>
+<li>web容器直接调用Servlet对象的service方法提供服务</li>
+</ol>
+</li>
+<li>web容器关闭的时候&#x2F;webapp重新部署的时候&#x2F;该Servlet对象长时间没有用户再次访问的时候，web容器会将该Servlet对象销毁，在销毁该对象之前，web容器会调用Servlet对象的destroy方法，完成销毁之前的准备。</li>
+</ol>
+<blockquote>
+<p>init方法执行的时候，Servlet对象已经创建好了。destroy方法执行的时候，Servlet对象还没有被销毁，即将被销毁。</p>
+<p>Servlet对象是单例，但是不符合单例模式，只能称为伪单例。真单例的构造方法是私有化的，Tomcat服务器是支持多线程的。所以Servlet对象在单实例多线程的环境下运行的，那么Servlet对象中若有实例变量，并且实例变量涉及到修改操作，那么这个Servlet对象一定会存在线程安全问题。</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">1.</span> <span class="toc-text">Servlet生命周期</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%8F%8F%E8%BF%B0Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">2.</span> <span class="toc-text">简单描述Servlet生命周期</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&text=Servlet生命周期"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&title=Servlet生命周期"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&is_video=false&description=Servlet生命周期"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Servlet生命周期&body=Check out this article: http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&title=Servlet生命周期"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&title=Servlet生命周期"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&title=Servlet生命周期"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&title=Servlet生命周期"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&name=Servlet生命周期&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/&t=Servlet生命周期"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

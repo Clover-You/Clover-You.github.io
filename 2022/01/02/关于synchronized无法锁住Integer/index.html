@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="原因在多线程的时候，为了保证数据安全，必须在修改数据时使用线程同步，java中的synchronized用来实现线程同步、线程列队。 学完多线程基础的我，写一个多线程交替输出1,2,3,4,5...，一个线程负责输出偶数，一个线程负责输出奇数，由于这个数是整数，在java中int又是基本数据类型，基本数据类型并不是共享的，也就是基础数据类型是在栈中申明，java提供了一个Integer包装类，使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于synchronized无法锁住Integer">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="原因在多线程的时候，为了保证数据安全，必须在修改数据时使用线程同步，java中的synchronized用来实现线程同步、线程列队。 学完多线程基础的我，写一个多线程交替输出1,2,3,4,5...，一个线程负责输出偶数，一个线程负责输出奇数，由于这个数是整数，在java中int又是基本数据类型，基本数据类型并不是共享的，也就是基础数据类型是在栈中申明，java提供了一个Integer包装类，使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271114093.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271114940.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271114724.png">
+<meta property="article:published_time" content="2022-01-02T10:15:43.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.856Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="随笔">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/202112271114093.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>关于synchronized无法锁住Integer</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/%E4%BD%BF%E7%94%A8nacos%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/%E5%88%9D%E5%AD%A6MyBatis%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89Error-querying-database/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&text=关于synchronized无法锁住Integer"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&title=关于synchronized无法锁住Integer"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&is_video=false&description=关于synchronized无法锁住Integer"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=关于synchronized无法锁住Integer&body=Check out this article: http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&title=关于synchronized无法锁住Integer"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&title=关于synchronized无法锁住Integer"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&title=关于synchronized无法锁住Integer"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&title=关于synchronized无法锁住Integer"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&name=关于synchronized无法锁住Integer&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&t=关于synchronized无法锁住Integer"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9B%A0"><span class="toc-number">1.</span> <span class="toc-text">原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B2%97%E6%9A%B4%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">粗暴解决方案</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        关于synchronized无法锁住Integer
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T10:15:43.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>在多线程的时候，为了保证数据安全，必须在修改数据时使用线程同步，java中的<code>synchronized</code>用来实现线程同步、线程列队。</p>
+<p>学完多线程基础的我，写一个多线程交替输出<code>1,2,3,4,5...</code>，一个线程负责输出偶数，一个线程负责输出奇数，由于这个数是整数，在java中<code>int</code>又是基本数据类型，基本数据类型并不是共享的，也就是基础数据类型是在栈中申明，java提供了一个<code>Integer</code>包装类，使用的时候发现根本锁不住这个对象。</p>
+<p>回忆之前对<code>Integer</code>的知识：为了提高程序效率，<code>Integer</code>在类加载时就已经创建了<code>-128到127</code>的对象</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271114093.png" alt="底层代码"></p>
+<p>嗯！！！！如果我对这个对象进行运算的话！内存地址是不是也不一样？（细思极恐）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(num++;)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271114940.png" alt="内存地址"></p>
+<h2 id="粗暴解决方案"><a href="#粗暴解决方案" class="headerlink" title="粗暴解决方案"></a>粗暴解决方案</h2><p>建一个加锁类（人工造锁），将需要用到的运算什么的加进去，嗯简单粗暴！！！！</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">IntegerLock</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="type">Integer</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> Integer <span class="title function_">getNum</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> num;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setNum</span><span class="params">(Integer num)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.num = num;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> Integer <span class="title function_">remainder</span><span class="params">(Integer o)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> num % o;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">plus</span><span class="params">(Integer o)</span> &#123;</span><br><span class="line">    num = num + o;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> num.toString();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271114724.png" alt="完成"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9B%A0"><span class="toc-number">1.</span> <span class="toc-text">原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B2%97%E6%9A%B4%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">粗暴解决方案</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&text=关于synchronized无法锁住Integer"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&title=关于synchronized无法锁住Integer"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&is_video=false&description=关于synchronized无法锁住Integer"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=关于synchronized无法锁住Integer&body=Check out this article: http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&title=关于synchronized无法锁住Integer"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&title=关于synchronized无法锁住Integer"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&title=关于synchronized无法锁住Integer"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&title=关于synchronized无法锁住Integer"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&name=关于synchronized无法锁住Integer&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/%E5%85%B3%E4%BA%8Esynchronized%E6%97%A0%E6%B3%95%E9%94%81%E4%BD%8FInteger/&t=关于synchronized无法锁住Integer"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

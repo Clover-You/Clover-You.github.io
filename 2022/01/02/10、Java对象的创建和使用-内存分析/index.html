@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="创建学生类是一个模板，描述了学生的特征【状态 + 行为】 当前类只描述学生的状态信息【属性】 当使用public修饰这个类时，这个类的类名必须与源文件名一致。 123456public class Student&amp;#123;  public int age;  public int no;  public String name;  public String address;&amp;#125;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10、Java对象的创建和使用-内存分析">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="创建学生类是一个模板，描述了学生的特征【状态 + 行为】 当前类只描述学生的状态信息【属性】 当使用public修饰这个类时，这个类的类名必须与源文件名一致。 123456public class Student&amp;#123;  public int age;  public int no;  public String name;  public String address;&amp;#125;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-61a9c4947f2845ae8cdec72559d8c6df.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-ffc3769ad6a244c5871c589db2ebcd1a.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-baf35d428fc24a4d8c99f3feab7e7191.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-5a05a8584f2142aab0e67d1f7c00b022.png">
+<meta property="article:published_time" content="2022-01-02T06:37:10.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.835Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/image-61a9c4947f2845ae8cdec72559d8c6df.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>10、Java对象的创建和使用-内存分析</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/11%E3%80%81Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%B0%81%E8%A3%85%E6%80%A7/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/9%E3%80%81Java%E7%B1%BB%E7%9A%84%E5%AE%9A%E4%B9%89/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&text=10、Java对象的创建和使用-内存分析"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=10、Java对象的创建和使用-内存分析"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&is_video=false&description=10、Java对象的创建和使用-内存分析"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=10、Java对象的创建和使用-内存分析&body=Check out this article: http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=10、Java对象的创建和使用-内存分析"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=10、Java对象的创建和使用-内存分析"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=10、Java对象的创建和使用-内存分析"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=10、Java对象的创建和使用-内存分析"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&name=10、Java对象的创建和使用-内存分析&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&t=10、Java对象的创建和使用-内存分析"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA"><span class="toc-number">1.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%AE%BA"><span class="toc-number"></span> <span class="toc-text">理论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8new%E6%97%B6%EF%BC%8CJVM%E5%86%85%E5%AD%98%E5%9B%BE%E5%A6%82%E4%BD%95%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.</span> <span class="toc-text">使用new时，JVM内存图如何表示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A9%BA%E6%8C%87%E9%92%88%E5%BC%82%E5%B8%B8"><span class="toc-number">2.</span> <span class="toc-text">空指针异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        10、Java对象的创建和使用-内存分析
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T06:37:10.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><p>学生类是一个模板，描述了学生的特征【状态 + 行为】</p>
+<p>当前类只描述学生的状态信息【属性】</p>
+<p>当使用<code>public</code>修饰这个类时，这个类的类名必须与源文件名一致。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Student</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> age;</span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> no;</span><br><span class="line">  <span class="keyword">public</span> String name;</span><br><span class="line">  <span class="keyword">public</span> String address;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>类体是有属性和方法组成</p>
+<p><code>Student</code>是类，属于引用数据类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Student</span>&#123;类体&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>由于变量定义在类体当中，方法体之外，这种变量称为成员变量。</p>
+<p>所有学生都有学号信息，但是每个学生的学号都是不同的。</p>
+<p>所以，要访问这个学号必须先创建对象，通过对象去访问学号信息</p>
+<p>学号信息不能直接通过“类”去访问，所以这种成员变量又被叫做 <strong>“实例变量”</strong></p>
+<p>对象又被称为实例，实例变量又被称为对象变量。「对象级别的变量」</p>
+<p>不创建对象，这个<code>no</code>变量的内存空间是不存在的，只有创建了对象，这个<code>no</code>变量的内存空间才会创建。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Student</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> no;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>通过一个类，可以实例化N个对象</p>
+<p>实例化对象的语法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">className</span>();</span><br></pre></td></tr></table></figure>
+
+<p><code>new</code>是Java语言中的一个运算符</p>
+<p><code>new</code>运算符的作用是创建对象，在<code>JVM</code>堆内存当中开辟新的内存空间</p>
+<h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>方法区内存：在类加载的时候，class字节码代码片段被加载到该内存空间当中。</p>
+<p>栈内存（局部变量）：方法代码片段执行的时候，会给该方法分配内存空间，在栈内存中压栈</p>
+<p>堆内存：<code>new</code>的对象在堆内存中存储</p>
+<p>成员变量没有手动赋值的话，系统赋默认值</p>
+<table>
+<thead>
+<tr>
+<th align="center">数据类型</th>
+<th align="center">默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">byte, short, int, long</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">float, double</td>
+<td align="center">0.0</td>
+</tr>
+<tr>
+<td align="center">boolean</td>
+<td align="center">False</td>
+</tr>
+<tr>
+<td align="center">char</td>
+<td align="center">\u0000</td>
+</tr>
+<tr>
+<td align="center">引用数据类型</td>
+<td align="center">null</td>
+</tr>
+</tbody></table>
+<hr>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">testRecursion</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">      <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">      <span class="type">Student</span> <span class="variable">students</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Student</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>&#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="type">int</span> age;</span><br><span class="line">   <span class="keyword">public</span> String name;<span class="number">4</span></span><br><span class="line">   <span class="keyword">public</span> String addRess;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上代码如何用内存图表示？</p>
+<h3 id="使用new时，JVM内存图如何表示"><a href="#使用new时，JVM内存图如何表示" class="headerlink" title="使用new时，JVM内存图如何表示"></a>使用new时，JVM内存图如何表示</h3><p><img src="http://qiniu-note-image.ctong.top/note/images/image-61a9c4947f2845ae8cdec72559d8c6df.png" alt="image.png"></p>
+<p><code>i</code>变量保存的一个字面值<code>1</code></p>
+<p><code>students</code>保存的是一个对象的内存地址，我们称<code>students</code>为<strong>引用</strong></p>
+<p>堆内存开辟的空间叫对象，对象的内存地址保存在<code>students</code>中,由于<code>students</code>保存了内存地址指向了堆内存中的对象，所以我们叫<code>students</code>为引用</p>
+<blockquote>
+<ol>
+<li><p>什么是对象？new 运算符在堆内存中开辟的内存空间称为对象。</p>
+</li>
+<li><p>什么是引用？引用是一个变量，由于这个变量保存了另一个Java对象的内存地址，所以我们称之为引用</p>
+</li>
+<li><p>在Java中，不能直接操作堆内存，Java中没有指针，如果想要访问堆内存中的数据，必须使用引用的方式去访问。</p>
+</li>
+<li><p>局部变量在栈内存中存储。</p>
+</li>
+</ol>
+<p>成员变量中的实例变量在堆内存的Java对象内部存储。</p>
+</blockquote>
+<h3 id="空指针异常"><a href="#空指针异常" class="headerlink" title="空指针异常"></a>空指针异常</h3><p>例如有如下程序：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">test1</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">    <span class="type">test2</span> <span class="variable">t</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">test2</span>();</span><br><span class="line">    System.out.println(t.name);</span><br><span class="line">    t = <span class="literal">null</span>;</span><br><span class="line">    System.out.println(t.name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">test2</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> <span class="string">&quot;UpYou&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上程序编译可以通过，运行出现异常，对象索引断裂，发生错误：<code>java.lang.NUllPointerException</code></p>
+<p>代码第三行时，拿到了<code>test2</code>对象的内存地址。<br><img src="http://qiniu-note-image.ctong.top/note/images/image-ffc3769ad6a244c5871c589db2ebcd1a.png" alt="image.png"></p>
+<p>当代码走到第5行时，<code>t</code>的值不再是<code>test2</code>的内存地址。当值改变后，意味着索引断裂。断裂之后<code>test2</code>对象会被垃圾回收，这时无论如何都无法访问到该对象。空引用无法访问实例相关的数据<br><img src="http://qiniu-note-image.ctong.top/note/images/image-baf35d428fc24a4d8c99f3feab7e7191.png" alt="image.png"></p>
+<p><strong>“实例”相关的数据：这个数据访问的时候必须有对象的参与。这种数据就是实例相关的数据</strong></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>JVM（Java虚拟机）主要包括三块内存空间，分别是：栈内存、堆内存、方法区内存</li>
+<li>堆内存和方法区内存个有一个，一个线程一个栈内存</li>
+<li>方法调用的时候，该方法所需要的内存空间在栈内存中分配，称为<strong>压栈</strong>。方法执行结束之后，该方法所属的内存空间释放，称为弹栈。</li>
+<li>栈中主要存储的是方法体当中的局部变量。</li>
+<li>方法的代码片段以及整个类的代码片段都被存储到方法区当中，在类加载的时候这些代码片段会载入。</li>
+<li>在程序执行过程中使用<code>new</code>运算符创建的Java对象，存储在堆内存当中。对象内部有实例变量，所以实例变量存储在堆内存当中。</li>
+<li>变量分类：<ul>
+<li>局部变量「方法体中声明」</li>
+<li>成员变量「方法体外声明」<ul>
+<li>实例变量「前边修饰符没有<code>static</code>」</li>
+<li>静态变量「前边修饰符中有<code>static</code>」</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>静态变量存储在方法区内存当中</li>
+<li>三块内存当中，变化最频繁的是栈内存，最先有数据的是方法区内存，垃圾回收器主要针对的是堆内存。</li>
+<li>垃圾回收器「自动垃圾回收、GC机制」什么时候会考虑将某个Java对象的内存回收呢？<ul>
+<li>当随内存当中的Java对象成为垃圾数据的时候，会被垃圾回收器回收。</li>
+<li>当堆内存中的Java对象没有更多的引用指向它的时候就会被当成垃圾。当它被回收的时候，这个对象无法被访问，因为访问对象只能通过引用的方式访问。</li>
+</ul>
+</li>
+</ol>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-5a05a8584f2142aab0e67d1f7c00b022.png" alt="image.png"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA"><span class="toc-number">1.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%AE%BA"><span class="toc-number"></span> <span class="toc-text">理论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8new%E6%97%B6%EF%BC%8CJVM%E5%86%85%E5%AD%98%E5%9B%BE%E5%A6%82%E4%BD%95%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.</span> <span class="toc-text">使用new时，JVM内存图如何表示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A9%BA%E6%8C%87%E9%92%88%E5%BC%82%E5%B8%B8"><span class="toc-number">2.</span> <span class="toc-text">空指针异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&text=10、Java对象的创建和使用-内存分析"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=10、Java对象的创建和使用-内存分析"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&is_video=false&description=10、Java对象的创建和使用-内存分析"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=10、Java对象的创建和使用-内存分析&body=Check out this article: http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=10、Java对象的创建和使用-内存分析"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=10、Java对象的创建和使用-内存分析"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=10、Java对象的创建和使用-内存分析"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=10、Java对象的创建和使用-内存分析"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&name=10、Java对象的创建和使用-内存分析&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/10%E3%80%81Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&t=10、Java对象的创建和使用-内存分析"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

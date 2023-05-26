@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="源码在我GitHub上，有兴趣可以去观望一下：传送门 这个只是个玩具、玩具、玩具，正经的还得看官方提供的整合包先说下这个玩具的问题所在吧！&#x3D;&#x3D;&#x3D;&#x3D;&gt;&gt;&gt; 无法提交事务和无法关闭SqlSession，嗯嗯嗯~~~ 开始吧～～  难点若想使用Spring容器提供的强大功能，例如：Autowired，那么就需要让Spring容器将其管理。 没整合">
+<meta property="og:type" content="article">
+<meta property="og:title" content="手撸Spring整合MyBatis玩具">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="源码在我GitHub上，有兴趣可以去观望一下：传送门 这个只是个玩具、玩具、玩具，正经的还得看官方提供的整合包先说下这个玩具的问题所在吧！&#x3D;&#x3D;&#x3D;&#x3D;&gt;&gt;&gt; 无法提交事务和无法关闭SqlSession，嗯嗯嗯~~~ 开始吧～～  难点若想使用Spring容器提供的强大功能，例如：Autowired，那么就需要让Spring容器将其管理。 没整合">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-02T10:17:52.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.857Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="随笔">
+<meta property="article:tag" content="SpringMvc">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>手撸Spring整合MyBatis玩具</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/%E4%BD%BF%E7%94%A8nacos%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&text=手撸Spring整合MyBatis玩具"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&title=手撸Spring整合MyBatis玩具"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&is_video=false&description=手撸Spring整合MyBatis玩具"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=手撸Spring整合MyBatis玩具&body=Check out this article: http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&title=手撸Spring整合MyBatis玩具"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&title=手撸Spring整合MyBatis玩具"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&title=手撸Spring整合MyBatis玩具"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&title=手撸Spring整合MyBatis玩具"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&name=手撸Spring整合MyBatis玩具&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&t=手撸Spring整合MyBatis玩具"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%BE%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">难点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%8D%A2%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">更换方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%BC%94%E7%A4%BA"><span class="toc-number">3.</span> <span class="toc-text">使用演示</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        手撸Spring整合MyBatis玩具
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T10:17:52.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/SpringMvc/" rel="tag">SpringMvc</a>, <a class="p-category" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>源码在我GitHub上，有兴趣可以去观望一下：<a target="_blank" rel="noopener" href="https://github.com/YouChuantong/mybatis_learn_demo">传送门</a></p>
+<p>这个只是个<strong>玩具、玩具、玩具</strong>，正经的还得看官方提供的整合包<br>先说下这个玩具的问题所在吧！&#x3D;&#x3D;&#x3D;&#x3D;&gt;&gt;&gt; 无法提交事务和无法关闭SqlSession，嗯嗯嗯~~~</p>
+<p>开始吧～～</p>
+<hr>
+<h2 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h2><p>若想使用Spring容器提供的强大功能，例如：<code>Autowired</code>，那么就需要让Spring容器将其管理。</p>
+<p>没整合之前，每次都需要通过<code>SqlSessionFactory</code>将其创建，一个两个还好，写多了整个人都麻了…</p>
+<p>所以我就想，能不能在service层直接注入呢？</p>
+<p>让Spring注入的话就得注册到容器，Dao层数量和命名都无法确定，怎么注册Bean呢？..嘶～～～</p>
+<p><del>嗯。。。使用工厂模式加上自动扫包好像能实现..</del></p>
+<p>说干就干…</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyBatisSqlSessionFactory</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">7157094465332447639L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * MyBatis配置文件路径</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">MYBATIS_CONFIG_PATH</span> <span class="operator">=</span> <span class="string">&quot;mybatis-config.xml&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 注册一个全局SqlSessionFactory组件</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> SqlSessionFactory <span class="title function_">getSqlSessionFactory</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;getSqlSessionFactory&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> (<span class="type">InputStream</span> <span class="variable">configStream</span> <span class="operator">=</span> getConfigStream()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">SqlSessionFactoryBuilder</span>().build(configStream);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 懒加载Bean工厂</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> daoClass Bean类型</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &lt;T&gt; Bean类型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; T <span class="title function_">getMapping</span><span class="params">(Class&lt;T&gt; daoClass)</span> &#123;</span><br><span class="line">        <span class="type">SpringUtils</span> <span class="variable">springUtils</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SpringUtils</span>();</span><br><span class="line">        <span class="type">SqlSessionFactory</span> <span class="variable">bean</span> <span class="operator">=</span> springUtils.getBean(SqlSessionFactory.class);</span><br><span class="line">        <span class="type">SqlSession</span> <span class="variable">sqlSession</span> <span class="operator">=</span> bean.openSession();</span><br><span class="line">        <span class="keyword">return</span> sqlSession.getMapper(daoClass);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取配置文件文件流</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 文件流</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> InputStream <span class="title function_">getConfigStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="keyword">return</span> Resources.getResourceAsStream(MYBATIS_CONFIG_PATH);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>嗯？我该怎么为<code>getMapping</code>注册为懒加载呢???还有<code>Class&lt;T&gt; daoClass</code>我该怎么拿到当前<code>getBean</code>时要找的类型呢？</p>
+<p>嘶～～～</p>
+<p>嘶～～～</p>
+<p>嘶～～～</p>
+<h2 id="更换方案"><a href="#更换方案" class="headerlink" title="更换方案"></a>更换方案</h2><p>翻了翻<code>ClassPathXmlApplication</code>源码，启动的时候它去执行了个后置处理器<code>org.springframework.beans.factory.config.BeanFactoryPostProcessor</code>。这个处理器需要实现一个<code>postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory)</code>，这个<code>ConfigurableListableBeanFactory</code>就是那个还未启动完成的容器。嗯嗯嗯…</p>
+<p>它里面有一个<code>registerSingleton</code>方法，可以注册单实例Bean，可我需要注册多实例…先不管了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">postProcessBeanFactory</span><span class="params">(ConfigurableListableBeanFactory configurableListableBeanFactory)</span></span><br><span class="line">  <span class="keyword">throws</span> BeansException &#123;</span><br><span class="line">  <span class="built_in">this</span>.configurableListableBeanFactory = configurableListableBeanFactory;</span><br><span class="line">  <span class="keyword">if</span> (factory == <span class="literal">null</span>) &#123;</span><br><span class="line">    factory = configurableListableBeanFactory.getBean(SqlSessionFactory.class);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="type">RegisterMyBatisFactory</span> <span class="variable">registerMyBatisFactory</span> <span class="operator">=</span> configurableListableBeanFactory.getBean(</span><br><span class="line">    RegisterMyBatisFactory.class);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (registerMyBatisFactory == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line">  <span class="type">String</span> <span class="variable">mapperPackage</span> <span class="operator">=</span> registerMyBatisFactory.getPackage();</span><br><span class="line">  <span class="comment">// 获取指定包下所有class</span></span><br><span class="line">  List&lt;Class&lt;?&gt;&gt; allClass = getClassByPackage(mapperPackage);</span><br><span class="line">  <span class="comment">// 通过@Mapper过滤无效class</span></span><br><span class="line">  List&lt;Class&lt;?&gt;&gt; interfaceByWithMyBatis = getInterfaceByMapper(allClass);</span><br><span class="line">  <span class="comment">// 将所有Mapper注册到IOC中</span></span><br><span class="line">  registerMyBatis(interfaceByWithMyBatis);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p><code> this.configurableListableBeanFactory = configurableListableBeanFactory;</code>  保存这个容器</p>
+</li>
+<li><p><code>RegisterMyBatisFactory registerMyBatisFactory = configurableListableBeanFactory.getBean(RegisterMyBatisFactory.class);</code> 这里定义了个接口，通过这个借口拿到Dao所在的包。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * mybatis，将其注册在容器中，整合器就可以获取到指定包名</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">RegisterMyBatisFactory</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 获取mapper所在的包</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  String <span class="title function_">getPackage</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>List&lt;Class&lt;?&gt;&gt; allClass = getClassByPackage(mapperPackage);</code> 通过包名找这个包下所有的类，这个方法就不说了，就一个普通的文件查找而已。有兴趣就拉源码吧！</p>
+</li>
+<li><p><code>List&lt;Class&lt;?&gt;&gt; interfaceByWithMyBatis = getInterfaceByMapper(allClass);</code>需要过滤没有用的类，也就是说可能不是Dao。通过MyBatis提供的<code>@Mapper</code>注解来识别了，懒得自己写注解，先把功能实现。就一个简简单单的反射</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 通过指定注解获取接口</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 过滤结果</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> List&lt;Class&lt;?&gt;&gt; getInterfaceByMapper(List&lt;Class&lt;?&gt;&gt; clazz) &#123;</span><br><span class="line">  <span class="keyword">return</span> clazz.stream().filter(aClass -&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (!aClass.isInterface()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="type">Mapper</span> <span class="variable">annotation</span> <span class="operator">=</span> aClass.getAnnotation(Mapper.class);</span><br><span class="line">    <span class="keyword">return</span> annotation != <span class="literal">null</span>;</span><br><span class="line">  &#125;).collect(Collectors.toList());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>registerMyBatis(interfaceByWithMyBatis);</code> 接下来就将过滤后的Mapper注册到容器中了。如果是注册的多实例Bean，那么就可以通过切面去搞定这个事务问题。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将MyBatis注册到IOC</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">registerMyBatis</span><span class="params">(List&lt;Class&lt;?&gt;&gt; mappers)</span> &#123;</span><br><span class="line">  mappers.forEach(clazz -&gt; &#123;</span><br><span class="line">    <span class="type">SqlSession</span> <span class="variable">sqlSession</span> <span class="operator">=</span> factory.openSession();</span><br><span class="line">    <span class="type">Object</span> <span class="variable">mapper</span> <span class="operator">=</span> sqlSession.getMapper(clazz);</span><br><span class="line">    configurableListableBeanFactory.registerSingleton(clazz.getName(), mapper);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="使用演示"><a href="#使用演示" class="headerlink" title="使用演示"></a>使用演示</h2><p>Dao层用<code>@Mapper</code>标注</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmployeeDao</span> <span class="keyword">extends</span> <span class="title class_">GenericDao</span>&lt;Employee&gt; &#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+<p>service层直接注入。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmployeeServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span>, EmployeeService &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1863674392751816610L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> EmployeeDao employeeDao;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在就可以了…..</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;id&quot;</span><span class="punctuation">:</span><span class="number">1</span><span class="punctuation">,</span><span class="attr">&quot;empName&quot;</span><span class="punctuation">:</span><span class="string">&quot;Clover&quot;</span><span class="punctuation">,</span><span class="attr">&quot;gender&quot;</span><span class="punctuation">:</span><span class="number">0</span><span class="punctuation">,</span><span class="attr">&quot;email&quot;</span><span class="punctuation">:</span><span class="string">&quot;cloveryou.ctong@qq.com&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%BE%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">难点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%8D%A2%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">更换方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%BC%94%E7%A4%BA"><span class="toc-number">3.</span> <span class="toc-text">使用演示</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&text=手撸Spring整合MyBatis玩具"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&title=手撸Spring整合MyBatis玩具"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&is_video=false&description=手撸Spring整合MyBatis玩具"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=手撸Spring整合MyBatis玩具&body=Check out this article: http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&title=手撸Spring整合MyBatis玩具"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&title=手撸Spring整合MyBatis玩具"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&title=手撸Spring整合MyBatis玩具"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&title=手撸Spring整合MyBatis玩具"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&name=手撸Spring整合MyBatis玩具&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/&t=手撸Spring整合MyBatis玩具"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="在SpringBoot2.2.0+开始引入Junit5 作为单元测试默认库  JUnit5 &#x3D; JUnit Platform + JUnit Jupiter + JUnit Vintage  JUnit Plaform 是在JVM上启动测试框架的基础，不仅支持Junit自制的测试引擎，其它测试引擎也都可以接入。 JUnit Jupiter 提供了JUnit5 的新的编程模型，时JUnit">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Junit5 单元测试 - 学习笔记">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="在SpringBoot2.2.0+开始引入Junit5 作为单元测试默认库  JUnit5 &#x3D; JUnit Platform + JUnit Jupiter + JUnit Vintage  JUnit Plaform 是在JVM上启动测试框架的基础，不仅支持Junit自制的测试引擎，其它测试引擎也都可以接入。 JUnit Jupiter 提供了JUnit5 的新的编程模型，时JUnit">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271054568.png">
+<meta property="article:published_time" content="2022-01-02T10:13:28.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.845Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="Junit">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/202112271054568.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Junit5 单元测试 - 学习笔记</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/%E5%88%9D%E5%AD%A6MyBatis%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89Error-querying-database/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/MyBatis---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=Junit5 单元测试 - 学习笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Junit5 单元测试 - 学习笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&is_video=false&description=Junit5 单元测试 - 学习笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Junit5 单元测试 - 学习笔记&body=Check out this article: http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Junit5 单元测试 - 学习笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Junit5 单元测试 - 学习笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Junit5 单元测试 - 学习笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Junit5 单元测试 - 学习笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&name=Junit5 单元测试 - 学习笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&t=Junit5 单元测试 - 学习笔记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Junit5-%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3"><span class="toc-number">2.</span> <span class="toc-text">Junit5 常用注解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%AD%E8%A8%80-%EF%BC%88assertions%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">断言 （assertions）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%96%AD%E8%A8%80"><span class="toc-number">3.1.</span> <span class="toc-text">简单断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E6%96%AD%E8%A8%80"><span class="toc-number">3.2.</span> <span class="toc-text">数组断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%96%AD%E8%A8%80"><span class="toc-number">3.3.</span> <span class="toc-text">组合断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E6%96%AD%E8%A8%80"><span class="toc-number">3.4.</span> <span class="toc-text">异常断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B6%85%E6%97%B6%E6%96%AD%E8%A8%80"><span class="toc-number">3.5.</span> <span class="toc-text">超时断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%A4%B1%E8%B4%A5"><span class="toc-number">3.6.</span> <span class="toc-text">快速失败</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6%EF%BC%88assumptions%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">前置条件（assumptions）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%A5%97%E6%B5%8B%E8%AF%95"><span class="toc-number">4.1.</span> <span class="toc-text">嵌套测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E5%8C%96%E6%B5%8B%E8%AF%95"><span class="toc-number">5.</span> <span class="toc-text">参数化测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ValueSource"><span class="toc-number">5.1.</span> <span class="toc-text">ValueSource</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MethodSource"><span class="toc-number">5.2.</span> <span class="toc-text">MethodSource</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Junit5 单元测试 - 学习笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T10:13:28.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/Junit/" rel="tag">Junit</a>, <a class="p-category" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>在SpringBoot2.2.0+开始引入Junit5 作为单元测试默认库</p>
+<blockquote>
+<p>JUnit5 &#x3D; JUnit Platform + JUnit Jupiter + JUnit Vintage</p>
+</blockquote>
+<p><strong>JUnit Plaform</strong> 是在JVM上启动测试框架的基础，不仅支持Junit自制的测试引擎，其它测试引擎也都可以接入。</p>
+<p><strong>JUnit Jupiter</strong> 提供了JUnit5 的新的编程模型，时JUnit5 新特性的核心。内部包含了一个<strong>测试引擎</strong>，用于在Junit Platform上运行。</p>
+<p><strong>JUnit Vintage</strong> 为老版本提供了兼容。</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271054568.png" alt="截屏2021-07-11 21.38.27"></p>
+<p>在创建SpringBoot项目的时候，会自动引入junit 5并帮我们自动配好</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ctong.learnspringboot;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.jupiter.api.Test;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">LearnSpringBootApplicationTests</span> &#123;</span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">contextLoads</span><span class="params">()</span> &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在SpringBoot2.4中，移除了Junit Vintage，也就是说我们无法兼容3、4的版本，如果需要继续兼容需要手动加入Junit Vintage依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.junit.vintage<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit-vintage-engine<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.hamcrest<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hamcrest-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>在SpringBoot整合Junit后，</p>
+<ul>
+<li>编写测试方法时需要使用<code>@Test</code>标注，需要使用<strong>Junit5</strong>版本的注解</li>
+<li>Junit类具有Spring的功能，例如<code>@Autowired</code>、<code>@Transactional</code></li>
+</ul>
+<h2 id="Junit5-常用注解"><a href="#Junit5-常用注解" class="headerlink" title="Junit5 常用注解"></a>Junit5 常用注解</h2><p><a target="_blank" rel="noopener" href="https://junit.org/junit5/docs/current/user-guide/">JUnit5官方文档</a></p>
+<blockquote>
+<p>JUnit5 的注解和Junit4的注解有所变化</p>
+</blockquote>
+<ul>
+<li><code>@Test</code>表示方法是测试方法，但是与Junit4的<code>@Test</code>不同，他的职责非常单一，不能声明任何属性，拓展的测试将会由Jupiter提供额外测试</li>
+<li><code>@ParameterizedTest</code>  表示方法是参数化测试</li>
+<li><code>@DisplayName</code> 为测试类或测试方法设置展示名称</li>
+<li><code>@BeforeEach</code> 在每个单元测试之前执行</li>
+<li><code>@AfterEach</code> 在每个单元测试之后执行</li>
+<li><code>@BeforeAll</code> 在所有单元测试开始之前执行</li>
+<li><code>@AfterAll</code> 在所有单元测试结束之后执行</li>
+<li><code>@Tag</code> 给单元测试进行分类，类似JUnit4中的<code>@Categories</code></li>
+<li><code>Disabled</code> 表示当前测试方法不执行，类似JUnit4中的<code>@Ignore</code> </li>
+<li><code>@RepeatedTest</code> 重复执行当前测试方法</li>
+</ul>
+<h2 id="断言-（assertions）"><a href="#断言-（assertions）" class="headerlink" title="断言 （assertions）"></a>断言 （assertions）</h2><p> 断言（assertions）是测试方法中的核心部分，用来对测试需要满足的条件进行验证。这些断言方法都是<strong>org.junit.jupiter.api.Assertions</strong>的静态方法。Junit5内置的断言可以分成如下几个类别：</p>
+<blockquote>
+<p>检查业务逻辑返回的数据是否合理。</p>
+</blockquote>
+<h3 id="简单断言"><a href="#简单断言" class="headerlink" title="简单断言"></a>简单断言</h3><p>用来对单个值进行简单的验证</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>assertEquals</td>
+<td>判断两个对象或两个原始类型</td>
+</tr>
+<tr>
+<td>assertNotEquals</td>
+<td>判断两个对象或两个原始类型是否不相等</td>
+</tr>
+<tr>
+<td>assertSame</td>
+<td>判断两个对象引用是否指向同一个对象</td>
+</tr>
+<tr>
+<td>assertNotSame</td>
+<td>判断两个对象引用是否指向不同的对象</td>
+</tr>
+<tr>
+<td>assertTrue</td>
+<td>判断给定的布尔值是否为true</td>
+</tr>
+<tr>
+<td>assertFalse</td>
+<td>判断给定的布尔值是否为false</td>
+</tr>
+<tr>
+<td>assertNull</td>
+<td>判断给定的对象引用是否为null</td>
+</tr>
+<tr>
+<td>assertNotNull</td>
+<td>判断给定的对象引用是否不为null</td>
+</tr>
+</tbody></table>
+<p><strong>简单示例</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;测试简单断言&quot;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testSimpleAssertions</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> cal(<span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">  Assertions.assertEquals(<span class="number">3</span>, result, <span class="string">&quot;期望的测试结果为3， 但最终结果是：&quot;</span> + result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">org.opentest4j.AssertionFailedError: 期望的测试结果为<span class="number">3</span>， 但最终结果是：<span class="number">4</span> ==&gt; </span><br><span class="line">Expected :<span class="number">3</span></span><br><span class="line">Actual   :<span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="数组断言"><a href="#数组断言" class="headerlink" title="数组断言"></a>数组断言</h3><p><code>assertArrayEquals</code>方法用来判断两个对象或原始类型的数组是否相等</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;数组断言&quot;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testArrayAssertions</span><span class="params">()</span> &#123;</span><br><span class="line">  Assertions.assertArrayEquals(<span class="keyword">new</span> <span class="title class_">int</span>[] &#123;<span class="number">1</span>, <span class="number">2</span>&#125;, <span class="keyword">new</span> <span class="title class_">int</span>[] &#123;<span class="number">2</span>, <span class="number">3</span>&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">org.opentest4j.AssertionFailedError: array contents differ at index [<span class="number">0</span>], expected: &lt;<span class="number">1</span>&gt; but was: &lt;<span class="number">2</span>&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="组合断言"><a href="#组合断言" class="headerlink" title="组合断言"></a>组合断言</h3><p><code>assertAll</code>方法接受多个<code>org.junit.jupiter.api.function.Executable</code>函数式借口的实例作为要验证的断言，可以通过lambada表达式很容易的提供这些断言</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;组合断言&quot;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testAssertAll</span><span class="params">()</span> &#123;</span><br><span class="line">  Assertions.assertAll(<span class="string">&quot;test&quot;</span>,</span><br><span class="line">                       () -&gt; Assertions.assertTrue(<span class="literal">true</span>),</span><br><span class="line">                       () -&gt; Assertions.assertEquals(<span class="number">1</span>, <span class="number">1</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="异常断言"><a href="#异常断言" class="headerlink" title="异常断言"></a>异常断言</h3><p>在Junit4时期，想要测试方法的异常情况时， 需要用<code>@Rule</code>注解的Eexpected Exception变量还是比较麻烦的。而JUnit5提供了一种新的断言方式<code>Assertions.assertThrows()</code>配合函数式编程就可以进行使用。(业务逻辑不抛出异常断言就失败…)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;异常断言&quot;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testException</span><span class="params">()</span> &#123;</span><br><span class="line">  Assertions.assertThrows(ArithmeticException.class, ()-&gt; &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">10</span> / <span class="number">0</span>;</span><br><span class="line">  &#125;, <span class="string">&quot;因为太过正常导致与他们格格不入~~~&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="超时断言"><a href="#超时断言" class="headerlink" title="超时断言"></a>超时断言</h3><p><code>@Timeout</code> 当前测试方法运行如果超过了指定的时间测试将会不通过</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="meta">@Timeout(value = 500, unit = TimeUnit.MILLISECONDS)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testTimeout</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">  log.info(<span class="string">&quot;执行了test timeout方法...&quot;</span>);</span><br><span class="line">  Thread.sleep(<span class="number">600</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.util.concurrent.TimeoutException: testTimeout() timed out after <span class="number">500</span> milliseconds</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="快速失败"><a href="#快速失败" class="headerlink" title="快速失败"></a>快速失败</h3><p>能够使一个单元测试快速失败</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;快速失败&quot;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testFail</span><span class="params">()</span> &#123;</span><br><span class="line">  Assertions.fail(<span class="string">&quot;测试失败&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="前置条件（assumptions）"><a href="#前置条件（assumptions）" class="headerlink" title="前置条件（assumptions）"></a>前置条件（assumptions）</h2><p>JUnit5中的潜质条件（assumptions【假设】）类似于断言，不同之处在于<strong>不满足的断言会使得测试方法失败，而不满足的前置条件只会使得测试方法的执行终止</strong>。前置条件可以看成是测试方法执行的前提，当前提不满足时，就没有继续执行的必要。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;assumptions 前置条件&quot;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testAssumptions</span><span class="params">()</span> &#123;</span><br><span class="line">  Assumptions.assumeTrue(<span class="literal">false</span>, <span class="string">&quot;结果不为true&quot;</span>);</span><br><span class="line">  log.info(<span class="string">&quot;前置条件方法体执行...&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="嵌套测试"><a href="#嵌套测试" class="headerlink" title="嵌套测试"></a>嵌套测试</h3><p>JUnit5可以通过Java中的内部类和<code>@Nested</code>注解实现嵌套测试，从而可以更好的把相关方法组织在一起。在内部类中可以使用<code>@BeforeEach</code>和<code>@AfterEach</code>注解，而且嵌套的层次没有限制。</p>
+<blockquote>
+<p>嵌套测试的情况下，外层的Test不能驱动内层的Before(After)Each&#x2F;All之类的方法。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DisplayName(&quot;嵌套测试&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestingAStack</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">8946641935343845060L</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">TestingAStack</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 防止存在一个或多个有参构造器时反射通过无参构造起实例化发生异常</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  Stack&lt;Object&gt; stack;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="meta">@DisplayName(&quot;is instantiated with new Stack()&quot;)</span></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">isInstantiatedWithNew</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Nested</span></span><br><span class="line">  <span class="meta">@DisplayName(&quot;when new&quot;)</span></span><br><span class="line">  <span class="keyword">class</span> <span class="title class_">WhenNew</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@BeforeEach</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">createNewStack</span><span class="params">()</span> &#123;</span><br><span class="line">      stack = <span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="meta">@DisplayName(&quot;is empty&quot;)</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">isEmpty</span><span class="params">()</span> &#123;</span><br><span class="line">      assertTrue(stack.isEmpty());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="meta">@DisplayName(&quot;throws EmptyStackException when popped&quot;)</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">throwsExceptionWhenPopped</span><span class="params">()</span> &#123;</span><br><span class="line">      assertThrows(EmptyStackException.class, stack::pop);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="meta">@DisplayName(&quot;throws EmptyStackException when peeked&quot;)</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">throwsExceptionWhenPeeked</span><span class="params">()</span> &#123;</span><br><span class="line">      assertThrows(EmptyStackException.class, stack::peek);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nested</span></span><br><span class="line">    <span class="meta">@DisplayName(&quot;after pushing an element&quot;)</span></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">AfterPushing</span> &#123;</span><br><span class="line"></span><br><span class="line">      <span class="type">String</span> <span class="variable">anElement</span> <span class="operator">=</span> <span class="string">&quot;an element&quot;</span>;</span><br><span class="line"></span><br><span class="line">      <span class="meta">@BeforeEach</span></span><br><span class="line">      <span class="keyword">void</span> <span class="title function_">pushAnElement</span><span class="params">()</span> &#123;</span><br><span class="line">        stack.push(anElement);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="meta">@Test</span></span><br><span class="line">      <span class="meta">@DisplayName(&quot;it is no longer empty&quot;)</span></span><br><span class="line">      <span class="keyword">void</span> <span class="title function_">isNotEmpty</span><span class="params">()</span> &#123;</span><br><span class="line">        assertFalse(stack.isEmpty());</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="meta">@Test</span></span><br><span class="line">      <span class="meta">@DisplayName(&quot;returns the element when popped and is empty&quot;)</span></span><br><span class="line">      <span class="keyword">void</span> <span class="title function_">returnElementWhenPopped</span><span class="params">()</span> &#123;</span><br><span class="line">        assertEquals(anElement, stack.pop());</span><br><span class="line">        assertTrue(stack.isEmpty());</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="meta">@Test</span></span><br><span class="line">      <span class="meta">@DisplayName(&quot;returns the element when peeked but remains not empty&quot;)</span></span><br><span class="line">      <span class="keyword">void</span> <span class="title function_">returnElementWhenPeeked</span><span class="params">()</span> &#123;</span><br><span class="line">        assertEquals(anElement, stack.peek());</span><br><span class="line">        assertFalse(stack.isEmpty());</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参数化测试"><a href="#参数化测试" class="headerlink" title="参数化测试"></a>参数化测试</h2><p>参数化测试是JUnit5很重要的一个特性，它使得用不同的参数多次运行测试成为了可能，也为我门的单元测试带来许多便利。</p>
+<p>利用<code>@ValueSource</code>等注解，指定入参，我们将可以使用不同的参数进行多次单元测试，而不需要每新增一个参数就新增一个单元测试，省去了很多冗余代码。</p>
+<p><code>@ValueSource</code> 为参数化测试指定入参来源，支持八大基础类以及String类型，Class类型</p>
+<p><code>@NullSource</code>表示为参数测试提供一个null的入惨</p>
+<p><code>@EnumSource</code> 表示为参数化测试提供一个枚举入参</p>
+<p><code>@CsvFileSource</code> 表示读取指定CSV文件内容作为参数化测试入参</p>
+<p><code>@MethodSource</code> 表示读取指定方法的返回值作为参数化测试入参「返回方法需要是一个流」</p>
+<blockquote>
+<p>参数化测试之所以强大是因为它可以支持外部的各类入参，如：CSV、YML、JSON文件甚至方法的返回值也可以作为入参。只需要去实现Arguments Provider接口，任何外部文件都可以作为他的入参。</p>
+</blockquote>
+<h3 id="ValueSource"><a href="#ValueSource" class="headerlink" title="ValueSource"></a>ValueSource</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ParameterizedTest</span></span><br><span class="line"><span class="meta">@ValueSource(ints = &#123;1, 2, 3, 4, 5&#125;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testParameterized</span><span class="params">(<span class="type">int</span> i)</span> &#123;</span><br><span class="line">  log.info(<span class="string">&quot;当前i的值是: &#123;&#125;&quot;</span>, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="MethodSource"><a href="#MethodSource" class="headerlink" title="MethodSource"></a>MethodSource</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ParameterizedTest</span></span><br><span class="line"><span class="meta">@DisplayName(&quot;方法参数化测试&quot;)</span></span><br><span class="line"><span class="meta">@MethodSource(&quot;stringProvider&quot;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testStreamParameterized</span><span class="params">(String str)</span> &#123;</span><br><span class="line">  log.info(<span class="string">&quot;方法参数化测试的值：&#123;&#125;&quot;</span>, str);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> Stream&lt;String&gt; <span class="title function_">stringProvider</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> Stream.of(<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;banana&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Junit5-%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3"><span class="toc-number">2.</span> <span class="toc-text">Junit5 常用注解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%AD%E8%A8%80-%EF%BC%88assertions%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">断言 （assertions）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%96%AD%E8%A8%80"><span class="toc-number">3.1.</span> <span class="toc-text">简单断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E6%96%AD%E8%A8%80"><span class="toc-number">3.2.</span> <span class="toc-text">数组断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%96%AD%E8%A8%80"><span class="toc-number">3.3.</span> <span class="toc-text">组合断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E6%96%AD%E8%A8%80"><span class="toc-number">3.4.</span> <span class="toc-text">异常断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B6%85%E6%97%B6%E6%96%AD%E8%A8%80"><span class="toc-number">3.5.</span> <span class="toc-text">超时断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%A4%B1%E8%B4%A5"><span class="toc-number">3.6.</span> <span class="toc-text">快速失败</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6%EF%BC%88assumptions%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">前置条件（assumptions）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%A5%97%E6%B5%8B%E8%AF%95"><span class="toc-number">4.1.</span> <span class="toc-text">嵌套测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E5%8C%96%E6%B5%8B%E8%AF%95"><span class="toc-number">5.</span> <span class="toc-text">参数化测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ValueSource"><span class="toc-number">5.1.</span> <span class="toc-text">ValueSource</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MethodSource"><span class="toc-number">5.2.</span> <span class="toc-text">MethodSource</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=Junit5 单元测试 - 学习笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Junit5 单元测试 - 学习笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&is_video=false&description=Junit5 单元测试 - 学习笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Junit5 单元测试 - 学习笔记&body=Check out this article: http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Junit5 单元测试 - 学习笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Junit5 单元测试 - 学习笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Junit5 单元测试 - 学习笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Junit5 单元测试 - 学习笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&name=Junit5 单元测试 - 学习笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/Junit5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&t=Junit5 单元测试 - 学习笔记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

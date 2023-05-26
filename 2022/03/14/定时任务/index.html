@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="定时任务cron 表达式cron表达式语法：秒 分 时 日 月 周 年(spring暂不支持年)    Field Name Mandatory Allowed Values Allowed Special Characters    Seconds YES 0-59 , - * &#x2F;   Minutes YES 0-59 , - * &#x2F;   Hours YES 0-23 , - * &#x2F;   Day">
+<meta property="og:type" content="article">
+<meta property="og:title" content="定时任务">
+<meta property="og:url" content="http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="定时任务cron 表达式cron表达式语法：秒 分 时 日 月 周 年(spring暂不支持年)    Field Name Mandatory Allowed Values Allowed Special Characters    Seconds YES 0-59 , - * &#x2F;   Minutes YES 0-59 , - * &#x2F;   Hours YES 0-23 , - * &#x2F;   Day">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203141629493.png">
+<meta property="article:published_time" content="2022-03-14T08:42:07.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.856Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="SpringBoot">
+<meta property="article:tag" content="随笔">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiniu-note-image.ctong.top/note/images/202203141629493.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>定时任务</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/03/06/RabbitMQ%E5%BB%B6%E6%97%B6%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&text=定时任务"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&title=定时任务"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&is_video=false&description=定时任务"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=定时任务&body=Check out this article: http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&title=定时任务"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&title=定时任务"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&title=定时任务"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&title=定时任务"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&name=定时任务&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&t=定时任务"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.</span> <span class="toc-text">定时任务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#cron-%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">cron 表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringBoot-%E6%95%B4%E5%90%88%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.2.</span> <span class="toc-text">SpringBoot 整合定时任务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%BB%E5%A1%9E"><span class="toc-number">1.2.1.</span> <span class="toc-text">阻塞</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.2.2.</span> <span class="toc-text">异步任务</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        定时任务
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-03-14T08:42:07.000Z" class="dt-published" itemprop="datePublished">2022-03-14</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Java/" rel="tag">Java</a>, <a class="p-category" href="/tags/SpringBoot/" rel="tag">SpringBoot</a>, <a class="p-category" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h1><h2 id="cron-表达式"><a href="#cron-表达式" class="headerlink" title="cron 表达式"></a>cron 表达式</h2><p>cron表达式语法：秒 分 时 日 月 周 年(spring暂不支持年)</p>
+<table>
+<thead>
+<tr>
+<th>Field Name</th>
+<th>Mandatory</th>
+<th>Allowed Values</th>
+<th>Allowed Special Characters</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Seconds</td>
+<td>YES</td>
+<td>0-59</td>
+<td><code>, - * /</code></td>
+</tr>
+<tr>
+<td>Minutes</td>
+<td>YES</td>
+<td>0-59</td>
+<td><code>, - * /</code></td>
+</tr>
+<tr>
+<td>Hours</td>
+<td>YES</td>
+<td>0-23</td>
+<td><code>, - * /</code></td>
+</tr>
+<tr>
+<td>Day of month</td>
+<td>YES</td>
+<td>1-31</td>
+<td><code>, - * ? / L W </code></td>
+</tr>
+<tr>
+<td>Month</td>
+<td>YES</td>
+<td>1-12 or JAN-DEC</td>
+<td><code>, - * /</code></td>
+</tr>
+<tr>
+<td>Day of week</td>
+<td>YES</td>
+<td>1-7 or SUN-SAT</td>
+<td><code>, - * ? / L #</code></td>
+</tr>
+<tr>
+<td>Year</td>
+<td>NO</td>
+<td>empty, 1970-2099</td>
+<td><code>, - * /</code></td>
+</tr>
+</tbody></table>
+<p>特殊字符：</p>
+<ul>
+<li><p><code>,</code> 枚举</p>
+<p><code>(cron=&quot;7,9,23 * * * * ?&quot;)</code> 表示任意时刻的 7、9、23秒启动这个任务。</p>
+</li>
+<li><p><code>-</code> 范围</p>
+<p><code>(cron=&quot;7-20 * * * * ?&quot;)</code> 表示7到20秒之间，每秒启动一次该任务。</p>
+</li>
+<li><p><code>/</code> 步长</p>
+<p><code>(cron=&quot;7/5 * * * * ?&quot;)</code> 表示第7秒启动，每5秒一次</p>
+<p><code>(cron=&quot;*/5 * * * * ?&quot;)</code> 表示任意秒启动，每5秒一次</p>
+</li>
+<li><p><code>?</code> 出现在日和周的位置</p>
+<p>为了防止日和周冲突，在周和日上如果要写通配符使用 <code>?</code> </p>
+<p><code>(cron=&quot;* * * 1 * ?&quot;)</code> 每月的1号启动这个任务</p>
+</li>
+<li><p><code>L</code> 出现在日和周的位置<br>last：最后一个</p>
+<p><code>(cron=&quot;* * * ? * 3L&quot;)</code> 每月的最后一个周二</p>
+</li>
+<li><p><code>W</code> Work Day 工作日：</p>
+<p><code>(cron=&quot;* * * W * ?&quot;)</code> 每个月的工作日触发</p>
+<p><code>(cron=&quot;* * * LW * ?&quot;)</code> 每个月的最后一个工作日触发</p>
+</li>
+<li><p><code>#</code> 第几个</p>
+<p><code>(cron=&quot;* * * ? * 5#2&quot;)</code> 每个月的第二个周四</p>
+</li>
+</ul>
+<h2 id="SpringBoot-整合定时任务"><a href="#SpringBoot-整合定时任务" class="headerlink" title="SpringBoot 整合定时任务"></a>SpringBoot 整合定时任务</h2><p>由于 SpringBoot 原生就支持定时任务，所以我们只需要使用 <code>EnableScheduling</code> 注解开启即可，当然还需要将他加入到容器中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@EnableScheduling</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloSchedule</span> &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>@Scheduled</code> 注解创建一个定时任务，指定每分钟的第10秒启动，每5秒执行一次</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@EnableScheduling</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloSchedule</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Scheduled(cron = &quot;10/5 * * * * ?&quot;)</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">()</span> &#123;</span><br><span class="line">    log.info(<span class="string">&quot;每分钟的第10秒启动，每5秒执行一次，当前是第 &#123;&#125; 秒&quot;</span>, <span class="keyword">new</span> <span class="title class_">Date</span>().getSeconds());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 10 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 15 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 20 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 25 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 30 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 35 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 40 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 45 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 50 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 55 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 10 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 15 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 20 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 25 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 30 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 35 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 40 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 45 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 50 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 55 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 10 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 15 秒</span><br><span class="line">每分钟的第10秒启动，每5秒执行一次，当前是第 20 秒</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在 SpringBoot 中，周使用1-7分别表示周一到周日，个别定时任务每周的第一天是从周日开始。</p>
+</blockquote>
+<h3 id="阻塞"><a href="#阻塞" class="headerlink" title="阻塞"></a>阻塞</h3><p>在 SpringBoot 中，定时任务是阻塞的，也就是需要等待上一次的定时任务完成后才能再继续执行定时任务。这是因为在 SpringBoot 中支持使用定时任务线程池，而这个线程池默认大小为 <strong>1</strong> 导致的任务阻塞，这一般在业务中是不被允许的。</p>
+<blockquote>
+<p>org.springframework.boot.autoconfigure.task.TaskSchedulingProperties</p>
+</blockquote>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203141629493.png" alt="TaskSchedulingProperties源码"></p>
+<p>在配置文件中修改线程池为合适的大小</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring.task.scheduling.pool.size</span>=<span class="string">12</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在某些版本可能不起作用…</p>
+</blockquote>
+<h3 id="异步任务"><a href="#异步任务" class="headerlink" title="异步任务"></a>异步任务</h3><p>如果修改 <code>scheduling</code> 的线程池大小无效，那么还可以使用异步任务，这不仅仅可以用在定时任务上。</p>
+<p>只需要使用 <code>@EnableAsync</code> 注解开启异步任务</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@EnableAsync</span></span><br><span class="line"><span class="meta">@EnableScheduling</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloSchedule</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>并且在你需要异步执行的方法上再标注一个 <code>@Async</code> 注解即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Async</span></span><br><span class="line"><span class="meta">@Scheduled(cron = &quot;10/5 * * * * ?&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">()</span> &#123;</span><br><span class="line">  log.info(<span class="string">&quot;每分钟的第10秒启动，每5秒执行一次，当前是第 &#123;&#125; 秒&quot;</span>, <span class="keyword">new</span> <span class="title class_">Date</span>().getSeconds());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.</span> <span class="toc-text">定时任务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#cron-%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">cron 表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringBoot-%E6%95%B4%E5%90%88%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.2.</span> <span class="toc-text">SpringBoot 整合定时任务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%BB%E5%A1%9E"><span class="toc-number">1.2.1.</span> <span class="toc-text">阻塞</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.2.2.</span> <span class="toc-text">异步任务</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&text=定时任务"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&title=定时任务"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&is_video=false&description=定时任务"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=定时任务&body=Check out this article: http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&title=定时任务"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&title=定时任务"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&title=定时任务"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&title=定时任务"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&name=定时任务&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/&t=定时任务"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

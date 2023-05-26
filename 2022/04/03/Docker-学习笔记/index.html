@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Dockerdocker 的出现开启了一个新的时代：容器化时代 市面上有很多开发语言，如：Java、C++、JavaScript，如果你要运行，你可能拿到的是一个 .jar .exe .sh 文件甚至你需要自己编译源码。没有一个统一的标准进行管理。 而 Docker 却可以将这些应用 build 成一个镜像，你只要是一个 Docker 镜像，那么 Docker 就可以直接给你跑起来。不仅如此， 这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker - 学习笔记">
+<meta property="og:url" content="http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="Dockerdocker 的出现开启了一个新的时代：容器化时代 市面上有很多开发语言，如：Java、C++、JavaScript，如果你要运行，你可能拿到的是一个 .jar .exe .sh 文件甚至你需要自己编译源码。没有一个统一的标准进行管理。 而 Docker 却可以将这些应用 build 成一个镜像，你只要是一个 Docker 镜像，那么 Docker 就可以直接给你跑起来。不仅如此， 这">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203311724774.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203311906410.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203312031389.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203312149988.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203312150831.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203312151865.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202204010843412.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202204010900085.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202204010917406.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202204010939283.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202204010941163.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202204010951531.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202204010952767.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202204011533435.png">
+<meta property="article:published_time" content="2022-04-03T06:35:16.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.843Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiniu-note-image.ctong.top/note/images/202203311724774.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Docker - 学习笔记</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/03/25/k8s-%E5%AE%89%E8%A3%85-Ingress-%E5%87%BA%E9%94%99-CrashLoopBackOff/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=Docker - 学习笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Docker - 学习笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&is_video=false&description=Docker - 学习笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Docker - 学习笔记&body=Check out this article: http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Docker - 学习笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Docker - 学习笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Docker - 学习笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Docker - 学习笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&name=Docker - 学习笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&t=Docker - 学习笔记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker"><span class="toc-number">1.</span> <span class="toc-text">Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%8C%96%E6%8A%80%E6%9C%AF"><span class="toc-number">1.1.</span> <span class="toc-text">虚拟化技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E5%8C%96%E6%8A%80%E6%9C%AF"><span class="toc-number">1.2.</span> <span class="toc-text">容器化技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84"><span class="toc-number">1.3.</span> <span class="toc-text">架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-%E5%AE%89%E8%A3%85"><span class="toc-number">1.4.</span> <span class="toc-text">Docker 安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%95%9C%E5%83%8F%E6%93%8D%E4%BD%9C"><span class="toc-number">1.5.</span> <span class="toc-text">镜像操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E9%95%9C%E5%83%8F"><span class="toc-number">1.5.1.</span> <span class="toc-text">下载镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%B7%B2%E4%B8%8B%E8%BD%BD%E7%9A%84%E9%95%9C%E5%83%8F"><span class="toc-number">1.5.2.</span> <span class="toc-text">查看已下载的镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E9%95%9C%E5%83%8F"><span class="toc-number">1.5.3.</span> <span class="toc-text">删除镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8"><span class="toc-number">1.5.4.</span> <span class="toc-text">启动容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%AD%A3%E5%9C%A8%E8%BF%90%E8%A1%8C%E7%9A%84%E5%AE%B9%E5%99%A8"><span class="toc-number">1.5.5.</span> <span class="toc-text">查看正在运行的容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%AE%B9%E5%99%A8"><span class="toc-number">1.5.6.</span> <span class="toc-text">删除容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E4%B8%80%E4%B8%AA%E6%AD%A3%E5%9C%A8%E8%BF%90%E8%A1%8C%E7%9A%84%E5%AE%B9%E5%99%A8"><span class="toc-number">1.5.7.</span> <span class="toc-text">停止一个正在运行的容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%B7%B2%E5%81%9C%E6%AD%A2%E8%BF%90%E8%A1%8C%E7%9A%84%E5%AE%B9%E5%99%A8"><span class="toc-number">1.5.8.</span> <span class="toc-text">启动已停止运行的容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%B7%B2%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E7%9A%84%E8%AE%BE%E7%BD%AE%E9%A1%B9"><span class="toc-number">1.5.9.</span> <span class="toc-text">修改已启动容器的设置项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84"><span class="toc-number">1.5.10.</span> <span class="toc-text">端口映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5%E5%AE%B9%E5%99%A8"><span class="toc-number">1.5.11.</span> <span class="toc-text">进入容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E6%94%B9%E5%8F%98"><span class="toc-number">1.5.12.</span> <span class="toc-text">提交改变</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%95%9C%E5%83%8F%E4%BC%A0%E8%BE%93"><span class="toc-number">1.5.13.</span> <span class="toc-text">镜像传输</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%82%E8%BD%BD%E6%95%B0%E6%8D%AE%E5%88%B0%E5%A4%96%E9%83%A8"><span class="toc-number">1.5.14.</span> <span class="toc-text">挂载数据到外部</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E5%AE%B9%E5%99%A8%E6%97%A5%E5%BF%97"><span class="toc-number">1.5.15.</span> <span class="toc-text">检查容器日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E5%AE%B9%E5%99%A8%E6%96%87%E4%BB%B6%E5%88%B0%E4%B8%BB%E6%9C%BA"><span class="toc-number">1.5.16.</span> <span class="toc-text">复制容器文件到主机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%86%E7%8E%B0%E6%9C%89%E5%BA%94%E7%94%A8%E6%89%93%E5%8C%85%E6%88%90-Docker-%E9%95%9C%E5%83%8F"><span class="toc-number">1.6.</span> <span class="toc-text">将现有应用打包成 Docker 镜像</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Docker - 学习笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-04-03T06:35:16.000Z" class="dt-published" itemprop="datePublished">2022-04-03</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Docker/" rel="tag">Docker</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><p>docker 的出现开启了一个新的时代：容器化时代</p>
+<p>市面上有很多开发语言，如：Java、C++、JavaScript，如果你要运行，你可能拿到的是一个 <code>.jar</code> <code>.exe</code> <code>.sh</code> 文件甚至你需要自己编译源码。没有一个统一的标准进行管理。</p>
+<p>而 Docker 却可以将这些应用 build 成一个镜像，你只要是一个 Docker 镜像，那么 Docker 就可以直接给你跑起来。不仅如此， 这些镜像还很容易分享，例如将某些镜像放到指定的地方，别人就可以找到这个镜像下载和运行，所以 Docker 的推出还统一了标准。</p>
+<h2 id="虚拟化技术"><a href="#虚拟化技术" class="headerlink" title="虚拟化技术"></a>虚拟化技术</h2><p>在 Docker 之前，非常流行一种“虚拟化技术”，这种技术其实就是在一台机器中安装多个虚拟机，我们部署的应用都在这些安装的虚拟机中。如果有应用出现问题，比如内存泄露，顶多把他自个的机子内存占满，不会影响到别的应用。</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203311724774.png" alt="虚拟化技术"></p>
+<p>虚拟化技术有一下痛点：</p>
+<ol>
+<li>基础镜像GB级别</li>
+<li>创建使用比较复杂</li>
+<li>启动速度慢</li>
+<li>移植与分享不方便</li>
+</ol>
+<p>优点是隔离性很强</p>
+<h2 id="容器化技术"><a href="#容器化技术" class="headerlink" title="容器化技术"></a>容器化技术</h2><p><img src="https://qiniu-note-image.ctong.top/note/images/202203311906410.png" alt="容器化技术"></p>
+<ol>
+<li>基础镜像MB级别</li>
+<li>创建简单</li>
+<li>隔离性强</li>
+<li>启动速度秒级</li>
+<li>移植与分享方便</li>
+</ol>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="https://qiniu-note-image.ctong.top/note/images/202203312031389.png" alt="架构图"></p>
+<ul>
+<li><p>Docker_Host</p>
+<p>如果需要使用 Docker，那么需要在使用的机器上安装 Docker。安装了 Docker 的机器称为 Docker 主机。</p>
+</li>
+<li><p>Docker Daemon</p>
+<p>安装了 Docker 后，主机启动那么后台就会启动一个 Docker 的进程 <code>Docker Daemon</code></p>
+</li>
+<li><p>Client<br>如果需要操作 Docker，那么需要使用命令行，这个命令行被称为Docker 客户端</p>
+</li>
+<li><p>Images</p>
+<p>镜像，一个带环境打包好的程序，可以直接启动运行</p>
+</li>
+<li><p>Registry<br>镜像仓库，官方的镜像仓库是 Docker Hub</p>
+</li>
+<li><p>Containers</p>
+<p>容器，由镜像启动起来正在运行中的程序</p>
+</li>
+</ul>
+<h2 id="Docker-安装"><a href="#Docker-安装" class="headerlink" title="Docker 安装"></a>Docker 安装</h2><p>卸载旧版</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo yum remove docker \</span><br><span class="line">docker-client \</span><br><span class="line">docker-client-latest \</span><br><span class="line">docker-common \</span><br><span class="line">docker-latest \</span><br><span class="line">docker-latest-logrotate \</span><br><span class="line">docker-logrotate \</span><br><span class="line">docker-engine</span><br></pre></td></tr></table></figure>
+
+<p>设置 Docker yum 源所在的位置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install -y yum-utils</span><br><span class="line">sudo yum-config-manager \</span><br><span class="line">   --add-repo \</span><br><span class="line">   https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
+
+<p>安装 Docker</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
+
+<p>安装成功后将 docker 设置为开机启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# systemctl enable docker --now</span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.</span><br></pre></td></tr></table></figure>
+
+<p>国内使用默认的镜像仓库可能会很慢，我们可以替换成阿里云的地址，<code>registry-mirrors</code> 用你自己的就行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://gnsz5r5r.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<h2 id="镜像操作"><a href="#镜像操作" class="headerlink" title="镜像操作"></a>镜像操作</h2><h3 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a><strong>下载镜像</strong></h3><p>可以到中央镜像仓库  <code>https://hub.docker.com/</code> 找你需要的镜像。</p>
+<p>第一步首先找到你需要的镜像然后点击进去</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203312149988.png" alt="搜索"></p>
+<p>右边会有一个下载命令，我们可以直接使用这个命令来下载这个容器，这命令默认是下载的最新版本。</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203312150831.png" alt="下载命令"></p>
+<p>可以点 <strong>tags</strong> 来找你需要的版本</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203312151865.png" alt="切换tags"></p>
+<p>找到需要的版本后，可以使用 <code>docker pull &lt;image&gt;:&lt;tag&gt;</code> 命令下载，在 Docker 中，版本名还被称为标签</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull nginx:1.21.6-perl</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看已下载的镜像"><a href="#查看已下载的镜像" class="headerlink" title="查看已下载的镜像"></a><strong>查看已下载的镜像</strong></h3><p>可以使用 <code>docker images</code> 命令查看已下载的镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker images</span><br><span class="line">REPOSITORY   TAG       IMAGE ID       CREATED        SIZE</span><br><span class="line">nginx        latest    605c77e624dd   3 months ago   141MB</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a><strong>删除镜像</strong></h3><p>可以使用 <code>docker rmi &lt;image&gt;:&lt;tag&gt;</code> 命令移除镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker rmi nginx</span><br><span class="line">Untagged: nginx:latest</span><br><span class="line">Untagged: nginx@sha256:0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31</span><br><span class="line">Deleted: sha256:605c77e624ddb75e6110f997c58876baa13f8754486b461117934b24a9dc3a85</span><br><span class="line">Deleted: sha256:b625d8e29573fa369e799ca7c5df8b7a902126d2b7cbeb390af59e4b9e1210c5</span><br><span class="line">Deleted: sha256:7850d382fb05e393e211067c5ca0aada2111fcbe550a90fed04d1c634bd31a14</span><br><span class="line">Deleted: sha256:02b80ac2055edd757a996c3d554e6a8906fd3521e14d1227440afd5163a5f1c4</span><br><span class="line">Deleted: sha256:b92aa5824592ecb46e6d169f8e694a99150ccef01a2aabea7b9c02356cdabe7c</span><br><span class="line">Deleted: sha256:780238f18c540007376dd5e904f583896a69fe620876cabc06977a3af4ba4fb5</span><br><span class="line">Deleted: sha256:2edcec3590a4ec7f40cf0743c15d78fb39d8326bc029073b41ef9727da6c851f</span><br></pre></td></tr></table></figure>
+
+<p>再检查镜像列表，就可以看到已经被移除了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker images</span><br><span class="line">REPOSITORY   TAG       IMAGE ID   CREATED   SIZE</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a><strong>启动容器</strong></h3><p>在下载了一个镜像后，可以使用 <code>docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</code> 启动指定镜像</p>
+<p>例如启动一个 nginx</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name=nginx -d --restart=always nginx:latest</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>--name</code> 启动别名</li>
+<li><code>-d</code> 后台启动</li>
+<li><code>--restart</code> 容器是否开机自启，默认是 <code>no</code> ，如果需要设置为开启自启，可以设置为 <code>always</code></li>
+</ul>
+<h3 id="查看正在运行的容器"><a href="#查看正在运行的容器" class="headerlink" title="查看正在运行的容器"></a><strong>查看正在运行的容器</strong></h3><p>如果需要查看正在运行的容器，可以使用 <code>docker ps</code> 进行查看</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker ps</span><br><span class="line">CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES</span><br><span class="line">0546ab754a92   nginx:latest   &quot;/docker-entrypoint.…&quot;   29 seconds ago   Up 29 seconds   80/tcp    nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a><strong>删除容器</strong></h3><p>删除一个已经停止的容器，通过这个命令 <code>docker rm &lt;container_id | name&gt;</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="停止一个正在运行的容器"><a href="#停止一个正在运行的容器" class="headerlink" title="停止一个正在运行的容器"></a><strong>停止一个正在运行的容器</strong></h3><p><code>docker stop &lt;container_Id | name&gt;</code> 命令可以停止一个正在运行的容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动已停止运行的容器"><a href="#启动已停止运行的容器" class="headerlink" title="启动已停止运行的容器"></a><strong>启动已停止运行的容器</strong></h3><p>使用 <code>docker start &lt;container_Id | name&gt;</code> 命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改已启动容器的设置项"><a href="#修改已启动容器的设置项" class="headerlink" title="修改已启动容器的设置项"></a><strong>修改已启动容器的设置项</strong></h3><p><code>docker update [OPTIONS] CONTAINER [CONTAINER...] </code>,例如将一个容器修改为开启自启</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker update nginx --restart=always</span><br></pre></td></tr></table></figure>
+
+<h3 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a><strong>端口映射</strong></h3><p>docker 容器其实是一个小的Linux，里面的nginx暴露了一个端口为80，但是它不是在我们主机上暴露的，所以我们无法通过 ip 去访问这个nginx。需要在 docker 做一层端口映射，将主机的某个端口映射到 docker 容器中的指定端口上。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name=nginx -d -p 88:80 nginx</span><br></pre></td></tr></table></figure>
+
+<p> 启动后检查 <code>PORTS</code> 是不是成功的 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker ps</span><br><span class="line">CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                               NAMES</span><br><span class="line">8e6d1342b9e8   nginx     &quot;/docker-entrypoint.…&quot;   51 seconds ago   Up 50 seconds   0.0.0.0:88-&gt;80/tcp, :::88-&gt;80/tcp   nginx</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010843412.png" alt="公网访问Nginx"></p>
+<h3 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a><strong>进入容器</strong></h3><p>如果需要修改容器的配置或者什么东西，由于 Docker 的资源隔离是非常高的，所以不能直接修改，需要进入这个容器的控制台，类似 ssh 远程连接某个服务器。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it nginx /bin/bash</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker exec -it nginx /bin/bash</span><br><span class="line">root@8e6d1342b9e8:/#</span><br></pre></td></tr></table></figure>
+
+<p>进到容器后，可以找到例如nginx的部署目录并修改内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@8e6d1342b9e8:/# cd /usr/share/nginx/html</span><br><span class="line">root@8e6d1342b9e8:/usr/share/nginx/html# echo &quot;&lt;h1&gt;Hello World&lt;/h1&gt;&quot; &gt; index.html</span><br></pre></td></tr></table></figure>
+
+<p>修改后刷新浏览器访问</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010900085.png" alt="修改index.html"></p>
+<p>改完后直接使用 <code>exit</code> 退出即可</p>
+<h3 id="提交改变"><a href="#提交改变" class="headerlink" title="提交改变"></a><strong>提交改变</strong></h3><p>可以将自己已经修改好的镜像提交，例如配置nginx容器，配置了很多次配好了，如果移到新的服务器上，还需要重新配置。那么可以使用 <code>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]</code> 命令将当前容器重新生成为一个新的镜像。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker commit -a &quot;Clover You&quot; -m &quot;修改index.html&quot; nginx clover-nginx:v0.0.1</span><br><span class="line">sha256:3c5ae6aa7604e19944106c35299f2b317ae454a4a34bbf0a6875aad7aabcc296</span><br></pre></td></tr></table></figure>
+
+<p>可以再检查一下已下载的镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker images</span><br><span class="line">REPOSITORY     TAG       IMAGE ID       CREATED          SIZE</span><br><span class="line">clover-nginx   v0.0.1    3c5ae6aa7604   27 seconds ago   141MB</span><br><span class="line">nginx          latest    605c77e624dd   3 months ago     141MB</span><br></pre></td></tr></table></figure>
+
+<p>测试一下，将之前在运行的nginx删掉，直接运行我们刚刚 commit 的镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 88:80 --name=clover-nginx clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
+
+<p>再访问，它保留了我们上次修改容器的结果</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010917406.png" alt="commit 镜像启动结果"></p>
+<h3 id="镜像传输"><a href="#镜像传输" class="headerlink" title="镜像传输"></a><strong>镜像传输</strong></h3><p>当我们做好一个镜像后，如果我们需要给别人分享，有两种办法，一种是物理传输，还有一种是推送至远程仓库。</p>
+<p>可以先使用 <code>docker save [OPTIONS] IMAGE [IMAGE...]</code> 命令将镜像压缩</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker save -o clover-nginx.tar  clover-nginx:v0.0.1</span><br><span class="line">[root@i-ul0sb6hn ~]# ls</span><br><span class="line">clover-nginx.tar</span><br></pre></td></tr></table></figure>
+
+<p>之后直接将 <code>clover-nginx.tar</code> 分享出去就行了</p>
+<p>再通过 <code>docker load [OPTIONS]</code> 命令加载这个镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker load -i ./clover-nginx.tar</span><br><span class="line">Loaded image: clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
+
+<p>检查镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker images</span><br><span class="line">REPOSITORY     TAG       IMAGE ID       CREATED          SIZE</span><br><span class="line">clover-nginx   v0.0.1    3c5ae6aa7604   19 minutes ago   141MB</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>推送到远程仓库，先创建一个镜像仓库</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010939283.png" alt="创建仓库"></p>
+<p>填好仓库信息后点【create】就好</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010941163.png" alt="创建"></p>
+<p>给我们本地镜像加个标签 <code>docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker tag clover-nginx:v0.0.1 cloveryou/clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
+
+<p>最后通过 <code>docker push</code> 命令将镜像推送</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker push cloveryou/clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
+
+<p>以上操作是需要登录的，如果没有登录需要使用 <code>docker login</code> 登录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker login -u &lt;user name&gt; -p &lt;password&gt;</span><br><span class="line">WARNING! Using --password via the CLI is insecure. Use --password-stdin.</span><br><span class="line">WARNING! Your password will be stored unencrypted in /root/.docker/config.json.</span><br><span class="line">Configure a credential helper to remove this warning. See</span><br><span class="line">https://docs.docker.com/engine/reference/commandline/login/#credentials-store</span><br><span class="line"></span><br><span class="line">Login Succeeded</span><br></pre></td></tr></table></figure>
+
+<p>登录成功后再重新推送</p>
+<p>推送成功刷新仓库就可以看到了</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010951531.png" alt="推送结果"></p>
+<p>如果是公开的仓库，也可以通过搜索搜到</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202204010952767.png" alt="搜索结果"></p>
+<p>最后需要用就直接下载就好啦</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull cloveryou/clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="挂载数据到外部"><a href="#挂载数据到外部" class="headerlink" title="挂载数据到外部"></a><strong>挂载数据到外部</strong></h3><p>像我们之前修改nginx，是需要进入到容器里修改，其实可以将容器中的某个文件夹挂载到主机的某个位置。<code>docker run --name=xxx -d -v [target path]:[source path]:[缺省，ro容器内只读，rw容器内可读写]</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name=clover-nginx -d -p 88:80 -v /data/html:/usr/share/nginx/html:ro clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>-v</code> 将容器中某个目录挂在到主机上，如果挂载的是一个文件，那么这个文件在主机上必须存在</li>
+</ul>
+<p>启动后我们只要在主机的 <code>/data/html</code></p>
+<h3 id="检查容器日志"><a href="#检查容器日志" class="headerlink" title="检查容器日志"></a><strong>检查容器日志</strong></h3><p><code>docker logs &lt;container&gt;</code></p>
+<h3 id="复制容器文件到主机"><a href="#复制容器文件到主机" class="headerlink" title="复制容器文件到主机"></a>复制容器文件到主机</h3><p><code>docker cp &lt;container&gt;:&lt;source path&gt; &lt;target path&gt;</code></p>
+<p>例如将nginx中的文件复制出来</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker cp 52924565fcfc:/etc/nginx /data/nginx</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@i-ul0sb6hn data]# ls</span><br><span class="line"><span class="meta prompt_">--&gt; </span><span class="language-bash"> nginx</span></span><br></pre></td></tr></table></figure>
+
+<p>然后将nginx的配置文件挂载到本地</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run --name=clover-nginx -d -p 88:80 \</span><br><span class="line">-v /usr/share/html:/data/html:ro \</span><br><span class="line">-v /etc/nginx:/data/nginx:ro \</span><br><span class="line">cloveryou/clover-nginx:v0.0.1</span><br></pre></td></tr></table></figure>
+
+<h2 id="将现有应用打包成-Docker-镜像"><a href="#将现有应用打包成-Docker-镜像" class="headerlink" title="将现有应用打包成 Docker 镜像"></a>将现有应用打包成 Docker 镜像</h2><p>以 SpringBoot 为例，先将我们的项目打包成 <code>.jar</code> 包。然后编写一个 <code>Dockerfile</code> 将这个 <code>.jar</code> 打包成 Docker 镜像。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">8</span>-jdk-slim</span><br><span class="line"><span class="keyword">LABEL</span><span class="language-bash"> maintainer=CloverYou</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> target/**.jar /app.jar</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;java&quot;</span>, <span class="string">&quot;-jar&quot;</span>, <span class="string">&quot;/app.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<p>由于 Docker 镜像都是一个很小的 Linux 系统，并没有我们的运行环境，所以需要指定安装jdk环境 <code>openjdk:8-jdk-slim</code>。</p>
+<p>然后将项目打包结果复制到 Linux 的某个位置，<code>ENTRYPOINT</code> 用于 Docker 启动时执行的命令，也可以使用 <code>CMD</code>。让 Docker 启动时执行 <code>java -jar /app.jar</code> 启动我们的项目。</p>
+<p>Dockerfile 文件编写好后，需要到一个有 Docker 环境的机子上执行。</p>
+<p>执行 <code>docker build [OPTIONS] &lt;工作路径&gt;</code> 命令打包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t spring-boot-hello-world:v1.0.0 .</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：如果出现以下错误，那是因为 Dockerfile 不能放在 <code>/</code> 目录</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error checking context: &#x27;file (&#x27;/proc/1500/fd/7&#x27;) not found or excluded by .dockerignore&#x27;.</span><br></pre></td></tr></table></figure>
+
+<p>打包完成后查看镜像，就可以看到我们打包的镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker images</span><br><span class="line">REPOSITORY                TAG          IMAGE ID       CREATED         SIZE</span><br><span class="line">spring-boot-hello-world   v1.0.0       a9c63c4b9ad4   6 seconds ago   313MB</span><br></pre></td></tr></table></figure>
+
+<p>启动容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 80:8080 --name=helloworld spring-boot-hello-world:v1.0.0</span><br></pre></td></tr></table></figure>
+
+<p>检查是否启动成功</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@i-ul0sb6hn ~]# docker ps</span><br><span class="line">CONTAINER ID   IMAGE                            COMMAND                CREATED         STATUS         PORTS                                   NAMES</span><br><span class="line">7f62352ef378   spring-boot-hello-world:v1.0.0   &quot;java -jar /app.jar&quot;   3 seconds ago   Up 3 seconds   0.0.0.0:80-&gt;8080/tcp, :::80-&gt;8080/tcp   helloworld</span><br></pre></td></tr></table></figure>
+
+<p>然后访问我们的服务就可以了</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202204011533435.png" alt="执行结果"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker"><span class="toc-number">1.</span> <span class="toc-text">Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%8C%96%E6%8A%80%E6%9C%AF"><span class="toc-number">1.1.</span> <span class="toc-text">虚拟化技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E5%8C%96%E6%8A%80%E6%9C%AF"><span class="toc-number">1.2.</span> <span class="toc-text">容器化技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84"><span class="toc-number">1.3.</span> <span class="toc-text">架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-%E5%AE%89%E8%A3%85"><span class="toc-number">1.4.</span> <span class="toc-text">Docker 安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%95%9C%E5%83%8F%E6%93%8D%E4%BD%9C"><span class="toc-number">1.5.</span> <span class="toc-text">镜像操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E9%95%9C%E5%83%8F"><span class="toc-number">1.5.1.</span> <span class="toc-text">下载镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%B7%B2%E4%B8%8B%E8%BD%BD%E7%9A%84%E9%95%9C%E5%83%8F"><span class="toc-number">1.5.2.</span> <span class="toc-text">查看已下载的镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E9%95%9C%E5%83%8F"><span class="toc-number">1.5.3.</span> <span class="toc-text">删除镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8"><span class="toc-number">1.5.4.</span> <span class="toc-text">启动容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%AD%A3%E5%9C%A8%E8%BF%90%E8%A1%8C%E7%9A%84%E5%AE%B9%E5%99%A8"><span class="toc-number">1.5.5.</span> <span class="toc-text">查看正在运行的容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%AE%B9%E5%99%A8"><span class="toc-number">1.5.6.</span> <span class="toc-text">删除容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E4%B8%80%E4%B8%AA%E6%AD%A3%E5%9C%A8%E8%BF%90%E8%A1%8C%E7%9A%84%E5%AE%B9%E5%99%A8"><span class="toc-number">1.5.7.</span> <span class="toc-text">停止一个正在运行的容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%B7%B2%E5%81%9C%E6%AD%A2%E8%BF%90%E8%A1%8C%E7%9A%84%E5%AE%B9%E5%99%A8"><span class="toc-number">1.5.8.</span> <span class="toc-text">启动已停止运行的容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%B7%B2%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E7%9A%84%E8%AE%BE%E7%BD%AE%E9%A1%B9"><span class="toc-number">1.5.9.</span> <span class="toc-text">修改已启动容器的设置项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84"><span class="toc-number">1.5.10.</span> <span class="toc-text">端口映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5%E5%AE%B9%E5%99%A8"><span class="toc-number">1.5.11.</span> <span class="toc-text">进入容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E6%94%B9%E5%8F%98"><span class="toc-number">1.5.12.</span> <span class="toc-text">提交改变</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%95%9C%E5%83%8F%E4%BC%A0%E8%BE%93"><span class="toc-number">1.5.13.</span> <span class="toc-text">镜像传输</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%82%E8%BD%BD%E6%95%B0%E6%8D%AE%E5%88%B0%E5%A4%96%E9%83%A8"><span class="toc-number">1.5.14.</span> <span class="toc-text">挂载数据到外部</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E5%AE%B9%E5%99%A8%E6%97%A5%E5%BF%97"><span class="toc-number">1.5.15.</span> <span class="toc-text">检查容器日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E5%AE%B9%E5%99%A8%E6%96%87%E4%BB%B6%E5%88%B0%E4%B8%BB%E6%9C%BA"><span class="toc-number">1.5.16.</span> <span class="toc-text">复制容器文件到主机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%86%E7%8E%B0%E6%9C%89%E5%BA%94%E7%94%A8%E6%89%93%E5%8C%85%E6%88%90-Docker-%E9%95%9C%E5%83%8F"><span class="toc-number">1.6.</span> <span class="toc-text">将现有应用打包成 Docker 镜像</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=Docker - 学习笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Docker - 学习笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&is_video=false&description=Docker - 学习笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Docker - 学习笔记&body=Check out this article: http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Docker - 学习笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Docker - 学习笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Docker - 学习笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Docker - 学习笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&name=Docker - 学习笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/04/03/Docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&t=Docker - 学习笔记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="数组概述 java 语言中的数组，是一种引用数据类型，不属于基本数据类型。数组的父类是Object。  数组实际上是一个容器，可以同时容纳多个元素。数组是一个数据的集合。  数组当中可以存储基本数据类型的数据，也可以存储引用数据类型的数据。  数组因为是引用类型，所以数组对象是在堆内存当中。  数组在内存中是怎样的一个表示？     数组当中如果存储的是“Java对象”的话，实际上存储的是对象的“">
+<meta property="og:type" content="article">
+<meta property="og:title" content="26、Java数组">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="数组概述 java 语言中的数组，是一种引用数据类型，不属于基本数据类型。数组的父类是Object。  数组实际上是一个容器，可以同时容纳多个元素。数组是一个数据的集合。  数组当中可以存储基本数据类型的数据，也可以存储引用数据类型的数据。  数组因为是引用类型，所以数组对象是在堆内存当中。  数组在内存中是怎样的一个表示？     数组当中如果存储的是“Java对象”的话，实际上存储的是对象的“">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2020-06-06%2017.49.49-2938dc19f5fb40a080037548eb1d1c40.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2020-06-08%2010.36.59-14e053cd335a490f9bb0c21cf97d5a43.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2020-06-08%2011.22.59-51c5494102174b6dbc22c12f54032be7.png">
+<meta property="article:published_time" content="2022-01-02T08:48:52.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.838Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2020-06-06%2017.49.49-2938dc19f5fb40a080037548eb1d1c40.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>26、Java数组</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/27%E3%80%81Java-String%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%AD%98%E5%82%A8%E5%8E%9F%E7%90%86/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/25%E3%80%81Java-%E5%86%85%E9%83%A8%E7%B1%BB/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&text=26、Java数组"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&title=26、Java数组"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&is_video=false&description=26、Java数组"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=26、Java数组&body=Check out this article: http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&title=26、Java数组"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&title=26、Java数组"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&title=26、Java数组"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&title=26、Java数组"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&name=26、Java数组&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&t=26、Java数组"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">数组概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E7%BB%B4%E6%95%B0%E7%BB%84"><span class="toc-number">2.</span> <span class="toc-text">一维数组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">2.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">2.2.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%86%99"><span class="toc-number">2.3.</span> <span class="toc-text">读写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%8D%E5%8E%86"><span class="toc-number">2.4.</span> <span class="toc-text">遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%80%81"><span class="toc-number">2.5.</span> <span class="toc-text">多态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%AE%B9"><span class="toc-number">2.6.</span> <span class="toc-text">扩容</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84"><span class="toc-number">3.</span> <span class="toc-text">二维数组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89-1"><span class="toc-number">3.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-1"><span class="toc-number">3.2.</span> <span class="toc-text">初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">3.2.1.</span> <span class="toc-text">静态初始化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">3.2.2.</span> <span class="toc-text">动态初始化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%96%E5%80%BC"><span class="toc-number">3.3.</span> <span class="toc-text">取值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%8D%E5%8E%86-1"><span class="toc-number">3.4.</span> <span class="toc-text">遍历</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        26、Java数组
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T08:48:52.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="数组概述"><a href="#数组概述" class="headerlink" title="数组概述"></a>数组概述</h2><ol>
+<li><p>java 语言中的数组，是一种引用数据类型，不属于基本数据类型。数组的父类是Object。</p>
+</li>
+<li><p>数组实际上是一个容器，可以同时容纳多个元素。数组是一个数据的集合。</p>
+</li>
+<li><p>数组当中可以存储<strong>基本数据类型</strong>的数据，也可以存储引用数据类型的数据。</p>
+</li>
+<li><p>数组因为是引用类型，所以数组对象是在堆内存当中。</p>
+</li>
+<li><p>数组在内存中是怎样的一个表示？<br><img src="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2020-06-06%2017.49.49-2938dc19f5fb40a080037548eb1d1c40.png" alt="截屏20200606 17.49.49.png">   </p>
+</li>
+<li><p>数组当中如果存储的是“<strong>Java对象</strong>”的话，实际上存储的是对象的“<strong>引用</strong>”</p>
+</li>
+<li><p>数组一旦创建，在Java中规定，长度不可变。</p>
+</li>
+<li><p>数组的分类</p>
+<ul>
+<li>一维数组</li>
+<li>二维数组</li>
+<li>三维数组</li>
+<li>多维数组</li>
+</ul>
+</li>
+<li><p>所有的数组对象，都有length属性，用来获取数组中元素的个数。</p>
+</li>
+<li><p>Java中的数组要求数组中元素的类型统一。</p>
+</li>
+<li><p>数组在内存方面存储的时候，数组中的元素内存地址是连续的（存储的每一个元素都是有规则的挨着排序的）。内存地址连续这是数组存储元素的特点。数组实际上是一种简单的数据结构。</p>
+</li>
+<li><p>数组中，每一个元素都是有下标的，下标从0开始，以1递增。最后一个元素的下标是：length - 1<br><strong>下标非常重要，因为我们对数组中元素进行“存取”的时候，都需要通过下标来进行。</strong></p>
+</li>
+<li><p>数组中首元素的内存地址作为整个数组对象的内存地址。</p>
+</li>
+<li><p>数组这种数据结构的优点和缺点是什么？</p>
+<ul>
+<li><p>优点：查询、查找、检索某个下标上的元素时效率极高，可以说是查询效率最高的一个数据结构。</p>
+<ol>
+<li>每一个元素的内存地址在空间存储上是连续的。</li>
+<li>每一个元素类型相同，所以占用空间大小一样。</li>
+<li>知道第一个元素内存地址，知道每一个元素占  用空间大小，又知道下标，所以通过一个数学表达式就可以计算出某个下标上元素的内存地址。直接通过内存地址定位元素，所以数组的检索效率是最高的。<br><strong>数组中存储100个元素和100万个元素，在元素查询、检索方面，效率是相同的，因为数组中元素查找的时候不会一个一个找，是通过数学表达式计算出来的。算出一个内存地址直接定位的。</strong></li>
+</ol>
+</li>
+<li><p>缺点</p>
+<ol>
+<li>由于为了保证数组中每个元素的内存地址连续，所以在数组上随机删除或增加元素的时候，效率较低。因为随机增删元素会涉及到后面元素统一向前或向后位移的操作。</li>
+<li>数组不能存储大数据量，因为很难在内存空间上找到一块特别大的连续的内存空间。</li>
+</ol>
+<blockquote>
+<p>对于数组中最后一个元素的增删，是没有效率影响的。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="一维数组"><a href="#一维数组" class="headerlink" title="一维数组"></a>一维数组</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] arrayInt;</span><br><span class="line">String[] arrayString;</span><br><span class="line"><span class="type">boolean</span>[] arrayBoolean;</span><br><span class="line"><span class="type">double</span>[] arrayDouble;</span><br><span class="line">Object[] arrayObject;</span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>静态初始化一维数组：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] arrayInt = &#123;<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>, <span class="number">400</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>动态初始化一维数组：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] arrayInt = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">5</span>];</span><br></pre></td></tr></table></figure>
+
+<p><code>5</code>表示数组的元素个数。</p>
+<p>初始化一个长度为5的int类型一维数组，每个元素默认值为0</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String[] arrayString = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">2</span>];</span><br></pre></td></tr></table></figure>
+
+<p>初始化一个长度为2的String类型一维数组，每个元素默认值为null</p>
+<h3 id="读写"><a href="#读写" class="headerlink" title="读写"></a>读写</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] arrayInt = &#123;<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>, <span class="number">400</span>&#125;;</span><br><span class="line">arratInt[<span class="number">0</span>] = <span class="number">520</span>;</span><br><span class="line">arrayInt[arrayInt.length - <span class="number">1</span>] = <span class="number">1314</span>;</span><br><span class="line">System.out.println(<span class="string">&quot;第一个元素：&quot;</span> + arrayInt[<span class="number">0</span>]);</span><br><span class="line">System.out.println(<span class="string">&quot;最后一个元素：&quot;</span> + arrayInt[attayInt.length - <span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+
+<p>将第一个元素改为520，将最后一个元素改成1314,输出第一个元素的值和第最后一个元素的值：<br>-- <code>第一个元素：520</code></p>
+<p>-- <code>最后一个元素：1314</code></p>
+<h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] arrayInt = &#123;<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>, <span class="number">400</span>&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; arrayInt.length; i++) &#123;</span><br><span class="line">  System.out.println(arrayInt[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>分别输出：</p>
+<p>-- <code>100</code></p>
+<p>-- <code>200</code></p>
+<p>-- <code>300</code></p>
+<p>-- <code>400</code></p>
+<p>数组可以通过下标来指定数组的元素，可以将<code>i</code>当作数组的下标</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] arrayInt = &#123;<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>, <span class="number">400</span>&#125;;</span><br><span class="line">System.out.println(arrayInt[<span class="number">4</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>下标为4表示第五个元素，第五个元素不存在，下标越界抛出异常：</p>
+<p><code>ArrayIndexOutOfBoundsException</code></p>
+<h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><p>数组中支持使用动态，如果调用的方法是父类型中存在的方法不需要向下转型。直接使用父类型引用调用即可。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ArrayTest01</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        Animal[] animals = &#123;<span class="keyword">new</span> <span class="title class_">Cat</span>(), <span class="keyword">new</span> <span class="title class_">Bear</span>()&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i&lt; animals.length; i++)&#123;</span><br><span class="line">            animals[i].move();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">move</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;动物在走路!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Cat</span> <span class="keyword">extends</span> <span class="title class_">Animal</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">move</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;猫在走路!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Bear</span> <span class="keyword">extends</span> <span class="title class_">Animal</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">move</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;熊在走路!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p>-- <code>猫在走路!</code></p>
+<p>-- <code>熊在走路!</code></p>
+<blockquote>
+<p>对于数组来说，实际上只能存储java对象的“<strong>内存地址</strong>”。数组中存储的每个元素是“<strong>引用</strong>”</p>
+</blockquote>
+<h3 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h3><p>关于一维数组的扩容：</p>
+<ol>
+<li><p>在java开发中，数组长度一旦确定就不可变，数组满了需要扩容</p>
+<ul>
+<li>Java中对数组的扩容是先新建一个大容量的数组，然后将小容量数组中的数据一个一个拷贝到大数组当中。<br><img src="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2020-06-08%2010.36.59-14e053cd335a490f9bb0c21cf97d5a43.png" alt="截屏20200608 10.36.59.png"></li>
+</ul>
+</li>
+<li><p>使用<code>System.arraycopy</code>方法拷贝数组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Object[] objs = &#123;<span class="keyword">new</span> <span class="title class_">Object</span>(), <span class="keyword">new</span> <span class="title class_">Object</span>(), <span class="keyword">new</span> <span class="title class_">Object</span>()&#125;;</span><br><span class="line">Object[] newObjs = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">5</span>];</span><br><span class="line">System.arraycopy(arrayInt, <span class="number">0</span>, destArrayInt, <span class="number">0</span>, arrayInt.length);</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<p><code>1 2 3 4 0 0 0 0</code><br><code>System.arraycopy</code>方法有5个参数，第一个参数为拷贝源，第二个参数为源的拷贝起始位置，第三个参数为拷贝到的目标数组，第四个参数为目标数组的起始位置，第五个参数为需要拷贝源的对象数量。<br><img src="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2020-06-08%2011.22.59-51c5494102174b6dbc22c12f54032be7.png" alt="截屏20200608 11.22.59.png"></p>
+</li>
+</ol>
+<blockquote>
+<p>数组扩容效率较低，因为涉及到拷贝的问题。</p>
+</blockquote>
+<h2 id="二维数组"><a href="#二维数组" class="headerlink" title="二维数组"></a>二维数组</h2><p>关于Java中的二维数组：</p>
+<ol>
+<li>二维数组其实是一个特殊的一维数组，特殊在每一个一维数组当中的每一个元素是一个一维数组。</li>
+</ol>
+<h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[][] arrayInt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="初始化-1"><a href="#初始化-1" class="headerlink" title="初始化"></a>初始化</h3><h4 id="静态初始化"><a href="#静态初始化" class="headerlink" title="静态初始化"></a>静态初始化</h4><p>一维数组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] arrayInt = &#123;...&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>二维数组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[][] arrayInt = &#123;&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;, &#123;<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125;&#125;; </span><br></pre></td></tr></table></figure>
+
+<h4 id="动态初始化"><a href="#动态初始化" class="headerlink" title="动态初始化"></a>动态初始化</h4><p>初始化一个3行4列的二维数组，每一个一维数组当中有4个元素。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[][] arrayInt = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">3</span>][<span class="number">4</span>];</span><br></pre></td></tr></table></figure>
+
+<h3 id="取值"><a href="#取值" class="headerlink" title="取值"></a>取值</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[][] arrayInt = &#123;&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;, &#123;<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125;&#125;;</span><br><span class="line">System.out.println(arrayInt[<span class="number">0</span>][<span class="number">2</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>第一个括号表示的是二维数组的下标，第二个括号表示的是二维 数组中的一维数组的下标。第一个一维数组中的第三个元素。 </p>
+<p>输出：</p>
+<p>-- <code>3</code></p>
+<h3 id="遍历-1"><a href="#遍历-1" class="headerlink" title="遍历"></a>遍历</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[][] newArrayInt = &#123;&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;, &#123;<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125;&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; newArrayInt.length; i++) &#123; </span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">0</span>; y &lt; newArrayInt[i].length; y++) &#123;</span><br><span class="line">    System.out.printf(<span class="string">&quot;第%d一维数组的第%d个值为：%d\n&quot;</span>, i + <span class="number">1</span>, y + <span class="number">1</span>, newArrayInt[i][y]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>-- <code>第1一维数组的第1个值为：1</code><br>-- <code>第1一维数组的第2个值为：2</code><br>-- <code>第1一维数组的第3个值为：3</code><br>-- <code>第1一维数组的第4个值为：4</code><br>-- <code>第2一维数组的第1个值为：5</code><br>-- <code>第2一维数组的第2个值为：6</code><br>-- <code>第2一维数组的第3个值为：7</code></p>
+<blockquote>
+<p>二维数组与一维数组的读写方式一样。</p>
+<p>多维数组与二维数组雷同。</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">数组概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E7%BB%B4%E6%95%B0%E7%BB%84"><span class="toc-number">2.</span> <span class="toc-text">一维数组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">2.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">2.2.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%86%99"><span class="toc-number">2.3.</span> <span class="toc-text">读写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%8D%E5%8E%86"><span class="toc-number">2.4.</span> <span class="toc-text">遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%80%81"><span class="toc-number">2.5.</span> <span class="toc-text">多态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%AE%B9"><span class="toc-number">2.6.</span> <span class="toc-text">扩容</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84"><span class="toc-number">3.</span> <span class="toc-text">二维数组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89-1"><span class="toc-number">3.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-1"><span class="toc-number">3.2.</span> <span class="toc-text">初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">3.2.1.</span> <span class="toc-text">静态初始化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">3.2.2.</span> <span class="toc-text">动态初始化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%96%E5%80%BC"><span class="toc-number">3.3.</span> <span class="toc-text">取值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%8D%E5%8E%86-1"><span class="toc-number">3.4.</span> <span class="toc-text">遍历</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&text=26、Java数组"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&title=26、Java数组"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&is_video=false&description=26、Java数组"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=26、Java数组&body=Check out this article: http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&title=26、Java数组"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&title=26、Java数组"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&title=26、Java数组"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&title=26、Java数组"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&name=26、Java数组&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/26%E3%80%81Java%E6%95%B0%E7%BB%84/&t=26、Java数组"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

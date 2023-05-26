@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="JDBC是什么JDBC全称（Java DataBase Connectivity） JDBC是SUN公司制定的一套接口（interface）在 ** java.sql.* ** 包下，接口都有调用者和实现者。面向接口调用、面向接口写实现类，这都属于面向接口编程。面向接口编程是为了降低程序的耦合度，提高程序的拓展力。多态机制就是非常典型的：面向接口编程。（不要面向具体编程） 那么为什么SUN要去制定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JDBC学习笔记">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="JDBC是什么JDBC全称（Java DataBase Connectivity） JDBC是SUN公司制定的一套接口（interface）在 ** java.sql.* ** 包下，接口都有调用者和实现者。面向接口调用、面向接口写实现类，这都属于面向接口编程。面向接口编程是为了降低程序的耦合度，提高程序的拓展力。多态机制就是非常典型的：面向接口编程。（不要面向具体编程） 那么为什么SUN要去制定">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-02T09:55:23.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.844Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="SQL">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>JDBC学习笔记</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=JDBC学习笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=JDBC学习笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&is_video=false&description=JDBC学习笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JDBC学习笔记&body=Check out this article: http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=JDBC学习笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=JDBC学习笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=JDBC学习笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=JDBC学习笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&name=JDBC学习笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&t=JDBC学习笔记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JDBC%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">JDBC是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JDBC%E5%BC%80%E5%8F%91%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">JDBC开发前的准备工作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JDBC-%E7%BC%96%E7%A8%8B%E5%85%AD%E6%AD%A5"><span class="toc-number">3.</span> <span class="toc-text">JDBC 编程六步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-%E6%B3%A8%E5%86%8C%E9%A9%B1%E5%8A%A8"><span class="toc-number">3.0.1.</span> <span class="toc-text">第一步 注册驱动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5-%E8%8E%B7%E5%8F%96%E8%BF%9E%E6%8E%A5"><span class="toc-number">3.0.2.</span> <span class="toc-text">第二步 获取连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5-%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C%E5%AF%B9%E8%B1%A1%EF%BC%88%E4%B8%93%E9%97%A8%E6%89%A7%E8%A1%8Csql%E8%AF%AD%E5%8F%A5%E7%9A%84%E5%AF%B9%E8%B1%A1%EF%BC%89"><span class="toc-number">3.0.3.</span> <span class="toc-text">第三步 获取数据库操作对象（专门执行sql语句的对象）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5-%E6%89%A7%E8%A1%8CSQL%E8%AF%AD%E5%8F%A5"><span class="toc-number">3.0.4.</span> <span class="toc-text">第四步 执行SQL语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E6%AD%A5-%E5%A4%84%E7%90%86%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E9%9B%86"><span class="toc-number">3.0.5.</span> <span class="toc-text">第五步 处理查询结果集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E6%AD%A5-%E9%87%8A%E6%94%BE%E8%B5%84%E6%BA%90"><span class="toc-number">3.0.6.</span> <span class="toc-text">第六步 释放资源</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JDBC-%E6%89%A7%E8%A1%8C%E5%88%A0%E9%99%A4%E4%B8%8E%E6%9B%B4%E6%96%B0"><span class="toc-number">4.</span> <span class="toc-text">JDBC 执行删除与更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#delete"><span class="toc-number">4.0.1.</span> <span class="toc-text">delete</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#update"><span class="toc-number">4.0.2.</span> <span class="toc-text">update</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E6%96%B9%E5%BC%8F%E6%B3%A8%E5%86%8C%E9%A9%B1%E5%8A%A8"><span class="toc-number">5.</span> <span class="toc-text">类加载的方式注册驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%B3%A8%E5%86%8C%E6%96%B9%E5%BC%8F"><span class="toc-number">5.0.1.</span> <span class="toc-text">第一种注册方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%A7%8D%E6%B3%A8%E5%86%8C%E6%96%B9%E5%BC%8F"><span class="toc-number">5.0.2.</span> <span class="toc-text">第二种注册方式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E9%9B%86"><span class="toc-number">6.</span> <span class="toc-text">处理查询结果集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#getString"><span class="toc-number">6.0.1.</span> <span class="toc-text">getString</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3SQL%E6%B3%A8%E5%85%A5%E9%97%AE%E9%A2%98"><span class="toc-number">7.</span> <span class="toc-text">解决SQL注入问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E8%87%B4SQL%E6%B3%A8%E5%85%A5%E7%9A%84%E6%A0%B9%E6%9C%AC%E5%8E%9F%E5%9B%A0%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">7.0.1.</span> <span class="toc-text">导致SQL注入的根本原因是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3SQL%E6%B3%A8%E5%85%A5"><span class="toc-number">7.0.2.</span> <span class="toc-text">解决SQL注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">7.0.3.</span> <span class="toc-text">使用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PreparedStatement%E5%AF%B9%E6%AF%94Statement"><span class="toc-number">8.</span> <span class="toc-text">PreparedStatement对比Statement</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="toc-number">9.</span> <span class="toc-text">事务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A6%81%E6%AD%A2%E8%87%AA%E5%8A%A8%E6%8F%90%E4%BA%A4"><span class="toc-number">9.0.1.</span> <span class="toc-text">禁止自动提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E4%BA%8B%E5%8A%A1"><span class="toc-number">9.0.2.</span> <span class="toc-text">提交事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E6%BB%9A%E4%BA%8B%E5%8A%A1"><span class="toc-number">9.0.3.</span> <span class="toc-text">回滚事务</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%82%B2%E8%A7%82%E9%94%81"><span class="toc-number">10.</span> <span class="toc-text">悲观锁</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        JDBC学习笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T09:55:23.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/MySQL/">MySQL</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/MySQL/" rel="tag">MySQL</a>, <a class="p-category" href="/tags/SQL/" rel="tag">SQL</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="JDBC是什么"><a href="#JDBC是什么" class="headerlink" title="JDBC是什么"></a>JDBC是什么</h1><p>JDBC全称（Java DataBase Connectivity）</p>
+<p>JDBC是SUN公司制定的一套接口（interface）在 ** java.sql.* ** 包下，接口都有调用者和实现者。面向接口调用、面向接口写实现类，这都属于面向接口编程。面向接口编程是为了降低程序的耦合度，提高程序的拓展力。多态机制就是非常典型的：面向接口编程。（不要面向具体编程）</p>
+<p>那么为什么SUN要去制定这么一套JDBC接口呢？因为每个数据库的底层实现都不一样，每一个数据库产品都有自己独特的海鲜原理。如果没有这套接口，那么我们连接数据库时意味着需要多些几套连接代码。</p>
+<h1 id="JDBC开发前的准备工作"><a href="#JDBC开发前的准备工作" class="headerlink" title="JDBC开发前的准备工作"></a>JDBC开发前的准备工作</h1><p>若想使用JDBC，需要先从官网下载对应的驱动jar包，然后将其配置到环境变量classpath当中</p>
+<p>我将它放在了<code>/Library/Java/Extensions/jdbc</code>文件夹中</p>
+<p>确定位置之后配置环境变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">╰&gt;&gt;&gt; open -e ~/.bash_profile</span><br></pre></td></tr></table></figure>
+
+<p>配置环境变量，前面必须以<code>.;</code>开始，不然以后包全部找不着了~~</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export CLASSPATH=.:/Library/Java/Extensions/jdbc/mysql-connector-java-8.0.21/mysql-connector-java-8.0.21.jar </span><br></pre></td></tr></table></figure>
+
+<p>保存之后刷新</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">╰&gt;&gt;&gt; source ~/.zshrc</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h1 id="JDBC-编程六步"><a href="#JDBC-编程六步" class="headerlink" title="JDBC 编程六步"></a>JDBC 编程六步</h1><h3 id="第一步-注册驱动"><a href="#第一步-注册驱动" class="headerlink" title="第一步 注册驱动"></a>第一步 注册驱动</h3><p>告诉java程序，即将连接什么数据库。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Driver</span> <span class="variable">mysqlDriver</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">com</span>.mysql.jdbc.Driver();</span><br><span class="line">DriverManager.registerDriver(mysqlDriver);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="第二步-获取连接"><a href="#第二步-获取连接" class="headerlink" title="第二步 获取连接"></a>第二步 获取连接</h3><p>JVM的进程和数据库进程之间的通道打开了，这属于进程之间的通信，重量级的，使用完之后一定要关闭。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;jdbc:mysql://127.0.0.1:3306/upyou_database&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">user</span> <span class="operator">=</span> <span class="string">&quot;root&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">pass</span> <span class="operator">=</span> <span class="string">&quot;123456&quot;</span>;</span><br><span class="line"><span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> DriverManager.getConnection(url, user, pass);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>url：统一资源定位符（网络中某个资源的绝对路径）<br>URL包括：协议、IP、PORT、资源名</li>
+</ul>
+<h3 id="第三步-获取数据库操作对象（专门执行sql语句的对象）"><a href="#第三步-获取数据库操作对象（专门执行sql语句的对象）" class="headerlink" title="第三步 获取数据库操作对象（专门执行sql语句的对象）"></a>第三步 获取数据库操作对象（专门执行sql语句的对象）</h3><p>专门执行sql语句的对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Statement</span> <span class="variable">stmt</span> <span class="operator">=</span> conn.createStatement();</span><br></pre></td></tr></table></figure>
+
+<p>以下代码专门执行DML语句，返回值是“影响数据库中的记录条数”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stmt.executeUpdate(sql);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="第四步-执行SQL语句"><a href="#第四步-执行SQL语句" class="headerlink" title="第四步 执行SQL语句"></a>第四步 执行SQL语句</h3><p>执行SQL语句主要执行DQL、DML等…</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Strign</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;INSERT INTO DEPT(DEPTNO, DNAME, LOC) VALUES(413, &#x27;UpYouDEPT&#x27;, &#x27;CHICAGO&#x27;);&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="第五步-处理查询结果集"><a href="#第五步-处理查询结果集" class="headerlink" title="第五步 处理查询结果集"></a>第五步 处理查询结果集</h3><p>只有当第四步执行的是select语句的时候，才有这第五步处理查询结果集。</p>
+<h3 id="第六步-释放资源"><a href="#第六步-释放资源" class="headerlink" title="第六步 释放资源"></a>第六步 释放资源</h3><p>使用完资源之后一定要关闭资源，java和数据库属于进程间的通信，开启之后一定要关闭。并且要遵循从小到大依次关闭，分别对其try…catch</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">stmt.close();</span><br><span class="line">conn.close();</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="JDBC-执行删除与更新"><a href="#JDBC-执行删除与更新" class="headerlink" title="JDBC 执行删除与更新"></a>JDBC 执行删除与更新</h1><h3 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.sql.Driver;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.Statement;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LearnJdbc</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="type">Statement</span> <span class="variable">stmt</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// 注册驱动</span></span><br><span class="line">      <span class="type">Driver</span> <span class="variable">driver</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">com</span>.mysql.cj.jdbc.Driver();</span><br><span class="line">      DriverManager.registerDriver(driver);</span><br><span class="line">      <span class="comment">// 连接数据库</span></span><br><span class="line">      <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;jdbc:mysql://localhost:3306/upyou_database&quot;</span>;</span><br><span class="line">      <span class="type">String</span> <span class="variable">user</span> <span class="operator">=</span> <span class="string">&quot;root&quot;</span>;</span><br><span class="line">      <span class="type">String</span> <span class="variable">pass</span> <span class="operator">=</span> <span class="string">&quot;123456&quot;</span>;</span><br><span class="line">      conn = DriverManager.getConnection(url, user, pass); </span><br><span class="line">      <span class="comment">// 获取数据库操作对象</span></span><br><span class="line">      stmt = conn.createStatement(); </span><br><span class="line">      <span class="comment">// 执行DQL语句</span></span><br><span class="line">      <span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;delete from dept where deptno = 413&quot;</span>;</span><br><span class="line">      <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> stmt.executeUpdate(sql);</span><br><span class="line">      <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;删除成功&quot;</span>);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;删除失败&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      <span class="comment">// 释放资源</span></span><br><span class="line">      <span class="keyword">if</span> (stmt != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          stmt.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (conn != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          conn.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="update"><a href="#update" class="headerlink" title="update"></a>update</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.Driver;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.sql.Statement;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LearnJdbc</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="type">Statement</span> <span class="variable">stmt</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// 注册驱动</span></span><br><span class="line">      <span class="type">Driver</span> <span class="variable">driver</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">com</span>.mysql.cj.jdbc.Driver();</span><br><span class="line">      DriverManager.registerDriver(driver);</span><br><span class="line">      <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;jdbc:mysql://localhost:3306/upyou_database&quot;</span>;</span><br><span class="line">      <span class="type">String</span> <span class="variable">user</span> <span class="operator">=</span> <span class="string">&quot;root&quot;</span>;</span><br><span class="line">      <span class="type">String</span> <span class="variable">pass</span> <span class="operator">=</span> <span class="string">&quot;123456&quot;</span>;</span><br><span class="line">      <span class="comment">// 获取数据库连接</span></span><br><span class="line">      conn = DriverManager.getConnection(url, user, pass);</span><br><span class="line">      <span class="comment">// 获取数据库操作对象</span></span><br><span class="line">      stmt = conn.createStatement();</span><br><span class="line">      <span class="comment">// 执行DQL语句</span></span><br><span class="line">      <span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;update dept set dname = &#x27;UpYou那并不存在的妹妹！&#x27;, deptno = 1 where deptno = 301&quot;</span>;</span><br><span class="line">      <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> stmt.executeUpdate(sql);</span><br><span class="line">      <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;修改成功！&quot;</span>);</span><br><span class="line">      &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;修改失败！&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (stmt != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          stmt.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (conn != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          conn.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="类加载的方式注册驱动"><a href="#类加载的方式注册驱动" class="headerlink" title="类加载的方式注册驱动"></a>类加载的方式注册驱动</h1><h3 id="第一种注册方式"><a href="#第一种注册方式" class="headerlink" title="第一种注册方式"></a>第一种注册方式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DriverManager.registerDriver(<span class="keyword">new</span> <span class="title class_">com</span>.mysql.cj.jdbc.Driver());</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="第二种注册方式"><a href="#第二种注册方式" class="headerlink" title="第二种注册方式"></a>第二种注册方式</h3><p>在mysql的jdbc驱动中已尽帮我们实现了驱动的注册</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Driver</span> <span class="keyword">extends</span> <span class="title class_">NonRegisteringDriver</span> <span class="keyword">implements</span> <span class="title class_">java</span>.sql.Driver &#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// Register ourselves with the DriverManager</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            java.sql.DriverManager.registerDriver(<span class="keyword">new</span> <span class="title class_">Driver</span>());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException E) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;Can&#x27;t register driver!&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们只需要让这个类实现类加载就好，这种方式是常用的，因为参数是一个字符串，字符串可以写到xxx.properties文件中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class.froName(<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="处理查询结果集"><a href="#处理查询结果集" class="headerlink" title="处理查询结果集"></a>处理查询结果集</h1><p>executeQuery(String sql); 返回一个ResultSet对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;select * from emp;&quot;</span>;</span><br><span class="line"><span class="type">ResultSet</span> <span class="variable">result</span> <span class="operator">=</span> stmt.executeQuery(sql);</span><br></pre></td></tr></table></figure>
+
+<p>ResultSet的用法类似于Map集合的迭代器，next();方法变动迭代器指针位置，有数据返回true，没有数据返回false</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">boolean</span> <span class="variable">rn</span> <span class="operator">=</span> result.next();<span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="getString"><a href="#getString" class="headerlink" title="getString"></a>getString</h3><p>getString方法的特点是：不管数据库中的数据类型是什么，都以String的形式取出。其中参数可以是列的下标，也可以是列名，在jdbc中，下标是从1开始</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (rn) &#123;</span><br><span class="line">  System.out.println(result.getString(<span class="string">&quot;ename&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>– <code>SMITH</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (rn) &#123;</span><br><span class="line">  System.out.println(result.getString(<span class="number">2</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>– <code>SMITH</code></p>
+<blockquote>
+<p>列名不是表中的列名，而是查询结果集的列名。</p>
+</blockquote>
+<h1 id="解决SQL注入问题"><a href="#解决SQL注入问题" class="headerlink" title="解决SQL注入问题"></a>解决SQL注入问题</h1><h3 id="导致SQL注入的根本原因是什么？"><a href="#导致SQL注入的根本原因是什么？" class="headerlink" title="导致SQL注入的根本原因是什么？"></a>导致SQL注入的根本原因是什么？</h3><p>用户输入的信息中含有SQL语句的关键字，并且这些关键字参与了SQL语句编译的过程。导致SQL语句的原意被扭曲，进而达到SQL注入</p>
+<h3 id="解决SQL注入"><a href="#解决SQL注入" class="headerlink" title="解决SQL注入"></a>解决SQL注入</h3><p>只要用户的输入信息不参与SQL语句的编译过程，问题就解决了。即使用户输入的信息含有SQL语句的关键字，但是没有参与编译所以不起作用。</p>
+<p>要想用户信息不参与SQL语句的编译，那么必须使用：<code>java.sql.PreparedStatement</code>，而不再是原来的：<code>java.sql.Statement</code>,PreparedStatement接口继承了<code>java.sql.Statement</code>接口。</p>
+<p>PreparedStatement是属于与编译的数据库操作对象。他的原理是：预先对SQL语句框架进行预编译，然后再给SQL语句传“值”。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>PreparedStatement的使用方式与Statement的使用方式不变，只是将SQL语句中的“值”替换成**”?”**这是一个占位符，这不是一个有效值。值需要通过set的方式进行设置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"><span class="type">PreparedStatement</span> <span class="variable">ps</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">ResultSet rs</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 注册驱动</span></span><br><span class="line">    <span class="type">Driver</span> <span class="variable">driver</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">com</span>.mysql.cj.jdbc.Driver();</span><br><span class="line">    DriverManager.registerDriver(driver);</span><br><span class="line">    <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;jdbc:mysql://localhost:3306/upyou_database&quot;</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">user</span> <span class="operator">=</span> <span class="string">&quot;root&quot;</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">pass</span> <span class="operator">=</span> <span class="string">&quot;123456&quot;</span>;</span><br><span class="line">    <span class="comment">// 获取数据库连接</span></span><br><span class="line">    conn = DriverManager.getConnection(url, user, pass);</span><br><span class="line">    <span class="comment">// 获取预编译的数据库操作对象</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;select empno, ename from emp where empno = ? and ename = ?&quot;</span>;</span><br><span class="line">    ps = conn.prepareStatement(sql);</span><br><span class="line">    <span class="comment">// 执行DQL语句</span></span><br><span class="line">    ps.setInt(<span class="number">1</span>, <span class="number">7369</span>);</span><br><span class="line">    ps.setString(<span class="number">2</span>, <span class="string">&quot;SMITH&quot;</span>);</span><br><span class="line">    rs = ps.executeQuery();</span><br><span class="line">    <span class="keyword">if</span>(rs.next()) &#123;</span><br><span class="line">      System.out.println(rs.getString(<span class="string">&quot;empno&quot;</span>));</span><br><span class="line">      System.out.println(rs.getString(<span class="string">&quot;ename&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;<span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (rs != <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        rs.close();</span><br><span class="line">      &#125; <span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ps != <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        ps.close();</span><br><span class="line">      &#125; <span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (conn != <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        conn.close();</span><br><span class="line">      &#125; <span class="keyword">catch</span>(SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>– <code>7369</code><br>–  <code>SMITH</code></p>
+<h1 id="PreparedStatement对比Statement"><a href="#PreparedStatement对比Statement" class="headerlink" title="PreparedStatement对比Statement"></a>PreparedStatement对比Statement</h1><ul>
+<li>Statement 存在SQL注入问题PreparedStatement解决了SQL注入问题。</li>
+<li>Statement 编译一次执行一次，PreparedStatement编译一次执行N次。PreparedStatement效率较高一些。</li>
+<li>PreparedStatement会在编译阶段做类型的安全检查。</li>
+</ul>
+<p>综上所述，PreparedStatement使用较多，只要极少数情况下需要使用Statement：</p>
+<ul>
+<li>业务方面要求必须要支持SQL注入</li>
+<li>Statement支持SQL注入，凡是业务方面要求是需要进行SQL语句拼接的，必须使用Statement</li>
+</ul>
+<h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><ol>
+<li>JDBC中的事务是自动提交的。什么是自动提交？<br>自动提交是子要执行任意一条DML语句，则自动提交一次。这是JDBC默认的事务行为。但是在实际的业务当中，通常都是N条DML语句共同联合才能完成的，必须保证他们这些DML语句在同一个事务中同时成功或同时失败。</li>
+</ol>
+<h3 id="禁止自动提交"><a href="#禁止自动提交" class="headerlink" title="禁止自动提交"></a>禁止自动提交</h3><p>void setAutoCommit(boolean autoCommit); 设置JDBC的自动事物提交，当autoCommit参数为true时表示启用自动提交模式，为false表示禁用自动提交模式。这也叫做开启事务。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conn.setAutoCommit(<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="提交事务"><a href="#提交事务" class="headerlink" title="提交事务"></a>提交事务</h3><p>禁用事务的自动提交之后，我们需要手动将事务提交。当程序执行成功后调用commit方法将事务提交上去。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conn.commit();</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="回滚事务"><a href="#回滚事务" class="headerlink" title="回滚事务"></a>回滚事务</h3><p>如果程序执行出错，那么你需要将事务回滚而不是进行提交</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125; <span class="keyword">catch</span> (...) &#123;</span><br><span class="line">  <span class="keyword">if</span> (conn != <span class="literal">null</span>) &#123;</span><br><span class="line">    conn.rollback();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h1><p>如果在一个普通SQL语句后面加上一个<code>for update</code>，这个就是行级锁。表示在这条语句的执行过程中，<code>job = &#39;MANAGER&#39;</code>的这些记录被锁住了，别的事物没有办法对这些记录进行修改。这也被称为悲观锁。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> job <span class="operator">=</span> <span class="string">&#x27;MANAGER&#x27;</span> <span class="keyword">for</span> <span class="keyword">update</span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>事务必须排队执行，数据被锁住了，不允许并发。</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JDBC%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">JDBC是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JDBC%E5%BC%80%E5%8F%91%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">JDBC开发前的准备工作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JDBC-%E7%BC%96%E7%A8%8B%E5%85%AD%E6%AD%A5"><span class="toc-number">3.</span> <span class="toc-text">JDBC 编程六步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-%E6%B3%A8%E5%86%8C%E9%A9%B1%E5%8A%A8"><span class="toc-number">3.0.1.</span> <span class="toc-text">第一步 注册驱动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5-%E8%8E%B7%E5%8F%96%E8%BF%9E%E6%8E%A5"><span class="toc-number">3.0.2.</span> <span class="toc-text">第二步 获取连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5-%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C%E5%AF%B9%E8%B1%A1%EF%BC%88%E4%B8%93%E9%97%A8%E6%89%A7%E8%A1%8Csql%E8%AF%AD%E5%8F%A5%E7%9A%84%E5%AF%B9%E8%B1%A1%EF%BC%89"><span class="toc-number">3.0.3.</span> <span class="toc-text">第三步 获取数据库操作对象（专门执行sql语句的对象）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5-%E6%89%A7%E8%A1%8CSQL%E8%AF%AD%E5%8F%A5"><span class="toc-number">3.0.4.</span> <span class="toc-text">第四步 执行SQL语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E6%AD%A5-%E5%A4%84%E7%90%86%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E9%9B%86"><span class="toc-number">3.0.5.</span> <span class="toc-text">第五步 处理查询结果集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E6%AD%A5-%E9%87%8A%E6%94%BE%E8%B5%84%E6%BA%90"><span class="toc-number">3.0.6.</span> <span class="toc-text">第六步 释放资源</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JDBC-%E6%89%A7%E8%A1%8C%E5%88%A0%E9%99%A4%E4%B8%8E%E6%9B%B4%E6%96%B0"><span class="toc-number">4.</span> <span class="toc-text">JDBC 执行删除与更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#delete"><span class="toc-number">4.0.1.</span> <span class="toc-text">delete</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#update"><span class="toc-number">4.0.2.</span> <span class="toc-text">update</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E6%96%B9%E5%BC%8F%E6%B3%A8%E5%86%8C%E9%A9%B1%E5%8A%A8"><span class="toc-number">5.</span> <span class="toc-text">类加载的方式注册驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%B3%A8%E5%86%8C%E6%96%B9%E5%BC%8F"><span class="toc-number">5.0.1.</span> <span class="toc-text">第一种注册方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%A7%8D%E6%B3%A8%E5%86%8C%E6%96%B9%E5%BC%8F"><span class="toc-number">5.0.2.</span> <span class="toc-text">第二种注册方式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E9%9B%86"><span class="toc-number">6.</span> <span class="toc-text">处理查询结果集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#getString"><span class="toc-number">6.0.1.</span> <span class="toc-text">getString</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3SQL%E6%B3%A8%E5%85%A5%E9%97%AE%E9%A2%98"><span class="toc-number">7.</span> <span class="toc-text">解决SQL注入问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E8%87%B4SQL%E6%B3%A8%E5%85%A5%E7%9A%84%E6%A0%B9%E6%9C%AC%E5%8E%9F%E5%9B%A0%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">7.0.1.</span> <span class="toc-text">导致SQL注入的根本原因是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3SQL%E6%B3%A8%E5%85%A5"><span class="toc-number">7.0.2.</span> <span class="toc-text">解决SQL注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">7.0.3.</span> <span class="toc-text">使用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PreparedStatement%E5%AF%B9%E6%AF%94Statement"><span class="toc-number">8.</span> <span class="toc-text">PreparedStatement对比Statement</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="toc-number">9.</span> <span class="toc-text">事务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A6%81%E6%AD%A2%E8%87%AA%E5%8A%A8%E6%8F%90%E4%BA%A4"><span class="toc-number">9.0.1.</span> <span class="toc-text">禁止自动提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E4%BA%8B%E5%8A%A1"><span class="toc-number">9.0.2.</span> <span class="toc-text">提交事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E6%BB%9A%E4%BA%8B%E5%8A%A1"><span class="toc-number">9.0.3.</span> <span class="toc-text">回滚事务</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%82%B2%E8%A7%82%E9%94%81"><span class="toc-number">10.</span> <span class="toc-text">悲观锁</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=JDBC学习笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=JDBC学习笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&is_video=false&description=JDBC学习笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JDBC学习笔记&body=Check out this article: http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=JDBC学习笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=JDBC学习笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=JDBC学习笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=JDBC学习笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&name=JDBC学习笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/JDBC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&t=JDBC学习笔记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

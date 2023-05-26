@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="静态变量以下程序中，如果创建100份,每个对象都有一个国籍，而中国人的国籍都是一样的，这样很浪费内存空间。 12345678public class Chinese &amp;#123;  &#x2F;&#x2F; 每个人身份证不同  String id;  &#x2F;&#x2F; 每个人名字不同  String name;  &#x2F;&#x2F;每个中国人国籍一样  String country;&amp;#125;   那么该如何解决这个问题？ 所有对象的cou">
+<meta property="og:type" content="article">
+<meta property="og:title" content="15、Java static关键字">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="静态变量以下程序中，如果创建100份,每个对象都有一个国籍，而中国人的国籍都是一样的，这样很浪费内存空间。 12345678public class Chinese &amp;#123;  &#x2F;&#x2F; 每个人身份证不同  String id;  &#x2F;&#x2F; 每个人名字不同  String name;  &#x2F;&#x2F;每个中国人国籍一样  String country;&amp;#125;   那么该如何解决这个问题？ 所有对象的cou">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-7342af6a1cac447496bfa1e54456d31b.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-da349751030a4a6191be6146a89110dc.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-b6d0e49fbe1841c1af55f062a85c2beb.png">
+<meta property="article:published_time" content="2022-01-02T06:44:29.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.836Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/image-7342af6a1cac447496bfa1e54456d31b.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>15、Java static关键字</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/16%E3%80%81Java-%E6%96%B9%E6%B3%95%E8%A6%86%E7%9B%96/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/14%E3%80%81Java-this%E5%85%B3%E9%94%AE%E5%AD%97/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&text=15、Java static关键字"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&title=15、Java static关键字"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&is_video=false&description=15、Java static关键字"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=15、Java static关键字&body=Check out this article: http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&title=15、Java static关键字"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&title=15、Java static关键字"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&title=15、Java static关键字"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&title=15、Java static关键字"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&name=15、Java static关键字&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&t=15、Java static关键字"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F"><span class="toc-number">1.</span> <span class="toc-text">静态变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97"><span class="toc-number">2.</span> <span class="toc-text">静态代码块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">3.</span> <span class="toc-text">结论</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        15、Java static关键字
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T06:44:29.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="静态变量"><a href="#静态变量" class="headerlink" title="静态变量"></a>静态变量</h3><p>以下程序中，如果创建100份,每个对象都有一个国籍，而中国人的国籍都是一样的，这样很浪费内存空间。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Chinese</span> &#123;</span><br><span class="line">  <span class="comment">// 每个人身份证不同</span></span><br><span class="line">  String id;</span><br><span class="line">  <span class="comment">// 每个人名字不同</span></span><br><span class="line">  String name;</span><br><span class="line">  <span class="comment">//每个中国人国籍一样</span></span><br><span class="line">  String country;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-7342af6a1cac447496bfa1e54456d31b.png" alt="image.png"></p>
+<p>那么该如何解决这个问题？</p>
+<p>所有对象的<code>couuntry</code>一样，这种特征属于类级别的特征，可以提升为整个模板的特征，可以在变量前添加<code>static</code>关键字修饰。如果某一个方法、变量使用了<code>static</code>修饰符，那么这个变量、方法也叫<strong>静态</strong>变量、方法。</p>
+<p><code>static String country;</code></p>
+<p><strong>静态变量在类加载的时候初始化，不需要创建对象，内存就开辟了</strong></p>
+<p><strong>例如：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Chinese</span> &#123;</span><br><span class="line">  <span class="comment">// 每个人身份证不同</span></span><br><span class="line">  String id;</span><br><span class="line">  <span class="comment">// 每个人名字不同</span></span><br><span class="line">  String name;</span><br><span class="line">  <span class="comment">//每个中国人国籍一样</span></span><br><span class="line">  <span class="keyword">static</span> <span class="type">String</span> <span class="variable">country</span> <span class="operator">=</span> <span class="string">&quot;中国&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用:</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="type">Chinese</span> <span class="variable">zhangSan</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Chinese</span>();</span><br><span class="line">  zhangSan.setName(<span class="string">&quot;张三&quot;</span>);</span><br><span class="line">  zhangSan.setId(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">  <span class="type">Chinese</span> <span class="variable">liSi</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Chinese</span>();</span><br><span class="line">  liSi.setName(<span class="string">&quot;李四&quot;</span>);</span><br><span class="line">  liSi.setId(<span class="string">&quot;2&quot;</span>);</span><br><span class="line">  <span class="type">Chinese</span> <span class="variable">wangWu</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Chinese</span>();</span><br><span class="line">  wangWu.setName(<span class="string">&quot;王五&quot;</span>);</span><br><span class="line">  wangWu.setId(<span class="string">&quot;3&quot;</span>);</span><br><span class="line"></span><br><span class="line">  System.out.printf(<span class="string">&quot;我是：%s,id:%s，我在：%s\n&quot;</span>, zhangSan.getName(), zhangSan.getId(), Chinese.country);</span><br><span class="line">  System.out.printf(<span class="string">&quot;我是：%s,id:%s，我在：%s\n&quot;</span>, liSi.getName(), liSi.getId(), Chinese.country);</span><br><span class="line">  System.out.printf(<span class="string">&quot;我是：%s,id:%s，我在：%s\n&quot;</span>, wangWu.getName(), wangWu.getId(), Chinese.country);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-da349751030a4a6191be6146a89110dc.png" alt="image.png"></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-b6d0e49fbe1841c1af55f062a85c2beb.png" alt="image.png"></p>
+<h3 id="静态代码块"><a href="#静态代码块" class="headerlink" title="静态代码块"></a>静态代码块</h3><ul>
+<li>可以使用<code>static</code>关键字来定义“静态代码块”:<ol>
+<li>语法格式：<br><code>static&#123;java 语句&#125;</code></li>
+<li>静态代码块在类加载时执行，并且只执行一次。</li>
+<li>静态代码块在一个类中可以编写多个，并且遵循自上而下的顺序依次执行。</li>
+<li>静态代码块的作用是什么？怎么用？用在哪儿？什么时候用？<ul>
+<li>类发生装载动作时记录日志时使用。</li>
+<li>静态代码块是Java为程序员准备的一个特殊的时刻，这个特殊的时刻被称为类加载时刻。若希望在此时刻执行一段特殊的程序，这段程序可以直接放到静态代码块当中。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">staticClass</span> &#123;</span><br><span class="line">  <span class="keyword">static</span> &#123;</span><br><span class="line">    Systrm.out.println(<span class="string">&quot;类加载---&gt;&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
+<li>什么时候成员变量声明为实例变量呢？<ul>
+<li>所有对象都有这个属性，但是这个属性的值会随着对象的变化而变化「不同对象的这个属性具体的值不同」</li>
+</ul>
+</li>
+<li>什么时候声成员变量声明为静态变量呢？<ul>
+<li>所有对象都有这个属性，并且所有对象的这个属性的值是一样的，建议定义为静态变量，节省内存的开销。</li>
+</ul>
+</li>
+<li>静态变量在类加载的时候初始化，内存在方法区中开辟。访问的时候不需要创建对象，直接使用<strong>类名.静态变量名</strong>的方式访问。</li>
+<li>关于Java中的<code>static</code>关键字：<ol>
+<li><code>static</code>翻译为静态的</li>
+<li><code>static</code>修饰的方法叫静态方法</li>
+<li><code>static</code>修饰的变量叫静态变量</li>
+<li>所有<code>static</code>修饰的元素都称为静态的，都可以使用“类名.xxx”的方式访问</li>
+<li><code>static</code>修饰的所有元素都是类级别的特征，和具体的对象无关。</li>
+</ol>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F"><span class="toc-number">1.</span> <span class="toc-text">静态变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97"><span class="toc-number">2.</span> <span class="toc-text">静态代码块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">3.</span> <span class="toc-text">结论</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&text=15、Java static关键字"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&title=15、Java static关键字"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&is_video=false&description=15、Java static关键字"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=15、Java static关键字&body=Check out this article: http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&title=15、Java static关键字"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&title=15、Java static关键字"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&title=15、Java static关键字"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&title=15、Java static关键字"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&name=15、Java static关键字&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/15%E3%80%81Java-static%E5%85%B3%E9%94%AE%E5%AD%97/&t=15、Java static关键字"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

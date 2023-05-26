@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="定义所需要用到的变量 1234private static final String ENCRYPTION_KEY &#x3D; &quot;HI, I&amp;#x27;M UPYOU.&quot;;private static final String CHARSET_NAME &#x3D; &quot;UTF-8&quot;;private static final String ALGORITHM_NAME &#x3D; &amp;q">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java使用DES算法加密处理">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="定义所需要用到的变量 1234private static final String ENCRYPTION_KEY &#x3D; &quot;HI, I&amp;#x27;M UPYOU.&quot;;private static final String CHARSET_NAME &#x3D; &quot;UTF-8&quot;;private static final String ALGORITHM_NAME &#x3D; &amp;q">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271118040.png">
+<meta property="article:published_time" content="2022-01-01T19:17:00.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.845Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/202112271118040.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Java使用DES算法加密处理</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/1%E3%80%81Java-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2021/12/21/ElasticSearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&text=Java使用DES算法加密处理"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&title=Java使用DES算法加密处理"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&is_video=false&description=Java使用DES算法加密处理"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Java使用DES算法加密处理&body=Check out this article: http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&title=Java使用DES算法加密处理"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&title=Java使用DES算法加密处理"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&title=Java使用DES算法加密处理"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&title=Java使用DES算法加密处理"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&name=Java使用DES算法加密处理&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&t=Java使用DES算法加密处理"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Java使用DES算法加密处理
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-01T19:17:00.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>定义所需要用到的变量</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ENCRYPTION_KEY</span> <span class="operator">=</span> <span class="string">&quot;HI, I&#x27;M UPYOU.&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">CHARSET_NAME</span> <span class="operator">=</span> <span class="string">&quot;UTF-8&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ALGORITHM_NAME</span> <span class="operator">=</span> <span class="string">&quot;DES&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> Key key;</span><br></pre></td></tr></table></figure>
+
+<p>将<code>ENCRYPTION_KEY</code>作为一个加密密钥，将<code>ENCRYPTION_KEY</code>转成<code>Key</code>类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 生成 ALGORITHM_NAME 算法对象</span></span><br><span class="line">        <span class="type">KeyGenerator</span> <span class="variable">edsAlgorithmInstance</span> <span class="operator">=</span> KeyGenerator.getInstance(ALGORITHM_NAME);</span><br><span class="line">        <span class="comment">// 使用SHA1安全策略</span></span><br><span class="line">        <span class="type">SecureRandom</span> <span class="variable">sha1PRNG</span> <span class="operator">=</span> SecureRandom.getInstance(<span class="string">&quot;SHA1PRNG&quot;</span>);</span><br><span class="line">        <span class="comment">// 设置密钥 ENCRYPTION_KEY</span></span><br><span class="line">        sha1PRNG.setSeed(ENCRYPTION_KEY.getBytes());</span><br><span class="line">        <span class="comment">// 初始化KeyGenerator对象</span></span><br><span class="line">        edsAlgorithmInstance.init(sha1PRNG);</span><br><span class="line">        <span class="comment">//生成 key</span></span><br><span class="line">        key = edsAlgorithmInstance.generateKey();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建对字符串加密方法 <code>encrypetString</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">encryptString</span><span class="params">()</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>encrypetString</code>方法中操作</strong></p>
+<p>需要使用<code>BASE64Encoder</code>将加密后的结果转成 <code>String</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">BASE64Encoder</span> <span class="variable">base64Encoder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BASE64Encoder</span>();</span><br></pre></td></tr></table></figure>
+
+<p>得到待加密字符串基于<code>CHARSET_NAME</code>编码的<code>byte[]</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">byte</span>[] bytes = str.getBytes(CHARSET_NAME);</span><br></pre></td></tr></table></figure>
+
+<p>创建基于<code>ALGORITHM_NAME</code>的加密算法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(ALGORITHM_NAME);</span><br></pre></td></tr></table></figure>
+
+<p>初始化加密设置,使用无三参初始化方式。<br><img src="http://qiniu-note-image.ctong.top/note/images/202112271118040.png" alt="image.png"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cipher.init(Cipher.ENCRYPT_MODE, key);</span><br></pre></td></tr></table></figure>
+
+<p>将密码进行加密，此处返回的是加密后的<code>byte[]</code>对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">byte</span>[] doFinal = cipher.doFinal(bytes);</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>BASE64Encoder</code> 将加密结果转成 <code>String</code> 后返回</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> base64Encoder.encode(doFinal);</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">encryptString</span><span class="params">(String str)</span>&#123;</span><br><span class="line">    <span class="comment">//基于BASE64编码，接收byte[]并转换成String</span></span><br><span class="line">    <span class="type">BASE64Encoder</span> <span class="variable">base64Encoder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BASE64Encoder</span>();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 按UTF8编码</span></span><br><span class="line">        <span class="type">byte</span>[] bytes = str.getBytes(CHARSET_NAME);</span><br><span class="line">        <span class="comment">// 获取加密对象</span></span><br><span class="line">        <span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(ALGORITHM_NAME);</span><br><span class="line">        <span class="comment">// 初始化密码信息</span></span><br><span class="line">        cipher.init(Cipher.ENCRYPT_MODE, key);</span><br><span class="line">        <span class="comment">// 加密</span></span><br><span class="line">        <span class="type">byte</span>[] doFinal = cipher.doFinal(bytes);</span><br><span class="line">        <span class="comment">// byte[]to encode好的String并返回</span></span><br><span class="line">        <span class="keyword">return</span> base64Encoder.encode(doFinal);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&text=Java使用DES算法加密处理"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&title=Java使用DES算法加密处理"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&is_video=false&description=Java使用DES算法加密处理"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Java使用DES算法加密处理&body=Check out this article: http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&title=Java使用DES算法加密处理"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&title=Java使用DES算法加密处理"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&title=Java使用DES算法加密处理"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&title=Java使用DES算法加密处理"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&name=Java使用DES算法加密处理&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/Java%E4%BD%BF%E7%94%A8DES%E7%AE%97%E6%B3%95%E5%8A%A0%E5%AF%86%E5%A4%84%E7%90%86/&t=Java使用DES算法加密处理"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

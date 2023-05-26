@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="理论 方法在执行过程中，在JVM中的内存是如何分配的呢，内存是如何变化的？ 方法只定义，不调用，是不会执行的，并且在JVM也不会给该方法分配运行所属的内存空间。只有在调用这个方法的时候，才会动态的给这个方法分配所属的内存空间。 在JVM内存划分上有这样三块主要的内存空间（还有其它的内存空间）： 方法区内存 栈内存 堆内存   关于栈数据结构： 栈： stack，是一种数据结构 数据结构反应的是数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="6、Java方法执行与内存分析">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="理论 方法在执行过程中，在JVM中的内存是如何分配的呢，内存是如何变化的？ 方法只定义，不调用，是不会执行的，并且在JVM也不会给该方法分配运行所属的内存空间。只有在调用这个方法的时候，才会动态的给这个方法分配所属的内存空间。 在JVM内存划分上有这样三块主要的内存空间（还有其它的内存空间）： 方法区内存 栈内存 堆内存   关于栈数据结构： 栈： stack，是一种数据结构 数据结构反应的是数据">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-69e9c7753b6c44a2a08575d961f749e8.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-239a3582d5964387bf9cd767fd53e6b9.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-85540f1ac0e84fe09c802e350cec1ad1-20211227095638630.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-b99899b9d5114573a60cdb8a37893285.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-349613633bbb4048907d50adaa027daa-20211227095132369.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top//note/images/202201021410746.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-c7d507c6a7d14b93b2758bd98eaf8848.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-0d36dbb8e9174cac98f4680c393c5691.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-fa449887fdd24dcb9fcd8aa9b11eb365.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-37e46b5564f34327b6be5911b7d3e339.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-289106c2b78743afb6b89966d09a4844.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-06e3f54419e041bea5a6eb0fb5a4ad27.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-7ad9bae6dacd4042bc0aab3567d0b1c9.png">
+<meta property="article:published_time" content="2022-01-02T06:30:07.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.843Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/image-69e9c7753b6c44a2a08575d961f749e8.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>6、Java方法执行与内存分析</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/7%E3%80%81Java%E6%96%B9%E6%B3%95%E9%87%8D%E8%BD%BD/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/4%E3%80%81Java%E6%96%B9%E6%B3%95/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&text=6、Java方法执行与内存分析"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=6、Java方法执行与内存分析"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&is_video=false&description=6、Java方法执行与内存分析"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=6、Java方法执行与内存分析&body=Check out this article: http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=6、Java方法执行与内存分析"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=6、Java方法执行与内存分析"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=6、Java方法执行与内存分析"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=6、Java方法执行与内存分析"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&name=6、Java方法执行与内存分析&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&t=6、Java方法执行与内存分析"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%AE%BA"><span class="toc-number">1.</span> <span class="toc-text">理论</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#JVM%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86%E5%9B%BE"><span class="toc-number">1.0.1.</span> <span class="toc-text">JVM执行原理图</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">栈数据结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">内存分析</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        6、Java方法执行与内存分析
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T06:30:07.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><ul>
+<li>方法在执行过程中，在JVM中的内存是如何分配的呢，内存是如何变化的？<ol>
+<li>方法只定义，不调用，是不会执行的，并且在<code>JVM</code>也不会给该方法分配<strong>运行所属</strong>的内存空间。<br>只有在调用这个方法的时候，才会动态的给这个方法分配所属的内存空间。</li>
+<li>在<code>JVM</code>内存划分上有这样三块主要的内存空间（还有其它的内存空间）：<ul>
+<li>方法区内存</li>
+<li>栈内存</li>
+<li>堆内存</li>
+</ul>
+</li>
+<li>关于<strong>栈</strong>数据结构：<ul>
+<li>栈： stack，是一种数据结构</li>
+<li>数据结构反应的是数据的存储形态。</li>
+<li>数据结构是独立的学科，不属于任何编程语言的范畴，只不过在大多数编程语言当中要使用数结构。</li>
+<li>作为程序员需要提前精通：数据结构 + 算法[计算机必修]</li>
+</ul>
+</li>
+<li>方法执行的时候代码片段存在哪里？方法执行的时候执行过程的内存在哪里分配？<ul>
+<li>方法代码片段属于<code>.class</code>文件的一部分，字节码文件在类载（classLoader、类加载器）加载的时候，将其放到了方法区内存当中。所以<code>JVM</code>中的三块主要的内存空间中方法区内存最先有数据。</li>
+<li>代码片段虽然在方法区内存当中只有一份，但是可以被重复调用。每一次调用这个方法的时候，需要给该方法分配独立的活动场所，在栈内存中分配。【栈内存中分配方法运行的所属内存空间】</li>
+</ul>
+</li>
+<li>方法在调用瞬间，在<strong>栈内存</strong>中会给该方法分配独立的内存空间，此时发生<strong>压栈</strong>动作(push)，方法执行结束之后，给该方法分配的内存空间全部释放，此时发生<strong>弹栈</strong>动作(pop)。<ul>
+<li>压栈： 给该方法分配内存</li>
+<li>弹栈： 释放该方法的内存空间</li>
+</ul>
+</li>
+<li>局部变量在<strong>方法体</strong>中声明，局部变量在运行阶段内存在栈中分配。<ul>
+<li>局部变量有形参也有在方法体定义的局部变量。</li>
+<li>局部变量生命周期最短，因为只要出了这个方法的大括号，那么就意味着这个方法结束了，方法结束了那么就再也没有机会去访问这个内存空间因为内存空间释放掉了，没有了。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="JVM执行原理图"><a href="#JVM执行原理图" class="headerlink" title="JVM执行原理图"></a><strong><code>JVM</code>执行原理图</strong></h4><p><img src="http://qiniu-note-image.ctong.top/note/images/image-69e9c7753b6c44a2a08575d961f749e8.png" alt="image.png"></p>
+<h3 id="栈数据结构"><a href="#栈数据结构" class="headerlink" title="栈数据结构"></a>栈数据结构</h3><p><img src="http://qiniu-note-image.ctong.top/note/images/image-239a3582d5964387bf9cd767fd53e6b9.png" alt="image.png"></p>
+<ol>
+<li><p>栈帧永远指向栈顶元素。</p>
+</li>
+<li><p>栈顶元素处于活跃状态，其它元素静止。</p>
+</li>
+<li><p>术语：<br><img src="http://qiniu-note-image.ctong.top/note/images/image-85540f1ac0e84fe09c802e350cec1ad1-20211227095638630.png" alt="image.png"></p>
+<ul>
+<li>压栈&#x2F;入栈&#x2F;push</li>
+<li>弹栈&#x2F;出栈&#x2F;pop</li>
+</ul>
+</li>
+<li><p>栈数据结构的特点是：</p>
+<ul>
+<li>先进后出</li>
+<li>后进先出</li>
+</ul>
+</li>
+</ol>
+<h2 id="内存分析"><a href="#内存分析" class="headerlink" title="内存分析"></a>内存分析</h2><p>以下程序在<code>JVM</code>中如何执行？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">testMethod</span>()&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">20</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">retValue</span> <span class="operator">=</span> sumInt(a, b);</span><br><span class="line">    System.out.println(<span class="string">&quot;retValue = &quot;</span> + retValue);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">sumInt</span><span class="params">(<span class="type">int</span> i, <span class="type">int</span> j)</span>&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> i + j;</span><br><span class="line">    <span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">retValue</span> <span class="operator">=</span> divide(result, num);</span><br><span class="line">    <span class="keyword">return</span> retValue;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">divide</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span>&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">z</span> <span class="operator">=</span> x / y;</span><br><span class="line">    <span class="keyword">return</span> z;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>.java</code>文件通过编译后,<strong>Class Loader</strong>(类加载器)将<code>testMethod.class</code>放到了方法区内存中。</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-b99899b9d5114573a60cdb8a37893285.png" alt="image.png"></p>
+<p><code>JVM</code>会默认执行入口函数<code>main</code>，代码执行时<code>JVM</code>在栈内存开辟一块空间供<code>main</code>执行。<code>JVM</code>将<code>main</code>放到了栈内存当中执行，期间发生了<strong>压栈</strong>(push)动作。<strong>栈帧</strong>永远指向栈顶元素，栈顶元素是<strong>活跃</strong>的。</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-349613633bbb4048907d50adaa027daa-20211227095132369.png" alt="image.png"></p>
+<p>代码一步一步执行后，逐渐为局部变量开辟内存空间。为<code>main</code>栈开辟了两个名为<code>a、b</code>的内存空间</p>
+<p><img src="http://qiniu-note-image.ctong.top//note/images/202201021410746.png" alt="image.png"></p>
+<p>当执行到第 5 行的时候也就是<code>int retValue = sumInt(a, b);</code>,调用了<code>sumInt</code>方法。调用的这一瞬间<code>JVM</code>又给<code>sumInt</code>开辟内存。而这时栈帧发生改变，指向了<code>sumInt</code>栈。由于栈帧改变，所以<code>main</code>已暂停执行、被阻塞，现在执行的是栈顶元素，由于栈帧永远指向的是栈顶元素，所以栈顶元素永远处于<strong>活跃</strong>状态。</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-c7d507c6a7d14b93b2758bd98eaf8848.png" alt="image.png"></p>
+<p>在<code>main</code>调用<code>sumInt</code>的时候，在参数传递的时候，实际上传递的是变量中保存的值。将<code>a</code>和<code>b</code>变量的值给到<code>sumInt</code>而不是<code>a</code>和<code>b</code>。所以<code>sumInt</code>无法操作<code>main</code>里面的局部变量**(无法得到内存地址)**。参数传递的时候是按顺序传递。</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-0d36dbb8e9174cac98f4680c393c5691.png" alt="image.png"></p>
+<p>执行到第10行的时候<code> int result = i + j;</code>,这时候需要计算 <code>i + j</code> 的结果给<code>result</code>栈储存。而计算是由中央处理器也就是CPU来执行，CPU将处理后的结果给到<code>result</code></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-fa449887fdd24dcb9fcd8aa9b11eb365.png" alt="image.png"></p>
+<p>程序继续执行，当执行到第12行的时候<code>int retValue = divide(result, num);</code>,又调用 <code>divide</code>,<code>JVM</code>给<code>divide</code>开辟了一块内存空间，发生了<strong>压栈</strong>动作。逐步开辟<code>x、y、z</code>栈，而<code>z</code>的结果需要通过CPU计算得到。</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-37e46b5564f34327b6be5911b7d3e339.png" alt="image.png"></p>
+<p>而程序遇到<code>return</code>语句后就会<strong>强制弹栈</strong>（释放内存空间），继续栈顶元素的执行，这时候栈顶元素以及变成<code>sumInt</code>，<strong>弹栈</strong>后代表第12行<code>int retValue = divide(result, num);</code>结束。</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-289106c2b78743afb6b89966d09a4844.png" alt="image.png"></p>
+<p>将<code>divide</code> 的结果给到<code>retValue</code></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-06e3f54419e041bea5a6eb0fb5a4ad27.png" alt="image.png"></p>
+<p>而往下走遇到<code>return</code>强制弹栈<code>return retValue;</code>。<code>sumInt</code>弹栈之后代表着第5行<code> int retValue = sumInt(a, b);</code>结束。</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-7ad9bae6dacd4042bc0aab3567d0b1c9.png" alt="image.png"></p>
+<p>往下走遇到了<code>System</code>类,这个类实际与其它class(包含<code>testMethod.class</code>)一起被加载到代码区。调用<code>System</code>类里面的<code>println</code>方法后又压栈，执行完成后弹栈，最后<code>main</code>执行完成弹栈。资源全部释放。</p>
+<blockquote>
+<p>代码是逐行执行，从上倒下。</p>
+<p>代码编译期不会执行任何计算，JVM执行时计算</p>
+<p>栈结构遵循 先进后出，后进先出 的规则</p>
+<p>栈内存主要存储的是局部变量</p>
+<p>方法调用的时候，在传参的时候，实际上传递的是变量保存的<strong>值</strong></p>
+<p>栈帧永远在栈顶，栈顶元素永远处于<strong>活跃</strong>状态</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%AE%BA"><span class="toc-number">1.</span> <span class="toc-text">理论</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#JVM%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86%E5%9B%BE"><span class="toc-number">1.0.1.</span> <span class="toc-text">JVM执行原理图</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">栈数据结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">内存分析</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&text=6、Java方法执行与内存分析"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=6、Java方法执行与内存分析"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&is_video=false&description=6、Java方法执行与内存分析"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=6、Java方法执行与内存分析&body=Check out this article: http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=6、Java方法执行与内存分析"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=6、Java方法执行与内存分析"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=6、Java方法执行与内存分析"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&title=6、Java方法执行与内存分析"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&name=6、Java方法执行与内存分析&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/6%E3%80%81Java%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90/&t=6、Java方法执行与内存分析"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

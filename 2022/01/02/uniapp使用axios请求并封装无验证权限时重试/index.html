@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="在uniapp中，使用axios进行请求时，uniapp无法使用axios的适配器，需要基于uni.request来定义适配器。安装完成axios后在项目utils目录下建一个axios文件夹  文中根目录代表utils中的axios文件夹  在根目录新建一个axios.js文件，在该文件中配置一个新的axios 12345678import axios from &quot;axios&amp;quot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="uniapp使用axios请求并封装无验证权限时重试">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="在uniapp中，使用axios进行请求时，uniapp无法使用axios的适配器，需要基于uni.request来定义适配器。安装完成axios后在项目utils目录下建一个axios文件夹  文中根目录代表utils中的axios文件夹  在根目录新建一个axios.js文件，在该文件中配置一个新的axios 12345678import axios from &quot;axios&amp;quot">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-02T07:44:45.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.855Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Vue">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>uniapp使用axios请求并封装无验证权限时重试</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/MySQL%E6%9F%A5%E8%AF%A2%E5%8C%BA%E5%88%86%E5%A4%A7%E5%B0%8F%E5%86%99%E6%95%8F%E6%84%9F%E9%97%AE%E9%A2%98/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/React-react-redux-props%E6%88%96state%E6%9B%B4%E6%96%B0%E8%A7%86%E5%9B%BE%E6%97%A0%E6%B3%95%E9%87%8D%E6%96%B0%E6%B8%B2%E6%9F%93%E9%97%AE%E9%A2%98/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&text=uniapp使用axios请求并封装无验证权限时重试"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&title=uniapp使用axios请求并封装无验证权限时重试"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&is_video=false&description=uniapp使用axios请求并封装无验证权限时重试"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=uniapp使用axios请求并封装无验证权限时重试&body=Check out this article: http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&title=uniapp使用axios请求并封装无验证权限时重试"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&title=uniapp使用axios请求并封装无验证权限时重试"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&title=uniapp使用axios请求并封装无验证权限时重试"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&title=uniapp使用axios请求并封装无验证权限时重试"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&name=uniapp使用axios请求并封装无验证权限时重试&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&t=uniapp使用axios请求并封装无验证权限时重试"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        uniapp使用axios请求并封装无验证权限时重试
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T07:44:45.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%B0%8F%E7%8E%A9%E6%84%8F/">小玩意</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="p-category" href="/tags/TypeScript/" rel="tag">TypeScript</a>, <a class="p-category" href="/tags/Vue/" rel="tag">Vue</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>在uniapp中，使用axios进行请求时，uniapp无法使用axios的适配器，需要基于<code>uni.request</code>来定义适配器。<br>安装完成axios后在项目utils目录下建一个axios文件夹</p>
+<blockquote>
+<p>文中根目录代表utils中的axios文件夹</p>
+</blockquote>
+<p>在根目录新建一个axios.js文件，在该文件中配置一个新的axios</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&quot;axios&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> service = axios.<span class="title function_">create</span>(&#123;</span><br><span class="line">  <span class="attr">withCredentials</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">crossDomain</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">baseURL</span>: <span class="string">&#x27;***&#x27;</span>,</span><br><span class="line">  <span class="attr">timeout</span>: <span class="number">6000</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在根目录建一个lib文件夹，在这个文件夹里建一个adapter.js文件，该文件配置了基于uniapp的axios适配，记得抛出这个适配器</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> settle <span class="keyword">from</span> <span class="string">&quot;axios/lib/core/settle&quot;</span></span><br><span class="line"><span class="keyword">import</span> buildURL <span class="keyword">from</span> <span class="string">&quot;axios/lib/helpers/buildURL&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 格式化路径 */</span></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">URLFormat</span> = <span class="keyword">function</span> (<span class="params">baseURL, url</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> url.<span class="title function_">startsWith</span>(<span class="string">&quot;http&quot;</span>) ? url : baseURL</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* axios适配器配置 */</span></span><br><span class="line"><span class="keyword">const</span> adapter = <span class="keyword">function</span> (<span class="params">config</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    uni.<span class="title function_">request</span>(&#123;</span><br><span class="line">      <span class="attr">method</span>: config.<span class="property">method</span>.<span class="title function_">toUpperCase</span>(),</span><br><span class="line">      <span class="attr">url</span>: <span class="title function_">buildURL</span>(<span class="title class_">URLFormat</span>(config.<span class="property">baseURL</span>, config.<span class="property">url</span>), config.<span class="property">params</span>, config.<span class="property">paramsSerializer</span>),</span><br><span class="line">      <span class="attr">header</span>: config.<span class="property">headers</span>,</span><br><span class="line">      <span class="attr">data</span>: config.<span class="property">data</span>,</span><br><span class="line">      <span class="attr">dataType</span>: config.<span class="property">dataType</span>,</span><br><span class="line">      <span class="attr">responseType</span>: config.<span class="property">responseType</span>,</span><br><span class="line">      <span class="attr">sslVerify</span>: config.<span class="property">sslVerify</span>,</span><br><span class="line">      <span class="attr">complete</span>: <span class="keyword">function</span> <span class="title function_">complete</span>(<span class="params">response</span>) &#123;</span><br><span class="line">        response = &#123;</span><br><span class="line">          <span class="attr">data</span>: response.<span class="property">data</span>,</span><br><span class="line">          <span class="attr">status</span>: response.<span class="property">statusCode</span>,</span><br><span class="line">          <span class="attr">errMsg</span>: response.<span class="property">errMsg</span>,</span><br><span class="line">          <span class="attr">header</span>: response.<span class="property">header</span>,</span><br><span class="line">          <span class="attr">config</span>: config</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="title function_">settle</span>(resolve, reject, response);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> adapter;</span><br></pre></td></tr></table></figure>
+<p>在根目录的axios.js文件中，使用这个适配器并设置重新发起请求的次数以及每次重新请求的间隔时间</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> adapter <span class="keyword">from</span> <span class="string">&quot;./lib/adapter&quot;</span></span><br><span class="line">service.<span class="property">defaults</span>.<span class="property">adapter</span> = adapter;</span><br><span class="line">service.<span class="property">defaults</span>.<span class="property">retry</span> = <span class="number">5</span>; <span class="comment">// 设置请求次数</span></span><br><span class="line">service.<span class="property">defaults</span>.<span class="property">retryDelay</span> = <span class="number">1000</span>;<span class="comment">// 重新请求时间间隔</span></span><br></pre></td></tr></table></figure>
+
+<p>设置一个请求完成后的拦截器，如果响应头中的状态码为200表示成功，将请求得到的数据返回，否则一律视为错误请求，需要返回一个Promise。在lib中建立一个axiosError.js在里面处理失败的请求。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">service.<span class="property">interceptors</span>.<span class="property">response</span>.<span class="title function_">use</span>(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (res.<span class="property">status</span> == <span class="number">200</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Promise</span>.<span class="title function_">reject</span>(res);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;, <span class="function"><span class="params">err</span> =&gt;</span> <span class="title function_">axiosError</span>(err, service))</span><br></pre></td></tr></table></figure>
+<p>axiosError.js中需要传入axios拦截器截到的错误以及我们新创建的这个axios，这个错误处理页面只是充当一个分配器的角色，我们可以根据响应头中的状态进行处理该错误，未处理的错误在使用时处理，返回Promise.reject</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 处理401错误代码</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Error401</span> <span class="keyword">from</span> <span class="string">&quot;../handlers/401Error&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> (<span class="params">err, axios</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> errStatus = err.<span class="property">response</span>.<span class="property">status</span>;</span><br><span class="line">  <span class="keyword">if</span> (errStatus == <span class="number">401</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Error401</span>(err); <span class="comment">// 401没有权限，重新请求设置token</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Promise</span>.<span class="title function_">reject</span>(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>处理401错误代码，当请求失败并且响应头中的状态码为401时，是我没没有权限去请求，可以根据项目来进行处理，我们是需要携带token，所以401为token未携带或失效，请求时无需传入token，axios遇到401会自动携带这个token重新去请求。在根目录建一个handlers文件夹，在里面建一个401Error.js用于处理401的错误。<br>这里使用到Vuex，需要引入Vuex，因为获取token、设置token的方法以及token都放在里面！！！使用<code>store.dispatch(&quot;getToken&quot;)</code>得到token后将token设置到请求头Authorization</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> interceptorsError <span class="keyword">from</span> <span class="string">&quot;../lib/interceptorsError&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">&#x27;store/index&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 需要传入axios错误配置 */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> (<span class="params">err, axios</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> config = err.<span class="property">config</span>;<span class="comment">// axios请求配置</span></span><br><span class="line">  store.<span class="title function_">dispatch</span>(<span class="string">&quot;getToken&quot;</span>).<span class="title function_">then</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    config.<span class="property">headers</span>[<span class="string">&quot;Authorization&quot;</span>] = store.<span class="property">state</span>.<span class="property">cnrToken</span>.<span class="property">cnr_token</span>;</span><br><span class="line">  &#125;);</span><br><span class="line">  err.<span class="property">config</span> = config;</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">interceptorsError</span>(axios, config);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一切准备就绪之后需要重新请求，在根目录建一个interceptorsError.js文件，用于重新执行请求，这个方法需要一个请求配置，只需要把我们上一个请求的配置传入即可。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> (<span class="params">axios, config</span>) &#123;</span><br><span class="line">  <span class="comment">// 如果配置不存在或未设置重试选项，reject</span></span><br><span class="line">  <span class="keyword">if</span> (!config || !config.<span class="property">retry</span>) <span class="keyword">return</span> <span class="title class_">Promise</span>.<span class="title function_">reject</span>(err);</span><br><span class="line">  <span class="comment">// 设置变量以跟踪重试计数</span></span><br><span class="line">  config.<span class="property">__retryCount</span> = config.<span class="property">__retryCount</span> || <span class="number">0</span>;</span><br><span class="line">  <span class="comment">// 如果重试次数大于最大重试次数，reject</span></span><br><span class="line">  <span class="keyword">if</span> (config.<span class="property">__retryCount</span> &gt;= config.<span class="property">retry</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Promise</span>.<span class="title function_">reject</span>(err);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 每重试一次记录一次重试次数</span></span><br><span class="line">  config.<span class="property">__retryCount</span> += <span class="number">1</span>;</span><br><span class="line">  <span class="comment">// 重试间隔时间</span></span><br><span class="line">  <span class="keyword">const</span> backoff = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="keyword">function</span> (<span class="params">resolve</span>) &#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">      <span class="title function_">resolve</span>();</span><br><span class="line">    &#125;, config.<span class="property">retryDelay</span> || <span class="number">1000</span>);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> backoff.<span class="title function_">then</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">axios</span>(config);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是我Vuex中的代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * @Author: UpYou</span></span><br><span class="line"><span class="comment"> * @Date: 2020-09-25 16:30:13</span></span><br><span class="line"><span class="comment"> * @LastEditTime: 2020-09-25 21:32:56</span></span><br><span class="line"><span class="comment"> * @Descripttion: token</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> state = &#123;</span><br><span class="line">  <span class="attr">cnr_token</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="attr">POST_KEYS</span>: &#123;</span><br><span class="line">    ...获取token需要的验证信息...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mutations = &#123;</span><br><span class="line">  <span class="comment">/* 设置token */</span></span><br><span class="line">  <span class="title function_">SET_CNRTOKEN</span>(<span class="params">state, Payload</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title class_">Payload</span>.<span class="title function_">startsWith</span>(<span class="string">&quot;Bearer&quot;</span>))</span><br><span class="line">      state.<span class="property">cnr_token</span> = <span class="title class_">Payload</span>;</span><br><span class="line">    <span class="keyword">else</span> state.<span class="property">cnr_token</span> = <span class="string">&quot;Bearer&quot;</span> + <span class="title class_">Payload</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> actions = &#123;</span><br><span class="line">  <span class="comment">/* 向服务器获取token */</span></span><br><span class="line">  <span class="title function_">getToken</span>(<span class="params">context, args</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="keyword">function</span> (<span class="params">resolve, reject</span>) &#123;</span><br><span class="line">      uni.<span class="title function_">request</span>(&#123;</span><br><span class="line">        <span class="attr">url</span>: <span class="string">&quot;token服务器地址&quot;</span>,</span><br><span class="line">        <span class="attr">data</span>: &#123; ...context.<span class="property">state</span>.<span class="property">POST_KEYS</span> &#125;,</span><br><span class="line">        <span class="attr">method</span>: <span class="string">&quot;get&quot;</span>,</span><br><span class="line">        <span class="keyword">async</span> <span class="title function_">success</span>(<span class="params">res</span>) &#123;</span><br><span class="line">          <span class="keyword">await</span> context.<span class="title function_">commit</span>(<span class="string">&#x27;SET_CNRTOKEN&#x27;</span>, res.<span class="property">data</span>.<span class="property">access_token</span>)</span><br><span class="line">          <span class="keyword">await</span> <span class="title function_">resolve</span>(res.<span class="property">data</span>)</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">fail</span>: reject</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  state, mutations, actions,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/Clover-You/fornt-end-quick-demo/blob/542fa04a90407086eab4471b7ab07b71ff46fc99/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95.zip">源码下载</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&text=uniapp使用axios请求并封装无验证权限时重试"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&title=uniapp使用axios请求并封装无验证权限时重试"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&is_video=false&description=uniapp使用axios请求并封装无验证权限时重试"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=uniapp使用axios请求并封装无验证权限时重试&body=Check out this article: http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&title=uniapp使用axios请求并封装无验证权限时重试"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&title=uniapp使用axios请求并封装无验证权限时重试"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&title=uniapp使用axios请求并封装无验证权限时重试"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&title=uniapp使用axios请求并封装无验证权限时重试"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&name=uniapp使用axios请求并封装无验证权限时重试&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/uniapp%E4%BD%BF%E7%94%A8axios%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%B0%81%E8%A3%85%E6%97%A0%E9%AA%8C%E8%AF%81%E6%9D%83%E9%99%90%E6%97%B6%E9%87%8D%E8%AF%95/&t=uniapp使用axios请求并封装无验证权限时重试"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

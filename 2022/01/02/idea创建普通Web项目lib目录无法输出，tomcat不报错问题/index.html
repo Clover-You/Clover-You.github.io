@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="idea创建普通Web项目lib目录无法输出，tomcat不报错问题idea版本：2021.2 tomcat版本：9.0.50 项目结构创建一个普普通通的web项目，目录结构大概就是这样 123456789101112131415161718192021222324252627282930.├── .idea│   ├── artifacts│   ├── inspectionProfiles│">
+<meta property="og:type" content="article">
+<meta property="og:title" content="idea创建普通Web项目lib目录无法输出，tomcat不报错问题">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="idea创建普通Web项目lib目录无法输出，tomcat不报错问题idea版本：2021.2 tomcat版本：9.0.50 项目结构创建一个普普通通的web项目，目录结构大概就是这样 123456789101112131415161718192021222324252627282930.├── .idea│   ├── artifacts│   ├── inspectionProfiles│">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271548244.png">
+<meta property="article:published_time" content="2022-01-02T10:20:09.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.854Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="随笔">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/202112271548244.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>idea创建普通Web项目lib目录无法输出，tomcat不报错问题</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/Java-%E8%A7%A3%E5%86%B3Enum.valueOf%E6%89%BE%E4%B8%8D%E5%88%B0%E6%9E%9A%E4%B8%BE%E5%87%BA%E7%8E%B0%E7%9A%84%E5%BC%82%E5%B8%B8/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/Http%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%8C%85%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&text=idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&title=idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&is_video=false&description=idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=idea创建普通Web项目lib目录无法输出，tomcat不报错问题&body=Check out this article: http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&title=idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&title=idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&title=idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&title=idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&name=idea创建普通Web项目lib目录无法输出，tomcat不报错问题&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&t=idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">idea创建普通Web项目lib目录无法输出，tomcat不报错问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">项目结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3"><span class="toc-number">1.3.</span> <span class="toc-text">解决</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        idea创建普通Web项目lib目录无法输出，tomcat不报错问题
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T10:20:09.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><a href="#idea创建普通Web项目lib目录无法输出，tomcat不报错问题" class="headerlink" title="idea创建普通Web项目lib目录无法输出，tomcat不报错问题"></a>idea创建普通Web项目lib目录无法输出，tomcat不报错问题</h1><p>idea版本：2021.2</p>
+<p>tomcat版本：9.0.50</p>
+<h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><p>创建一个普普通通的web项目，目录结构大概就是这样</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── .idea</span><br><span class="line">│   ├── artifacts</span><br><span class="line">│   ├── inspectionProfiles</span><br><span class="line">│   ├── libraries</span><br><span class="line">│   └── sonarlint</span><br><span class="line">│       └── issuestore</span><br><span class="line">├── conf</span><br><span class="line">├── lib</span><br><span class="line">├── out</span><br><span class="line">│   ├── artifacts</span><br><span class="line">│   │   └── test03_war_exploded</span><br><span class="line">│   │       └── WEB-INF</span><br><span class="line">│   │           ├── classes</span><br><span class="line">│   │           │   └── top</span><br><span class="line">│   │           │       └── ctong</span><br><span class="line">│   │           │           └── controller</span><br><span class="line">│   │           └── lib</span><br><span class="line">│   └── production</span><br><span class="line">│       └── test03</span><br><span class="line">│           ├── generated</span><br><span class="line">│           └── top</span><br><span class="line">│               └── ctong</span><br><span class="line">│                   └── controller</span><br><span class="line">├── src</span><br><span class="line">│   └── top</span><br><span class="line">│       └── ctong</span><br><span class="line">│           └── controller</span><br><span class="line">└── web</span><br><span class="line">    └── WEB-INF</span><br></pre></td></tr></table></figure>
+
+<p><code>lib</code>文件夹已经设置为<code>Library</code>文件夹。</p>
+<p><code>controller</code>搞了个<code>hello</code>请求</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestController</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">6290967590153117614L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/hello&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test01</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello World!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置了自动包扫描</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:mvc</span>=<span class="string">&quot;http://www.springframework.org/schema/mvc&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;top.ctong&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>加载了<code>DispatcherServlet</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">version</span>=<span class="string">&quot;4.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>dispatcherServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:springmvc.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>dispatcherServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>点启动，访问<code>/hello</code>成功荣获404….干掉<code>out</code>目录重启….404…</p>
+<p>重新建一个项目，启动…..<code>hello world</code>…..</p>
+<p>再创建新项目，启动…<code>404</code>…</p>
+<p>打开<code>FileMerge</code>文件对比工具…嗯？差不多啊…</p>
+<p>…打开<code>out</code>文件夹，嗯？怎么lib目录没加进来…</p>
+<p>…反反复复2天后…</p>
+<p>…</p>
+<p>…</p>
+<p>…</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>尝试将<code>lib</code>目录拖进<code>web/WEB-INF</code>目录…<code>hello world</code>…</p>
+<p>不信邪，再把<code>lib</code>拖到项目根目录…<code>404</code>…</p>
+<p>……<strong>MMP</strong>……我之前一直这样都没问题…</p>
+<p>不知道第几次打开 idea &#x3D;&#x3D;&#x3D; &gt;&gt; Proiect Structure…</p>
+<p>无意间点了 Proiect Settings  &#x3D;&#x3D;&#x3D;&gt;&gt; Artifacts…嗯？怎么有警告…..</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271548244.png" alt="截屏2021-08-06 10.41.23"></p>
+<p><code>Library lib &#39; required for module test03 is missing from the artifact</code> 嗯？莫名其妙双击了右边的<code>lib</code>。警告消失了…</p>
+<p>启动…<code>hello world</code>…</p>
+<p>什么妖魔鬼怪…</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">idea创建普通Web项目lib目录无法输出，tomcat不报错问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">项目结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3"><span class="toc-number">1.3.</span> <span class="toc-text">解决</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&text=idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&title=idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&is_video=false&description=idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=idea创建普通Web项目lib目录无法输出，tomcat不报错问题&body=Check out this article: http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&title=idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&title=idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&title=idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&title=idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&name=idea创建普通Web项目lib目录无法输出，tomcat不报错问题&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/idea%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9AWeb%E9%A1%B9%E7%9B%AElib%E7%9B%AE%E5%BD%95%E6%97%A0%E6%B3%95%E8%BE%93%E5%87%BA%EF%BC%8Ctomcat%E4%B8%8D%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/&t=idea创建普通Web项目lib目录无法输出，tomcat不报错问题"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

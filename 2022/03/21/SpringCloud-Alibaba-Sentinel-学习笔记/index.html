@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="SpringCloud Alibaba-Sentinel - 学习笔记熔断降级和限流1.什么是熔断？A 服务调用 B 服务的某个功能，由于网络不稳定或者 B 服务压力大，导致业务处理能力降低响应慢。如果这样的次数太多，可以直接把 B 服务断了（A 不再请求 B），凡是调用 B 的直接返回降级数据，不必等待 B 的超长执行。这样 B 的故障问题就不会级联影响到 A。 2.什么是降级？整个网站处于流量">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringCloud Alibaba-Sentinel - 学习笔记">
+<meta property="og:url" content="http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="SpringCloud Alibaba-Sentinel - 学习笔记熔断降级和限流1.什么是熔断？A 服务调用 B 服务的某个功能，由于网络不稳定或者 B 服务压力大，导致业务处理能力降低响应慢。如果这样的次数太多，可以直接把 B 服务断了（A 不再请求 B），凡是调用 B 的直接返回降级数据，不必等待 B 的超长执行。这样 B 的故障问题就不会级联影响到 A。 2.什么是降级？整个网站处于流量">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203181604926.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203181609099.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203181613103.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203181615564.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203181621625.gif">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203181617998.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203181625425.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203200856881.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203201613419.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203201635927.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203201639927.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203201707398.gif">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203201928119.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203201931116.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203201942712.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203210811471.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203210819802.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203210822392.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203210828398.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203210830177.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203210835002.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203210838826.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203210839309.png">
+<meta property="og:image" content="https://qiniu-note-image.ctong.top/note/images/202203210855126.png">
+<meta property="article:published_time" content="2022-03-21T01:03:58.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.852Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="SpringBoot">
+<meta property="article:tag" content="SpringCloud">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiniu-note-image.ctong.top/note/images/202203181604926.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>SpringCloud Alibaba-Sentinel - 学习笔记</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/03/21/Sleuth-Zipkin-%E6%9C%8D%E5%8A%A1%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/03/14/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=SpringCloud Alibaba-Sentinel - 学习笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringCloud Alibaba-Sentinel - 学习笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&is_video=false&description=SpringCloud Alibaba-Sentinel - 学习笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=SpringCloud Alibaba-Sentinel - 学习笔记&body=Check out this article: http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringCloud Alibaba-Sentinel - 学习笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringCloud Alibaba-Sentinel - 学习笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringCloud Alibaba-Sentinel - 学习笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringCloud Alibaba-Sentinel - 学习笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&name=SpringCloud Alibaba-Sentinel - 学习笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&t=SpringCloud Alibaba-Sentinel - 学习笔记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">SpringCloud Alibaba-Sentinel - 学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7%E5%92%8C%E9%99%90%E6%B5%81"><span class="toc-number">1.1.</span> <span class="toc-text">熔断降级和限流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E7%86%94%E6%96%AD%EF%BC%9F"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.什么是熔断？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AF%E9%99%8D%E7%BA%A7%EF%BC%9F"><span class="toc-number">1.1.2.</span> <span class="toc-text">2.什么是降级？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BB%80%E4%B9%88%E6%98%AF%E9%99%90%E6%B5%81"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. 什么是限流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BC%82%E5%90%8C"><span class="toc-number">1.1.4.</span> <span class="toc-text">4. 异同</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E5%90%88SpringBoot"><span class="toc-number">1.2.</span> <span class="toc-text">整合SpringBoot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E6%8E%A7"><span class="toc-number">1.3.</span> <span class="toc-text">流控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%99%8D%E7%BA%A7%E6%95%B0%E6%8D%AE"><span class="toc-number">1.3.1.</span> <span class="toc-text">自定义降级数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7"><span class="toc-number">1.4.</span> <span class="toc-text">熔断降级</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E6%96%B9%E7%9A%84%E7%86%94%E6%96%AD%E4%BF%9D%E6%8A%A4"><span class="toc-number">1.4.1.</span> <span class="toc-text">调用方的熔断保护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E6%96%B9%E6%89%8B%E5%8A%A8%E6%8C%87%E5%AE%9A%E9%99%8D%E7%BA%A7%E7%AD%96%E7%95%A5"><span class="toc-number">1.4.2.</span> <span class="toc-text">调用方手动指定降级策略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%97%E4%BF%9D%E6%8A%A4%E8%B5%84%E6%BA%90"><span class="toc-number">1.5.</span> <span class="toc-text">自定义受保护资源</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9A%E4%B9%89"><span class="toc-number">1.5.1.</span> <span class="toc-text">代码定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E8%A7%A3%E5%AE%9A%E4%B9%89%E8%B5%84%E6%BA%90"><span class="toc-number">1.5.2.</span> <span class="toc-text">注解定义资源</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E5%85%B3%E9%99%90%E6%B5%81"><span class="toc-number">1.6.</span> <span class="toc-text">网关限流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%92%88%E5%AF%B9%E8%AF%B7%E6%B1%82%E5%B1%9E%E6%80%A7"><span class="toc-number">1.6.1.</span> <span class="toc-text">针对请求属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Api%E5%88%86%E7%BB%84"><span class="toc-number">1.6.2.</span> <span class="toc-text">Api分组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9B%9E%E8%B0%83%E6%95%B0%E6%8D%AE"><span class="toc-number">1.6.3.</span> <span class="toc-text">自定义回调数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E7%9B%B8%E5%85%B3"><span class="toc-number">1.6.4.</span> <span class="toc-text">参数相关</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        SpringCloud Alibaba-Sentinel - 学习笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-03-21T01:03:58.000Z" class="dt-published" itemprop="datePublished">2022-03-21</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Spring/">Spring</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Java/" rel="tag">Java</a>, <a class="p-category" href="/tags/SpringBoot/" rel="tag">SpringBoot</a>, <a class="p-category" href="/tags/SpringCloud/" rel="tag">SpringCloud</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="SpringCloud-Alibaba-Sentinel-学习笔记"><a href="#SpringCloud-Alibaba-Sentinel-学习笔记" class="headerlink" title="SpringCloud Alibaba-Sentinel - 学习笔记"></a>SpringCloud Alibaba-Sentinel - 学习笔记</h1><h2 id="熔断降级和限流"><a href="#熔断降级和限流" class="headerlink" title="熔断降级和限流"></a>熔断降级和限流</h2><h3 id="1-什么是熔断？"><a href="#1-什么是熔断？" class="headerlink" title="1.什么是熔断？"></a>1.什么是熔断？</h3><p>A 服务调用 B 服务的某个功能，由于网络不稳定或者 B 服务压力大，导致业务处理能力降低响应慢。如果这样的次数太多，可以直接把 B 服务断了（A 不再请求 B），凡是调用 B 的直接返回降级数据，不必等待 B 的超长执行。这样 B 的故障问题就不会级联影响到 A。</p>
+<h3 id="2-什么是降级？"><a href="#2-什么是降级？" class="headerlink" title="2.什么是降级？"></a>2.什么是降级？</h3><p>整个网站处于流量高峰期，服务器压力剧增，可以根据当前业务情况及流量，对一些服务和页面进行尤策略的降级停止服务，所有的调用直接返回降级数据。以此缓解服务器资源的压力，以保证核心业务的正常运行，同时也保证了客户和大部分客户能得到正确的响应。</p>
+<h3 id="3-什么是限流"><a href="#3-什么是限流" class="headerlink" title="3. 什么是限流"></a>3. 什么是限流</h3><p>对打入服务的请求流量进行控制，使服务能够承担不超过自己能力的流量压力。</p>
+<more/>
+
+<h3 id="4-异同"><a href="#4-异同" class="headerlink" title="4. 异同"></a>4. 异同</h3><ul>
+<li>相同点<ol>
+<li>为了保证集群大部分服务的可用性和可靠性，防止崩溃，关闭特定业务以保证资源可用</li>
+<li>用户最终都是体验到某个功能不可用</li>
+</ol>
+</li>
+<li>不同点<ol>
+<li>熔断时被调用方故障，触发的系统主动规则</li>
+<li>降级是基于全局考虑，停止一些正常服务，释放资源</li>
+</ol>
+</li>
+</ul>
+<h2 id="整合SpringBoot"><a href="#整合SpringBoot" class="headerlink" title="整合SpringBoot"></a>整合SpringBoot</h2><p>导入依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-alibaba-sentinel<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意在依赖导入的时候，可能会产生 <code>com.alibaba.fastjson</code> 依赖冲突，好像是引入了两个这个依赖，把它忽略就好</strong></p>
+<blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--    用于限流、熔断、降级    --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-alibaba-sentinel<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastjson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>下载对应版本的 sentinel-dashboard 【<a target="_blank" rel="noopener" href="https://github.com/alibaba/Sentinel/releases%E3%80%91%E5%B0%BD%E9%87%8F%E4%B8%8E%E4%BD%A0%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%B8%8B%E8%BD%BD%E7%9A%84sentinel%E7%89%88%E6%9C%AC%E4%B8%80%E8%87%B4%EF%BC%8C%E5%90%A6%E5%88%99%E5%8F%AF%E8%83%BD%E4%BC%9A%E6%9C%89%E5%85%B6%E5%AE%83%E9%97%AE%E9%A2%98">https://github.com/alibaba/Sentinel/releases】尽量与你项目中下载的sentinel版本一致，否则可能会有其它问题</a></p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203181604926.png" alt="sentinel依赖版本"></p>
+<p>下载好 dashboard 后启动它，如果端口冲突就修改 <code>--server.prot</code> 参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar sentinel-dashboard-1.8.1.jar --server.prot=8080</span><br></pre></td></tr></table></figure>
+
+<p>启动 dashboard 后在需要保护的项目中加入配置</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置 sentinel dashboard 路径</span></span><br><span class="line"><span class="attr">spring.cloud.sentinel.transport.dashboard</span>=<span class="string">172.16.156.128:8080</span></span><br><span class="line"><span class="attr">spring.cloud.sentinel.transport.port</span>=<span class="string">8719</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里的 spring.cloud.sentinel.transport.port 端口配置会在应用对应的机器上启动一个 Http Server，该 Server 会与 Sentinel 控制台做交互。比如 Sentinel 控制台添加了一个限流规则，会把规则数据 push 给这个 Http Server 接收，Http Server 再将规则注册到 Sentinel 中。</p>
+</blockquote>
+<p>访问你项目中任意一个路径再打开 dashboard 就可以看到对应的信息</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203181609099.png" alt="dashboard"></p>
+<h2 id="流控"><a href="#流控" class="headerlink" title="流控"></a>流控</h2><p>打开 dashboard 对指定路径设置流控规则</p>
+<p>点击 【蔟点链路 —&gt; 流控】 然后对指定的路径进行设置</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203181613103.png" alt="流程01"></p>
+<p>设置好规则后点击新增即可</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203181615564.png" alt="流程02"></p>
+<p>以上规则是一秒只能处理一个请求，如果处理了多个，那么就直接返回失败，例如：</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203181621625.gif" alt="流控演示"></p>
+<p>点击【流控规则】可以看到你添加的所有规则，我刚刚添加的规则就可以在这看到</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203181617998.png" alt="规则列表"></p>
+<p><strong>但是现在有个问题，就是当我的服务重启后，规则就失效了</strong></p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203181625425.png" alt="规则列表"></p>
+<h3 id="自定义降级数据"><a href="#自定义降级数据" class="headerlink" title="自定义降级数据"></a>自定义降级数据</h3><p>Sentinel 的默认降级数据是一个 <code>Blocked by Sentinel (flow limiting)</code> </p>
+<blockquote>
+<p>默认是这个类实现：<code>com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.DefaultBlockExceptionHandler</code></p>
+</blockquote>
+<p>如果需要自定义，可以在容器中放一个自定义的 <code>BlockExceptionHandler</code> 即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">CustomBlockException</span> <span class="keyword">implements</span> <span class="title class_">BlockExceptionHandler</span> &#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handle</span><span class="params">(HttpServletRequest httpServletRequest,</span></span><br><span class="line"><span class="params">                     HttpServletResponse httpServletResponse,</span></span><br><span class="line"><span class="params">                     BlockException e)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    httpServletResponse.setCharacterEncoding(<span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">    httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);</span><br><span class="line">    <span class="type">PrintWriter</span> <span class="variable">writer</span> <span class="operator">=</span> httpServletResponse.getWriter();</span><br><span class="line">    <span class="type">R</span> <span class="variable">error</span> <span class="operator">=</span> R.error(BizCodeEnum.TO_MANY_REQUEST);</span><br><span class="line">    writer.println(JSON.toJSONString(error));</span><br><span class="line">    log.info(<span class="string">&quot;限流: ===&gt;&gt; &#123;&#125;&quot;</span>, error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203200856881.png" alt="测试结果"></p>
+<p><strong>注意：由于我使用的是2021版本的，旧版需要使用 <code>WebCallbackManager.setUrlBlockHandler(xxx);</code>  来设置</strong></p>
+<h2 id="熔断降级"><a href="#熔断降级" class="headerlink" title="熔断降级"></a>熔断降级</h2><p><strong>默认当前环境就是微服务：SpringCloud + SpringCloudAlibaba + SpringFeign</strong></p>
+<p>例如单A服务调用B服务时可能会出现错误导致一系列问题，在引入熔断保护后，在第一次调用失败时Sentinel会将B服务进行隔离（断路保护），下次再调用该服务时会直接执行降级方法。防止在出现问题后导致的服务崩溃现象。</p>
+<h3 id="调用方的熔断保护"><a href="#调用方的熔断保护" class="headerlink" title="调用方的熔断保护"></a>调用方的熔断保护</h3><p>例如我有这么一个远程接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient(value = &quot;gulimall-seckill&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">SeckillFeignService</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通过商品id查询当前商品是否参与秒杀活动</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> skuId 商品id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> R</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> Clover You</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@email</span> cloveryou02@163.com</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> 2022/3/16 9:25 上午</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/sku/seckill/&#123;skuId&#125;&quot;)</span></span><br><span class="line">    R <span class="title function_">getSkuSeckillInfo</span><span class="params">(<span class="meta">@PathVariable(&quot;skuId&quot;)</span> Long skuId)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>给 Feign 接口添加一个降级实现，注意该实现一定要添加到容器中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> top.ctong.gulimall.product.feign.fallback;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> top.ctong.gulimall.common.exception.BizCodeEnum;</span><br><span class="line"><span class="keyword">import</span> top.ctong.gulimall.common.utils.R;</span><br><span class="line"><span class="keyword">import</span> top.ctong.gulimall.product.feign.SeckillFeignService;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SeckillFeignServiceFallBack</span> <span class="keyword">implements</span> <span class="title class_">SeckillFeignService</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通过商品id查询当前商品是否参与秒杀活动</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> skuId 商品id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> R</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> Clover You</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@email</span> cloveryou02@163.com</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> 2022/3/16 9:25 上午</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> R <span class="title function_">getSkuSeckillInfo</span><span class="params">(Long skuId)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> R.error(BizCodeEnum.UNKNOWN_EXCEPTION);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>添加完降级实现后再在远程接口中 <code>@FeignClient</code> 的 <code>fallback</code> 参数来指定这个降级实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient(value = &quot;gulimall-seckill&quot;, fallback = SeckillFeignServiceFallBack.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">SeckillFeignService</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>把远程服务停掉模拟宕机，再发送请求检查远程返回的数据</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203201613419.png" alt="降级数据"></p>
+<h3 id="调用方手动指定降级策略"><a href="#调用方手动指定降级策略" class="headerlink" title="调用方手动指定降级策略"></a>调用方手动指定降级策略</h3><p>可以在 sentinel-dashboard 中手动指定降级规则，这种方式比较灵活，并且支持多种策略，例如 RT 策略，可以根据每秒调用比例来就行降级，例如每秒进来5个请求，这些请求如果都不在指定时间内完成（毫秒），那么就触发降级策略，过了指定保护后，会尝试几次去调用远程</p>
+<p>在指定远程链路上点击【降级】</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203201635927.png" alt="image-20220320163541779"></p>
+<p>设置好规则后点击【新增】保存</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203201639927.png" alt="设置熔断规则"></p>
+<blockquote>
+<p>比例阈值：自己设定的 ， 慢调用次数 &#x2F; 调用次数&#x3D;比例阈值</p>
+<p>来源于：<a target="_blank" rel="noopener" href="https://blog.csdn.net/w1234567465/article/details/119649203">https://blog.csdn.net/w1234567465/article/details/119649203</a></p>
+</blockquote>
+<p>测试如下图</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203201707398.gif" alt="熔断保护演示"></p>
+<p>在指定时间内慢调次数达到比例阈，那么就开启熔断保护（降级处理并触发熔断回调），在保护期间，超过熔断时长后，会稍稍放一些请求过去，如果请求还是不达标，那么继续隔离。</p>
+<h2 id="自定义受保护资源"><a href="#自定义受保护资源" class="headerlink" title="自定义受保护资源"></a>自定义受保护资源</h2><h3 id="代码定义"><a href="#代码定义" class="headerlink" title="代码定义"></a>代码定义</h3><p>任何一个我们需要保护的代码片段都是资源，可以使用 <code>SphU.entry(&quot;自定义资源名&quot;)</code> 定义一段资源，当被限流时 <code>try</code> 中被保护的资源并不会执行，而是抛出一个 <code>BlockException</code> 异常，我们只需要处理这个异常就好了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/current-seckiil-skus&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="keyword">public</span> R <span class="title function_">getCurrentSeckiilSkus</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> (<span class="type">Entry</span> <span class="variable">entry</span> <span class="operator">=</span> SphU.entry(<span class="string">&quot;current-seckiil-skus&quot;</span>)) &#123;</span><br><span class="line">        List&lt;SeckillSkuRedisTo&gt; list = seckillService.getCurrentSeckiilSkus();</span><br><span class="line">        <span class="keyword">return</span> R.ok().setData(list);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (BlockException e) &#123;</span><br><span class="line">        <span class="comment">// &#123;code: 10003, msg: &quot;当前服务器正忙&quot;&#125;</span></span><br><span class="line">        <span class="keyword">return</span> R.error(BizCodeEnum.TO_MANY_REQUEST);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在对应的服务中点击【降级&#x2F;限流规则】再新增一个对应的规则【新增降级规则】</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203201928119.png" alt="新增降级规则"></p>
+<p><strong>一定要注意资源名，一定要是 <code>SphU.entry</code> 里指定的资源名</strong>，设置完后点【新增就好了】</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203201931116.png" alt="新增降级规则"></p>
+<p>就放结果好了，不搞gif了</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203201942712.png" alt="结果"></p>
+<h3 id="注解定义资源"><a href="#注解定义资源" class="headerlink" title="注解定义资源"></a>注解定义资源</h3><p>可以使用 sentinel 提供的 <code>@SentinelResource</code> 注解来定义一个资源，和使用代码定义的方式差不多，不过需要在本类指定一个降级处理方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/current-seckiil-skus&quot;)</span></span><br><span class="line"><span class="meta">@SentinelResource(value = &quot;current-seckiil-skus&quot;, blockHandler = &quot;blockHandler&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="keyword">public</span> R <span class="title function_">getCurrentSeckiilSkus</span><span class="params">()</span> &#123;</span><br><span class="line">  List&lt;SeckillSkuRedisTo&gt; list = seckillService.getCurrentSeckiilSkus();</span><br><span class="line">  <span class="keyword">return</span> R.ok().setData(list);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 降级处理方法</span></span><br><span class="line"><span class="keyword">public</span> R <span class="title function_">blockHandler</span><span class="params">(BlockException e)</span> &#123;</span><br><span class="line">  log.info(<span class="string">&quot;限流了！！&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> R.error(BizCodeEnum.TO_MANY_REQUEST);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果不指定资源名称，那么也可以使用方法全类名作为资源名也是可以的</p>
+<p><code>top.ctong.gulimall.seckill.controller.SeckillController:getCurrentSeckiilSkus()</code></p>
+<p><strong>官方给出的注解参数</strong></p>
+<p><code>@SentinelResource</code> 用于定义资源，并提供可选的异常处理和 fallback 配置项。 <code>@SentinelResource</code> 注解包含以下属性：</p>
+<ul>
+<li><code>value</code>：资源名称，必需项（不能为空）</li>
+<li><code>entryType</code>：entry 类型，可选项（默认为 <code>EntryType.OUT</code>）</li>
+<li><code>blockHandler</code> &#x2F; <code>blockHandlerClass</code>: <code>blockHandler</code> 对应处理 <code>BlockException</code> 的函数名称，可选项。blockHandler 函数访问范围需要是 <code>public</code>，返回类型需要与原方法相匹配，参数类型需要和原方法相匹配并且最后加一个额外的参数，类型为 <code>BlockException</code>。blockHandler 函数默认需要和原方法在同一个类中。若希望使用其他类的函数，则可以指定 <code>blockHandlerClass</code> 为对应的类的 <code>Class</code> 对象，注意对应的函数必需为 static 函数，否则无法解析。</li>
+<li><code>fallback</code> &#x2F; <code>fallbackClass</code>：fallback 函数名称，可选项，用于在抛出异常的时候提供 fallback 处理逻辑。fallback 函数可以针对所有类型的异常（除了 <code>exceptionsToIgnore</code> 里面排除掉的异常类型）进行处理。fallback 函数签名和位置要求：<ul>
+<li>返回值类型必须与原函数返回值类型一致；</li>
+<li>方法参数列表需要和原函数一致，或者可以额外多一个 <code>Throwable</code> 类型的参数用于接收对应的异常。</li>
+<li>fallback 函数默认需要和原方法在同一个类中。若希望使用其他类的函数，则可以指定 <code>fallbackClass</code> 为对应的类的 <code>Class</code> 对象，注意对应的函数必需为 static 函数，否则无法解析。</li>
+</ul>
+</li>
+<li><code>defaultFallback</code>（since 1.6.0）：默认的 fallback 函数名称，可选项，通常用于通用的 fallback 逻辑（即可以用于很多服务或方法）。默认 fallback 函数可以针对所有类型的异常（除了 <code>exceptionsToIgnore</code> 里面排除掉的异常类型）进行处理。若同时配置了 fallback 和 defaultFallback，则只有 fallback 会生效。defaultFallback 函数签名要求：<ul>
+<li>返回值类型必须与原函数返回值类型一致；</li>
+<li>方法参数列表需要为空，或者可以额外多一个 <code>Throwable</code> 类型的参数用于接收对应的异常。</li>
+<li>defaultFallback 函数默认需要和原方法在同一个类中。若希望使用其他类的函数，则可以指定 <code>fallbackClass</code> 为对应的类的 <code>Class</code> 对象，注意对应的函数必需为 static 函数，否则无法解析。</li>
+</ul>
+</li>
+<li><code>exceptionsToIgnore</code>（since 1.6.0）：用于指定哪些异常被排除掉，不会计入异常统计中，也不会进入 fallback 逻辑中，而是会原样抛出。</li>
+</ul>
+<p>1.8.0 版本开始，<code>defaultFallback</code> 支持在类级别进行配置。</p>
+<blockquote>
+<p>注：1.6.0 之前的版本 fallback 函数只针对降级异常（<code>DegradeException</code>）进行处理，<strong>不能针对业务异常进行处理</strong>。</p>
+</blockquote>
+<h2 id="网关限流"><a href="#网关限流" class="headerlink" title="网关限流"></a>网关限流</h2><p>使用网关限流效果更加明显，因为请求直接就在网关层拦截，根本就不需要转到其他服务。</p>
+<p>Sentinel 支持目前主流的网关，如：Spring Cloud Gateway、Netflix和Zuul等。</p>
+<p>可以根据请求属性进行解析，例如某个请求带或者没带某个属性进行限流和网关规则管理、网关规则检查、调用参数组装、自定义API分组管理、API路径匹配。</p>
+<p>引入以下Maven依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-alibaba-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2021.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-alibaba-sentinel-gateway<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2021.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba.csp<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>sentinel-spring-cloud-gateway-adapter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>引入依赖后添加一些配置</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">sentinel:</span></span><br><span class="line">      <span class="attr">transport:</span></span><br><span class="line">        <span class="attr">dashboard:</span> <span class="number">172.16</span><span class="number">.156</span><span class="number">.128</span><span class="string">:8080</span></span><br><span class="line"><span class="attr">management:</span></span><br><span class="line">  <span class="attr">endpoints:</span></span><br><span class="line">    <span class="attr">web:</span></span><br><span class="line">      <span class="attr">exposure:</span></span><br><span class="line">        <span class="attr">include:</span> <span class="string">&#x27;*&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>再发起一个请求稍等一会刷新 sentinel-dashboard 就可以看见对应模块了</p>
+<p>Sentinel 1.6.3 引入了网关流控控制台的支持，用户可以直接在 Sentinel 控制台上查看 API Gateway 实时的 route 和自定义 API 分组监控，管理网关规则和 API 分组配置。</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203210811471.png" alt="网关控制台"></p>
+<p>对网关层新建一个流控规则，资源名可以是路由规则名，例如以下路由配置，<code>id</code> 就是路由规则名，同时可用于在 Sentinel 中作为资源名</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">gulimall-gateway</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">ware_route</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">lb://gulimall-ware</span></span><br><span class="line">          <span class="attr">predicates:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/api/ware/**</span></span><br><span class="line">          <span class="attr">filters:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">RewritePath=/api/(?&lt;path&gt;.*),/$\&#123;path&#125;</span></span><br><span class="line"></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">coupon_route</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">lb://gulimall-coupon</span></span><br><span class="line">          <span class="attr">predicates:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/api/coupon/**</span></span><br><span class="line">          <span class="attr">filters:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">RewritePath=/api/(?&lt;path&gt;.*),/$\&#123;path&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203210819802.png" alt="新增网关流控规则"></p>
+<p>测试结果：</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203210822392.png" alt="结果"></p>
+<h3 id="针对请求属性"><a href="#针对请求属性" class="headerlink" title="针对请求属性"></a>针对请求属性</h3><p>同时也可以针对请求属性进行匹配，例如请求头、参数等信息。</p>
+<p>如以下规则，如果携带了 <code>token</code> 参数，并且其值为 <strong>1</strong> ，那么就限制该请求，否则放行</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203210828398.png" alt="针对请求属性"></p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203210830177.png" alt="测试结果"></p>
+<h3 id="Api分组"><a href="#Api分组" class="headerlink" title="Api分组"></a>Api分组</h3><p>可以通过将多个路径分成一组，然后对这个组统一进行限流</p>
+<p>可以到【API管理】中点击【新增自定义API】进行设置</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203210835002.png" alt="API分组"></p>
+<p>新增好分组后再添加一个限流规则，注意这里的<strong>API类型</strong>选择API分组</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203210838826.png" alt="新建对分组的限流规则"></p>
+<p>再测试这两个API，都可以限制住</p>
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203210839309.png" alt="测试结果"></p>
+<h3 id="自定义回调数据"><a href="#自定义回调数据" class="headerlink" title="自定义回调数据"></a>自定义回调数据</h3><p>如果需要修改限流后的返回数据，需要使用 <code>GatewayCallbackManager</code> 来进行设置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SentinelGatewayConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">SentinelGatewayConfig</span><span class="params">()</span> &#123;</span><br><span class="line">        GatewayCallbackManager.setBlockHandler(<span class="keyword">new</span> <span class="title class_">BlockRequestHandler</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> Mono&lt;ServerResponse&gt; <span class="title function_">handleRequest</span><span class="params">(ServerWebExchange serverWebExchange, Throwable throwable)</span> &#123;</span><br><span class="line">                <span class="type">R</span> <span class="variable">error</span> <span class="operator">=</span> R.error(BizCodeEnum.TO_MANY_REQUEST);</span><br><span class="line">                <span class="keyword">return</span> ServerResponse.ok().body(Mono.just(error), R.class);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://qiniu-note-image.ctong.top/note/images/202203210855126.png" alt="降级数据"></p>
+<h3 id="参数相关"><a href="#参数相关" class="headerlink" title="参数相关"></a>参数相关</h3><ul>
+<li><code>GatewayFlowRule</code>：网关限流规则，针对 API Gateway 的场景定制的限流规则，可以针对不同 route 或自定义的 API 分组进行限流，支持针对请求中的参数、Header、来源 IP 等进行定制化的限流。</li>
+<li><code>ApiDefinition</code>：用户自定义的 API 定义分组，可以看做是一些 URL 匹配的组合。比如我们可以定义一个 API 叫 <code>my_api</code>，请求 path 模式为 <code>/foo/**</code> 和 <code>/baz/**</code> 的都归到 <code>my_api</code> 这个 API 分组下面。限流的时候可以针对这个自定义的 API 分组维度进行限流。</li>
+</ul>
+<p>其中网关限流规则 <code>GatewayFlowRule</code> 的字段解释如下：</p>
+<ul>
+<li><code>resource</code>：资源名称，可以是网关中的 route 名称或者用户自定义的 API 分组名称。</li>
+<li><code>resourceMode</code>：规则是针对 API Gateway 的 route（<code>RESOURCE_MODE_ROUTE_ID</code>）还是用户在 Sentinel 中定义的 API 分组（<code>RESOURCE_MODE_CUSTOM_API_NAME</code>），默认是 route。</li>
+<li><code>grade</code>：限流指标维度，同限流规则的 <code>grade</code> 字段。</li>
+<li><code>count</code>：限流阈值</li>
+<li><code>intervalSec</code>：统计时间窗口，单位是秒，默认是 1 秒。</li>
+<li><code>controlBehavior</code>：流量整形的控制效果，同限流规则的 <code>controlBehavior</code> 字段，目前支持快速失败和匀速排队两种模式，默认是快速失败。</li>
+<li><code>burst</code>：应对突发请求时额外允许的请求数目。</li>
+<li><code>maxQueueingTimeoutMs</code>：匀速排队模式下的最长排队时间，单位是毫秒，仅在匀速排队模式下生效。</li>
+<li><code>paramItem</code>：参数限流配置。若不提供，则代表不针对参数进行限流，该网关规则将会被转换成普通流控规则；否则会转换成热点规则。其中的字段：<ul>
+<li><code>parseStrategy</code>：从请求中提取参数的策略，目前支持提取来源 IP（<code>PARAM_PARSE_STRATEGY_CLIENT_IP</code>）、Host（<code>PARAM_PARSE_STRATEGY_HOST</code>）、任意 Header（<code>PARAM_PARSE_STRATEGY_HEADER</code>）和任意 URL 参数（<code>PARAM_PARSE_STRATEGY_URL_PARAM</code>）四种模式。</li>
+<li><code>fieldName</code>：若提取策略选择 Header 模式或 URL 参数模式，则需要指定对应的 header 名称或 URL 参数名称。</li>
+<li><code>pattern</code>：参数值的匹配模式，只有匹配该模式的请求属性值会纳入统计和流控；若为空则统计该请求属性的所有值。（1.6.2 版本开始支持）</li>
+<li><code>matchStrategy</code>：参数值的匹配策略，目前支持精确匹配（<code>PARAM_MATCH_STRATEGY_EXACT</code>）、子串匹配（<code>PARAM_MATCH_STRATEGY_CONTAINS</code>）和正则匹配（<code>PARAM_MATCH_STRATEGY_REGEX</code>）。（1.6.2 版本开始支持）</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Url 限流可以根据 【自定义降级数据】章节的配置统一返回。其它方式需要指定</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">SpringCloud Alibaba-Sentinel - 学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7%E5%92%8C%E9%99%90%E6%B5%81"><span class="toc-number">1.1.</span> <span class="toc-text">熔断降级和限流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E7%86%94%E6%96%AD%EF%BC%9F"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.什么是熔断？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AF%E9%99%8D%E7%BA%A7%EF%BC%9F"><span class="toc-number">1.1.2.</span> <span class="toc-text">2.什么是降级？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BB%80%E4%B9%88%E6%98%AF%E9%99%90%E6%B5%81"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. 什么是限流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BC%82%E5%90%8C"><span class="toc-number">1.1.4.</span> <span class="toc-text">4. 异同</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E5%90%88SpringBoot"><span class="toc-number">1.2.</span> <span class="toc-text">整合SpringBoot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E6%8E%A7"><span class="toc-number">1.3.</span> <span class="toc-text">流控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%99%8D%E7%BA%A7%E6%95%B0%E6%8D%AE"><span class="toc-number">1.3.1.</span> <span class="toc-text">自定义降级数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7"><span class="toc-number">1.4.</span> <span class="toc-text">熔断降级</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E6%96%B9%E7%9A%84%E7%86%94%E6%96%AD%E4%BF%9D%E6%8A%A4"><span class="toc-number">1.4.1.</span> <span class="toc-text">调用方的熔断保护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E6%96%B9%E6%89%8B%E5%8A%A8%E6%8C%87%E5%AE%9A%E9%99%8D%E7%BA%A7%E7%AD%96%E7%95%A5"><span class="toc-number">1.4.2.</span> <span class="toc-text">调用方手动指定降级策略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%97%E4%BF%9D%E6%8A%A4%E8%B5%84%E6%BA%90"><span class="toc-number">1.5.</span> <span class="toc-text">自定义受保护资源</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9A%E4%B9%89"><span class="toc-number">1.5.1.</span> <span class="toc-text">代码定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E8%A7%A3%E5%AE%9A%E4%B9%89%E8%B5%84%E6%BA%90"><span class="toc-number">1.5.2.</span> <span class="toc-text">注解定义资源</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E5%85%B3%E9%99%90%E6%B5%81"><span class="toc-number">1.6.</span> <span class="toc-text">网关限流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%92%88%E5%AF%B9%E8%AF%B7%E6%B1%82%E5%B1%9E%E6%80%A7"><span class="toc-number">1.6.1.</span> <span class="toc-text">针对请求属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Api%E5%88%86%E7%BB%84"><span class="toc-number">1.6.2.</span> <span class="toc-text">Api分组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9B%9E%E8%B0%83%E6%95%B0%E6%8D%AE"><span class="toc-number">1.6.3.</span> <span class="toc-text">自定义回调数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E7%9B%B8%E5%85%B3"><span class="toc-number">1.6.4.</span> <span class="toc-text">参数相关</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=SpringCloud Alibaba-Sentinel - 学习笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringCloud Alibaba-Sentinel - 学习笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&is_video=false&description=SpringCloud Alibaba-Sentinel - 学习笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=SpringCloud Alibaba-Sentinel - 学习笔记&body=Check out this article: http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringCloud Alibaba-Sentinel - 学习笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringCloud Alibaba-Sentinel - 学习笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringCloud Alibaba-Sentinel - 学习笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringCloud Alibaba-Sentinel - 学习笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&name=SpringCloud Alibaba-Sentinel - 学习笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/03/21/SpringCloud-Alibaba-Sentinel-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&t=SpringCloud Alibaba-Sentinel - 学习笔记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

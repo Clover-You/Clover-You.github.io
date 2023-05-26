@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="这两天才开始学习SpringBoot，遇到了两个很有意思的注解，打算用TypeScript模拟一下  示例配置文件 12345name: UpYoumap: &amp;#123;    name: UpYou,    age: 18&amp;#125;  123456789101112@ConfigurationProperties(&amp;#123; prefix: &amp;#x27;map&amp;#x27; &amp;#125;)@">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="这两天才开始学习SpringBoot，遇到了两个很有意思的注解，打算用TypeScript模拟一下  示例配置文件 12345name: UpYoumap: &amp;#123;    name: UpYou,    age: 18&amp;#125;  123456789101112@ConfigurationProperties(&amp;#123; prefix: &amp;#x27;map&amp;#x27; &amp;#125;)@">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-02T07:25:00.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.855Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/React%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%90%86%E8%B7%A8%E5%9F%9F%E5%90%8E%E5%90%8E%E7%AB%AF%E6%97%A0%E6%B3%95%E6%8E%A5%E6%94%B6Session%E9%97%AE%E9%A2%98/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/%E5%9F%BA%E4%BA%8Euniapp%E7%9A%84WebSocket%E5%B0%81%E8%A3%85%E7%9A%84uni.socket/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&text=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&title=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&is_video=false&description=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解&body=Check out this article: http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&title=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&title=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&title=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&title=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&name=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&t=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Configuration"><span class="toc-number">2.</span> <span class="toc-text">@Configuration</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuration%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">Configuration方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#findComponentInIOCByName%E6%96%B9%E6%B3%95"><span class="toc-number">2.2.</span> <span class="toc-text">findComponentInIOCByName方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#addComponentToCantainer%E6%96%B9%E6%B3%95"><span class="toc-number">2.3.</span> <span class="toc-text">addComponentToCantainer方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ConfigurationProperties"><span class="toc-number">3.</span> <span class="toc-text">@ConfigurationProperties</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ConfigurationProperties%E6%96%B9%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text">ConfigurationProperties方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getComponentInIOC%E6%96%B9%E6%B3%95"><span class="toc-number">3.2.</span> <span class="toc-text">getComponentInIOC方法</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T07:25:00.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%B0%8F%E7%8E%A9%E6%84%8F/">小玩意</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="p-category" href="/tags/TypeScript/" rel="tag">TypeScript</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <blockquote>
+<p>这两天才开始学习SpringBoot，遇到了两个很有意思的注解，打算用TypeScript模拟一下</p>
+</blockquote>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>配置文件</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">UpYou</span></span><br><span class="line"><span class="attr">map:</span> &#123;</span><br><span class="line">    <span class="attr">name:</span> <span class="string">UpYou</span>,</span><br><span class="line">    <span class="attr">age:</span> <span class="number">18</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ConfigurationProperties</span>(&#123; <span class="attr">prefix</span>: <span class="string">&#x27;map&#x27;</span> &#125;)</span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Preson</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> age?: <span class="built_in">number</span> = <span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> name?: <span class="built_in">string</span> = <span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取组件</span></span><br><span class="line"><span class="keyword">const</span> component = <span class="title function_">getComponentInIOC</span>(<span class="title class_">Preson</span>);</span><br></pre></td></tr></table></figure>
+<p>输出：<code>Preson &#123; age: 18, name: &#39;UpYou&#39; &#125;</code></p>
+<h2 id="Configuration"><a href="#Configuration" class="headerlink" title="@Configuration"></a>@Configuration</h2><p>这个注解是用来注册组件的，在SpringBoot也是比较重量级的东西了，ts中如何使用以及书写装饰器我就不多说了，网上有很多案例与教程</p>
+<p>这是一个容器，所有注册的组件都在这</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">IOCMapType</span> &#123;</span><br><span class="line">    [<span class="attr">index</span>: <span class="built_in">string</span>]: <span class="built_in">any</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// IOC容器</span></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">IOCMap</span>: <span class="title class_">IOCMapType</span> = &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Configuration方法"><a href="#Configuration方法" class="headerlink" title="Configuration方法"></a>Configuration方法</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Configuration</span>(<span class="params">target: Class</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> name = target.<span class="property">name</span>;</span><br><span class="line">    <span class="keyword">const</span> inIOC = <span class="title function_">findComponentInIOCByName</span>(name);</span><br><span class="line">    <span class="keyword">if</span> (!inIOC) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;the component exists in container.&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">addComponentToCantainer</span>(target);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="findComponentInIOCByName方法"><a href="#findComponentInIOCByName方法" class="headerlink" title="findComponentInIOCByName方法"></a>findComponentInIOCByName方法</h3><p>这个方法主要查找容器中是否存在某个主键</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在容器中通过组件名查找组件</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">findComponentInIOCByName</span>(<span class="params">name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">IOCMap</span>[name] === <span class="built_in">void</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="addComponentToCantainer方法"><a href="#addComponentToCantainer方法" class="headerlink" title="addComponentToCantainer方法"></a>addComponentToCantainer方法</h3><p>这个主要用来注册组件到容器</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将组件注册到容器</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">addComponentToCantainer</span>(<span class="params">component: Class</span>) &#123;</span><br><span class="line">    <span class="title class_">IOCMap</span>[component.<span class="property">name</span>] = <span class="keyword">new</span> <span class="title function_">component</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在这个修饰器就写好了</p>
+<h2 id="ConfigurationProperties"><a href="#ConfigurationProperties" class="headerlink" title="@ConfigurationProperties"></a>@ConfigurationProperties</h2><p>这个注解是用来绑定配置的<br>例如在某个规定位置下有一个<code>application.yml</code>文件，这是一个配置文件，那么通过这个注解可以将配置文件中对应的配置映射到被标注的类中。</p>
+<p>例如我们在某个位置有一个<code>application.yml</code>文件</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name</span>: <span class="title class_">UpYou</span></span><br><span class="line"><span class="attr">map</span>: &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="title class_">UpYou</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">18</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们需要使用<code>js-yaml</code>插件来读取它</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取配置文件</span></span><br><span class="line"><span class="keyword">const</span> yml = fs.<span class="title function_">readFileSync</span>(<span class="string">&#x27;application.yml&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="attr">config</span>: <span class="built_in">any</span> = yaml.<span class="title function_">load</span>(yml.<span class="title function_">toString</span>());</span><br></pre></td></tr></table></figure>
+<p>读取出来就是JSON格式<br><code>&#123; name: &#39;UpYou&#39;, map: &#123; name: &#39;UpYou&#39;, age: 18 &#125; &#125;</code></p>
+<h3 id="ConfigurationProperties方法"><a href="#ConfigurationProperties方法" class="headerlink" title="ConfigurationProperties方法"></a>ConfigurationProperties方法</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">ConfigurationPropertiesParam</span> = &#123;</span><br><span class="line">    <span class="attr">prefix</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 绑定配置文件</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">ConfigurationProperties</span>(<span class="params">args: ConfigurationPropertiesParam</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> nodes = args.<span class="property">prefix</span>.<span class="title function_">split</span>(<span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">target: Class</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> component = <span class="title function_">getComponentInIOC</span>(target.<span class="property">name</span>);</span><br><span class="line">        <span class="keyword">let</span> conf = config;</span><br><span class="line">        <span class="comment">// 过滤配置文件</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">const</span> node <span class="keyword">of</span> nodes) &#123;</span><br><span class="line">            <span class="keyword">if</span> (conf[node] === <span class="built_in">void</span> <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            conf = conf[node]</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 绑定配置文件对应值</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">const</span> field <span class="keyword">in</span> conf) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="title class_">Object</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">hasOwnProperty</span>.<span class="title function_">call</span>(component, field)) &#123;</span><br><span class="line">                <span class="keyword">if</span> (component[field] <span class="keyword">instanceof</span> <span class="title class_">Function</span>) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                component[field] = conf[field];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个循环主要将对应的配置文件过滤出来，例如<code>prefix</code>是<code>map.test</code>，需要拿的就是配置文件中<code>map</code>里边的<code>test</code>，通过<code>.</code>分割<code>prefix</code>的内容，然后一层一层循环进去就能拿到对应配置了。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> nodes = args.<span class="property">prefix</span>.<span class="title function_">split</span>(<span class="string">&#x27;.&#x27;</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> node <span class="keyword">of</span> nodes) &#123;</span><br><span class="line">    <span class="keyword">if</span> (conf[node] === <span class="built_in">void</span> <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    conf = conf[node]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>直接设置组件的字段就可以了。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 绑定配置文件对应值</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> field <span class="keyword">in</span> conf) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title class_">Object</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">hasOwnProperty</span>.<span class="title function_">call</span>(component, field)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (component[field] <span class="keyword">instanceof</span> <span class="title class_">Function</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        component[field] = conf[field];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="getComponentInIOC方法"><a href="#getComponentInIOC方法" class="headerlink" title="getComponentInIOC方法"></a>getComponentInIOC方法</h3><p>这个方法用来获取容器中的组件</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Class</span> = &#123; <span class="keyword">new</span> (...<span class="attr">args</span>: <span class="built_in">any</span>[]): &#123;&#125; &#125;;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getComponentInIOC</span>(<span class="params">component: <span class="built_in">string</span> | Class</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> name = component <span class="keyword">instanceof</span> <span class="title class_">Function</span> ? component.<span class="property">name</span> : component;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_">findComponentInIOCByName</span>(name)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;no such component in container...&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">IOCMap</span>[name];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>模拟完之后对SpringBoot了解更深了…</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Configuration"><span class="toc-number">2.</span> <span class="toc-text">@Configuration</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuration%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">Configuration方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#findComponentInIOCByName%E6%96%B9%E6%B3%95"><span class="toc-number">2.2.</span> <span class="toc-text">findComponentInIOCByName方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#addComponentToCantainer%E6%96%B9%E6%B3%95"><span class="toc-number">2.3.</span> <span class="toc-text">addComponentToCantainer方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ConfigurationProperties"><span class="toc-number">3.</span> <span class="toc-text">@ConfigurationProperties</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ConfigurationProperties%E6%96%B9%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text">ConfigurationProperties方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getComponentInIOC%E6%96%B9%E6%B3%95"><span class="toc-number">3.2.</span> <span class="toc-text">getComponentInIOC方法</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&text=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&title=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&is_video=false&description=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解&body=Check out this article: http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&title=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&title=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&title=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&title=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&name=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/%E4%BD%BF%E7%94%A8TypeScript%E8%A3%85%E9%A5%B0%E5%99%A8%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFSpringBoot%E6%8F%90%E4%BE%9B%E7%9A%84@Configuration%E6%B3%A8%E8%A7%A3%E4%B8%8E@ConfigurationProperties%E6%B3%A8%E8%A7%A3/&t=使用TypeScript装饰器简单模仿SpringBoot提供的@Configuration注解与@ConfigurationProperties注解"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

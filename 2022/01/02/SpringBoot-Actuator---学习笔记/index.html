@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="指标监控官网相关文档 SpringBoot Actuator未来每一个微服务在云上部署后，需要对其进行监控、追踪、审计、控制等。SpringBoot就抽取了Actuator场景，使得我门每个微服务快速引用即可获得生产级别的应用监控、审计等功能。    1234&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;grou">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot Actuator - 学习笔记">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="指标监控官网相关文档 SpringBoot Actuator未来每一个微服务在云上部署后，需要对其进行监控、追踪、审计、控制等。SpringBoot就抽取了Actuator场景，使得我门每个微服务快速引用即可获得生产级别的应用监控、审计等功能。    1234&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;grou">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.04.50.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.10.09.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.11.13.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-20210714154234818.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.45.20.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-20210714162110608.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2016.22.11.png">
+<meta property="article:published_time" content="2022-01-02T10:08:41.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.851Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="SpringBoot">
+<meta property="article:tag" content="Spring">
+<meta property="article:tag" content="SpringMvc">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.04.50.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>SpringBoot Actuator - 学习笔记</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/MyBatis---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/Spring-Boot%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=SpringBoot Actuator - 学习笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringBoot Actuator - 学习笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&is_video=false&description=SpringBoot Actuator - 学习笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=SpringBoot Actuator - 学习笔记&body=Check out this article: http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringBoot Actuator - 学习笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringBoot Actuator - 学习笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringBoot Actuator - 学习笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringBoot Actuator - 学习笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&name=SpringBoot Actuator - 学习笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&t=SpringBoot Actuator - 学习笔记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E6%A0%87%E7%9B%91%E6%8E%A7"><span class="toc-number">1.</span> <span class="toc-text">指标监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringBoot-Actuator"><span class="toc-number">1.1.</span> <span class="toc-text">SpringBoot Actuator</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.1.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-number">1.1.2.</span> <span class="toc-text">可视化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Actuator-Endpoint"><span class="toc-number">1.2.</span> <span class="toc-text">Actuator Endpoint</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Health-Endpoint"><span class="toc-number">1.2.1.</span> <span class="toc-text">Health Endpoint</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Metrics-Endpoint"><span class="toc-number">1.2.2.</span> <span class="toc-text">Metrics Endpoint</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%A1%E7%90%86Endpoint"><span class="toc-number">1.3.</span> <span class="toc-text">管理Endpoint</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%90%AF%E4%B8%8E%E7%A6%81%E7%94%A8Endpoint"><span class="toc-number">1.3.1.</span> <span class="toc-text">开启与禁用Endpoint</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6Endpoint"><span class="toc-number">1.4.</span> <span class="toc-text">定制Endpoint</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6Health%E4%BF%A1%E6%81%AF"><span class="toc-number">1.4.1.</span> <span class="toc-text">定制Health信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6info%E4%BF%A1%E6%81%AF"><span class="toc-number">1.4.2.</span> <span class="toc-text">定制info信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6Metrics%E4%BF%A1%E6%81%AF"><span class="toc-number">1.4.3.</span> <span class="toc-text">定制Metrics信息</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A2%9E%E5%8A%A0%E5%AE%9A%E5%88%B6Metrics"><span class="toc-number">1.4.3.1.</span> <span class="toc-text">增加定制Metrics</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89Endpoint"><span class="toc-number">1.4.4.</span> <span class="toc-text">定义Endpoint</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        SpringBoot Actuator - 学习笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T10:08:41.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Spring/">Spring</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/Spring/" rel="tag">Spring</a>, <a class="p-category" href="/tags/SpringBoot/" rel="tag">SpringBoot</a>, <a class="p-category" href="/tags/SpringMvc/" rel="tag">SpringMvc</a>, <a class="p-category" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="指标监控"><a href="#指标监控" class="headerlink" title="指标监控"></a>指标监控</h2><p><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints">官网相关文档</a></p>
+<h3 id="SpringBoot-Actuator"><a href="#SpringBoot-Actuator" class="headerlink" title="SpringBoot Actuator"></a>SpringBoot Actuator</h3><p>未来每一个微服务在云上部署后，需要对其进行监控、追踪、审计、控制等。SpringBoot就抽取了Actuator场景，使得我门每个微服务快速引用即可获得生产级别的应用监控、审计等功能。</p>
+   <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><ul>
+<li><p>引入actuator场景</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>访问<a target="_blank" rel="noopener" href="http://localhost:8080/actuator//*/">http://localhost:8080/actuator/\*\</a>*</p>
+</li>
+<li><p>Web下默认暴露的端点只有<code>health</code>和<code>info</code>，可以在配置中暴露所有端点信息</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># actuator 监控指标</span></span><br><span class="line"><span class="attr">management:</span></span><br><span class="line">  <span class="attr">endpoints:</span></span><br><span class="line">    <span class="attr">enabled-by-default:</span> <span class="literal">true</span> <span class="comment"># 默认开启所有监控端点</span></span><br><span class="line">    <span class="attr">web:</span></span><br><span class="line">      <span class="attr">exposure:</span></span><br><span class="line">        <span class="attr">include:</span> <span class="string">&#x27;*&#x27;</span> <span class="comment"># 以web方式暴露所有监控端点</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h4><p><a target="_blank" rel="noopener" href="https://github.com/codecentric/spring-boot-admin">https://github.com/codecentric/spring-boot-admin</a></p>
+<h3 id="Actuator-Endpoint"><a href="#Actuator-Endpoint" class="headerlink" title="Actuator Endpoint"></a>Actuator Endpoint</h3><p>常用的Endpoint有</p>
+<ul>
+<li>Health<br>监控状况</li>
+<li>Metrics<br>运行时指标</li>
+<li>Loggers<br>日志记录</li>
+</ul>
+<h4 id="Health-Endpoint"><a href="#Health-Endpoint" class="headerlink" title="Health Endpoint"></a>Health Endpoint</h4><p>健康检查端点，一般用在云平台，平台会定时检查应用的健康状况。需要Health Endpoint为平台返回当前应用的一系列组件健康状况集合。</p>
+<ul>
+<li>health endpoint 返回的结果，应该是一系列健康检查后的一个汇总报告</li>
+<li>很多的健康检查默认已经自动配好了，比如：数据库，redis等</li>
+<li>可以自定义添加健康检查机制</li>
+</ul>
+<p>开启指定端点详细信息</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># actuator 监控指标</span></span><br><span class="line"><span class="attr">management:</span></span><br><span class="line">  <span class="attr">endpoint:</span></span><br><span class="line">    <span class="attr">health:</span></span><br><span class="line">      <span class="attr">show-details:</span> <span class="string">always</span> <span class="comment"># 显示详细</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.04.50.png" alt="截屏2021-07-14 15.04.50"></p>
+<h4 id="Metrics-Endpoint"><a href="#Metrics-Endpoint" class="headerlink" title="Metrics Endpoint"></a>Metrics Endpoint</h4><p>提供详细的、层级的、空间指标信息，这些信息可以被pull（主动推送）或者push（被动获取）方式得到：</p>
+<ul>
+<li>通过Metrics对接多种监控系统</li>
+<li>简化核心Metrics开发</li>
+<li>添加自定义Metrics或者扩展已有Metrics</li>
+</ul>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.10.09.png" alt="截屏2021-07-14 15.10.09"></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.11.13.png" alt="截屏2021-07-14 15.11.13"></p>
+<h3 id="管理Endpoint"><a href="#管理Endpoint" class="headerlink" title="管理Endpoint"></a>管理Endpoint</h3><h4 id="开启与禁用Endpoint"><a href="#开启与禁用Endpoint" class="headerlink" title="开启与禁用Endpoint"></a>开启与禁用Endpoint</h4><p>默认情况下，endpoint是全部开启的，若需要指定开启，需要全部关闭后再开启指定端点</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># actuator 监控指标</span></span><br><span class="line"><span class="attr">management:</span></span><br><span class="line">  <span class="attr">endpoints:</span></span><br><span class="line">    <span class="attr">enabled-by-default:</span> <span class="literal">false</span> <span class="comment"># 关闭全部端点</span></span><br><span class="line">  <span class="attr">endpoint:</span></span><br><span class="line">    <span class="attr">health:</span></span><br><span class="line">      <span class="attr">show-details:</span> <span class="string">always</span> <span class="comment"># 显示详细信息</span></span><br><span class="line">      <span class="attr">enabled:</span> <span class="literal">true</span> <span class="comment"># 开启端点</span></span><br><span class="line">    <span class="attr">info:</span></span><br><span class="line">      <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">metrics:</span></span><br><span class="line">      <span class="attr">enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="定制Endpoint"><a href="#定制Endpoint" class="headerlink" title="定制Endpoint"></a>定制Endpoint</h3><h4 id="定制Health信息"><a href="#定制Health信息" class="headerlink" title="定制Health信息"></a>定制Health信息</h4><p>实现<code>HealthIndicator</code>接口或者<code>AbstractHealthIndicator</code>抽象类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ComponentHealthIndicator</span> <span class="keyword">extends</span> <span class="title class_">AbstractHealthIndicator</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">5066467685531996717L</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">ComponentHealthIndicator</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 防止存在一个或多个有参构造器时反射通过无参构造起实例化发生异常</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doHealthCheck</span><span class="params">(Health.Builder builder)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    Map&lt;String, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">      builder.status(Status.UP);</span><br><span class="line">      map.put(<span class="string">&quot;count&quot;</span>, <span class="number">1</span>);</span><br><span class="line">      map.put(<span class="string">&quot;ms&quot;</span>, <span class="number">100</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      builder.status(Status.OUT_OF_SERVICE);</span><br><span class="line">      map.put(<span class="string">&quot;err&quot;</span>, <span class="string">&quot;连接超时&quot;</span>);</span><br><span class="line">      map.put(<span class="string">&quot;ms&quot;</span>, <span class="number">3000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    builder.withDetail(<span class="string">&quot;code&quot;</span>, <span class="number">200</span>).withDetails(map);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-20210714154234818.png" alt="image-20210714154234818"></p>
+<h4 id="定制info信息"><a href="#定制info信息" class="headerlink" title="定制info信息"></a>定制info信息</h4><p>定制info有两种方法，一种是在application.yaml配置文件中定义 </p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">info:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="string">@project.version@</span> <span class="comment"># 获取pom文件中的版本信息</span></span><br><span class="line">  <span class="attr">autor:</span> <span class="string">Clover</span></span><br><span class="line">  <span class="attr">age:</span> <span class="number">19</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2015.45.20.png" alt="截屏2021-07-14 15.45.20"></p>
+<p>第二种方式，可以实现<code>InfoContributor</code>接口的方式实现，第二种优先级高于配置文件方式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AppInfoContributor</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span>, InfoContributor &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> -<span class="number">2489956740668578470L</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">AppInfoContributor</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 防止存在一个或多个有参构造器时反射通过无参构造起实例化发生异常</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">contribute</span><span class="params">(Info.Builder builder)</span> &#123;</span><br><span class="line">    Map&lt;String, Object&gt; info = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    info.put(<span class="string">&quot;author&quot;</span>, <span class="string">&quot;Clover.You&quot;</span>);</span><br><span class="line">    info.put(<span class="string">&quot;age&quot;</span>, <span class="number">19</span>);</span><br><span class="line">    info.put(<span class="string">&quot;version&quot;</span>, <span class="string">&quot;1.0.0.1&quot;</span>);</span><br><span class="line">    builder.withDetails(info);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="定制Metrics信息"><a href="#定制Metrics信息" class="headerlink" title="定制Metrics信息"></a>定制Metrics信息</h4><h5 id="增加定制Metrics"><a href="#增加定制Metrics" class="headerlink" title="增加定制Metrics"></a>增加定制Metrics</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoginController</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> -<span class="number">2783841528321793923L</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 计数指标</span></span><br><span class="line">  <span class="keyword">private</span> Counter counter;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">LoginController</span><span class="params">(MeterRegistry meter)</span> &#123;</span><br><span class="line">    <span class="comment">// 注册自定义计数指标，记录登录方法调用了几次</span></span><br><span class="line">    counter = meter.counter(<span class="string">&quot;com.ctong.learnspringboot.controller.LoginController.login&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@PostMapping(&quot;/login&quot;)</span></span><br><span class="line">  <span class="keyword">public</span> String <span class="title function_">login</span><span class="params">(HttpSession session, User user)</span> &#123;</span><br><span class="line">    <span class="comment">// 增加计数</span></span><br><span class="line">    counter.increment();</span><br><span class="line">    session.setAttribute(<span class="string">&quot;loginUser&quot;</span>, user);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;redirect:/index.html&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注册成功后，访问localhost:8080&#x2F;actuator&#x2F;metrics就可以看见我们自定义的新指标</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-20210714162110608.png" alt="image-20210714162110608"></p>
+<p>计数会随着<code>counter.increment();</code>方法的调用而增加</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/%E6%88%AA%E5%B1%8F2021-07-14%2016.22.11.png" alt="截屏2021-07-14 16.22.11"></p>
+<h4 id="定义Endpoint"><a href="#定义Endpoint" class="headerlink" title="定义Endpoint"></a>定义Endpoint</h4><p>SpringBoot给我们定义了非常多的监控端点，一旦我们引入 了复杂场景，可能需要自定义监控端点。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Endpoint(id = &quot;diy&quot;)</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyEndpoint</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1370368576988354134L</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">MyEndpoint</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 防止存在一个或多个有参构造器时反射通过无参构造起实例化发生异常</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@ReadOperation</span></span><br><span class="line">  <span class="keyword">public</span> Map <span class="title function_">getDockerInfo</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Collections.singletonMap(<span class="string">&quot;docker&quot;</span>, <span class="string">&quot;docker started...&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@WriteOperation</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">stopDocker</span><span class="params">()</span> &#123;</span><br><span class="line">    log.info(<span class="string">&quot;docker stopped....&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E6%A0%87%E7%9B%91%E6%8E%A7"><span class="toc-number">1.</span> <span class="toc-text">指标监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringBoot-Actuator"><span class="toc-number">1.1.</span> <span class="toc-text">SpringBoot Actuator</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.1.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-number">1.1.2.</span> <span class="toc-text">可视化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Actuator-Endpoint"><span class="toc-number">1.2.</span> <span class="toc-text">Actuator Endpoint</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Health-Endpoint"><span class="toc-number">1.2.1.</span> <span class="toc-text">Health Endpoint</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Metrics-Endpoint"><span class="toc-number">1.2.2.</span> <span class="toc-text">Metrics Endpoint</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%A1%E7%90%86Endpoint"><span class="toc-number">1.3.</span> <span class="toc-text">管理Endpoint</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%90%AF%E4%B8%8E%E7%A6%81%E7%94%A8Endpoint"><span class="toc-number">1.3.1.</span> <span class="toc-text">开启与禁用Endpoint</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6Endpoint"><span class="toc-number">1.4.</span> <span class="toc-text">定制Endpoint</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6Health%E4%BF%A1%E6%81%AF"><span class="toc-number">1.4.1.</span> <span class="toc-text">定制Health信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6info%E4%BF%A1%E6%81%AF"><span class="toc-number">1.4.2.</span> <span class="toc-text">定制info信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6Metrics%E4%BF%A1%E6%81%AF"><span class="toc-number">1.4.3.</span> <span class="toc-text">定制Metrics信息</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A2%9E%E5%8A%A0%E5%AE%9A%E5%88%B6Metrics"><span class="toc-number">1.4.3.1.</span> <span class="toc-text">增加定制Metrics</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89Endpoint"><span class="toc-number">1.4.4.</span> <span class="toc-text">定义Endpoint</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=SpringBoot Actuator - 学习笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringBoot Actuator - 学习笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&is_video=false&description=SpringBoot Actuator - 学习笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=SpringBoot Actuator - 学习笔记&body=Check out this article: http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringBoot Actuator - 学习笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringBoot Actuator - 学习笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringBoot Actuator - 学习笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=SpringBoot Actuator - 学习笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&name=SpringBoot Actuator - 学习笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/SpringBoot-Actuator---%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&t=SpringBoot Actuator - 学习笔记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

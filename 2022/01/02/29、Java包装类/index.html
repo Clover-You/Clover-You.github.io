@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Java中为8种基本数据类型又对应准备了8种包装类。8种包装类属于引用数据类型，父类是Object。  如果有这么一种需求：调用doSome方法的时候要传一个数字，但是数字属于基本数据类型，而doSome方法参数的类型是Object。可见doSome方法无法接受基本数据类型的数字。 123public static void doSome(Object obj)&amp;#123;  System.ou">
+<meta property="og:type" content="article">
+<meta property="og:title" content="29、Java包装类">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="Java中为8种基本数据类型又对应准备了8种包装类。8种包装类属于引用数据类型，父类是Object。  如果有这么一种需求：调用doSome方法的时候要传一个数字，但是数字属于基本数据类型，而doSome方法参数的类型是Object。可见doSome方法无法接受基本数据类型的数字。 123public static void doSome(Object obj)&amp;#123;  System.ou">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-e6d15767a5624c79bc5cca5a4b36245c.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-1b2abab7b1d144fc9fb882bc2912d3f6.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-417b9f7ad8b44c2298afcad2df86ad3a.png">
+<meta property="article:published_time" content="2022-01-02T08:53:23.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.839Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/image-e6d15767a5624c79bc5cca5a4b36245c.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>29、Java包装类</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/30%E3%80%81Java%E6%97%A5%E6%9C%9F%E7%B1%BB/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/28%E3%80%81Java-StringBuffer%E8%BF%9B%E8%A1%8C%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&text=29、Java包装类"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&title=29、Java包装类"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&is_video=false&description=29、Java包装类"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=29、Java包装类&body=Check out this article: http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&title=29、Java包装类"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&title=29、Java包装类"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&title=29、Java包装类"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&title=29、Java包装类"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&name=29、Java包装类&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&t=29、Java包装类"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        29、Java包装类
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T08:53:23.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <ol>
+<li><p>Java中为8种基本数据类型又对应准备了<strong>8种包装类</strong>。<strong>8种包装类</strong>属于引用数据类型，父类是<code>Object</code>。</p>
+</li>
+<li><p>如果有这么一种需求：调用<code>doSome</code>方法的时候要传一个数字，但是数字属于基本数据类型，而<code>doSome</code>方法参数的类型是<code>Object</code>。可见<code>doSome</code>方法无法接受基本数据类型的数字。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">doSome</span><span class="params">(Object obj)</span>&#123;</span><br><span class="line">  System.out.println(obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>虽然<code>doSome</code>方法不能直接传<code>int</code>类型，但是可以传一个对应的包装类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">  <span class="type">Integer</span> <span class="variable">myInt</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">100</span>);</span><br><span class="line">  doSome(myInt);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>8种基本数据类型对应的包转类：</p>
+<table>
+<thead>
+<tr>
+<th align="center">基本数据类型</th>
+<th align="center">包装类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">byte</td>
+<td align="center">java.lang.Byte</td>
+</tr>
+<tr>
+<td align="center">short</td>
+<td align="center">java.lang.Short</td>
+</tr>
+<tr>
+<td align="center">int</td>
+<td align="center">java.lang.Integer</td>
+</tr>
+<tr>
+<td align="center">long</td>
+<td align="center">Java.lang.Long</td>
+</tr>
+<tr>
+<td align="center">float</td>
+<td align="center">Java.lang.Float</td>
+</tr>
+<tr>
+<td align="center">double</td>
+<td align="center">java.lang.Double</td>
+</tr>
+<tr>
+<td align="center">boolean</td>
+<td align="center">Java.lang.Boolean</td>
+</tr>
+<tr>
+<td align="center">char</td>
+<td align="center">Java.lang.Character</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>拆装箱</p>
+<ul>
+<li><p>装箱<br>将基本数据类型 –(转换)–&gt; 引用数据类型（装箱）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Integer</span> <span class="variable">i</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">100</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>拆箱<br>将引用数据类型 –(转换)–&gt; 基本数据类型（拆箱）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i.intValue();<span class="comment">// 100</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>Integer</code>的构造方法</p>
+<p><code>Integer</code>有两个构造方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Integer(<span class="type">int</span> value)</span><br><span class="line">Integer(String s)</span><br></pre></td></tr></table></figure>
+
+<p>接受一个<code>int</code>或者<code>String</code>类型的数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">100</span>);<span class="comment">// 100</span></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="string">&quot;100&quot;</span>);<span class="comment">// 100</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过访问包装类的常量，来获取最大值和最小值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Integer.MAX_VALUE;</span><br><span class="line">Integer.MIN_VALUE;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自动装拆箱</p>
+<ul>
+<li><p>自动装箱</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Integer</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">100</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自动拆箱</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> x;</span><br></pre></td></tr></table></figure>
+
+<p>虽然支持自动拆箱，当是底层实际上还是</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Integer</span> <span class="variable">x</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">100</span>);</span><br></pre></td></tr></table></figure>
+
+<p>由于底层使用的是new的方式创建，所以无法使用双等号”&#x3D;&#x3D;”进行判断，双等号无法自动拆箱</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Integer</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">1000</span>;</span><br><span class="line"><span class="type">Integer</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">1000</span>;</span><br><span class="line">System.out.println(a == b);<span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-e6d15767a5624c79bc5cca5a4b36245c.png" alt="image.png"></p>
+</li>
+</ul>
+</li>
+<li><p>整数型常量池</p>
+<p>java中为了提高程序的执行效率，将<strong>「-128 ～ 127」</strong>之间所有的包装对象提前创建好，放到了一个方法区的<strong>“整数型常量池”</strong>当中，目的是只要用这个区间的数据不需要再<code>new</code>了，直接从<strong>整数型常量池</strong>中取出来。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Integer</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">128</span>;</span><br><span class="line"><span class="type">Integer</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">128</span>;</span><br><span class="line">System.out.println(a == b);<span class="comment">// false</span></span><br><span class="line"><span class="type">Integer</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">127</span>;</span><br><span class="line"><span class="type">Integer</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">127</span>;</span><br><span class="line">System.out.println(x == y);<span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>以上程序<code>127</code>并不是拆箱了，而是<code>x,y</code>这两个变量中保存的内存地址是同一个。双等号<code>==</code>比较的是<strong>对象的内存地址</strong>。</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-1b2abab7b1d144fc9fb882bc2912d3f6.png" alt="image.png"></p>
+<p>源代码中，在<strong>类加载</strong>的时候创建了对应的<code>Integer</code>对象。</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-417b9f7ad8b44c2298afcad2df86ad3a.png" alt="image.png"></p>
+</li>
+<li><p>NumberFormatException 异常</p>
+<p>这个异常是出现在将<code>String</code>类型转<code>int</code>类型的时候</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Integer.parseInt(<span class="string">&quot;中文&quot;</span>);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p>在<strong>JDK 1.5</strong>之后，支持自动拆箱和自动装箱。</p>
+<p>其它包装类和<code>Integer</code>使用方法一样。</p>
+<p>在进行类加载的时候，整数型常量池已经初始化好了。</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&text=29、Java包装类"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&title=29、Java包装类"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&is_video=false&description=29、Java包装类"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=29、Java包装类&body=Check out this article: http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&title=29、Java包装类"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&title=29、Java包装类"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&title=29、Java包装类"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&title=29、Java包装类"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&name=29、Java包装类&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/29%E3%80%81Java%E5%8C%85%E8%A3%85%E7%B1%BB/&t=29、Java包装类"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

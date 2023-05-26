@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="压力测试压力测试可以考察但前硬件环境下系统所能承受的最大负荷并帮助找出系统瓶颈所在。压测都是为了系统在线上的处理能力和稳定性维持在一个标准范围内。 使用压力测试，我们希望找到很多种用其它测试方法更难发现的错误。有两种错误类型，它们分别是：  内存泄漏 并发同步  有效的压力测试系统将应用以下这些关键条件：重复、并发、量级、随机变化 性能指标 响应时间（Response Time：RT） 响应时间指">
+<meta property="og:type" content="article">
+<meta property="og:title" content="性能与压力测试">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="压力测试压力测试可以考察但前硬件环境下系统所能承受的最大负荷并帮助找出系统瓶颈所在。压测都是为了系统在线上的处理能力和稳定性维持在一个标准范围内。 使用压力测试，我们希望找到很多种用其它测试方法更难发现的错误。有两种错误类型，它们分别是：  内存泄漏 并发同步  有效的压力测试系统将应用以下这些关键条件：重复、并发、量级、随机变化 性能指标 响应时间（Response Time：RT） 响应时间指">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271629073.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271632908.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271634210.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271636192.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271640799.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271642748.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271645771.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112281446477.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112281449129.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112281454482.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112281456886.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112281457562.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112281602346.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112281608523.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112281618216.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112281634921.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112281635118.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112290904069.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112290905309.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112290908799.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112290910368.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112290920618.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112290920379.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112290924143.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112290948037.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112290955540.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112290959012.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112291011461.gif">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112291025651.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112291032569.gif">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112291055764.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112291102206.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112291059477.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112291100842.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112291515536.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112291703291.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112300829431.png">
+<meta property="article:published_time" content="2022-01-02T10:18:00.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.857Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="随笔">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/202112271629073.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>性能与压力测试</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/Http%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%8C%85%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/%E6%89%8B%E6%92%B8Spring%E6%95%B4%E5%90%88MyBatis%E7%8E%A9%E5%85%B7/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&text=性能与压力测试"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&title=性能与压力测试"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&is_video=false&description=性能与压力测试"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=性能与压力测试&body=Check out this article: http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&title=性能与压力测试"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&title=性能与压力测试"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&title=性能与压力测试"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&title=性能与压力测试"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&name=性能与压力测试&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&t=性能与压力测试"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95"><span class="toc-number">1.</span> <span class="toc-text">压力测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="toc-number">1.1.</span> <span class="toc-text">性能指标</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JMeter"><span class="toc-number">2.</span> <span class="toc-text">JMeter</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">2.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">2.2.</span> <span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">结果分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7"><span class="toc-number">4.</span> <span class="toc-text">性能监控</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86"><span class="toc-number">4.1.</span> <span class="toc-text">堆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="toc-number">4.2.</span> <span class="toc-text">垃圾回收</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jconsole%E4%B8%8Ejvisualvm"><span class="toc-number">4.3.</span> <span class="toc-text">jconsole与jvisualvm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jvisualvm"><span class="toc-number">4.3.1.</span> <span class="toc-text">jvisualvm</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6"><span class="toc-number">4.3.1.1.</span> <span class="toc-text">安装插件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E5%8E%8B%E6%B5%8B"><span class="toc-number">4.4.</span> <span class="toc-text">性能压测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx"><span class="toc-number">4.4.1.</span> <span class="toc-text">nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E5%85%B3"><span class="toc-number">4.4.2.</span> <span class="toc-text">网关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%9C%8D%E5%8A%A1"><span class="toc-number">4.4.3.</span> <span class="toc-text">简单服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E5%85%B3-%E7%AE%80%E5%8D%95%E6%9C%8D%E5%8A%A1"><span class="toc-number">4.4.4.</span> <span class="toc-text">网关+简单服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E5%85%A8%E9%87%8F%E6%95%B0%E6%8D%AE"><span class="toc-number">4.4.5.</span> <span class="toc-text">页面全量数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%8C%87%E6%A0%87"><span class="toc-number">4.4.6.</span> <span class="toc-text">中间件指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8C%87%E6%A0%87"><span class="toc-number">4.4.7.</span> <span class="toc-text">数据库指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%8B%E6%B5%8B%E4%B8%8E%E4%BC%98%E5%8C%96%E7%BB%93%E6%9E%9C"><span class="toc-number">4.4.8.</span> <span class="toc-text">压测与优化结果</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        性能与压力测试
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T10:18:00.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="压力测试"><a href="#压力测试" class="headerlink" title="压力测试"></a>压力测试</h1><p>压力测试可以考察但前硬件环境下系统所能承受的最大负荷并帮助找出系统瓶颈所在。压测都是为了系统在线上的处理能力和稳定性维持在一个标准范围内。</p>
+<p>使用压力测试，我们希望找到很多种用其它测试方法更难发现的错误。有两种错误类型，它们分别是：</p>
+<ul>
+<li><strong>内存泄漏</strong></li>
+<li><strong>并发同步</strong></li>
+</ul>
+<p>有效的压力测试系统将应用以下这些关键条件：<strong>重复、并发、量级、随机变化</strong></p>
+<h2 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a>性能指标</h2><ul>
+<li><p>响应时间（Response Time：RT）</p>
+<p>响应时间指，用户从客户端发起一个请求开始，到客户端接收到从服务端返回的响应结束，整个过程所消耗的时间。</p>
+</li>
+<li><p>HPS（Hits Per Second）：每秒的点击数，单位是次&#x2F;秒</p>
+</li>
+<li><p>TPS（Transaction Per Second）：系统每秒处理交易数，单位是笔&#x2F;秒</p>
+</li>
+<li><p>QPS（Query Per Second）：系统每秒处理查询次数，单位是次&#x2F;秒。</p>
+<p>对于互联网业务中，如果某些业务有且仅有一个请求连接，那么 TPS&#x3D;QPS&#x3D;HPS，一般情况下用 TPS 来衡量整个业务流程，用 QPS 来衡量接口查询次数，用 HPS 来表示对服务器点击请求。</p>
+</li>
+<li><p>无论 TPS、QPS、HPS，此指标是衡量系统处理能力非常重要的指标，越大越好，一般情况下：</p>
+<ol>
+<li>金融行业：1000TPS～50000TPS，不包括互联网化的活动</li>
+<li>保险行业：100TPS～100000TPS，不包括互联网化的活动</li>
+<li>制造行业：10TPS～5000TPS</li>
+<li>互联网电子商务：10000TPS～1000000TPS</li>
+<li>互联网中型网站：1000TPS～50000TPS</li>
+<li>互联网小型网站：500TPS～10000TPS</li>
+</ol>
+</li>
+<li><p>最大响应时间（MAX Response Time）指用户发出请求或者指令到系统做出反应（响应）的最大时间。</p>
+</li>
+<li><p>最少响应时间（Minimum Responsen Time）指用户发出请求或指令到系统做出反应（响应）的最少时间。</p>
+</li>
+<li><p>90%响应时间（90% Response Time）是指所有用户的响应时间进行排序，第90%的响应时间。</p>
+</li>
+<li><p>从外部看，性能测试主要关注如下三个指标</p>
+<ol>
+<li>吞吐量：每秒钟系统能够处理的请求数、任务数</li>
+<li>响应时间：服务处理一个请求或一个任务的耗时</li>
+<li>错误率：一批请求中结果出错的请求所占比例</li>
+</ol>
+</li>
+</ul>
+<h1 id="JMeter"><a href="#JMeter" class="headerlink" title="JMeter"></a>JMeter</h1><p>使用 jmeter 做压力测试。使用它需要有 java 环境，因为它是使用java开发的。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>到<a target="_blank" rel="noopener" href="https://jmeter.apache.org/">官网</a>下载，JMeter官网网址：<a target="_blank" rel="noopener" href="https://jmeter.apache.org/">https://jmeter.apache.org</a></p>
+<p>点击左侧菜单的 <a target="_blank" rel="noopener" href="https://jmeter.apache.org/download_jmeter.cgi">Download Releases</a></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271629073.png" alt="点击啊Download"></p>
+<p>找到 <strong>Binaries</strong> 这一栏，点击下图标出来的地方就可以下载</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271632908.png" alt="点击下载"></p>
+<p>解压后双击 <code>jmeter.sh</code>，如果是windows就打开<code>jmeter.bat</code></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271634210.png" alt="打开"></p>
+<p>apache 已经做好了国际化工作，如果需要切换语言可以到 Choose Language 中切换</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271636192.png" alt="修改中文"></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>新建一个测试计划</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271640799.png" alt="新建测试计划"></p>
+<p>模拟有多少用户来请求某个指定接口，用来测试该接口的性能。右键测试计划，添加 &#x3D;&#x3D;&#x3D;&gt;&gt; 线程 &#x3D;&#x3D;&#x3D;&gt;&gt; 线程组</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271642748.png" alt="添加线程组"></p>
+<p>创建200个用户，一共发送2w个请求的现场组</p>
+<ul>
+<li>线程数：模拟用户数</li>
+<li>Ramp-Up时间：指定时间内将现场创建完成</li>
+<li>循环次数：每个线程发送多少次请求</li>
+</ul>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271645771.png" alt="模拟2w用户请求"></p>
+<p>添加一个取样器，选择我们当前需要进行的测试类型</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112281446477.png" alt="添加取样器"></p>
+<p>例如我们对百度发起压力测试</p>
+<ul>
+<li>协议：我们要进行测试的协议，http或者https</li>
+<li>服务器名称或IP：需要进行测试的目标服务器地址</li>
+<li>端口：对哪个端口发起请求</li>
+<li>路径：如果需要对指定服务器下的某个地址进行测试，可以在这指定</li>
+</ul>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112281449129.png" alt="测试配置"></p>
+<p>如果测试完后需要看测试指标，还需要添加一个结果树监听器 </p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112281454482.png" alt="结果树监听器"></p>
+<p>再添加一个汇总报告  ，里面有很多种指标可以供我们参考</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112281456886.png" alt="添加汇总报告"></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112281457562.png" alt="汇总报告界面"></p>
+<p> 全部设置好后点执行就可以</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112281602346.png" alt="启动"></p>
+<h1 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h1><ul>
+<li>有错误率同开发确认，确定是否允许错误的发生或者错误率允许在多大的范围内；</li>
+<li>Throughput 吞吐量每秒请求的数大于并发数，则可以慢慢的往上面增加；若在压测的机<br>  器性能很好的情况下，出现吞吐量小于并发数，说明并发数不能再增加了，可以慢慢的<br>  往下减，找到最佳的并发数；</li>
+<li>压测结束，登陆相应的  web  服务器查看  CPU  等性能指标，进行数据的分析;</li>
+<li>最大的  tps，不断的增加并发数，加到  tps  达到一定值开始出现下降，那么那个值就是<br>最大的  tps。</li>
+<li>最大的并发数：最大的并发数和最大的  tps  是不同的概率，一般不断增加并发数，达到<br>一个值后，服务器出现请求超时，则可认为该值为最大的并发数。</li>
+<li>压测过程出现性能瓶颈，若压力机任务管理器查看到的 cpu、网络和 cpu 都正常，未达到  90%以上，则可以说明服务器有问题，压力机没有问题。</li>
+<li>影响性能考虑点包括：<br>数据库、应用程序、中间件（tomact、Nginx）、网络和操作系统等方面</li>
+<li>首先考虑自己的应用属于  CPU  密集型还是  IO  密集型</li>
+</ul>
+<h1 id="性能监控"><a href="#性能监控" class="headerlink" title="性能监控"></a>性能监控</h1><p><img src="http://qiniu-note-image.ctong.top/note/images/202112281608523.png" alt="JVM执行过程"></p>
+<ul>
+<li>程序计数器 Program Counter Register<ul>
+<li>记录的是正在执行的虚拟机字节码指令的地址</li>
+<li>此内存区域是唯一一个在JAVA虚拟机规范中没有规定任何 <strong>OutOfMemoryError</strong> 的区域</li>
+</ul>
+</li>
+<li>虚拟机 VM Stack<ul>
+<li>描述的是 Java 方法执行的内存模型，每个方法在执行的时候都会创建一个栈帧，用于存储局部变量表，操作数栈，动态链接，方法接口等信息。</li>
+<li>局部变量表存储了编译期可知的各种基本数据类型、对象引用</li>
+<li>线程请求的栈深度不够会报 <strong>StackOverflowError</strong> 异常</li>
+<li>栈动态扩展的容量不够会报 <strong>OutOfMemoryError</strong> 异常</li>
+<li>虚拟机栈是线程隔离的，即每个线程都有自己独立的虚拟机栈</li>
+</ul>
+</li>
+<li>本地方法：Native Stack<ul>
+<li>本地方法栈类似于虚拟机栈，只不过本地方法栈使用的是本地方法</li>
+</ul>
+</li>
+<li>堆：Heap<ul>
+<li>几乎所有的对象实例都在堆上分配内存</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112281618216.png" alt="JVM内存模型"></p>
+<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>所有的对象实例以及数组都要在堆上分配，堆事垃圾收集器管理的主要区域，也被称为 “GC堆” 。也是我们优化考虑的地方</p>
+<p>堆可以细分为：</p>
+<ul>
+<li>新生代<ul>
+<li>Eden 空间</li>
+<li>From Survivor 空间</li>
+<li>To Suvivor 空间</li>
+</ul>
+</li>
+<li>老年代</li>
+<li>永久代&#x2F;元空间（&lt; JDK1.8）<ul>
+<li>Java8 以前永久代，受 jvm 管理，java8以后元空间，直接使用物理内存，因此，默认情况下，元空间的大小仅受本地内存限制。</li>
+</ul>
+</li>
+</ul>
+<h2 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h2><p><img src="http://qiniu-note-image.ctong.top/note/images/202112281634921.png" alt="GC流程"></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112281635118.png" alt="内存分配流程图"></p>
+<p>创建对象，首先会在新生代分配内存。检查 <code>Eden</code> 元区能不能放下当前对象，如果放得下就放，放不下则进行一次<strong>minorGC</strong>，这次GC主要清理新生代空间，这个GC非常快。如果GC后 Eden 元区还存在对象，那么会将这些对象放到幸存者区，如果幸存者区也没有内存，那么会将幸存者区中达到阈值的对象放到老年代区（每次GC都会刷新阈值，类似版本迭代）。GC之后再检查，如果还是放不下那么当前对象会被视为大对象，尝试将其放到老年代。老年代如果能放下那么会直接分配内存，如果放不下，则会进行一次 <strong>FULL GC</strong> ，这是一次全面GC，耗时非常久。如果老年代也放不下，那么会报内存溢出异常 <strong>OutOfMemoryError</strong>。</p>
+<h2 id="jconsole与jvisualvm"><a href="#jconsole与jvisualvm" class="headerlink" title="jconsole与jvisualvm"></a>jconsole与jvisualvm</h2><p>JDK 提供的两个小工具 jconsole、jvisualvm（升级版的jconsole）。通过命令行启动，可监控本地和远程应用。</p>
+<p>在控制台中输入 <code>jconsole</code> 打开 jconsole 控制台。选择指定服务，然后连接</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112290904069.png" alt="连接指定服务"></p>
+<p>可以查看程序的各种详情信息</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112290905309.png"></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112290908799.png" alt="内存详情"></p>
+<h3 id="jvisualvm"><a href="#jvisualvm" class="headerlink" title="jvisualvm"></a>jvisualvm</h3><p>jvisualvm 可以监控内存泄漏、跟踪垃圾回收、执行内存、CPU分析、线程分析等工作。通过 <code>jvisualvm</code> 命令打开 jvisualvm 控制台</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112290910368.png" alt="jvisualvm"></p>
+<h4 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h4><p>在菜单栏中点击工具&#x3D;&#x3D;&#x3D;&gt;&gt;插件</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112290920618.png" alt="截屏2021-12-29 09.20.13"></p>
+<p>选择对应的差距，然后点安装即可，这个 Visual GC 插件是用来监视垃圾回收的，安装完后重启 jvisualvm</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112290920379.png" alt="截屏2021-12-29 09.20.54"></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112290924143.png" alt="Visual GC面板"></p>
+<h2 id="性能压测"><a href="#性能压测" class="headerlink" title="性能压测"></a>性能压测</h2><p>由于微服务请求是一层一层往下传递：</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112290948037.png" alt="微服务调用流程"></p>
+<p>在真正功能执行之前，请求需要经过许多中间件，需要测试中间件对性能到底有没有影响</p>
+<blockquote>
+<p>以下数据测试有误，以表格为准</p>
+</blockquote>
+<h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><p>添加一个对nginx测试的配置，循环数设置为永远，因为我们需要持续不断的监控性能指标</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112290955540.png" alt="nginx测试"></p>
+<p>我nginx是在linux中的docker中安装，可以使用 <code>docker stats</code> 命令监控CPU使用率、内存等信息</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112290959012.png" alt="截屏2021-12-29 09.59.22"></p>
+<p>经过测试，发现nginx对CPU占用率极高，因为它不需要处理什么业务，所有请求都是交由别人来处理，需要的是更多的线程去处理并发。</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112291011461.gif" alt="nginx压测"></p>
+<h3 id="网关"><a href="#网关" class="headerlink" title="网关"></a>网关</h3><p>单独对网关进行压测</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112291025651.png" alt="网关压测配置"></p>
+<p>其实网关和nginx一样，都是自身没什么业务，对并发要求极高</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112291032569.gif" alt="网关压测"></p>
+<h3 id="简单服务"><a href="#简单服务" class="headerlink" title="简单服务"></a>简单服务</h3><p>没有任何中间件，直接请求接口（原生）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/hello&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">hello</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&quot;hello world&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112291055764.png" alt="简单服务"></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112291102206.png" alt="测试结果"></p>
+<h3 id="网关-简单服务"><a href="#网关-简单服务" class="headerlink" title="网关+简单服务"></a>网关+简单服务</h3><p>修改网关配置，让网关直接转发到指定服务</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: gulimall-gateway</span><br><span class="line">  cloud:</span><br><span class="line">    nacos:</span><br><span class="line">      discovery:</span><br><span class="line">        server-addr: <span class="number">172.16</span><span class="number">.34</span><span class="number">.128</span>:<span class="number">8848</span></span><br><span class="line">    gateway:</span><br><span class="line">      routes:        </span><br><span class="line">				- id: product_route</span><br><span class="line">          uri: lb:<span class="comment">//gulimall-product</span></span><br><span class="line">          predicates:</span><br><span class="line">            - Path=/api/product<span class="comment">/**,/hello</span></span><br><span class="line"><span class="comment">          filters:</span></span><br><span class="line"><span class="comment">            - RewritePath=/api/(?&lt;path&gt;.*),/$\&#123;path&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112291059477.png" alt="测试配置"></p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112291100842.png" alt="测试结果"></p>
+<h3 id="页面全量数据"><a href="#页面全量数据" class="headerlink" title="页面全量数据"></a>页面全量数据</h3><p>在测试页面的时候，默认情况下只是发送请求到服务器返回页面html的时间，并不包括页面中的脚本、图片等资源。如果需要测全量数据，可以在取样器中配置，如：</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112291515536.png" alt="全量数据配置"></p>
+<h3 id="中间件指标"><a href="#中间件指标" class="headerlink" title="中间件指标"></a>中间件指标</h3><p><img src="http://qiniu-note-image.ctong.top/note/images/202112291703291.png" alt="指标"></p>
+<ul>
+<li>当前正在运行的线程数不能超过设定的最大值，一般情况下系统性能较好的情况下，线程数最小值设置50，最大值设置200比较合适</li>
+<li>但前运行的JDBC连接数不能超过设定的最大值，一般情况下系统性能较好的情况下，JDBC 最小值设置50和最大值设置200比较合适</li>
+<li>GC 频率不能频繁，特别是 FULL GC 频率更不能频繁，一般情况下系统性能较好的情况下， JVM  最小堆大小和最大堆大小分别设置  1024M  比较合适</li>
+<li>中间件越多，性能损失越大，大多都损失在网络交互</li>
+<li>业务<ul>
+<li>数据库（MySQL优化）</li>
+<li>模板的渲染速度（打开缓存）</li>
+<li>静态资源</li>
+</ul>
+</li>
+</ul>
+<h3 id="数据库指标"><a href="#数据库指标" class="headerlink" title="数据库指标"></a>数据库指标</h3><p><img src="http://qiniu-note-image.ctong.top/note/images/202112300829431.png" alt="数据库指标"></p>
+<ul>
+<li>SQL 耗时越少越好，一般情况下微妙级别</li>
+<li>命中率越高越好，一般情况下不能低于 95% </li>
+<li>锁等待次数越低越好，等待时间越短越好</li>
+</ul>
+<h3 id="压测与优化结果"><a href="#压测与优化结果" class="headerlink" title="压测与优化结果"></a>压测与优化结果</h3><p><strong>虚拟机2核3G</strong></p>
+<table>
+<thead>
+<tr>
+<th>压测内容</th>
+<th>压测线程数</th>
+<th>吞吐量&#x2F;s</th>
+<th>90%响应时间</th>
+<th>99%响应时间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Nginx</td>
+<td>50</td>
+<td>5764</td>
+<td>11</td>
+<td>71</td>
+</tr>
+<tr>
+<td>网关</td>
+<td>50</td>
+<td>21657</td>
+<td>3</td>
+<td>8</td>
+</tr>
+<tr>
+<td>简单服务</td>
+<td>50</td>
+<td>37698</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>网关+简单服务</td>
+<td>50</td>
+<td>10886</td>
+<td>8</td>
+<td>22</td>
+</tr>
+<tr>
+<td>全链路(简单)</td>
+<td>50</td>
+<td>270</td>
+<td>34</td>
+<td>4772</td>
+</tr>
+<tr>
+<td>首页</td>
+<td>50</td>
+<td>750(db、thymeleaf)</td>
+<td>91</td>
+<td>151</td>
+</tr>
+<tr>
+<td>首页（打开模板缓存）</td>
+<td>50</td>
+<td>980</td>
+<td>66</td>
+<td>115</td>
+</tr>
+<tr>
+<td>首页（打开模板缓存、日志级别debug -&gt; error）</td>
+<td>50</td>
+<td>1182</td>
+<td>52</td>
+<td>88</td>
+</tr>
+<tr>
+<td>首页全量数据(全链路)</td>
+<td>50</td>
+<td>2（db、thymeleaf、资源）</td>
+<td>25460</td>
+<td>36744</td>
+</tr>
+<tr>
+<td>首页全量数据(全链路，动静分离)</td>
+<td>50</td>
+<td>6</td>
+<td>10854</td>
+<td>13073</td>
+</tr>
+<tr>
+<td>三级分类获取</td>
+<td>50</td>
+<td>20(频繁gc、db)</td>
+<td>3172</td>
+<td>3463</td>
+</tr>
+<tr>
+<td>三级分类获取（优化数据库加索引）</td>
+<td>50</td>
+<td>27</td>
+<td>1990</td>
+<td>2092</td>
+</tr>
+<tr>
+<td>三级分类获取（优化查询数据库业务代码）</td>
+<td>50</td>
+<td>240</td>
+<td>11</td>
+<td>682</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>如果GC过于频繁，可以适当的调整内存</p>
+<p>-Xmx1024m 最大占用内存</p>
+<p>-Xms1024m 初始内存</p>
+<p>-Xmn512m 新生代内存</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95"><span class="toc-number">1.</span> <span class="toc-text">压力测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="toc-number">1.1.</span> <span class="toc-text">性能指标</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JMeter"><span class="toc-number">2.</span> <span class="toc-text">JMeter</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">2.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">2.2.</span> <span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">结果分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7"><span class="toc-number">4.</span> <span class="toc-text">性能监控</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86"><span class="toc-number">4.1.</span> <span class="toc-text">堆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="toc-number">4.2.</span> <span class="toc-text">垃圾回收</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jconsole%E4%B8%8Ejvisualvm"><span class="toc-number">4.3.</span> <span class="toc-text">jconsole与jvisualvm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jvisualvm"><span class="toc-number">4.3.1.</span> <span class="toc-text">jvisualvm</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6"><span class="toc-number">4.3.1.1.</span> <span class="toc-text">安装插件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E5%8E%8B%E6%B5%8B"><span class="toc-number">4.4.</span> <span class="toc-text">性能压测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx"><span class="toc-number">4.4.1.</span> <span class="toc-text">nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E5%85%B3"><span class="toc-number">4.4.2.</span> <span class="toc-text">网关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%9C%8D%E5%8A%A1"><span class="toc-number">4.4.3.</span> <span class="toc-text">简单服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E5%85%B3-%E7%AE%80%E5%8D%95%E6%9C%8D%E5%8A%A1"><span class="toc-number">4.4.4.</span> <span class="toc-text">网关+简单服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E5%85%A8%E9%87%8F%E6%95%B0%E6%8D%AE"><span class="toc-number">4.4.5.</span> <span class="toc-text">页面全量数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%8C%87%E6%A0%87"><span class="toc-number">4.4.6.</span> <span class="toc-text">中间件指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8C%87%E6%A0%87"><span class="toc-number">4.4.7.</span> <span class="toc-text">数据库指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%8B%E6%B5%8B%E4%B8%8E%E4%BC%98%E5%8C%96%E7%BB%93%E6%9E%9C"><span class="toc-number">4.4.8.</span> <span class="toc-text">压测与优化结果</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&text=性能与压力测试"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&title=性能与压力测试"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&is_video=false&description=性能与压力测试"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=性能与压力测试&body=Check out this article: http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&title=性能与压力测试"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&title=性能与压力测试"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&title=性能与压力测试"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&title=性能与压力测试"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&name=性能与压力测试&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/&t=性能与压力测试"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

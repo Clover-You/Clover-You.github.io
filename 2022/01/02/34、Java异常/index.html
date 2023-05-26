@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="引入 什么是异常  以下程序执行过程中发生了不正常的情况，而这种不正常的情况叫做异常。 1int result &#x3D; 10 &#x2F; 0;  该程序执行时出现了： Exception in thread “main” java.lang.ArithmeticException: &#x2F; by zero    at com.upyou .learns.ExceptionTest01.main(Exce">
+<meta property="og:type" content="article">
+<meta property="og:title" content="34、Java异常">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="引入 什么是异常  以下程序执行过程中发生了不正常的情况，而这种不正常的情况叫做异常。 1int result &#x3D; 10 &#x2F; 0;  该程序执行时出现了： Exception in thread “main” java.lang.ArithmeticException: &#x2F; by zero    at com.upyou .learns.ExceptionTest01.main(Exce">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-327d9779fb0f482eab06779e80a8e79a.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/image-749f1ce714104ece9106834e69e48a2c.png">
+<meta property="article:published_time" content="2022-01-02T09:06:26.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.840Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/image-327d9779fb0f482eab06779e80a8e79a.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>34、Java异常</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/35%E3%80%81Java%E6%B3%9B%E5%9E%8B/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/33%E3%80%81Java%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&text=34、Java异常"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&title=34、Java异常"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&is_video=false&description=34、Java异常"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=34、Java异常&body=Check out this article: http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&title=34、Java异常"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&title=34、Java异常"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&title=34、Java异常"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&title=34、Java异常"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&name=34、Java异常&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&t=34、Java异常"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%85%A5"><span class="toc-number">1.</span> <span class="toc-text">引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%AE%BA"><span class="toc-number">2.</span> <span class="toc-text">理论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">异常处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">3.1.</span> <span class="toc-text">第一种处理方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%A7%8D%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">第二种处理方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-number">3.3.</span> <span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B1%E5%85%A5try%E2%80%A6catch"><span class="toc-number">4.</span> <span class="toc-text">深入try…catch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">异常对象的常用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#getMessage"><span class="toc-number">5.1.</span> <span class="toc-text">getMessage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#printStackTrace"><span class="toc-number">5.2.</span> <span class="toc-text">printStackTrace</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK8%E6%96%B0%E7%89%B9%E6%80%A7"><span class="toc-number">6.</span> <span class="toc-text">JDK8新特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE%E5%BC%82%E5%B8%B8%E4%BF%A1%E6%81%AF"><span class="toc-number">7.</span> <span class="toc-text">查找异常信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#finally%E8%AF%AD%E5%8F%A5"><span class="toc-number">8.</span> <span class="toc-text">finally语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#final%E3%80%81finally%E3%80%81finalize"><span class="toc-number">9.</span> <span class="toc-text">final、finally、finalize</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8"><span class="toc-number">10.</span> <span class="toc-text">自定义异常</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%AF%91%E6%97%B6%E5%BC%82%E5%B8%B8"><span class="toc-number">10.1.</span> <span class="toc-text">自定义编译时异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%90%E8%A1%8C%E6%97%B6%E5%BC%82%E5%B8%B8"><span class="toc-number">10.2.</span> <span class="toc-text">自定义运行时异常</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        34、Java异常
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T09:06:26.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><ol>
+<li><p>什么是异常</p>
+<ul>
+<li><p>以下程序执行过程中发生了不正常的情况，而这种不正常的情况叫做异常。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">10</span> / <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<p>该程序执行时出现了：</p>
+<p>Exception in thread “main” java.lang.ArithmeticException: &#x2F; by zero<br>    at com.upyou .learns.ExceptionTest01.main(ExceptionTest01.java:5)<br>这个信息被称为异常，这个信息是<code>JVM</code>打印的。</p>
+</li>
+</ul>
+</li>
+<li><p>异常机制有什么用</p>
+<ul>
+<li>Java语言是很完善的语言，提供了异常的处理方式，程序在执行过程中出现了不正常的情况，Java把该异常信息打印输出到控制台，供开发人员参考。开发人员看到异常信息后，可以对程序进行修改，让程序更加健壮。</li>
+</ul>
+</li>
+<li><p>Java语言中，异常是以什么形式存在的？</p>
+<ul>
+<li>异常在Java中以类的形式存在，每一个异常类都可以创建异常对象。</li>
+<li>异常对应现实生活中是怎样的？<ul>
+<li>火灾（异常类）<ol>
+<li>xxx年xx月xx日 小明家着火了（异常对象）</li>
+<li>xxx年xx月xx日 小刚家着火了（异常对象）</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>程序在执行到某一行发生异常时，<code>JVM</code>会在这一行<code>new</code>一个相应的异常对象并抛出这个异常。</p>
+</li>
+</ol>
+<h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><ol>
+<li>不管是错误还是异常，都是可抛出的。</li>
+<li>所有的错误只要发生，Java程序只有一个结果那就是终止程序的执行，退出<code>JVM</code>,错误是不能处理的。  </li>
+<li>所有<code>Exception</code>的直接子类，都叫做编译时异常。编译时异常是在编译阶段发生的吗？不是。编译时异常是表示必须在编写程序的时候预先对这种异常进行处理，如果不处理编译器报错。编译时异常又被称为受检异常、受控异常。</li>
+<li>所有<code>RuntimeException</code>及子类都属于运行时异常。运行时异常在编写程序阶段，你可以选择处理，也可以不处理。</li>
+<li>编译时异常和运行时异常，都是发生在运行阶段。编译阶段异常是不会发生的。<ul>
+<li>编译时异常必须在编译（编写）阶段预先处理，如果不处理编译器报错</li>
+<li>所有异常都是在运行阶段发生的，因为所有程序只有运行阶段才可以<code>new</code>对象。因为异常的发生就是<strong>new异常对象</strong></li>
+</ul>
+</li>
+<li>编译时异常和运行时异常的区别<ul>
+<li>编译时异常一般发生的概率比较高。</li>
+<li>运行时异常一般发生的概率比较低。</li>
+<li>对于一些发生概率较高的异常，需要在运行之前对其进行预处理。</li>
+<li>假设Java中没有对异常进行划分，没有分为：编译时异常和运行时异常，所有的异常都需要在编写程序阶段对其进行预处理，将是怎么样的效果呢？<ul>
+<li>如果这样的话，程序肯定是绝对安全，但是编写程序太累，到处都是处理异常的代码。</li>
+<li>假设出门之前，把能够发生的异常都预先处理，那么会更加安全，但活得很累。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h2><ol>
+<li>Java中对异常的处理包括两种方式<ul>
+<li>在方法声明的位置上使用<code>throws</code>关键字,抛给上一级。</li>
+<li>使用<code>try...catch</code>语句进行异常捕捉。</li>
+</ul>
+</li>
+<li>Java 中异常发生之后，如果一直上抛，最终抛给了<code>main</code>方法，<code>main</code>方法继续往上抛，抛给了调用者<code>JVM</code>，<code>JVM</code>知道这个异常发生，只有一个结果<strong>「终止Java程序的执行」</strong></li>
+</ol>
+<p><strong>例子：</strong></p>
+<p>假设我是某公司的销售员，因为我的失误，导致公司损失了1000块钱，“损失1000块钱”这可以看作是一个异常发生了。我有两种处理方式</p>
+<ol>
+<li>我把这件事告诉我的领导「异常上抛」</li>
+<li>我自己掏腰包把钱补上「异常捕捉」</li>
+</ol>
+<p>以下程序为什么没有输出<code>Hello World</code>？</p>
+<p>程序执行到<code>10 / 0发生</code>了<code>ArithmeticException</code>异常，底层<code>new</code>了一个<code>ArithmeticException</code>异常对象后抛出，由于是<code>main</code>方法调用了<code>10 / 0</code>，所以这个异常<code>ArithmeticException</code>抛给了<code>main</code>方法，<code>main</code>方法没有处理，将这个异常自动抛给了<code>JVM</code>，<code>JVM</code>最终终止程序的执行</p>
+<p><code>ArithmeticException</code>继承于<code>RuntimeException</code>，属于运行时异常，在编写程序阶段不需要对这种异常进行预先处理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  System.out.println(<span class="number">10</span> / <span class="number">0</span>);</span><br><span class="line">  System.out.println(<span class="string">&quot;Hello World&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>doSome</code>方法在声明的位置上使用了：<code>throws ClassNotFoundException</code>，这个代码表示<code>doSome</code>方法执行过程中，有可能会出现<code>ClassNotFoundException</code>异常。叫做类没找到异常，这个异常直接父类是：<code>Exception</code>，所以<code>ClassNotFoundException</code>属于编译时异常。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">doSome</span><span class="params">()</span> <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">  System.out.println(<span class="string">&quot;hiahiahiahiahiahia!&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以下代码报错原因：</p>
+<p>由于<code>doSome</code>方法声明位置上有 <code>throws ClassNotFoundException</code>，在调用<code>doSome</code>方法的时候必须对这种异常预先处理，如果不处理，编译器就报错</p>
+<p><code>Unhandled exception: java.lang.ClassNotFoundException</code>、<code>Unhandled exception type ClassNotFoundException</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  doSome();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="第一种处理方式"><a href="#第一种处理方式" class="headerlink" title="第一种处理方式"></a>第一种处理方式</h3><p>在方法声明的位置上继续使用<code>throws</code>来完成异常的继续上抛。抛给调用者。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">  doSome();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>-- <code>hiahiahiahiahiahia!</code></p>
+<h3 id="第二种处理方式"><a href="#第二种处理方式" class="headerlink" title="第二种处理方式"></a>第二种处理方式</h3><p>使用<code>try...catch</code>进行捕捉</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    doSome();</span><br><span class="line">    <span class="comment">// 以上代码如果出现异常，这里是无法执行的.</span></span><br><span class="line">  &#125; <span class="keyword">catch</span>(ClassNotFoundException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>-- <code>hiahiahiahiahiahia!</code></p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>只要异常没有捕捉，采用上报的方式，此方式的后续代码不会执行。<br>另外需要注意，<code>try</code>语句快中的某一行出现异常，该行后面的代码不会执行，直接进入<code>catch</code>语句快。</p>
+<p><strong>在以后的开发中，处理编译时异常，应该上报还是捕捉？怎么选？</strong></p>
+<ul>
+<li>如果希望调用者来处理，选择<code>throws</code>上报。</li>
+<li>其它情况使用捕捉的方式。</li>
+</ul>
+<h2 id="深入try…catch"><a href="#深入try…catch" class="headerlink" title="深入try…catch"></a>深入try…catch</h2><ol>
+<li><code>catch</code>后面的小括号中的类型可以是具体的异常类型，也可以是该异常类型的父类型</li>
+<li><code>carch</code>可以写多个，建议<code>catch</code>的时候，精确的一个一个处理，这样有利于程序调试。</li>
+<li><code>catch</code>写多个的时候，从上到下，必须遵循从小到大。</li>
+</ol>
+<h2 id="异常对象的常用方法"><a href="#异常对象的常用方法" class="headerlink" title="异常对象的常用方法"></a>异常对象的常用方法</h2><h3 id="getMessage"><a href="#getMessage" class="headerlink" title="getMessage"></a>getMessage</h3><p><code>getMessage();</code>方法获取异常发生后的简单描述信息，这个信息实际上是构造方法上<code>String</code>参数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  System.out.println(<span class="number">10</span> / <span class="number">0</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span>(ArithmeticException e) &#123;</span><br><span class="line">  <span class="type">String</span> <span class="variable">errorMessage</span> <span class="operator">=</span> e.getMessage();</span><br><span class="line">  System.out.println(errorMessage);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>-- <code>/ by zero</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ArithmeticException</span> <span class="variable">e</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ArithmeticException</span>(<span class="string">&quot;哟！傻子又在找BUG呢？&quot;</span>);</span><br><span class="line">System.out.println(e.getMessage());</span><br></pre></td></tr></table></figure>
+
+<p>-- <code>哟！傻子又在找BUG呢？</code></p>
+<h3 id="printStackTrace"><a href="#printStackTrace" class="headerlink" title="printStackTrace"></a>printStackTrace</h3><p><code>printStackTrace</code> 用于打印异常堆栈信息。java 后台打印异常堆栈追踪信息的时候，采用了异步线程的方式打印的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  System.out.println(<span class="number">10</span> / <span class="number">0</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span>(ArithmeticException e) &#123;</span><br><span class="line">  e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>-- <code>java.lang.ArithmeticException: / by zero         at com.upyou.learns.ExceptionTest05.main(ExceptionTest05.java:6)</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ArithmeticException</span> <span class="variable">e</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ArithmeticException</span>(<span class="string">&quot;哟！傻子又在找BUG呢？&quot;</span>);</span><br><span class="line">e.printStackTrace();</span><br></pre></td></tr></table></figure>
+
+<p>-- <code>java.lang.ArithmeticException: 哟！傻子又在找BUG呢？         at com.upyou.learns.ExceptionTest05.main(ExceptionTest05.java:6)</code></p>
+<h2 id="JDK8新特性"><a href="#JDK8新特性" class="headerlink" title="JDK8新特性"></a>JDK8新特性</h2><p>jdk8的特性，可以使用<code>｜</code>的方式捕捉多个异常</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    readFile(<span class="string">&quot;***&quot;</span>);</span><br><span class="line">    System.out.println(<span class="number">10</span> / <span class="number">0</span>);</span><br><span class="line">  &#125;<span class="keyword">catch</span>(FileNotFoundException | ArithmeticException e)&#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">    System.out.println(<span class="string">&quot;哦豁！又是一个找不到异常的傻子!&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">readFile</span><span class="params">(String filePath)</span> <span class="keyword">throws</span> FileNotFoundException &#123;</span><br><span class="line">  <span class="type">FileInputStream</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(filePath);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="查找异常信息"><a href="#查找异常信息" class="headerlink" title="查找异常信息"></a>查找异常信息</h2><p>找一个并不存在的文件，肯定会报错，那么我们假装不知道这个文件存不存在!!!如何查看异常的追踪信息呢！</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    M1();</span><br><span class="line">  &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">M1</span><span class="params">()</span> <span class="keyword">throws</span> FileNotFoundException &#123;</span><br><span class="line">  <span class="type">FileInputStream</span> <span class="variable">FIS</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;../哈哈哈哈懵了吧！你找不到我.dog&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上程序报错信息如下：</p>
+<p>java.io.FileNotFoundException: ..&#x2F;哈哈哈哈懵了吧！你找不到我.dog (No such file or directory)<br>        at java.io.FileInputStream.open0(Native Method)<br>        at java.io.FileInputStream.open(FileInputStream.java:195)<br>        at java.io.FileInputStream.<init>(FileInputStream.java:138)<br>        at java.io.FileInputStream.<init>(FileInputStream.java:93)<br>        at com.upyou.learns.ExceptionTest05.M1(ExceptionTest05.java:20)<br>        at com.upyou.learns.ExceptionTest05.main(ExceptionTest05.java:9)</p>
+<ol>
+<li><p>异常追踪信息应该从上往下看，首先看异常描述信息</p>
+</li>
+<li><p>需要注意的是，只需要看自己写的代码异常信息就可以了，SUN写的代码就别看了，肯定是你自己写的BUG。那么如何得知是否是SUN写的？</p>
+<ul>
+<li><p>大多数报错信息前几行都是Java的代码，例如：</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/image-327d9779fb0f482eab06779e80a8e79a.png" alt="image.png"></p>
+<p>一般看到什么java.xxx.xxx的直接略过，我们写的代码一般都写到自己的工作空间内，例如<strong>com.upyou.learns</strong>、<strong>com.upyou.xxx</strong></p>
+</li>
+<li><p>在我们写的代码的异常中，查看第一个异常位置，通常都是一个方法的异常引起的连锁反应。<br>20行出现问题导致第9行出现问题</p>
+</li>
+<li><p>第一个异常位置<code> at com.upyou.learns.ExceptionTest05.M1(ExceptionTest05.java:20)</code>，错误在<code>com.upyou.learns</code>包下的<code>ExceptionTest05</code>类里的<code>M1</code>方法，在第20行java代码。</p>
+</li>
+<li><p>找到啦！原来是没有这个<code>.dog</code>文件</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="finally语句"><a href="#finally语句" class="headerlink" title="finally语句"></a>finally语句</h2><p><code>try</code>和<code>finally</code>，没有<code>catch</code>可以吗？可以。</p>
+<p><code>try</code>不能单独使用，可以和<code>finally</code>连用。</p>
+<p><code>try...finally</code>是先执行<code>try</code>再执行<code>finally</code>,最后执行<code>return</code>语句,无论<code>return</code>在哪「<code>return</code>只要执行，方法必然结束」。<code>finally</code>语句块一定会执行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  System.out.println(<span class="string">&quot;try...&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">  System.out.println(<span class="string">&quot;finally...&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>-- <code>try...</code></p>
+<p>-- <code>finally...</code></p>
+<p>退出<code>JVM</code>后，<code>finally</code>就无法执行了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  System.out.println(<span class="string">&quot;try...&quot;</span>);</span><br><span class="line">  System.exit(<span class="number">0</span>);</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">  System.out.println(<span class="string">&quot;finally...&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>-- <code>try...</code></p>
+<p>有这么一个程序：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  System.out.println(m());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">m</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    i++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>-- <code>100</code></p>
+<p>Java语法规则（有一些规则是不能破坏的，一旦这么说就不能变）：</p>
+<p>方法体中的代码必须遵循自上而下顺序依次逐行执行</p>
+<p>以上程序<code>finally</code>确实是先于<code>return</code>执行。</p>
+<p><strong>以上程序反编译之后的结果</strong><br><img src="http://qiniu-note-image.ctong.top/note/images/image-749f1ce714104ece9106834e69e48a2c.png" alt="image.png"></p>
+<p>从反编译结果来看，Java遵循了自己定的语法规则<strong>「return必须最后执行、自上而下顺序执行」</strong></p>
+<h2 id="final、finally、finalize"><a href="#final、finally、finalize" class="headerlink" title="final、finally、finalize"></a>final、finally、finalize</h2><p><code>final</code>是一个关键字，表示最终的，不变的。<strong>第一次赋值之后不可第二次赋值。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line"><span class="comment">// i = 200; // 错误</span></span><br></pre></td></tr></table></figure>
+
+<p><code>finally</code>也是一个关键字，和try联合使用，使用在异常处理机制中，在<code>finally</code>语句快中的代码是一定会执行的。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>finalize</code>是<code>Object</code>类中的一个方法，作为方法名出现。所以<code>finalize</code>是标识符。这个方法是由垃圾回收器负责调用。</p>
+<h2 id="自定义异常"><a href="#自定义异常" class="headerlink" title="自定义异常"></a>自定义异常</h2><p>Java中如何自定义异常？</p>
+<ol>
+<li>编写一个类继承<code>Exception</code>或者<code>RuntimeException</code>。</li>
+<li>提供两个构造方法，一个无参数一个带有<code>String</code>参数的构造方法。</li>
+</ol>
+<h3 id="自定义编译时异常"><a href="#自定义编译时异常" class="headerlink" title="自定义编译时异常"></a>自定义编译时异常</h3><p>定义一个编译时异常</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">NotFoundMeException</span></span><br><span class="line">  <span class="keyword">extends</span> <span class="title class_">Exception</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">NotFoundMeException</span><span class="params">()</span>&#123;<span class="built_in">super</span>();&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">NotFoundMeException</span><span class="params">(String errorMessage)</span>&#123;</span><br><span class="line">    <span class="built_in">super</span>(errorMessage);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如何使用这个异常对象捏？</p>
+<p><code>new</code>一个异常对象并且使用<code>throw</code>抛出，<code>throws</code>上抛给调用者</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">(String str)</span> <span class="keyword">throws</span> NotFoundMeException&#123;</span><br><span class="line">  <span class="keyword">if</span> (str.isEmpty()) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NotFoundMeException</span>(<span class="string">&quot;hiahiahia！我是异常，你找不到我!!&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>处理这个异常</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    test(<span class="string">&quot;&quot;</span>);</span><br><span class="line">  &#125; <span class="keyword">catch</span>(NotFoundMeException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>com.upyou.learns.MyException.NotFoundMeException: hiahiahia！我是异常，你找不到我!!<br>        at com.upyou.learns.ExceptionTest07.test(ExceptionTest07.java:18)<br>        at com.upyou.learns.ExceptionTest07.main(ExceptionTest07.java:10)</p>
+<h3 id="自定义运行时异常"><a href="#自定义运行时异常" class="headerlink" title="自定义运行时异常"></a>自定义运行时异常</h3><p>定义一个运行时异常类,继承于<code>RuntimeException</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">NotFoundMeException02</span> </span><br><span class="line">  <span class="keyword">extends</span> <span class="title class_">RuntimeException</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">NotFoundMeException02</span><span class="params">()</span>&#123;<span class="built_in">super</span>();&#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">NotFoundMeException02</span><span class="params">(String errorMessage)</span>&#123;<span class="built_in">super</span>(errorMessage);&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用这个异常类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">runTest</span><span class="params">(String str)</span> </span><br><span class="line">  <span class="keyword">throws</span> NotFoundMeException02&#123;</span><br><span class="line">  <span class="keyword">if</span> (str.isEmpty()) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NotFoundMeException02</span>(<span class="string">&quot;哟！大家快看这个傻子又在写BUG！&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">runTest(<span class="string">&quot;&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Exception in thread “main” com.upyou.learns.MyException.NotFoundMeException02: 哟！大家快看这个傻子又在写BUG！<br>        at com.upyou.learns.ExceptionTest07.runTest(ExceptionTest07.java:23)<br>        at com.upyou.learns.ExceptionTest07.main(ExceptionTest07.java:10)</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Clover-You/my-blog-file/blob/main/%E5%BC%82%E5%B8%B8%E5%B0%8F%E7%BB%83%E4%B9%A0.zip">异常小练习点这里下载哦</a></p>
+<blockquote>
+<p>不建议在<code>main</code>方法上使用<code>throws</code>，因为这个异常如果真正发生了，一定会抛给<code>JVM</code>，<code>JVM</code>只有终止。</p>
+<p>重写之后的方法不能比重写之前的方法抛出更多（更宽泛）的异常，可以更少。</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%85%A5"><span class="toc-number">1.</span> <span class="toc-text">引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%AE%BA"><span class="toc-number">2.</span> <span class="toc-text">理论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">异常处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">3.1.</span> <span class="toc-text">第一种处理方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%A7%8D%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">第二种处理方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-number">3.3.</span> <span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B1%E5%85%A5try%E2%80%A6catch"><span class="toc-number">4.</span> <span class="toc-text">深入try…catch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">异常对象的常用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#getMessage"><span class="toc-number">5.1.</span> <span class="toc-text">getMessage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#printStackTrace"><span class="toc-number">5.2.</span> <span class="toc-text">printStackTrace</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK8%E6%96%B0%E7%89%B9%E6%80%A7"><span class="toc-number">6.</span> <span class="toc-text">JDK8新特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE%E5%BC%82%E5%B8%B8%E4%BF%A1%E6%81%AF"><span class="toc-number">7.</span> <span class="toc-text">查找异常信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#finally%E8%AF%AD%E5%8F%A5"><span class="toc-number">8.</span> <span class="toc-text">finally语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#final%E3%80%81finally%E3%80%81finalize"><span class="toc-number">9.</span> <span class="toc-text">final、finally、finalize</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8"><span class="toc-number">10.</span> <span class="toc-text">自定义异常</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%AF%91%E6%97%B6%E5%BC%82%E5%B8%B8"><span class="toc-number">10.1.</span> <span class="toc-text">自定义编译时异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%90%E8%A1%8C%E6%97%B6%E5%BC%82%E5%B8%B8"><span class="toc-number">10.2.</span> <span class="toc-text">自定义运行时异常</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&text=34、Java异常"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&title=34、Java异常"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&is_video=false&description=34、Java异常"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=34、Java异常&body=Check out this article: http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&title=34、Java异常"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&title=34、Java异常"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&title=34、Java异常"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&title=34、Java异常"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&name=34、Java异常&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/34%E3%80%81Java%E5%BC%82%E5%B8%B8/&t=34、Java异常"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

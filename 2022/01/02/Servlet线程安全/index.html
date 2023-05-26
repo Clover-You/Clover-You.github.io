@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Servlet是单实例多线程环境下运行的。 什么时候程序存在线程安全问题？ 多线程并发 有共享数据 共享数据有修改操作   在JVM中，哪些数据可能会存在线程安全问题？ 局部变量内存空间不共享，一个线程一个栈，局部变量在栈内存中存储，局部变量不会存在线程安全问题。 常量不会被修改，所以常量不会存在线程安全问题。 所有线程共享一个堆 堆内存中new出来的对象在其中存储，对象内部有“实例变量”，所以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Servlet线程安全">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="Servlet是单实例多线程环境下运行的。 什么时候程序存在线程安全问题？ 多线程并发 有共享数据 共享数据有修改操作   在JVM中，哪些数据可能会存在线程安全问题？ 局部变量内存空间不共享，一个线程一个栈，局部变量在栈内存中存储，局部变量不会存在线程安全问题。 常量不会被修改，所以常量不会存在线程安全问题。 所有线程共享一个堆 堆内存中new出来的对象在其中存储，对象内部有“实例变量”，所以">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-02T10:26:00.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.849Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="随笔">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Servlet线程安全</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/Spring-Boot%E6%95%B4%E5%90%88MyBatis%E3%80%81Druid/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&text=Servlet线程安全"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&title=Servlet线程安全"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&is_video=false&description=Servlet线程安全"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Servlet线程安全&body=Check out this article: http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&title=Servlet线程安全"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&title=Servlet线程安全"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&title=Servlet线程安全"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&title=Servlet线程安全"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&name=Servlet线程安全&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&t=Servlet线程安全"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Servlet线程安全
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T10:26:00.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <ol>
+<li>Servlet是单实例多线程环境下运行的。</li>
+<li>什么时候程序存在线程安全问题？<ul>
+<li>多线程并发</li>
+<li>有共享数据</li>
+<li>共享数据有修改操作</li>
+</ul>
+</li>
+<li>在JVM中，哪些数据可能会存在线程安全问题？<ul>
+<li>局部变量内存空间不共享，一个线程一个栈，局部变量在栈内存中存储，局部变量不会存在线程安全问题。</li>
+<li>常量不会被修改，所以常量不会存在线程安全问题。</li>
+<li>所有线程共享一个堆<ul>
+<li>堆内存中new出来的对象在其中存储，对象内部有“实例变量”，所以“实例变量”的内存多线程是共享的，实例变量多线程共享访问，并且涉及到修改操作的时候就会存在线程安全问题。</li>
+</ul>
+</li>
+<li>所有线程共享一个方法区<ul>
+<li>方法区中有静态变量，静态变量的内存也是共享的，若涉及到修改操作，静态变量也存在线程安全问题。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>线程安全问题不只是体现在JVM中，还有可能发生在数据库中，例如：多个线程共享同一张表，并且同时去修改表中的记录，那么这些记录就存在线程安全问题，若要解决数据库中线程安全问题至少有两种方案：<ol>
+<li>在Java程序中使用<code>synchronized</code>关键字，线程排队执行，自然不会在数据库中并发，解决线程安全问题。</li>
+<li>行级锁&#x2F;悲观锁，在执行的sql语句后加上<code>for update</code></li>
+<li>事务隔离级别，例如：串行化</li>
+<li>乐观锁</li>
+</ol>
+</li>
+<li>怎么解决线程安全问题？<ol>
+<li>不使用实例变量，尽量使用局部变量</li>
+<li>若必须使用实例变量，那么我们可以考虑将该对象考虑将对象多例变量，一个线程一个Java对象，实例变量的内存也不会共享。</li>
+<li>若必须使用单例，那就只能使用synchronized线程同步机制，线程一但排队执行，程序执行效率降低。</li>
+</ol>
+</li>
+<li>Servlet怎么解决线程安全问题？<ol>
+<li>不使用实例变量，尽量使用局部变量</li>
+<li>Servlet必须是单例的，所以只能使用synchronized线程同步机制</li>
+</ol>
+</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&text=Servlet线程安全"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&title=Servlet线程安全"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&is_video=false&description=Servlet线程安全"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Servlet线程安全&body=Check out this article: http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&title=Servlet线程安全"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&title=Servlet线程安全"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&title=Servlet线程安全"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&title=Servlet线程安全"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&name=Servlet线程安全&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/Servlet%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/&t=Servlet线程安全"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

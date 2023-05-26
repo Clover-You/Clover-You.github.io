@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="控制语句Java 控制语句可以分为 7 种：  控制选择结构语句 if、if else switch   控制循环结构语句 for while do while   改变控制语句顺序 break continue    选择结构语句if如果发生了某件事那么就做什么… 如果 age 满 18，那么输出一段话。if只接受具有比较性的语句，最终比较结果为 Boolean。当满足一定的条件之后，做一件事情">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3、Java 控制语句">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="控制语句Java 控制语句可以分为 7 种：  控制选择结构语句 if、if else switch   控制循环结构语句 for while do while   改变控制语句顺序 break continue    选择结构语句if如果发生了某件事那么就做什么… 如果 age 满 18，那么输出一段话。if只接受具有比较性的语句，最终比较结果为 Boolean。当满足一定的条件之后，做一件事情">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-02T05:37:05.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.841Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>3、Java 控制语句</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/4%E3%80%81Java%E6%96%B9%E6%B3%95/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/2%E3%80%81Java%E8%BF%90%E7%AE%97%E7%AC%A6/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&text=3、Java 控制语句"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&title=3、Java 控制语句"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&is_video=false&description=3、Java 控制语句"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=3、Java 控制语句&body=Check out this article: http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&title=3、Java 控制语句"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&title=3、Java 控制语句"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&title=3、Java 控制语句"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&title=3、Java 控制语句"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&name=3、Java 控制语句&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&t=3、Java 控制语句"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.</span> <span class="toc-text">控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E7%BB%93%E6%9E%84%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.1.</span> <span class="toc-text">选择结构语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#if"><span class="toc-number">1.1.1.</span> <span class="toc-text">if</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#if-else"><span class="toc-number">1.1.2.</span> <span class="toc-text">if else</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#switch"><span class="toc-number">1.1.3.</span> <span class="toc-text">switch</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.2.</span> <span class="toc-text">循环结构语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#for"><span class="toc-number">1.2.1.</span> <span class="toc-text">for</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#while"><span class="toc-number">1.2.2.</span> <span class="toc-text">while</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#do-while"><span class="toc-number">1.2.3.</span> <span class="toc-text">do while</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.3.</span> <span class="toc-text">控制循环语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#break"><span class="toc-number">1.3.1.</span> <span class="toc-text">break</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#continue"><span class="toc-number">1.3.2.</span> <span class="toc-text">continue</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        3、Java 控制语句
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T05:37:05.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="控制语句"><a href="#控制语句" class="headerlink" title="控制语句"></a>控制语句</h2><p>Java 控制语句可以分为 7 种：</p>
+<ul>
+<li>控制选择结构语句<ul>
+<li>if、if else</li>
+<li>switch</li>
+</ul>
+</li>
+<li>控制循环结构语句<ul>
+<li>for</li>
+<li>while</li>
+<li>do while</li>
+</ul>
+</li>
+<li>改变控制语句顺序<ul>
+<li>break</li>
+<li>continue</li>
+</ul>
+</li>
+</ul>
+<h3 id="选择结构语句"><a href="#选择结构语句" class="headerlink" title="选择结构语句"></a>选择结构语句</h3><h4 id="if"><a href="#if" class="headerlink" title="if"></a>if</h4><p>如果发生了某件事那么就做什么…</p>
+<p>如果 age 满 18，那么输出一段话。if只接受具有比较性的语句，最终比较结果为 Boolean。当满足一定的条件之后，做一件事情。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">age</span> <span class="operator">=</span> <span class="number">18</span>;</span><br><span class="line">    <span class="keyword">if</span>(age &gt;= <span class="number">18</span>)&#123;</span><br><span class="line">        System.out.printf(<span class="string">&quot;我满 %d 岁啦！&quot;</span>, age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="if-else"><a href="#if-else" class="headerlink" title="if else"></a>if else</h4><p>当然，如果不满足某一条件之后，再做另一件事情。</p>
+<p>还是刚刚那个问题，如果未满18，那么提示 您未满18.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">age</span> <span class="operator">=</span> <span class="number">18</span>;</span><br><span class="line">    <span class="keyword">if</span>(age &gt;= <span class="number">18</span>)&#123;</span><br><span class="line">        System.out.printf(<span class="string">&quot;我满 %d 岁啦！&quot;</span>, age);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;不好意思，您未满18！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，第一个条件为满足，还可以有第二个条件。当如果第一个条件未满足时再看第二个条件是否也满足。第一个条件不满足享受一种待遇，第二个条件满足又是享受另一种待遇。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">age</span> <span class="operator">=</span> <span class="number">17</span>;</span><br><span class="line">    <span class="keyword">if</span>(age &gt;= <span class="number">18</span>)&#123;</span><br><span class="line">        System.out.printf(<span class="string">&quot;我满 %d 岁啦！&quot;</span>, age);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(age &gt;= <span class="number">16</span>)&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;你已经满16岁啦，可以办理我们的业务啦！&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;不好意思，您不满足任何条件！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>重点：</strong>对于Java中的if语句来说，只要有一个分支执行，整个if语句全部结束。</li>
+<li><strong>注意：</strong>以上第一种编写方式和第二种编写方式都带有else分支，这两种方式可以100%保证会有分支执行。</li>
+<li>“所有的控制语句”都是可以嵌套使用的，只要合理嵌套执行。</li>
+</ul>
+<h4 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h4><p>关于 <code>switch</code> 语句：</p>
+<ol>
+<li><code>switch</code> 语句也属于选择结构，也是分支语句。</li>
+<li><code>switch</code> 语句的语法结构：<ul>
+<li>一个完整的 <code>switch</code> 语句应该这样编写：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">string</span> <span class="variable">tar</span> <span class="operator">=</span> <span class="string">&quot;Hello World!&quot;</span>;</span><br><span class="line"><span class="keyword">switch</span>(tar)&#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&quot;Hello World!&quot;</span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><code>switch</code> 接受 <code>int</code> 或 <code>string</code> 类型的字面值或变量。</li>
+<li><code>case</code> 是 <code>switch</code> 匹配项，一个 <code>switch</code> 可以有无数个 <code>case</code>：<ul>
+<li><code>case</code> 具有穿透性，必须使用关键字 <code>break</code> 阻止穿透。</li>
+<li><code>case</code> 接受int或string字面值或变量，不需要使用小括号<code>()</code>包裹。</li>
+</ul>
+</li>
+<li><code>switch</code> 可以有 0 个或 1 个 <code>default</code><ul>
+<li>当所有 <code>case</code> 不匹配时，默认匹配该选项</li>
+</ul>
+</li>
+</ol>
+<h3 id="循环结构语句"><a href="#循环结构语句" class="headerlink" title="循环结构语句"></a>循环结构语句</h3><h4 id="for"><a href="#for" class="headerlink" title="for"></a>for</h4><p>当某个条件不满足时，一直重复执行，直到循环条件满足。</p>
+<p>一个变量 i 初始值为0，如果它小于10，那么执行一次循环体内的语句。执行完后，i++一次。然后 又执行一次，这时 i++ 等于1，1 &lt; 10又继续执行，直到i不小于10后结束循环。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">        System.out.printf(<span class="string">&quot;现在i=: %d&quot;</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="while"><a href="#while" class="headerlink" title="while"></a>while</h4><p>while 循环语句：</p>
+<ol>
+<li><code>while</code> 循环的语法结构：<br> <code>whhile(布尔表达式)&#123;...循环体...&#125;</code></li>
+<li><code>while</code> 执行原理:<ul>
+<li>先判断布尔表达式执行结果为 <code>true</code> 或 <code>false</code>，如果为 <code>true</code>，执行循环体。<code>false</code> 循环结束。</li>
+</ul>
+</li>
+<li><code>while</code> 可能执行 0 次，也可能执行 n 次。</li>
+<li>如果 <code>while</code> 表达式为true，那么会造成死循环，编译检测该程序都无法被执行，所以变异报错。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span><span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(i == <span class="number">0</span>)&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="do-while"><a href="#do-while" class="headerlink" title="do while"></a>do while</h4><p><code>do while</code> 循环语句：</p>
+<ol>
+<li><code>do while</code> 循环的语法结构<br><code>do&#123;...循环体...&#125;while(...布尔表达式...)</code></li>
+<li>执行次数：<ul>
+<li>一开始是先执行 <code>do</code> 语句，所以该循环最少被执行 1 次，最多被执行 n 次。</li>
+</ul>
+</li>
+<li>执行原理：<ul>
+<li>先执行 <code>do</code> 语句中的循环体，最后执行 <code>while</code>，如果 <code>while</code> 表达式为true，那么会造成死循环，编译检测该程序都无法被执行，所以变异报错。</li>
+</ul>
+</li>
+</ol>
+<p>​    </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">do</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;i 小于 100 i == %d&quot;</span>, i);</span><br><span class="line">        i++;</span><br><span class="line">    &#125; <span class="keyword">while</span> (i &lt; <span class="number">100</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="控制循环语句"><a href="#控制循环语句" class="headerlink" title="控制循环语句"></a>控制循环语句</h3><h4 id="break"><a href="#break" class="headerlink" title="break"></a>break</h4><p>关于Java 控制语句当中的 break语句：</p>
+<ol>
+<li><code>break</code>是Java语言当中的关键字，被翻译为“中断、折断”</li>
+<li><code>break</code> + ‘;’ 可以成为一个当读的完整的Java语句： break;</li>
+<li><code>break</code> 可以用在：<ul>
+<li><code>switch</code> 语句中，可以终止 <code>switch</code> 语句执行。</li>
+<li>使用在循环语句当中，可以使当前整个循环语句终止循环。</li>
+</ul>
+</li>
+</ol>
+<p>下列程序，如果i等于3时，退出当前循环。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span>  = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">3</span>) &#123;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(<span class="string">&#x27;i == %d&#x27;</span>, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="continue"><a href="#continue" class="headerlink" title="continue"></a>continue</h4><p><code>continue</code>语句：</p>
+<ol>
+<li><code>continue</code> 表示： 继续、go、on、下一个</li>
+<li><code>continue</code> 也是一个 <code>continue</code> 关键字，加一个分号(;)可以构成一个单独的语句: <code>continue;</code></li>
+<li><code>break</code> 和 <code>continue</code> 的区别（用在循环语句中）：<ul>
+<li><code>break</code> 可以终止当前整个循环语句</li>
+<li><code>continue</code> 可以终止、跳出当前循环，但是整个循环语句不会终止</li>
+</ul>
+</li>
+</ol>
+<p>下列程序，如果 i 等于 3，那么跳过当前循环执行下一个循环。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span>  = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">3</span>) &#123;</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(<span class="string">&#x27;i == %d&#x27;</span>, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.</span> <span class="toc-text">控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E7%BB%93%E6%9E%84%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.1.</span> <span class="toc-text">选择结构语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#if"><span class="toc-number">1.1.1.</span> <span class="toc-text">if</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#if-else"><span class="toc-number">1.1.2.</span> <span class="toc-text">if else</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#switch"><span class="toc-number">1.1.3.</span> <span class="toc-text">switch</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.2.</span> <span class="toc-text">循环结构语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#for"><span class="toc-number">1.2.1.</span> <span class="toc-text">for</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#while"><span class="toc-number">1.2.2.</span> <span class="toc-text">while</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#do-while"><span class="toc-number">1.2.3.</span> <span class="toc-text">do while</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.3.</span> <span class="toc-text">控制循环语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#break"><span class="toc-number">1.3.1.</span> <span class="toc-text">break</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#continue"><span class="toc-number">1.3.2.</span> <span class="toc-text">continue</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&text=3、Java 控制语句"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&title=3、Java 控制语句"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&is_video=false&description=3、Java 控制语句"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=3、Java 控制语句&body=Check out this article: http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&title=3、Java 控制语句"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&title=3、Java 控制语句"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&title=3、Java 控制语句"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&title=3、Java 控制语句"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&name=3、Java 控制语句&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/3%E3%80%81Java-%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/&t=3、Java 控制语句"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

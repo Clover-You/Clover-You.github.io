@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Maven 学习笔记Maven是什么 Maven是一款服务于java平台的自动化构建工具。  构建  概念：以“java源文件”、“框架配置文件”、“JSP”、“HTML”、“图片”等资源为原材料，去“生产”一个可以运行的项目的过程。（构建就是以我们编写的Java代码、框架的配置文件、国际化等其他资源文件、JSP页面和图片等静态资源文件作为“原材料”去“生产”出一个可以运行的项目的过程。） 编译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Maven学习笔记">
+<meta property="og:url" content="http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Clover Blog">
+<meta property="og:description" content="Maven 学习笔记Maven是什么 Maven是一款服务于java平台的自动化构建工具。  构建  概念：以“java源文件”、“框架配置文件”、“JSP”、“HTML”、“图片”等资源为原材料，去“生产”一个可以运行的项目的过程。（构建就是以我们编写的Java代码、框架的配置文件、国际化等其他资源文件、JSP页面和图片等静态资源文件作为“原材料”去“生产”出一个可以运行的项目的过程。） 编译">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271055057.png">
+<meta property="og:image" content="http://qiniu-note-image.ctong.top/note/images/202112271055062.png">
+<meta property="article:published_time" content="2022-01-02T09:58:00.000Z">
+<meta property="article:modified_time" content="2023-05-26T09:45:32.846Z">
+<meta property="article:author" content="Clover You">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="Maven">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu-note-image.ctong.top/note/images/202112271055057.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Maven学习笔记</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Clover Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/01/02/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/02/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=Maven学习笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Maven学习笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&is_video=false&description=Maven学习笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Maven学习笔记&body=Check out this article: http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Maven学习笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Maven学习笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Maven学习笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Maven学习笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&name=Maven学习笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&t=Maven学习笔记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Maven-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">Maven 学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Maven%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.1.</span> <span class="toc-text">Maven是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Maven%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">1.2.</span> <span class="toc-text">Maven的核心概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AAMaven%E5%B7%A5%E7%A8%8B"><span class="toc-number">1.3.</span> <span class="toc-text">第一个Maven工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8Maven%E5%91%BD%E4%BB%A4"><span class="toc-number">1.4.</span> <span class="toc-text">常用Maven命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E8%81%94%E7%BD%91%E9%97%AE%E9%A2%98"><span class="toc-number">1.5.</span> <span class="toc-text">关于联网问题</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Maven学习笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Clover You</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-02T09:58:00.000Z" class="dt-published" itemprop="datePublished">2022-01-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%85%B6%E5%AE%83/">其它</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="p-category" href="/tags/Maven/" rel="tag">Maven</a>, <a class="p-category" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="Maven-学习笔记"><a href="#Maven-学习笔记" class="headerlink" title="Maven 学习笔记"></a>Maven 学习笔记</h1><h2 id="Maven是什么"><a href="#Maven是什么" class="headerlink" title="Maven是什么"></a>Maven是什么</h2><ol>
+<li><p>Maven是一款服务于java平台的自动化构建工具。</p>
+<ul>
+<li><p>构建</p>
+<ol>
+<li>概念：以“java源文件”、“框架配置文件”、“JSP”、“HTML”、“图片”等资源为原材料，去“生产”一个可以运行的项目的过程。（构建就是以我们编写的Java代码、框架的配置文件、国际化等其他资源文件、JSP页面和图片等静态资源文件作为“原材料”去“生产”出一个可以运行的项目的过程。）<ul>
+<li>编译</li>
+<li>部署</li>
+<li>搭建</li>
+</ul>
+</li>
+<li>编译：java源文件 — 编译 —&gt; Class字节码文件，交给JVM去执行</li>
+<li>部署：一个BS项目最终运行的并不是动态Web工程本身，而是这个动态Web工程编译的结果。（当我们需要通过浏览器访问Java程序时，就必须将包含Java程序的Web工程编译的结果拿到服务器上的指定目录下，并启动服务器，这个“拿”的过程我们就叫部署。）</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>构建过程中的各个环节</p>
+<ol>
+<li><p>清理<br>将以前编译得到的旧的class字节码文件删除，为下一次编译做准备</p>
+</li>
+<li><p>编译<br>将java源程序编译为class字节码文件</p>
+</li>
+<li><p>测试<br>自动测试，自动调用junit程序</p>
+</li>
+<li><p>报告<br>测试程序执行的结果</p>
+</li>
+<li><p>打包<br>动态web工程大的是war包，java工程打jar包</p>
+</li>
+<li><p>安装<br>Maven特定的概念：将打包得到的文件复制到仓库中的指定位置</p>
+</li>
+<li><p>部署</p>
+<p>将动态web工程生成的war包复制到Servlet容器的指定目录下，使其可以运行</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="Maven的核心概念"><a href="#Maven的核心概念" class="headerlink" title="Maven的核心概念"></a>Maven的核心概念</h2><ol>
+<li><p>约定的目录结构</p>
+</li>
+<li><p>POM</p>
+<ol>
+<li>Project Object Model项目对象模型</li>
+<li>pom.xml对于Maven工程是核心配置文件，与构建过程相关的一切设置都在这个文件中进行设置。他的重要程度相当于web.xml对于动态Web工程的重要性。</li>
+</ol>
+</li>
+<li><p>坐标</p>
+<ol>
+<li>数学中的坐标：<ul>
+<li>在平面上使用X和Y两个向量可以唯一的定位平面中的任何一个点，</li>
+<li>在空间中使用X、Y、Z三个向量可以唯一的定位空间中任何一个点</li>
+</ul>
+</li>
+<li>Maven的坐标<br>使用下面三个向量在仓库中定位一个唯一Maven工程<ol>
+<li>groupId<br>公司或组织域名倒叙加项目名</li>
+<li>artifactId<br>模块名称</li>
+<li>version<br>版本</li>
+</ol>
+</li>
+<li>Maven工程的坐标跟仓库中路径对应关系</li>
+</ol>
+</li>
+<li><p>依赖</p>
+<ol>
+<li><p>Maven解析依赖信息时，会到本地仓库中查找被依赖的jar包。对于我们自己开发的Maven工程，使用install命令安装后就可以进入仓库。</p>
+</li>
+<li><p>依赖的范围<br><img src="http://qiniu-note-image.ctong.top/note/images/202112271055057.png" alt="maven依赖范围"></p>
+<ul>
+<li><p>compile</p>
+<ol>
+<li>对主程序是否有效：有效</li>
+<li>对测试程序是否有效：有效</li>
+<li>是否参与打包：参与</li>
+</ol>
+</li>
+<li><p>test</p>
+<ol>
+<li>对主程序是否有效：无效</li>
+<li>对测试程序是否有效：有效</li>
+<li>是否参与打包：不参与</li>
+</ol>
+</li>
+<li><p>provided</p>
+<ol>
+<li>对主程序是否有效：有效</li>
+<li>对测试程序是否有效：有效</li>
+<li>是否参与打包：不参与</li>
+<li>是否参与部署：不参与</li>
+</ol>
+<p>典型的例子就是<code>servlet-api.jar</code>因为Web容器（例如Tomcat）已经提供了，如果你部署时也有这个包可能会有问题，测试、开发的时候是没有Web容器的，所以需要依赖这个包运行。</p>
+<p><img src="http://qiniu-note-image.ctong.top/note/images/202112271055062.png" alt="maven运行"></p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>仓库</p>
+<ol>
+<li><p>Maven仓库分有两种</p>
+<ol>
+<li><p>本前地仓库，当电脑上部署的仓库目录，为当前电脑上所有Maven工程服务</p>
+</li>
+<li><p>远程仓库，远程仓库又称为这么几类</p>
+<ul>
+<li><p>私服<br>搭建在局域网环境中，为局域网范围内的所有Maven工程服务</p>
+</li>
+<li><p>中央仓库</p>
+<p>架设在Internet上，为全世界所有Maven工程服务</p>
+</li>
+<li><p>中央仓库的镜像<br>为了分担中央仓库的流量，提升用户访问速度</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>仓库中保存的内容</p>
+<p>仓库中保存的都是Maven工程</p>
+<ol>
+<li>Maven自身所需要的插件</li>
+<li>第三方框架或工具的jar包</li>
+<li>我们自己开发的Maven工程</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>生命周期&#x2F;插件&#x2F;目标</p>
+<ol>
+<li><p>各个构建环节执行的顺序。不能打乱顺序，必须按照既定的正确的顺序来执行。</p>
+</li>
+<li><p>Maven的核心程序中定义了生命周期，生命周期中各个阶段的具体任务是由插件来完成的</p>
+</li>
+<li><p>Maven有三套互相独立的生命周期：</p>
+<ol>
+<li><p>Clean Lifecycle 正在进行真正的构建之前进行一些清理工作。<br>Clean生命周期一共包含了三个阶段：</p>
+<ul>
+<li>pre-clean 执行一些需要在clean之前完成的工作。</li>
+<li>clean 移除所有上次构建生成的文件</li>
+<li>post-clean 执行一些需要在clean之后立刻完成的工作。</li>
+</ul>
+</li>
+<li><p>Default Liecycle 构建的核心部分，编译，测试，打包，安装，部署等等。<br>Default生命周期是Maven生命周期中最重要的一个，绝大部分工作都发生在这个生命周期中，这里只解释一些比较重要和常用的阶段</p>
+<ul>
+<li>process-resources 复制并处理资源文件呢，准备打包</li>
+<li>compile 编译项目的源代码</li>
+<li>process-test-resources 复制并处理资源文件至目标测试目录</li>
+<li>test-compile 编译测试源代码</li>
+<li>test 使用合适的单元测试框架运行测试，这些测试代码不会被打包或部署。</li>
+<li>package 接受编译好的代码，打包成可发布的格式，如：JAR</li>
+</ul>
+</li>
+<li><p>Site Lifecycle 生成项目报告，站点，发布站点。</p>
+<ul>
+<li>pre-site 执行一些需要在生成站点文档之前完成的工作。</li>
+<li>site 生成项目名的站点文档</li>
+<li>post-site 执行一些需要在生成站点文档之后完成的工作，并且为部署做准备。</li>
+<li>site-deoloy 将生成的站点文档部署到特定的服务器上</li>
+</ul>
+<p>常用的是site阶段和site-deploy阶段，用以生成和发布Maven站点</p>
+</li>
+</ol>
+</li>
+<li><p>Maven核心程序为了更好的实现自动化构建，按照这样的特点执行生命周期中的各个阶段：<br>不论现在呀执行生命周期中的哪一个阶段，都是从这个生命周期最初始的位置开始执行</p>
+</li>
+</ol>
+</li>
+<li><p>继承</p>
+</li>
+<li><p>集合</p>
+</li>
+</ol>
+<h2 id="第一个Maven工程"><a href="#第一个Maven工程" class="headerlink" title="第一个Maven工程"></a>第一个Maven工程</h2><ol>
+<li><p>创建约定的目录结构</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── pom.xml</span><br><span class="line">└── src</span><br><span class="line">    ├── main</span><br><span class="line">    │   ├── java</span><br><span class="line">    │   └── resources</span><br><span class="line">    └── test</span><br><span class="line">        ├── java</span><br><span class="line">        └── resources</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>根目录：工程名</li>
+<li>src目录：源码</li>
+<li>pom.xml文件：Maven工程的核心配置文件</li>
+<li>main目录：存放主程序</li>
+<li>test目录：存放测试程序</li>
+<li>java目录：存放java的源文件</li>
+<li>resources目录：存放框架或其它工具的配置文件</li>
+</ol>
+</li>
+<li><p>为什么要遵守约定的目录结构呢？</p>
+<ul>
+<li>Maven要负责我们项目的自动化构建，以编译为例，Maven要想自动进行编译，那么它必须要知道java源文件保存在哪里。</li>
+<li>如果我们自己自定义的东西想要让框架或工具知道，有两种办法<ol>
+<li>以配置的方式明确告诉框架</li>
+<li>遵守框架内不已经存在的约定</li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p>约定 &gt; 配置 &gt; 编码</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="常用Maven命令"><a href="#常用Maven命令" class="headerlink" title="常用Maven命令"></a>常用Maven命令</h2><blockquote>
+<p>执行构建过程相关的Maven命令，必须进入pom.xml文件所在的目录。</p>
+<p>编译、测试、打包、部署….</p>
+</blockquote>
+<ol>
+<li>mvn clean<br>清理</li>
+<li>mvn complie<br>编译主程序</li>
+<li>mvn test-compile<br>编译测试程序</li>
+<li>mvn test<br>执行测试</li>
+<li>mvn package<br>执行打包</li>
+<li>mvn install<br>安装当前Maven工程</li>
+<li>mvn site<br>生成站点文档</li>
+</ol>
+<h2 id="关于联网问题"><a href="#关于联网问题" class="headerlink" title="关于联网问题"></a>关于联网问题</h2><ol>
+<li>Maven的核心程序中仅仅定义了抽象的生命周期，但是具体的工作必须有特定的插件来完成，而插件本身并不包含在Maven的核心程序中。</li>
+<li>当我们执行的Maven命令需要用到某些插件时，Maven核心程序会首先到本地仓库中查找。</li>
+<li>本地仓库的默认位置：home&#x2F;.m2&#x2F;repository</li>
+<li>Maven核心程序如果在本地仓库中找不到需要的插件，那么它会自动连接外网，到中央仓库下载。</li>
+<li>如果此时无法连接外网，则构建失败。</li>
+<li>修改默认本地仓库的位置可以让Maven核心程序到我们事先准备好的目录下查找插件<ol>
+<li>找到Maven的安装目录，找到&#x2F;conf&#x2F;settings.xml</li>
+<li>在settings.xml文件中找到<code>localRepository</code>标签，这个标签默认是被注释，你可以将它从注释中取出</li>
+<li>将标签体内容改为你需要设置的仓库地址就可以了</li>
+</ol>
+</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Maven-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">Maven 学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Maven%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.1.</span> <span class="toc-text">Maven是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Maven%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">1.2.</span> <span class="toc-text">Maven的核心概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AAMaven%E5%B7%A5%E7%A8%8B"><span class="toc-number">1.3.</span> <span class="toc-text">第一个Maven工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8Maven%E5%91%BD%E4%BB%A4"><span class="toc-number">1.4.</span> <span class="toc-text">常用Maven命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E8%81%94%E7%BD%91%E9%97%AE%E9%A2%98"><span class="toc-number">1.5.</span> <span class="toc-text">关于联网问题</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=Maven学习笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Maven学习笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&is_video=false&description=Maven学习笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Maven学习笔记&body=Check out this article: http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Maven学习笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Maven学习笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Maven学习笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Maven学习笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&name=Maven学习笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.ctong.top/2022/01/02/Maven%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&t=Maven学习笔记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Clover You
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
